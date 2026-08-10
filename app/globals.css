@@ -1,895 +1,595 @@
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+/* =========================================
+   RESET
+========================================= */
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 html,
-body{
+body {
+  background: #050505;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-  background:#050505;
-  color:white;
-  font-family:Arial, Helvetica, sans-serif;
-
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 
+/* =========================================
+   HEADER NOVA
+========================================= */
 
-a{
+.header {
+  width: 100%;
+  height: 80px;
 
-  text-decoration:none;
-  color:inherit;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
+  padding: 0 8%;
+
+  background: #050505;
+}
+
+.logo {
+  font-size: 34px;
+  font-weight: 300;
+  letter-spacing: 12px;
+  color: white;
+}
+
+.logo span {
+  color: #2563eb;
+}
+
+.nav {
+  display: flex;
+  gap: 40px;
+}
+
+.nav a {
+  color: #bdbdbd;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.nav a:hover {
+  color: white;
+}
+
+.header-button {
+  background: #2563eb;
+  color: white;
+
+  padding: 14px 28px;
+
+  border-radius: 30px;
+
+  font-size: 14px;
 }
 
 
+/* =========================================
+   HERO NOVA
+========================================= */
 
-/* =====================
- HEADER NOVA
-===================== */
+.hero {
+  min-height: calc(100vh - 80px);
 
+  display: flex;
+  align-items: center;
 
-.header{
-
-  width:100%;
-  height:80px;
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  padding:0 8%;
-
-  background:#050505;
-
-}
-
-
-
-.logo{
-
-  font-size:34px;
-
-  font-weight:300;
-
-  letter-spacing:12px;
-
-  color:white;
-
-}
-
-
-
-.logo span{
-
-  color:#2563eb;
-
-}
-
-
-
-.nav{
-
-  display:flex;
-
-  gap:40px;
-
-}
-
-
-
-.nav a{
-
-  color:#bdbdbd;
-
-  font-size:15px;
-
-  transition:.3s;
-
-}
-
-
-
-.nav a:hover{
-
-  color:white;
-
-}
-
-
-
-.header-button{
-
-  background:#2563eb;
-
-  color:white;
-
-  padding:14px 28px;
-
-  border-radius:30px;
-
-  font-size:14px;
-
-}
-
-
-
-/* =====================
- HERO
-===================== */
-
-
-.hero{
-
-  min-height:calc(100vh - 80px);
-
-  display:flex;
-
-  align-items:center;
-
-  padding:100px 8%;
+  padding: 100px 8%;
 
   background:
-  radial-gradient(circle at 80% 40%,rgba(37,99,235,.25),transparent 35%),
-  #050505;
-
-}
-
-
-
-.hero-content{
-
-  max-width:700px;
-
-}
-
-
-
-.hero-tag{
-
-  color:#2563eb;
-
-  letter-spacing:5px;
-
-  font-size:13px;
-
-}
-
-
-
-.hero h1{
-
-  font-size:70px;
-
-  line-height:1.05;
-
-  margin:30px 0;
-
-}
-
-
-
-.hero h1 span{
-
-  color:#2563eb;
-
-}
-
-
-
-.hero-text{
-
-  color:#999;
-
-  font-size:19px;
-
-  line-height:1.6;
-
-}
-
-
-
-.hero-buttons{
-
-  display:flex;
-
-  gap:20px;
-
-  margin-top:40px;
-
-}
-
-
-
-.btn-primary{
-
-  background:#2563eb;
-
-  padding:16px 30px;
-
-  border-radius:8px;
-
-}
-
-
-
-.btn-secondary{
-
-  border:1px solid #333;
-
-  padding:16px 30px;
-
-  border-radius:8px;
-
-}
-
-
-
-/* =====================
- REALISATIONS
-===================== */
-
-
-.realisations-page{
-
-  padding:120px 8%;
-
-  background:#050505;
-
-  min-height:100vh;
-
-}
-
-
-
-.realisations-header{
-
-  margin-bottom:70px;
-
-}
-
-
-
-.realisations-header p{
-
-  color:#2563eb;
-
-  letter-spacing:5px;
-
+    radial-gradient(
+      circle at 80% 40%,
+      rgba(37, 99, 235, 0.25),
+      transparent 35%
+    ),
+    #050505;
 }
-
-
-
-.realisations-header h1{
-
-  font-size:60px;
 
-  margin:25px 0;
-
+.hero-content {
+  max-width: 700px;
 }
-
-
-
-.realisations-header span{
 
-  color:#999;
-
+.hero-tag {
+  color: #2563eb;
+  letter-spacing: 5px;
+  font-size: 13px;
 }
-
-
-
-.projects-grid{
 
-  display:grid;
-
-  grid-template-columns:repeat(3,1fr);
-
-  gap:30px;
-
+.hero h1 {
+  font-size: 70px;
+  line-height: 1.05;
+  margin: 30px 0;
 }
-
-
-
-.project-card{
-
-  background:#0b0b0b;
-
-  border:1px solid #222;
 
-  border-radius:20px;
-
-  overflow:hidden;
-
+.hero h1 span {
+  color: #2563eb;
 }
-
-
-
-.project-card img{
-
-  width:100%;
-
-  height:260px;
-
-  object-fit:cover;
 
+.hero-text {
+  color: #999;
+  font-size: 19px;
+  line-height: 1.6;
 }
 
-
-
-.project-info{
-
-  padding:25px;
-
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+  margin-top: 40px;
 }
-
-
-
-.project-info h2{
-
-  font-size:25px;
 
-  margin-bottom:10px;
-
+.btn-primary {
+  background: #2563eb;
+  padding: 16px 30px;
+  border-radius: 8px;
 }
-
-
-
-.project-info p{
 
-  color:#999;
-
+.btn-secondary {
+  border: 1px solid #333;
+  padding: 16px 30px;
+  border-radius: 8px;
 }
-
-
-
-/* =====================
- MOBILE
-===================== */
-
 
-@media(max-width:900px){
 
+/* =========================================
+   REALISATIONS
+========================================= */
 
-.header{
+.realisations-page {
+  min-height: 100vh;
 
-  padding:0 25px;
+  padding: 120px 8%;
 
+  background: #050505;
+  color: white;
 }
 
 
+/* TITRE */
 
-.logo{
-
-  font-size:25px;
-
-  letter-spacing:8px;
-
+.real-header {
+  margin-bottom: 70px;
 }
-
 
+.real-header p {
+  color: #2563eb;
 
-.nav{
+  letter-spacing: 5px;
 
-  display:none;
-
+  font-size: 13px;
 }
-
 
+.real-header h1 {
+  font-size: 65px;
+  font-weight: 400;
 
-.header-button{
+  line-height: 1;
 
-  padding:10px 18px;
-
+  margin: 25px 0;
 }
-
 
-
-.hero{
-
-  padding:70px 25px;
-
+.real-header span {
+  color: #999;
+  font-size: 16px;
 }
-
 
-
-.hero h1{
-
-  font-size:42px;
-
-}
 
+/* GRILLE */
 
+.projects-grid {
+  width: 100%;
 
-.hero-text br{
+  display: grid;
 
-  display:none;
+  grid-template-columns: repeat(3, 1fr);
 
+  gap: 30px;
 }
 
 
+/* CARTE */
 
-.hero-buttons{
+.project-card {
+  background: #0b0b0b;
 
-  flex-direction:column;
+  border: 1px solid #222;
 
-}
-
-
-
-.realisations-page{
+  border-radius: 20px;
 
-  padding:80px 25px;
+  overflow: hidden;
 
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
 }
 
+.project-card:hover {
+  transform: translateY(-6px);
 
-
-.realisations-header h1{
-
-  font-size:40px;
-
+  border-color: #333;
 }
-
 
 
-.projects-grid{
+/* IMAGE */
 
-  grid-template-columns:1fr;
+.project-image {
+  position: relative;
 
-}
-
+  width: 100%;
 
-}.logo span{
+  height: 280px;
 
-color:#2563eb;
-
-}.realisations-page{
-  padding:120px 8%;
-  background:#050505;
-  min-height:100vh;
+  overflow: hidden;
 }
 
+.project-image img {
+  object-fit: cover;
 
-.realisations-header{
-  margin-bottom:70px;
+  transition: transform 0.4s ease;
 }
-
 
-.realisations-header p{
-  color:#2563eb;
-  letter-spacing:6px;
-  font-size:13px;
+.project-card:hover .project-image img {
+  transform: scale(1.03);
 }
 
 
-.realisations-header h1{
-  font-size:70px;
-  line-height:1;
-  margin:20px 0;
-}
-
+/* INFORMATIONS */
 
-.realisations-header span{
-  color:#999;
-  font-size:18px;
+.project-info {
+  padding: 25px;
 }
-
-
 
-.projects-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:30px;
-}
+.project-category {
+  display: block;
 
+  margin-bottom: 14px;
 
+  color: #2563eb;
 
-.project-card{
-  border:1px solid #222;
-  border-radius:20px;
-  overflow:hidden;
-  background:#080808;
-  transition:.3s;
-}
+  font-size: 10px;
 
+  letter-spacing: 2px;
 
-.project-card:hover{
-  transform:translateY(-8px);
+  text-transform: uppercase;
 }
 
+.project-info h2 {
+  font-size: 27px;
 
+  font-weight: 400;
 
-.project-image{
-  position:relative;
-  height:260px;
+  margin-bottom: 12px;
 }
-
-
 
-.project-image img{
-  object-fit:cover;
-}
+.project-info p {
+  color: #999;
 
+  font-size: 14px;
 
+  line-height: 1.7;
 
-.project-content{
-  padding:25px;
+  min-height: 48px;
 }
 
 
-.project-content h2{
-  font-size:25px;
-}
+/* BOUTONS */
 
+.project-buttons {
+  display: flex;
 
-.project-content p{
-  color:#999;
-}
+  align-items: center;
 
+  gap: 20px;
 
-.project-content button{
-  margin-top:20px;
-  background:#2563eb;
-  border:none;
-  color:white;
-  padding:12px 20px;
-  border-radius:8px;
+  margin-top: 25px;
 }
-
 
+.project-buttons a {
+  font-size: 11px;
 
-@media(max-width:900px){
+  letter-spacing: 1px;
 
-.projects-grid{
-grid-template-columns:1fr;
-}
+  color: white;
 
-.realisations-header h1{
-font-size:45px;
+  transition: color 0.25s ease;
 }
-
-}.logo span{
 
-color:#2563eb;
-
+.project-buttons a:hover {
+  color: #2563eb;
 }
-
-
-
-.realisations-page{
-
-background:#050505;
-
-color:white;
 
-min-height:100vh;
-
-padding:120px 8%;
-
+.project-buttons a:last-child {
+  color: #777;
 }
-
-
 
-.real-header{
-
-margin-bottom:70px;
-
+.project-buttons a:last-child:hover {
+  color: white;
 }
-
-
 
-.real-header p{
+.site-disabled {
+  color: #444 !important;
 
-color:#2563eb;
-
-letter-spacing:5px;
-
+  cursor: default;
 }
-
-
 
-.real-header h1{
-
-font-size:65px;
-
-line-height:1;
-
-margin:25px 0;
-
-}
 
+/* =========================================
+   PROJECT DETAIL
+========================================= */
 
+.project-page {
+  min-height: 100vh;
 
-.real-header span{
+  background: #050505;
 
-color:#999;
+  color: white;
 
+  padding: 100px 8%;
 }
 
+.project-intro {
+  max-width: 700px;
 
-
-.projects-grid{
-
-display:grid;
-
-grid-template-columns:repeat(3,1fr);
-
-gap:30px;
-
+  margin-bottom: 80px;
 }
-
-
-
-.project-card{
 
-background:#0b0b0b;
+.project-label {
+  font-size: 12px;
 
-border:1px solid #222;
+  letter-spacing: 6px;
 
-border-radius:20px;
+  color: #2563eb;
 
-overflow:hidden;
-
+  margin-bottom: 25px;
 }
-
 
+.project-intro h1 {
+  font-size: 64px;
 
-.project-image{
+  font-weight: 300;
 
-height:280px;
+  letter-spacing: 2px;
 
-position:relative;
-
+  margin-bottom: 25px;
 }
-
 
+.project-description {
+  font-size: 20px;
 
-.project-image img{
+  color: #ddd;
 
-object-fit:cover;
-
+  margin-bottom: 12px;
 }
-
 
+.project-small-text {
+  font-size: 15px;
 
-.project-info{
+  color: #888;
 
-padding:25px;
-
+  line-height: 1.8;
 }
-
 
+.project-main-image img {
+  width: 100%;
 
-.project-info h2{
+  height: auto;
 
-font-size:28px;
-
-margin-bottom:15px;
-
+  border-radius: 18px;
 }
 
+.project-gallery {
+  display: grid;
 
+  grid-template-columns: 1fr 1fr;
 
-.project-info p{
+  gap: 30px;
 
-color:#999;
-
+  margin-top: 50px;
 }
-
 
+.project-gallery img {
+  width: 100%;
 
-.project-info a{
+  height: auto;
 
-display:block;
-
-margin-top:20px;
-
-color:#2563eb;
-
+  border-radius: 16px;
 }
-
 
+.project-features {
+  display: grid;
 
-@media(max-width:900px){
+  grid-template-columns: repeat(3, 1fr);
 
+  gap: 40px;
 
-.projects-grid{
-
-grid-template-columns:1fr;
-
+  margin: 90px 0;
 }
-
-
 
-.real-header h1{
+.project-features h3 {
+  font-size: 18px;
 
-font-size:42px;
+  font-weight: 400;
 
+  margin-bottom: 12px;
 }
 
+.project-features p {
+  color: #888;
 
-}.project-detail{
+  font-size: 14px;
 
-display:flex;
-
-flex-direction:column;
-
-gap:40px;
-
+  line-height: 1.7;
 }
-
 
+.project-contact {
+  text-align: center;
 
-.detail-image{
-
-width:100%;
-
-border-radius:20px;
-
-overflow:hidden;
-
-border:1px solid #222;
-
+  padding: 50px 0;
 }
-
-
-
-.detail-image img{
 
-width:100%;
+.project-contact h2 {
+  font-size: 32px;
 
-height:auto;
+  font-weight: 300;
 
-display:block;
-
+  margin-bottom: 30px;
 }
-
-
-
-@media(max-width:900px){
 
-.project-detail{
+.project-contact a {
+  color: white;
 
-gap:25px;
-
-}
-
-}.project-page{
-  background:#050505;
-  color:white;
-  padding:100px 8%;
-}
+  border: 1px solid #333;
 
+  padding: 14px 30px;
 
-.project-intro{
-  max-width:700px;
-  margin-bottom:80px;
+  border-radius: 30px;
 }
 
 
-.project-label{
-  font-size:12px;
-  letter-spacing:6px;
-  color:#2563eb;
-  margin-bottom:25px;
-}
+/* =========================================
+   MOBILE
+========================================= */
 
+@media (max-width: 900px) {
 
-.project-intro h1{
-  font-size:64px;
-  font-weight:300;
-  letter-spacing:2px;
-  margin-bottom:25px;
-}
+  .header {
+    padding: 0 25px;
+  }
 
+  .logo {
+    font-size: 25px;
 
-.project-description{
-  font-size:20px;
-  color:#ddd;
-  margin-bottom:12px;
-}
+    letter-spacing: 8px;
+  }
 
+  .nav {
+    display: none;
+  }
 
-.project-small-text{
-  font-size:15px;
-  color:#888;
-  line-height:1.8;
-}
+  .header-button {
+    padding: 10px 18px;
+  }
 
 
+  /* HERO */
 
-.project-main-image img{
-  width:100%;
-  height:auto;
-  border-radius:18px;
-}
+  .hero {
+    padding: 70px 25px;
+  }
 
+  .hero h1 {
+    font-size: 42px;
+  }
 
+  .hero-text br {
+    display: none;
+  }
 
-.project-gallery{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:30px;
-  margin-top:50px;
-}
+  .hero-buttons {
+    flex-direction: column;
+  }
 
 
-.project-gallery img{
-  width:100%;
-  height:auto;
-  border-radius:16px;
-}
+  /* REALISATIONS */
 
+  .realisations-page {
+    padding: 80px 25px;
+  }
 
+  .real-header {
+    margin-bottom: 50px;
+  }
 
-.project-features{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:40px;
-  margin:90px 0;
-}
+  .real-header h1 {
+    font-size: 42px;
+  }
 
+  .real-header span {
+    font-size: 14px;
+    line-height: 1.6;
+  }
 
+  .projects-grid {
+    grid-template-columns: 1fr;
 
-.project-features h3{
-  font-size:18px;
-  font-weight:400;
-  margin-bottom:12px;
-}
+    gap: 25px;
+  }
 
+  .project-image {
+    height: 280px;
+  }
 
-.project-features p{
-  color:#888;
-  font-size:14px;
-  line-height:1.7;
-}
 
+  /* PROJECT DETAIL */
 
+  .project-page {
+    padding: 70px 25px;
+  }
 
-.project-contact{
-  text-align:center;
-  padding:50px 0;
-}
+  .project-intro h1 {
+    font-size: 42px;
+  }
 
+  .project-gallery {
+    grid-template-columns: 1fr;
+  }
 
-.project-contact h2{
-  font-size:32px;
-  font-weight:300;
-  margin-bottom:30px;
+  .project-features {
+    grid-template-columns: 1fr;
+  }
 }
-
 
 
-.project-contact a{
-  color:white;
-  border:1px solid #333;
-  padding:14px 30px;
-  border-radius:30px;
-  text-decoration:none;
-}
+/* =========================================
+   PETIT MOBILE
+========================================= */
 
+@media (max-width: 500px) {
 
+  .realisations-page {
+    padding: 60px 18px;
+  }
 
-@media(max-width:900px){
+  .real-header h1 {
+    font-size: 36px;
+  }
 
-.project-page{
-padding:70px 25px;
-}
+  .projects-grid {
+    gap: 20px;
+  }
 
+  .project-image {
+    height: 250px;
+  }
 
-.project-intro h1{
-font-size:42px;
-}
+  .project-info {
+    padding: 20px;
+  }
 
+  .project-info h2 {
+    font-size: 23px;
+  }
 
-.project-gallery{
-grid-template-columns:1fr;
-}
+  .project-info p {
+    font-size: 13px;
+  }
 
+  .project-buttons {
+    flex-direction: column;
 
-.project-features{
-grid-template-columns:1fr;
-}
+    align-items: flex-start;
 
+    gap: 14px;
+  }
 }

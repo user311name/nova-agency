@@ -1,169 +1,293 @@
-import Link from "next/link";
-import "./page.css";
+.contact-page{
 
-export default function Contact() {
-  return (
-    <main className="contact-page">
+min-height:100vh;
+background:#050505;
+color:white;
+padding:40px 8%;
 
-      {/* HERO */}
-      <section className="contact-hero">
-        <p>CONTACT</p>
-
-        <h1>
-          Construisons votre
-          <br />
-          prochaine présence digitale.
-        </h1>
-
-        <span>
-          Vous avez une idée, un projet ou une entreprise à développer ?
-          Parlons-en simplement et trouvons ensemble la meilleure solution.
-        </span>
-      </section>
+}
 
 
-      {/* CONTACT AREA */}
-      <section className="contact-container">
-
-        {/* INFORMATIONS */}
-        <div className="contact-info">
-
-          <h2>
-            Parlons de votre projet
-          </h2>
-
-          <p>
-            Chaque projet est différent. Nous prenons le temps de comprendre
-            votre activité, vos objectifs et votre vision avant de créer
-            une solution adaptée.
-          </p>
-
-          <div className="contact-points">
-
-            <div>
-              <strong>01</strong>
-              <span>Réponse rapide</span>
-            </div>
-
-            <div>
-              <strong>02</strong>
-              <span>Projet personnalisé</span>
-            </div>
-
-            <div>
-              <strong>03</strong>
-              <span>Accompagnement complet</span>
-            </div>
-
-          </div>
-
-        </div>
 
 
-        {/* FORMULAIRE */}
-        <form
-          className="contact-form"
-          action="https://formspree.io/f/mgawenka"
-          method="POST"
-        >
+.contact-hero{
 
-          <input
-            type="text"
-            name="nom"
-            placeholder="Votre nom"
-            required
-          />
+max-width:900px;
+margin:100px auto;
+text-align:center;
 
-          <input
-            type="text"
-            name="entreprise"
-            placeholder="Votre entreprise"
-          />
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Votre email"
-            required
-          />
-
-          <input
-            type="tel"
-            name="telephone"
-            placeholder="Téléphone"
-          />
-
-          <select
-            name="projet"
-            defaultValue=""
-            required
-          >
-            <option value="" disabled>
-              Type de projet
-            </option>
-
-            <option value="Création de site">
-              Création de site
-            </option>
-
-            <option value="Refonte de site">
-              Refonte de site
-            </option>
-
-            <option value="E-commerce">
-              E-commerce
-            </option>
-
-            <option value="Identité digitale">
-              Identité digitale
-            </option>
-
-            <option value="Autre">
-              Autre projet
-            </option>
-          </select>
-
-          <textarea
-            name="message"
-            placeholder="Parlez-nous de votre projet"
-            required
-          />
-
-          {/* Sujet du mail */}
-          <input
-            type="hidden"
-            name="_subject"
-            value="Nouvelle demande de projet — NOVA"
-          />
-
-          <button type="submit">
-            ENVOYER MON PROJET →
-          </button>
-
-        </form>
-
-      </section>
+}
 
 
-      {/* CTA FINAL */}
-      <section className="contact-bottom">
 
-        <h2>
-          Une idée aujourd'hui,
-          <br />
-          un projet demain.
-        </h2>
+.contact-hero p{
 
-        <p>
-          Commençons par une simple discussion.
-        </p>
+font-size:12px;
+letter-spacing:5px;
+color:#777;
 
-        <Link href="/">
-          RETOUR À L'ACCUEIL
-        </Link>
+}
 
-      </section>
 
-    </main>
-  );
+
+.contact-hero h1{
+
+font-size:70px;
+font-weight:300;
+letter-spacing:4px;
+line-height:1.1;
+margin:30px 0;
+
+}
+
+
+
+.contact-hero span{
+
+display:block;
+max-width:650px;
+margin:auto;
+color:#888;
+font-size:18px;
+line-height:1.8;
+
+}
+
+
+
+
+
+.contact-container{
+
+max-width:1200px;
+margin:auto;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:80px;
+
+}
+
+
+
+
+
+.contact-info h2{
+
+font-size:35px;
+font-weight:300;
+
+}
+
+
+
+.contact-info p{
+
+color:#888;
+line-height:1.8;
+font-size:16px;
+
+}
+
+
+
+
+
+.contact-points{
+
+margin-top:50px;
+
+}
+
+
+
+.contact-points div{
+
+display:flex;
+gap:25px;
+align-items:center;
+border-bottom:1px solid #222;
+padding:20px 0;
+
+}
+
+
+
+.contact-points strong{
+
+color:#777;
+font-size:14px;
+
+}
+
+
+
+.contact-points span{
+
+font-size:18px;
+
+}
+
+
+
+
+
+
+
+/* FORMULAIRE */
+
+
+.contact-form{
+
+display:flex;
+flex-direction:column;
+gap:18px;
+
+}
+
+
+
+.contact-form input,
+.contact-form textarea,
+.contact-form select{
+
+background:#111;
+border:1px solid #222;
+color:white;
+padding:18px;
+font-size:14px;
+outline:none;
+
+}
+
+
+
+.contact-form textarea{
+
+height:150px;
+resize:none;
+
+}
+
+
+
+.contact-form button{
+
+margin-top:10px;
+padding:18px;
+background:white;
+color:black;
+border:none;
+cursor:pointer;
+font-size:12px;
+letter-spacing:3px;
+
+}
+
+
+
+
+
+.contact-bottom{
+
+text-align:center;
+padding:120px 0;
+
+}
+
+
+
+.contact-bottom h2{
+
+font-size:50px;
+font-weight:300;
+
+}
+
+
+
+.contact-bottom p{
+
+color:#777;
+margin-bottom:35px;
+
+}
+
+
+
+.contact-bottom a{
+
+color:white;
+text-decoration:none;
+border-bottom:1px solid white;
+padding-bottom:5px;
+
+}
+
+
+
+
+
+
+
+
+@media(max-width:900px){
+
+
+.contact-page{
+
+padding:25px;
+
+}
+
+
+
+.contact-hero{
+
+margin:60px auto;
+
+}
+
+
+
+.contact-hero h1{
+
+font-size:40px;
+
+}
+
+
+
+.contact-hero span{
+
+font-size:14px;
+
+}
+
+
+
+.contact-container{
+
+grid-template-columns:1fr;
+gap:50px;
+
+}
+
+
+
+.contact-info h2{
+
+font-size:28px;
+
+}
+
+
+
+.contact-bottom h2{
+
+font-size:35px;
+
+}
+
+
+
 }

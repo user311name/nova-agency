@@ -1,39 +1,42 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import "./page.css";
 
-export default function StormConcept() {
+const images = [
+  "/projets/storm-1.png",
+  "/projets/storm-2.png",
+  "/projets/storm-3.png",
+];
+
+export default function StormPage() {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   return (
-    <main className="storm-page">
+    <main className="project-page">
 
-      {/* HEADER */}
+      <header className="project-header">
 
-      <header className="storm-header">
-
-        <Link
-          href="/realisations"
-          className="storm-back"
-        >
+        <Link href="/realisations" className="project-back">
           ← RÉALISATIONS
         </Link>
 
-
-        <Link
-          href="/"
-          className="storm-logo"
-        >
-          <Image
-            src="/lg.png"
-            alt="STORM"
-            width={50}
-            height={50}
-          />
-        </Link>
-
+        <Image
+          src="/logo.png.png"
+          alt="STORM"
+          width={70}
+          height={70}
+          className="project-logo storm-logo"
+          priority
+        />
 
         <a
-          href="#"
-          className="storm-live"
+          href="https://storm-peach.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="project-live"
         >
           VOIR LE SITE ↗
         </a>
@@ -41,17 +44,11 @@ export default function StormConcept() {
       </header>
 
 
-      {/* INTRODUCTION */}
+      <section className="project-intro">
 
-      <section className="storm-intro">
+        <p>PROJET • SPORT LIFESTYLE</p>
 
-        <p>
-          CONCEPT WEBSITE • E-COMMERCE
-        </p>
-
-        <h1>
-          STORM
-        </h1>
+        <h1>STORM</h1>
 
         <span>
           Une expérience digitale premium imaginée pour une marque
@@ -61,152 +58,37 @@ export default function StormConcept() {
       </section>
 
 
-      {/* GALERIE */}
+      <section className="project-gallery">
 
-      <section className="storm-gallery">
-
-
-        {/* IMAGE 1 */}
-
-        <article className="storm-project">
-
-          <div className="storm-image">
-
+        {images.map((image, index) => (
+          <button
+            key={image}
+            type="button"
+            className="project-image"
+            onClick={() => setSelectedImage(image)}
+            aria-label={`Agrandir l'image STORM ${index + 1}`}
+          >
             <Image
-              src="/projets/storm-1.png"
-              alt="STORM accueil"
+              src={image}
+              alt={`STORM projet ${index + 1}`}
               fill
-              priority
-              sizes="(max-width: 900px) 100vw, 90vw"
+              sizes="(max-width: 900px) 100vw, 33vw"
             />
-
-          </div>
-
-
-          <div className="storm-info">
-
-            <span>
-              01
-            </span>
-
-            <div>
-
-              <h2>
-                ACCUEIL
-              </h2>
-
-              <p>
-                Une entrée immersive dans l’univers STORM,
-                pensée autour du sport, du mouvement et du luxe.
-              </p>
-
-            </div>
-
-          </div>
-
-        </article>
-
-
-        {/* IMAGE 2 */}
-
-        <article className="storm-project">
-
-          <div className="storm-image">
-
-            <Image
-              src="/projets/storm-2.png"
-              alt="STORM collection"
-              fill
-              sizes="(max-width: 900px) 100vw, 90vw"
-            />
-
-          </div>
-
-
-          <div className="storm-info">
-
-            <span>
-              02
-            </span>
-
-            <div>
-
-              <h2>
-                COLLECTION
-              </h2>
-
-              <p>
-                Une présentation produit minimaliste inspirée
-                des codes du sport premium.
-              </p>
-
-            </div>
-
-          </div>
-
-        </article>
-
-
-        {/* IMAGE 3 */}
-
-        <article className="storm-project">
-
-          <div className="storm-image">
-
-            <Image
-              src="/projets/storm-3.png"
-              alt="STORM contact"
-              fill
-              sizes="(max-width: 900px) 100vw, 90vw"
-            />
-
-          </div>
-
-
-          <div className="storm-info">
-
-            <span>
-              03
-            </span>
-
-            <div>
-
-              <h2>
-                CONTACT
-              </h2>
-
-              <p>
-                Une interface élégante destinée aux clients,
-                collaborations et partenariats.
-              </p>
-
-            </div>
-
-          </div>
-
-        </article>
+          </button>
+        ))}
 
       </section>
 
 
-      {/* BAS DE PAGE */}
+      <section className="project-bottom">
 
-      <section className="storm-bottom">
-
-        <Image
-          src="/lg.png"
-          alt="STORM"
-          width={55}
-          height={55}
-        />
-
-        <p>
-          SILENCE BEFORE THE STORM
-        </p>
+        <p>SILENCE BEFORE THE STORM</p>
 
         <a
-          href="#"
-          className="storm-button"
+          href="https://storm-peach.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="visit-button"
         >
           VISITER LE SITE ↗
         </a>
@@ -214,23 +96,46 @@ export default function StormConcept() {
       </section>
 
 
-      {/* FOOTER */}
+      <footer className="project-footer">
 
-      <footer className="storm-footer">
-
-        <span>
-          STORM
-        </span>
-
-        <span>
-          CONCEPT BY NOVA
-        </span>
+        <span>STORM</span>
 
         <Link href="/realisations">
           RETOUR AUX RÉALISATIONS
         </Link>
 
       </footer>
+
+
+      {selectedImage && (
+        <div
+          className="image-lightbox"
+          onClick={() => setSelectedImage(null)}
+        >
+
+          <button
+            type="button"
+            className="lightbox-close"
+            onClick={() => setSelectedImage(null)}
+            aria-label="Fermer"
+          >
+            ×
+          </button>
+
+          <div
+            className="lightbox-image"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <Image
+              src={selectedImage}
+              alt="STORM aperçu"
+              fill
+              sizes="90vw"
+            />
+          </div>
+
+        </div>
+      )}
 
     </main>
   );

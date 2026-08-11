@@ -2,329 +2,136 @@ import Image from "next/image";
 import Link from "next/link";
 import "./page.css";
 
-export default function StormConcept() {
+const projects = [
+  {
+    title: "STORM",
+    category: "SITE PREMIUM • SPORT LIFESTYLE",
+    description:
+      "Création d'une expérience digitale premium pour une marque sport lifestyle masculine.",
+    image: "/projets/storm-1.png",
+    href: "/realisations/storm",
+  },
+  {
+    title: "NOIR BARBER",
+    category: "SITE PREMIUM • BARBER",
+    description:
+      "Un site moderne et élégant pensé pour un barber qui souhaite développer son image et son expérience client.",
+    image: "/projets/barber-home.png",
+    href: "/realisations/noir-barber",
+  },
+];
+
+export default function RealisationsPage() {
   return (
-    <main className="storm-page">
+    <main className="realisations-page">
 
-      {/* HEADER */}
-      <header className="storm-header">
+      {/* INTRODUCTION */}
 
-        <Link href="/realisations" className="storm-back">
-          ← RÉALISATIONS
-        </Link>
+      <section className="realisations-hero">
+
+        <div className="hero-label">
+          NOTRE TRAVAIL
+        </div>
+
+        <h1>
+          Des projets pensés
+          <br />
+          pour <span>marquer.</span>
+        </h1>
+
+        <p>
+          Nous créons des sites modernes, des identités visuelles
+          et des expériences digitales adaptées à chaque activité.
+        </p>
+
+      </section>
 
 
-        <div className="storm-logo">
+      {/* PROJETS */}
 
-          <Image
-            src="/logo.png.png"
-            alt="STORM"
-            width={55}
-            height={55}
-            priority
-          />
+      <section className="projects-section">
+
+        <div className="projects-grid">
+
+          {projects.map((project) => (
+            <article
+              className="project-card"
+              key={project.title}
+            >
+
+              <Link
+                href={project.href}
+                className="project-image-link"
+              >
+
+                <div className="project-image">
+
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 900px) 100vw, 50vw"
+                  />
+
+                  <div className="project-overlay">
+                    <span>
+                      VOIR LE PROJET →
+                    </span>
+                  </div>
+
+                </div>
+
+              </Link>
+
+
+              <div className="project-info">
+
+                <div>
+
+                  <p className="project-category">
+                    {project.category}
+                  </p>
+
+                  <h2>
+                    {project.title}
+                  </h2>
+
+                </div>
+
+                <p className="project-description">
+                  {project.description}
+                </p>
+
+              </div>
+
+            </article>
+          ))}
 
         </div>
 
-
-        <a
-          href="https://storm-peach.vercel.app"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="storm-live"
-        >
-          VOIR LE SITE ↗
-        </a>
+      </section>
 
 
-      </header>
+      {/* BAS DE PAGE */}
 
-
-
-
-
-      {/* INTRO */}
-      <section className="storm-intro">
-
+      <section className="realisations-bottom">
 
         <p>
-          CONCEPT WEBSITE • E-COMMERCE
+          CHAQUE PROJET COMMENCE PAR UNE IDÉE.
         </p>
 
-
-
-        <h1>
-          STORM
-        </h1>
-
-
-
-        <span>
-          Une expérience digitale premium imaginée pour une marque
-          sport lifestyle masculine, entre performance, élégance et
-          minimalisme.
-        </span>
-
-
-
-      </section>
-
-
-
-
-
-
-      {/* GALERIE */}
-      <section className="storm-gallery">
-
-
-
-
-
-        <article className="storm-project">
-
-
-          <div className="storm-image">
-
-
-            <Image
-              src="/projets/storm-1.png"
-              alt="STORM — Accueil"
-              fill
-              sizes="100vw"
-              priority
-            />
-
-
-          </div>
-
-
-
-          <div className="storm-info">
-
-
-            <span>
-              01
-            </span>
-
-
-
-            <div>
-
-              <h2>
-                HOMEPAGE
-              </h2>
-
-
-              <p>
-                Une entrée immersive pensée autour de l'identité
-                visuelle STORM et de la signature « Silence Before The Storm ».
-              </p>
-
-
-            </div>
-
-
-
-          </div>
-
-
-
-        </article>
-
-
-
-
-
-
-
-        <article className="storm-project">
-
-
-          <div className="storm-image">
-
-
-            <Image
-              src="/projets/storm-2.png"
-              alt="STORM — Collection"
-              fill
-              sizes="100vw"
-            />
-
-
-          </div>
-
-
-
-
-          <div className="storm-info">
-
-
-            <span>
-              02
-            </span>
-
-
-
-            <div>
-
-
-              <h2>
-                COLLECTION
-              </h2>
-
-
-
-              <p>
-                Une présentation produit minimaliste et premium,
-                pensée comme une véritable boutique e-commerce.
-              </p>
-
-
-
-            </div>
-
-
-
-          </div>
-
-
-
-        </article>
-
-
-
-
-
-
-
-
-        <article className="storm-project">
-
-
-          <div className="storm-image">
-
-
-            <Image
-              src="/projets/storm-3.png"
-              alt="STORM — Contact"
-              fill
-              sizes="100vw"
-            />
-
-
-          </div>
-
-
-
-
-
-          <div className="storm-info">
-
-
-            <span>
-              03
-            </span>
-
-
-
-            <div>
-
-
-              <h2>
-                CONTACT
-              </h2>
-
-
-
-              <p>
-                Une interface sobre et élégante permettant de créer
-                une relation directe avec la marque.
-              </p>
-
-
-
-            </div>
-
-
-
-          </div>
-
-
-
-        </article>
-
-
-
-
-
-      </section>
-
-
-
-
-
-
-
-
-      {/* CTA */}
-      <section className="storm-bottom">
-
-
-        <Image
-          src="/logo.png.png"
-          alt="STORM"
-          width={65}
-          height={65}
-        />
-
-
-
-        <p>
-          SILENCE BEFORE THE STORM
-        </p>
-
-
-
-
-        <a
-          href="https://storm-peach.vercel.app"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="storm-button"
+        <h2>
+          Vous avez un projet ?
+        </h2>
+
+        <Link
+          href="/contact"
+          className="realisations-button"
         >
-          VISITER LE SITE STORM ↗
-        </a>
-
-
-
-      </section>
-
-
-
-
-
-
-
-      {/* FOOTER */}
-      <footer className="storm-footer">
-
-
-        <span>
-          STORM — CONCEPT WEBSITE
-        </span>
-
-
-
-        <Link href="/realisations">
-          ← Toutes les réalisations
+          Parlons-en →
         </Link>
 
-
-
-      </footer>
-
-
+      </section>
 
     </main>
   );

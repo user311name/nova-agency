@@ -4,6 +4,7 @@ import "./page.css";
 
 const projects = [
   {
+    number: "01",
     title: "STORM",
     category: "SITE PREMIUM • SPORT LIFESTYLE",
     description:
@@ -12,6 +13,7 @@ const projects = [
     href: "/realisations/storm",
   },
   {
+    number: "02",
     title: "NOIR BARBER",
     category: "SITE PREMIUM • BARBER",
     description:
@@ -24,115 +26,138 @@ const projects = [
 export default function RealisationsPage() {
   return (
     <main className="realisations-page">
+      <section
+        className="realisations-hero"
+        aria-labelledby="realisations-title"
+      >
+        <div className="realisations-hero-inner">
+          <div className="realisations-kicker">
+            <span />
+            <p>NOTRE TRAVAIL</p>
+          </div>
 
-      {/* INTRODUCTION */}
+          <div className="realisations-hero-grid">
+            <h1 id="realisations-title">
+              Des projets
+              <br />
+              pensés pour
+              <br />
+              <span>marquer.</span>
+            </h1>
 
-      <section className="realisations-hero">
+            <div className="realisations-hero-side">
+              <span className="hero-index">NOVA / 02</span>
 
-        <div className="hero-label">
-          NOTRE TRAVAIL
+              <p>
+                Nous créons des expériences digitales modernes,
+                des identités fortes et des sites pensés autour
+                d'un objectif simple : donner à chaque activité
+                une présence en ligne à la hauteur de son ambition.
+              </p>
+            </div>
+          </div>
         </div>
-
-        <h1>
-          Des projets pensés
-          <br />
-          pour <span>marquer.</span>
-        </h1>
-
-        <p>
-          Nous créons des sites modernes, des identités visuelles
-          et des expériences digitales adaptées à chaque activité.
-        </p>
-
       </section>
 
+      <section
+        className="projects-section"
+        aria-labelledby="projects-title"
+      >
+        <div className="projects-heading">
+          <div>
+            <span className="section-number">01</span>
+            <p id="projects-title">PROJETS SÉLECTIONNÉS</p>
+          </div>
 
-      {/* PROJETS */}
+          <span className="projects-count">
+            {projects.length.toString().padStart(2, "0")} PROJETS
+          </span>
+        </div>
 
-      <section className="projects-section">
-
-        <div className="projects-grid">
-
+        <div className="projects-list">
           {projects.map((project) => (
             <article
               className="project-card"
               key={project.title}
             >
-
               <Link
                 href={project.href}
                 className="project-image-link"
+                aria-label={`Découvrir le projet ${project.title}`}
               >
-
                 <div className="project-image">
-
                   <Image
                     src={project.image}
-                    alt={project.title}
+                    alt={`Projet ${project.title}`}
                     fill
-                    sizes="(max-width: 900px) 100vw, 50vw"
+                    sizes="(max-width: 800px) 100vw, 82vw"
                   />
 
-                  <div className="project-overlay">
-                    <span>
-                      VOIR LE PROJET →
-                    </span>
+                  <div className="project-image-shade" />
+
+                  <div className="project-view">
+                    <span>VOIR LE PROJET</span>
+                    <strong>↗</strong>
                   </div>
 
+                  <span className="project-number">
+                    {project.number}
+                  </span>
                 </div>
-
               </Link>
 
-
               <div className="project-info">
-
-                <div>
-
+                <div className="project-title-block">
                   <p className="project-category">
                     {project.category}
                   </p>
 
-                  <h2>
-                    {project.title}
-                  </h2>
-
+                  <h2>{project.title}</h2>
                 </div>
 
-                <p className="project-description">
-                  {project.description}
-                </p>
+                <div className="project-description-block">
+                  <p>{project.description}</p>
 
+                  <Link
+                    href={project.href}
+                    aria-label={`Voir le projet ${project.title}`}
+                  >
+                    DÉCOUVRIR
+                    <span>↗</span>
+                  </Link>
+                </div>
               </div>
-
             </article>
           ))}
-
         </div>
-
       </section>
 
-
-      {/* BAS DE PAGE */}
-
       <section className="realisations-bottom">
-
-        <p>
-          CHAQUE PROJET COMMENCE PAR UNE IDÉE.
-        </p>
+        <div className="bottom-line">
+          <span>02</span>
+          <p>VOTRE PROJET</p>
+        </div>
 
         <h2>
-          Vous avez un projet ?
+          Et si le prochain
+          <br />
+          projet était <span>le vôtre ?</span>
         </h2>
+
+        <p className="bottom-description">
+          Chaque projet commence par une idée.
+          <br />
+          Parlons de la vôtre.
+        </p>
 
         <Link
           href="/contact"
           className="realisations-button"
         >
-          Parlons-en →
+          <span>PARLER DE MON PROJET</span>
+          <strong>↗</strong>
         </Link>
-
       </section>
-
     </main>
   );
 }

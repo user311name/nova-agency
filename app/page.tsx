@@ -1,317 +1,553 @@
-import Image from "next/image";
 import Link from "next/link";
 import "./page.css";
 
-
-const projets = [
+const projects = [
   {
-    titre:"NOIR BARBER",
-    categorie:"Barber",
-    image:"/projets/barber-home.png",
-    lien:"/realisations/noir-barber"
+    category: "BARBER",
+    title: "Noir Barber",
+    image: "/projets/barber-home.png",
+    href: "/realisations/noir-barber",
   },
   {
-    titre:"STORM",
-    categorie:"Sport Lifestyle",
-    image:"/projets/storm-1.png",
-    lien:"/realisations/storm"
+    category: "SPORT LIFESTYLE",
+    title: "Storm",
+    image: "/projets/storm-1.png",
+    href: "/realisations/storm",
   },
   {
-    titre:"L'ATELIER",
-    categorie:"Restaurant",
-    image:"/projets/atelier.png",
-    lien:"#"
+    category: "COMMERCE",
+    title: "Projet 03",
+    image: "/projet-03.png",
+    href: "/realisations/projet-03",
   },
   {
-    titre:"CLÉMENT D.",
-    categorie:"Coach",
-    image:"/projets/clement.png",
-    lien:"#"
-  }
+    category: "SERVICE",
+    title: "Projet 04",
+    image: "/projet-04.png",
+    href: "/realisations/projet-04",
+  },
 ];
 
+export default function Home() {
+  return (
+    <main className="nova-home">
+
+      <section className="nova-hero">
+        <div className="hero-content">
+
+          <p className="badge">
+            <span>●</span>
+            AGENCE DIGITALE PREMIUM
+          </p>
+
+          <h1>
+            Votre activité mérite
+            <br />
+            une meilleure <span>présence en ligne.</span>
+          </h1>
 
-const services=[
-{
-titre:"Création de sites web",
-texte:"Des sites modernes, rapides et adaptés à votre activité."
-},
-{
-titre:"Refonte de site",
-texte:"Donnez une nouvelle image premium à votre entreprise."
-},
-{
-titre:"Optimisation mobile",
-texte:"Une expérience parfaite sur téléphone et ordinateur."
-},
-{
-titre:"SEO & Performance",
-texte:"Un site rapide pensé pour Google."
-}
-];
+          <p className="hero-text">
+            Nous créons des sites modernes, rapides et sur mesure pour
+            présenter votre activité avec une image professionnelle
+            et donner confiance à vos clients.
+          </p>
 
+          <div className="hero-buttons">
+            <Link href="/realisations">
+              Découvrir nos créations
+            </Link>
 
-const accompagnement=[
-{
-titre:"Identité digitale",
-texte:"Logo, couleurs et direction artistique."
-},
-{
-titre:"Réseaux sociaux",
-texte:"Création de pages et stratégie de lancement."
-},
-{
-titre:"Création de contenu",
-texte:"Images et contenus professionnels."
-},
-{
-titre:"Développement commercial",
-texte:"Transformer les visiteurs en clients."
-}
-];
+            <Link href="/contact">
+              Demander un devis
+            </Link>
+          </div>
+
+          <div className="hero-reassurance">
+
+            <div className="reassurance-item">
+              <span className="reassurance-check">✓</span>
+              <div>
+                <strong>Design sur mesure</strong>
+                <span>Une identité pensée pour votre activité</span>
+              </div>
+            </div>
 
+            <div className="reassurance-item">
+              <span className="reassurance-check">✓</span>
+              <div>
+                <strong>Mobile &amp; rapide</strong>
+                <span>Une expérience fluide sur tous les écrans</span>
+              </div>
+            </div>
 
+            <div className="reassurance-item">
+              <span className="reassurance-check">✓</span>
+              <div>
+                <strong>Accompagnement</strong>
+                <span>Un projet suivi de la conception au lancement</span>
+              </div>
+            </div>
 
-export default function Home(){
+          </div>
 
+        </div>
+      </section>
 
-return (
 
-<main className="nova-home">
+      <section className="intro-section">
 
+        <div className="intro-label">
+          <span>01</span>
+          <span>NOTRE APPROCHE</span>
+        </div>
 
-<section className="nova-hero">
+        <div className="intro-content">
 
+          <div className="intro-heading">
+            <p className="section-kicker">
+              UNE PRÉSENCE QUI COMPTE
+            </p>
 
-<div className="hero-content">
+            <h2>
+              Votre site doit donner
+              <br />
+              envie de vous choisir.
+            </h2>
+          </div>
 
 
-<p className="badge">
-● AGENCE DIGITALE PREMIUM
-</p>
+          <div className="intro-text">
 
+            <p>
+              Aujourd’hui, votre site est souvent le premier contact
+              entre votre activité et un futur client.
+            </p>
 
-<h1>
-Votre activité mérite
-<br/>
-une meilleure
-<br/>
-<span>
-présence en ligne.
-</span>
-</h1>
+            <p>
+              Chez NOVA, nous créons des expériences digitales qui
+              mettent votre activité en valeur, rassurent vos visiteurs
+              et vous ressemblent réellement.
+            </p>
 
+            <Link href="/a-propos" className="text-link">
+              Découvrir NOVA →
+            </Link>
 
-<p className="hero-text">
-Nous créons des sites modernes, rapides et élégants pensés pour transformer vos visiteurs en clients.
-</p>
+          </div>
 
+        </div>
 
+      </section>
 
-<div className="hero-buttons">
 
-<Link href="/realisations">
-Découvrir nos créations →
-</Link>
+      <section className="section projects-section">
 
+        <div className="section-heading-row">
 
-<Link href="/contact">
-Demander un devis →
-</Link>
+          <div>
+            <span>
+              02 — RÉALISATIONS
+            </span>
 
-</div>
+            <h2>
+              Des projets pensés pour
+              <br />
+              faire bonne impression.
+            </h2>
+          </div>
 
 
-</div>
+          <Link
+            href="/realisations"
+            className="section-link"
+          >
+            Voir toutes les réalisations →
+          </Link>
 
+        </div>
 
-</section>
 
+        <div className="projects-grid">
 
+          {projects.map((project) => (
 
+            <article
+              className="card"
+              key={project.title}
+            >
 
+              <Link
+                href={project.href}
+                className="project-image-link"
+              >
 
-<section className="section">
+                <div className="project-image-wrap">
 
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    loading="lazy"
+                  />
 
-<span>
-NOS RÉALISATIONS
-</span>
+                  <span className="project-overlay">
+                    Voir le projet
+                  </span>
 
+                </div>
 
-<h2>
-Des projets pensés
-<br/>
-pour des entreprises ambitieuses.
-</h2>
+              </Link>
 
 
+              <div className="project-card-content">
 
-<div className="cards">
+                <div>
+                  <p>
+                    {project.category}
+                  </p>
 
+                  <h3>
+                    {project.title}
+                  </h3>
+                </div>
 
-{
-projets.map((p,i)=>(
 
-<div className="card" key={i}>
+                <Link
+                  href={project.href}
+                  className="project-arrow"
+                  aria-label={`Voir le projet ${project.title}`}
+                >
+                  <span className="arrow-icon" />
+                </Link>
 
+              </div>
 
-<Image
-src={p.image}
-alt={p.titre}
-width={600}
-height={350}
-/>
+            </article>
 
+          ))}
 
-<h3>
-{p.titre}
-</h3>
+        </div>
 
+      </section>      <section className="section services-section">
 
-<p>
-{p.categorie}
-</p>
+        <div className="section-heading-row services-heading">
 
+          <div>
 
-<Link href={p.lien}>
-Voir le projet →
-</Link>
+            <span>
+              03 — SERVICES
+            </span>
 
 
-</div>
+            <h2>
+              Tout ce qu'il faut pour
+              <br />
+              construire votre présence digitale.
+            </h2>
 
-))
-}
+          </div>
 
 
-</div>
+          <p className="section-introduction">
 
+            De la création à l’optimisation, nous construisons des
+            solutions adaptées à votre activité et à vos objectifs.
 
-</section>
+          </p>
 
 
+        </div>
 
 
 
+        <div className="services-list">
 
 
-<section className="section">
+          <div className="service-row">
 
+            <span className="service-number">
+              01
+            </span>
 
-<span>
-NOS SERVICES
-</span>
 
+            <h3>
+              Création de sites web
+            </h3>
 
-<h2>
-Des solutions digitales
-<br/>
-pensées pour votre réussite.
-</h2>
 
+            <p>
+              Des sites modernes et personnalisés qui présentent
+              votre activité de manière claire et professionnelle.
+            </p>
 
 
-<div className="cards">
+            <span className="service-arrow">
+              <span className="arrow-icon" />
+            </span>
 
 
-{
-services.map((s,i)=>(
+          </div>
 
-<div className="box" key={i}>
 
-<h3>
-{s.titre}
-</h3>
 
-<p>
-{s.texte}
-</p>
+          <div className="service-row">
 
-</div>
+            <span className="service-number">
+              02
+            </span>
 
-))
-}
 
+            <h3>
+              Refonte &amp; optimisation
+            </h3>
 
-</div>
 
+            <p>
+              Nous modernisons votre site pour améliorer son image,
+              son expérience utilisateur et ses performances.
+            </p>
 
-</section>
 
+            <span className="service-arrow">
+              <span className="arrow-icon" />
+            </span>
 
 
+          </div>
 
 
 
+          <div className="service-row">
 
-<section className="section">
+            <span className="service-number">
+              03
+            </span>
 
 
-<span>
-ACCOMPAGNEMENT
-</span>
+            <h3>
+              Identité &amp; direction artistique
+            </h3>
 
 
-<h2>
-On lance votre présence digitale.
-</h2>
+            <p>
+              Une direction visuelle cohérente pour construire une
+              image forte et reconnaissable.
+            </p>
 
 
+            <span className="service-arrow">
+              <span className="arrow-icon" />
+            </span>
 
-<div className="cards">
 
+          </div>
 
-{
-accompagnement.map((a,i)=>(
 
-<div className="box" key={i}>
 
-<h3>
-{a.titre}
-</h3>
+          <div className="service-row">
 
-<p>
-{a.texte}
-</p>
+            <span className="service-number">
+              04
+            </span>
 
-</div>
 
-))
-}
+            <h3>
+              Performance &amp; mobile
+            </h3>
 
 
-</div>
+            <p>
+              Une expérience rapide, fluide et adaptée à tous les
+              écrans, du smartphone à l’ordinateur.
+            </p>
 
 
-</section>
+            <span className="service-arrow">
+              <span className="arrow-icon" />
+            </span>
 
 
+          </div>
 
 
+        </div>
 
 
-<section className="cta">
+      </section>
 
-<h2>
-Prêt à faire passer votre activité
-<br/>
-au niveau supérieur ?
-</h2>
 
 
-<Link href="/contact">
-Parler de votre projet →
-</Link>
 
+      <section className="why-section">
 
-</section>
 
+        <div className="why-inner">
 
 
-</main>
+          <div className="why-heading">
 
-)
 
+            <span>
+              04 — POURQUOI NOVA
+            </span>
 
+
+            <h2>
+              Pas juste un site.
+              <br />
+              Une vraie image.
+            </h2>
+
+
+            <p>
+              Nous cherchons à créer des sites qui ont du sens pour
+              votre activité, pas simplement à remplir une page avec
+              des blocs.
+            </p>
+
+
+          </div>
+
+
+
+
+          <div className="advantages-list">
+
+
+
+            <div className="advantage">
+
+
+              <span>
+                01
+              </span>
+
+
+              <div>
+
+                <h3>
+                  Une approche sur mesure
+                </h3>
+
+
+                <p>
+                  Chaque projet est construit autour de votre activité,
+                  votre clientèle et votre manière de travailler.
+                </p>
+
+
+              </div>
+
+
+            </div>
+
+
+
+
+            <div className="advantage">
+
+
+              <span>
+                02
+              </span>
+
+
+              <div>
+
+                <h3>
+                  Un design pensé pour convertir
+                </h3>
+
+
+                <p>
+                  L’esthétique compte, mais elle doit surtout servir
+                  votre message et faciliter la confiance.
+                </p>
+
+
+              </div>
+
+
+            </div>
+
+
+
+
+            <div className="advantage">
+
+
+              <span>
+                03
+              </span>
+
+
+              <div>
+
+                <h3>
+                  Une expérience simple
+                </h3>
+
+
+                <p>
+                  Nous privilégions des interfaces claires, rapides
+                  et agréables à utiliser sur tous les appareils.
+                </p>
+
+
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+      </section>      <section className="cta">
+
+
+        <div>
+
+
+          <span className="cta-label">
+            UN PROJET EN TÊTE ?
+          </span>
+
+
+
+          <h2>
+            Donnons à votre activité
+            <br />
+            l’image qu’elle mérite.
+          </h2>
+
+
+
+          <p>
+            Parlons de votre projet et voyons ensemble comment
+            construire une présence en ligne qui vous ressemble.
+          </p>
+
+
+        </div>
+
+
+
+
+
+        <Link href="/contact">
+
+          Parlons de votre projet →
+
+        </Link>
+
+
+      </section>
+
+
+
+    </main>
+  );
 }

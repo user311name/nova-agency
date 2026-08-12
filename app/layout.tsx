@@ -8,6 +8,10 @@ const siteUrl = "https://nova-agency-sigma.vercel.app";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
+  verification: {
+    google: "kNbI9l6D1La63lZWbkYMus3zo5BKaZUPBpmFpLE8BP8",
+  },
+
   title: {
     default: "NOVA — Agence digitale premium",
     template: "%s | NOVA",

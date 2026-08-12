@@ -808,4 +808,75 @@
   .contact-bottom > a {
     transition: none;
   }
+}.quote-options {
+  display: grid;
+  gap: 10px;
+  margin: 10px 0 8px;
+}
+
+.quote-options-title {
+  margin: 0 0 4px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quote-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.quote-section:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.quote-section summary {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0;
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+}
+
+.quote-section summary::-webkit-details-marker {
+  display: none;
+}
+
+.quote-section summary::after {
+  content: "+";
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.quote-section[open] summary::after {
+  content: "−";
+}
+
+.quote-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 2px 0 18px;
+}
+
+.quote-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 13px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.quote-choice input {
+  width: 16px;
+  height: 16px;
+  margin: 1px 0 0;
+  accent-color: #ffffff;
+}
+
+@media (max-width: 600px) {
+  .quote-checkboxes {
+    grid-template-columns: 1fr;
+  }
 }

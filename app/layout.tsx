@@ -8,17 +8,13 @@ const siteUrl = "https://nova-agency-sigma.vercel.app";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
-  verification: {
-    google: "kNbI9l6D1La63lZWbkYMus3zo5BKaZUPBpmFpLE8BP8",
-  },
-
   title: {
     default: "NOVA — Agence digitale premium",
     template: "%s | NOVA",
   },
 
   description:
-    "NOVA crée des sites web modernes, rapides et sur mesure pour aider les entreprises à développer leur présence en ligne.",
+    "NOVA crée des sites web modernes, rapides et élégants pour aider les entreprises à développer leur présence en ligne.",
 
   applicationName: "NOVA",
 
@@ -29,6 +25,7 @@ export const metadata: Metadata = {
     "création de site web",
     "création de site internet",
     "site vitrine",
+    "site web premium",
     "site web sur mesure",
     "site web professionnel",
     "refonte de site web",
@@ -61,14 +58,14 @@ export const metadata: Metadata = {
     siteName: "NOVA",
     title: "NOVA — Agence digitale premium",
     description:
-      "NOVA crée des sites web modernes, rapides et sur mesure pour aider les entreprises à développer leur présence en ligne.",
+      "NOVA crée des sites web modernes, rapides et élégants pour aider les entreprises à développer leur présence en ligne.",
   },
 
   twitter: {
     card: "summary_large_image",
     title: "NOVA — Agence digitale premium",
     description:
-      "NOVA crée des sites web modernes, rapides et sur mesure pour aider les entreprises à développer leur présence en ligne.",
+      "NOVA crée des sites web modernes, rapides et élégants pour aider les entreprises à développer leur présence en ligne.",
   },
 
   robots: {
@@ -94,6 +91,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="kNbI9l6D1La63lZWbkYMus3zo5BKaZUPBpmFpLE8BP8"
+        />
+      </head>
+
       <body>
         <header className="navbar">
           <Link

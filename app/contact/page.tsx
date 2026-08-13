@@ -34,8 +34,8 @@ const processSteps = [
 
 const quoteSections = [
   {
-    title: "Type de site souhaité",
-    name: "Type de site",
+    title: "Site & structure",
+    name: "Site et structure",
     options: [
       "Site vitrine simple",
       "Site vitrine professionnel",
@@ -49,12 +49,6 @@ const quoteSections = [
       "Site avec espace membre",
       "Boutique en ligne / e-commerce",
       "Application web",
-    ],
-  },
-  {
-    title: "Pages souhaitées",
-    name: "Pages souhaitées",
-    options: [
       "Accueil",
       "À propos",
       "Présentation de l'entreprise",
@@ -79,8 +73,8 @@ const quoteSections = [
     ],
   },
   {
-    title: "Design et apparence",
-    name: "Design",
+    title: "Design & contenu",
+    name: "Design et contenu",
     options: [
       "Design simple et professionnel",
       "Design moderne",
@@ -106,12 +100,6 @@ const quoteSections = [
       "Compteurs animés",
       "Timeline",
       "Cartes interactives",
-    ],
-  },
-  {
-    title: "Contenu",
-    name: "Contenu",
-    options: [
       "Le client fournit les textes",
       "Aide à la rédaction",
       "Rédaction avec l'aide de l'IA",
@@ -132,8 +120,8 @@ const quoteSections = [
     ],
   },
   {
-    title: "Contact et formulaires",
-    name: "Contact",
+    title: "Contact & réservation",
+    name: "Contact et réservation",
     options: [
       "Formulaire de contact simple",
       "Formulaire de contact avancé",
@@ -150,12 +138,6 @@ const quoteSections = [
       "Formulaire avec plusieurs choix",
       "Formulaire avec téléchargement de fichier",
       "Formulaire personnalisé",
-    ],
-  },
-  {
-    title: "Calendrier et réservation",
-    name: "Calendrier / réservation",
-    options: [
       "Calendrier simple",
       "Affichage des disponibilités",
       "Choix d'une date",
@@ -176,46 +158,8 @@ const quoteSections = [
     ],
   },
   {
-    title: "Gestion du site par le client",
-    name: "Gestion par le client",
-    options: [
-      "Modifier les textes",
-      "Modifier les photos",
-      "Ajouter des photos",
-      "Supprimer des photos",
-      "Modifier les horaires",
-      "Modifier les tarifs",
-      "Ajouter / supprimer des services",
-      "Ajouter des actualités",
-      "Publier des articles",
-      "Gérer les réservations",
-      "Gérer les produits",
-      "Gérer les commandes",
-      "Gérer les avis",
-      "Gérer les utilisateurs",
-      "Espace administrateur complet",
-    ],
-  },
-  {
-    title: "Comptes utilisateurs",
-    name: "Comptes utilisateurs",
-    options: [
-      "Aucun compte utilisateur",
-      "Création de compte",
-      "Connexion / déconnexion",
-      "Mot de passe oublié",
-      "Profil utilisateur",
-      "Photo de profil",
-      "Espace personnel",
-      "Historique des réservations",
-      "Historique des commandes",
-      "Tableau de bord utilisateur",
-      "Système de rôles / permissions",
-    ],
-  },
-  {
-    title: "Boutique en ligne",
-    name: "E-commerce",
+    title: "E-commerce & paiements",
+    name: "E-commerce et paiement",
     options: [
       "Catalogue de produits",
       "Catégories",
@@ -235,26 +179,51 @@ const quoteSections = [
       "Confirmation de commande",
       "E-mail automatique",
       "Historique et suivi des commandes",
-    ],
-  },
-  {
-    title: "Paiement en ligne",
-    name: "Paiement",
-    options: [
       "Aucun paiement en ligne",
       "Paiement d'une commande",
       "Paiement d'une réservation",
       "Paiement d'un acompte",
       "Paiement unique",
       "Abonnement",
-      "Code promo",
       "Facturation",
       "Confirmation automatique du paiement",
     ],
   },
   {
-    title: "Fonctionnalités IA",
-    name: "Intelligence artificielle",
+    title: "Comptes & espace client",
+    name: "Comptes et gestion",
+    options: [
+      "Aucun compte utilisateur",
+      "Création de compte",
+      "Connexion / déconnexion",
+      "Mot de passe oublié",
+      "Profil utilisateur",
+      "Photo de profil",
+      "Espace personnel",
+      "Historique des réservations",
+      "Historique des commandes",
+      "Tableau de bord utilisateur",
+      "Système de rôles / permissions",
+      "Modifier les textes",
+      "Modifier les photos",
+      "Ajouter des photos",
+      "Supprimer des photos",
+      "Modifier les horaires",
+      "Modifier les tarifs",
+      "Ajouter / supprimer des services",
+      "Ajouter des actualités",
+      "Publier des articles",
+      "Gérer les réservations",
+      "Gérer les produits",
+      "Gérer les commandes",
+      "Gérer les avis",
+      "Gérer les utilisateurs",
+      "Espace administrateur complet",
+    ],
+  },
+  {
+    title: "IA & automatisations",
+    name: "IA et automatisations",
     options: [
       "Chatbot IA",
       "Assistant IA pour répondre aux visiteurs",
@@ -269,12 +238,6 @@ const quoteSections = [
       "Traduction automatique",
       "Outil IA personnalisé",
       "Analyse ou traitement de données avec IA",
-    ],
-  },
-  {
-    title: "Automatisations et connexions",
-    name: "Automatisations / connexions",
-    options: [
       "Envoi automatique d'e-mails",
       "Confirmation après formulaire",
       "Confirmation après réservation",
@@ -297,8 +260,8 @@ const quoteSections = [
     ],
   },
   {
-    title: "Langues, SEO et mobile",
-    name: "Visibilité et mobile",
+    title: "SEO, langues & mobile",
+    name: "SEO langues et mobile",
     options: [
       "Uniquement en français",
       "Français + anglais",
@@ -316,8 +279,8 @@ const quoteSections = [
     ],
   },
   {
-    title: "Blog, avis et maintenance",
-    name: "Blog / avis / maintenance",
+    title: "Blog, avis & maintenance",
+    name: "Blog avis et maintenance",
     options: [
       "Blog simple",
       "Articles",
@@ -396,88 +359,52 @@ Budget : ${getValue("Budget approximatif")}
 Date souhaitée : ${getValue("Date souhaitée")}
 
 ━━━━━━━━━━━━━━━━━━━━
-🌐 TYPE DE SITE
+🌐 SITE & STRUCTURE
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Type de site[]")}
+${formatOptions("Site et structure[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
-📄 PAGES SOUHAITÉES
+🎨 DESIGN & CONTENU
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Pages souhaitées[]")}
+${formatOptions("Design et contenu[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
-🎨 DESIGN ET APPARENCE
+📞 CONTACT & RÉSERVATION
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Design[]")}
+${formatOptions("Contact et réservation[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
-📝 CONTENU
+🛒 E-COMMERCE & PAIEMENTS
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Contenu[]")}
+${formatOptions("E-commerce et paiement[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
-📞 CONTACT & FORMULAIRES
+👥 COMPTES & ESPACE CLIENT
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Contact[]")}
+${formatOptions("Comptes et gestion[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
-📅 CALENDRIER / RÉSERVATION
+🤖 IA & AUTOMATISATIONS
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Calendrier / réservation[]")}
+${formatOptions("IA et automatisations[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
-⚙️ GESTION DU SITE PAR LE CLIENT
+🔎 SEO, LANGUES & MOBILE
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Gestion par le client[]")}
+${formatOptions("SEO langues et mobile[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
-👥 COMPTES UTILISATEURS
+🛠️ BLOG, AVIS & MAINTENANCE
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Comptes utilisateurs[]")}
-
-━━━━━━━━━━━━━━━━━━━━
-🛒 BOUTIQUE EN LIGNE / E-COMMERCE
-━━━━━━━━━━━━━━━━━━━━
-
-${formatOptions("E-commerce[]")}
-
-━━━━━━━━━━━━━━━━━━━━
-💳 PAIEMENT EN LIGNE
-━━━━━━━━━━━━━━━━━━━━
-
-${formatOptions("Paiement[]")}
-
-━━━━━━━━━━━━━━━━━━━━
-🤖 FONCTIONNALITÉS IA
-━━━━━━━━━━━━━━━━━━━━
-
-${formatOptions("Intelligence artificielle[]")}
-
-━━━━━━━━━━━━━━━━━━━━
-🔗 AUTOMATISATIONS / CONNEXIONS
-━━━━━━━━━━━━━━━━━━━━
-
-${formatOptions("Automatisations / connexions[]")}
-
-━━━━━━━━━━━━━━━━━━━━
-🔎 VISIBILITÉ / SEO / MOBILE
-━━━━━━━━━━━━━━━━━━━━
-
-${formatOptions("Visibilité et mobile[]")}
-
-━━━━━━━━━━━━━━━━━━━━
-🛠️ BLOG / AVIS / MAINTENANCE
-━━━━━━━━━━━━━━━━━━━━
-
-${formatOptions("Blog / avis / maintenance[]")}
+${formatOptions("Blog avis et maintenance[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
 ➕ AUTRES BESOINS
@@ -611,8 +538,8 @@ FIN DE LA DEMANDE
           </div>
 
           <p className="form-description">
-            Remplissez les informations principales puis cochez les options qui
-            vous intéressent. Vous pouvez en choisir plusieurs.
+            Remplissez les informations principales puis ouvrez les catégories
+            qui vous intéressent. Vous pouvez sélectionner plusieurs options.
           </p>
 
           <form
@@ -693,25 +620,11 @@ FIN DE LA DEMANDE
                     Je ne sais pas encore
                   </option>
 
-                  <option>
-                    Moins de 1 000 €
-                  </option>
-
-                  <option>
-                    1 000 € à 2 000 €
-                  </option>
-
-                  <option>
-                    2 000 € à 4 000 €
-                  </option>
-
-                  <option>
-                    4 000 € à 8 000 €
-                  </option>
-
-                  <option>
-                    Plus de 8 000 €
-                  </option>
+                  <option>Moins de 1 000 €</option>
+                  <option>1 000 € à 2 000 €</option>
+                  <option>2 000 € à 4 000 €</option>
+                  <option>4 000 € à 8 000 €</option>
+                  <option>Plus de 8 000 €</option>
                 </select>
               </div>
 
@@ -740,7 +653,8 @@ FIN DE LA DEMANDE
                   key={section.title}
                 >
                   <summary>
-                    {section.title}
+                    <span>{section.title}</span>
+                    <span className="quote-section-icon">+</span>
                   </summary>
 
                   <div className="quote-checkboxes">
@@ -755,9 +669,7 @@ FIN DE LA DEMANDE
                           value={option}
                         />
 
-                        <span>
-                          {option}
-                        </span>
+                        <span>{option}</span>
                       </label>
                     ))}
                   </div>

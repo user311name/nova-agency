@@ -29,30 +29,43 @@ export default function About() {
     <main className="about-page">
       {/* HERO */}
 
-      <section className="about-hero">
+      <section
+        className="about-hero"
+        aria-labelledby="about-title"
+      >
         <div className="about-hero-content">
           <p className="about-tag">
-            <span>●</span> À PROPOS DE NOVA
+            <span aria-hidden="true">●</span> À PROPOS DE NOVA
           </p>
 
-          <h1>
-            Derrière chaque projet,
+          <h1 id="about-title">
+            Agence web digitale,
             <br />
-            <span>une vraie intention.</span>
+            <span>créative et premium.</span>
           </h1>
 
           <p className="about-intro">
-            NOVA est née d&apos;une idée simple : créer des expériences
-            digitales qui ont du sens, sans complexité inutile.
+            NOVA est une agence digitale spécialisée dans la création de
+            sites web modernes, rapides et élégants pour les entreprises,
+            indépendants et projets qui souhaitent développer leur présence
+            en ligne.
           </p>
         </div>
 
-        <div className="about-hero-mark">N</div>
+        <div
+          className="about-hero-mark"
+          aria-hidden="true"
+        >
+          N
+        </div>
       </section>
 
       {/* VISION */}
 
-      <section className="about-vision">
+      <section
+        className="about-vision"
+        aria-labelledby="vision-title"
+      >
         <div className="about-section-label">
           <span>01</span>
           NOTRE VISION
@@ -62,7 +75,7 @@ export default function About() {
           <div>
             <p className="about-kicker">POURQUOI NOVA ?</p>
 
-            <h2>
+            <h2 id="vision-title">
               Faire du digital
               <br />
               <span>un vrai atout.</span>
@@ -77,15 +90,17 @@ export default function About() {
             </p>
 
             <p>
-              C&apos;est cette vision qui guide NOVA. Nous cherchons à créer
-              des univers digitaux qui donnent une première impression forte,
-              tout en restant simples à comprendre et agréables à utiliser.
+              C&apos;est cette vision qui guide NOVA. Nous créons des sites
+              internet professionnels et des expériences digitales qui donnent
+              une première impression forte, tout en restant simples à
+              comprendre et agréables à utiliser.
             </p>
 
             <p>
-              Pas de superflu. Pas de design compliqué juste pour impressionner.
-              L&apos;objectif est de construire quelque chose qui vous
-              ressemble et qui reste pertinent dans le temps.
+              De la création d&apos;un site vitrine à la conception d&apos;un
+              projet web plus avancé, notre objectif est de construire une
+              solution qui vous ressemble et qui reste pertinente dans le
+              temps.
             </p>
           </div>
         </div>
@@ -93,7 +108,10 @@ export default function About() {
 
       {/* APPROCHE */}
 
-      <section className="about-approach">
+      <section
+        className="about-approach"
+        aria-labelledby="approach-title"
+      >
         <div className="about-approach-inner">
           <div className="about-section-label">
             <span>02</span>
@@ -102,15 +120,15 @@ export default function About() {
 
           <div className="about-approach-grid">
             <div className="about-approach-heading">
-              <h2>
+              <h2 id="approach-title">
                 Penser avant
                 <br />
                 <span>de construire.</span>
               </h2>
 
               <p>
-                Un bon résultat commence toujours par une bonne compréhension
-                du projet.
+                Un bon site web commence toujours par une bonne compréhension
+                du projet, de l&apos;activité et des objectifs.
               </p>
             </div>
 
@@ -169,14 +187,17 @@ export default function About() {
 
       {/* VALUES */}
 
-      <section className="about-values">
+      <section
+        className="about-values"
+        aria-labelledby="values-title"
+      >
         <div className="about-section-label">
           <span>03</span>
           NOS PRINCIPES
         </div>
 
         <div className="about-values-heading">
-          <h2>
+          <h2 id="values-title">
             Ce qui guide
             <br />
             <span>notre travail.</span>
@@ -190,7 +211,10 @@ export default function About() {
 
         <div className="values-grid">
           {values.map((value) => (
-            <article className="value-card" key={value.number}>
+            <article
+              className="value-card"
+              key={value.number}
+            >
               <span>{value.number}</span>
 
               <div>
@@ -204,11 +228,14 @@ export default function About() {
 
       {/* CONCLUSION */}
 
-      <section className="about-final">
+      <section
+        className="about-final"
+        aria-labelledby="about-final-title"
+      >
         <div>
           <span>ET MAINTENANT ?</span>
 
-          <h2>
+          <h2 id="about-final-title">
             Parlons de ce que
             <br />
             <strong>vous voulez construire.</strong>
@@ -220,7 +247,9 @@ export default function About() {
           </p>
         </div>
 
-        <Link href="/contact">Échanger avec NOVA →</Link>
+        <Link href="/contact">
+          Échanger avec NOVA →
+        </Link>
       </section>
     </main>
   );

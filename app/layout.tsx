@@ -47,6 +47,10 @@ export const metadata: Metadata = {
     canonical: siteUrl,
   },
 
+  verification: {
+    google: "kNbI9l6D1La63lZWbkYMus3zo5BKaZUPBpmFpLE8BP8",
+  },
+
   icons: {
     icon: "/favicon.ico",
   },
@@ -71,6 +75,7 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+
     googleBot: {
       index: true,
       follow: true,
@@ -91,13 +96,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <head>
-        <meta
-          name="google-site-verification"
-          content="kNbI9l6D1La63lZWbkYMus3zo5BKaZUPBpmFpLE8BP8"
-        />
-      </head>
-
       <body>
         <header className="navbar">
           <Link

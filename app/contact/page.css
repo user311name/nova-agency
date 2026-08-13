@@ -879,4 +879,14 @@
   .quote-checkboxes {
     grid-template-columns: 1fr;
   }
+}.quote-section summary {
+  list-style: none;
+}
+
+.quote-section summary::-webkit-details-marker {
+  display: none;
+}
+
+.quote-section summary::marker {
+  display: none;
 }

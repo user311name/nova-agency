@@ -654,7 +654,9 @@ FIN DE LA DEMANDE
                 >
                   <summary>
                     <span>{section.title}</span>
-                    <span className="quote-section-icon">+</span>
+                    <span className="quote-section-icon" aria-hidden="true">
+                      +
+                    </span>
                   </summary>
 
                   <div className="quote-checkboxes">

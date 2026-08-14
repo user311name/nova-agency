@@ -14,7 +14,7 @@ function clean(value: unknown): string {
 export async function POST(request: Request) {
   try {
     // =========================================================
-    // VÉRIFICATION RESEND
+    // VÉRIFICATION DE LA CLÉ RESEND
     // =========================================================
 
     const apiKey = process.env.RESEND_API_KEY;
@@ -24,9 +24,12 @@ export async function POST(request: Request) {
 
       return NextResponse.json(
         {
-          error: "Le service d'envoi n'est pas configuré.",
+          error:
+            "Le service d'envoi n'est pas configuré.",
         },
-        { status: 500 }
+        {
+          status: 500,
+        }
       );
     }
 
@@ -63,7 +66,9 @@ export async function POST(request: Request) {
           error:
             "Tous les champs obligatoires doivent être remplis.",
         },
-        { status: 400 }
+        {
+          status: 400,
+        }
       );
     }
 
@@ -72,7 +77,9 @@ export async function POST(request: Request) {
         {
           error: "Adresse e-mail invalide.",
         },
-        { status: 400 }
+        {
+          status: 400,
+        }
       );
     }
 
@@ -85,16 +92,21 @@ export async function POST(request: Request) {
         {
           error: "Nom trop long.",
         },
-        { status: 400 }
+        {
+          status: 400,
+        }
       );
     }
 
     if (email.length > 254) {
       return NextResponse.json(
         {
-          error: "Adresse e-mail trop longue.",
+          error:
+            "Adresse e-mail trop longue.",
         },
-        { status: 400 }
+        {
+          status: 400,
+        }
       );
     }
 
@@ -103,12 +115,14 @@ export async function POST(request: Request) {
         {
           error: "Message trop long.",
         },
-        { status: 400 }
+        {
+          status: 400,
+        }
       );
     }
 
     // =========================================================
-    // ADRESSE DE RÉCEPTION
+    // EMAIL DE RÉCEPTION
     // =========================================================
 
     const contactEmail = clean(
@@ -116,14 +130,18 @@ export async function POST(request: Request) {
     );
 
     if (!contactEmail) {
-      console.error("CONTACT_EMAIL manquante.");
+      console.error(
+        "CONTACT_EMAIL manquante."
+      );
 
       return NextResponse.json(
         {
           error:
             "L'adresse de réception n'est pas configurée.",
         },
-        { status: 500 }
+        {
+          status: 500,
+        }
       );
     }
 
@@ -138,7 +156,9 @@ export async function POST(request: Request) {
           error:
             "L'adresse de réception configurée est invalide.",
         },
-        { status: 500 }
+        {
+          status: 500,
+        }
       );
     }
 
@@ -194,9 +214,12 @@ FIN DE LA DEMANDE
       return NextResponse.json(
         {
           error:
+            error.message ||
             "Resend n'a pas pu envoyer le message.",
         },
-        { status: 500 }
+        {
+          status: 500,
+        }
       );
     }
 
@@ -213,6 +236,7 @@ FIN DE LA DEMANDE
       success: true,
       id: data?.id,
     });
+
   } catch (error) {
     console.error(
       "ERREUR API CONTACT :",
@@ -224,7 +248,9 @@ FIN DE LA DEMANDE
         error:
           "Une erreur est survenue lors de l'envoi.",
       },
-      { status: 500 }
+      {
+        status: 500,
+      }
     );
   }
 }

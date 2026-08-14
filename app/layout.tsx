@@ -51,8 +51,11 @@ export const metadata: Metadata = {
     google: "kNbI9l6D1La63lZWbkYMus3zo5BKaZUPBpmFpLE8BP8",
   },
 
+  // FAVICON NOVA
   icons: {
-    icon: "/logo-nova.png",
+    icon: "/LG-Nova.png",
+    shortcut: "/LG-Nova.png",
+    apple: "/LG-Nova.png",
   },
 
   openGraph: {

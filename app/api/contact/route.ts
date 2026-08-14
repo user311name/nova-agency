@@ -1,43 +1,7 @@
 import { NextResponse } from "next/server";
+import { Resend } from "resend";
 
-/*
-==========================================================
-CONFIGURATION
-==========================================================
-*/
-
-const FORMSPREE_ENDPOINT =
-  "https://formspree.io/f/mgawenka";
-
-const emailRegex =
-  /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-/*
-==========================================================
-ANTI-SPAM — RATE LIMIT
-==========================================================
-
-Limite le nombre de demandes provenant d'une même IP.
-
-3 demandes maximum toutes les 10 minutes.
-*/
-
-const rateLimit = new Map<
-  string,
-  {
-    count: number;
-    firstRequest: number;
-  }
->();
-
-const MAX_REQUESTS = 3;
-const WINDOW_MS = 10 * 60 * 1000;
-
-/*
-==========================================================
-NETTOYAGE
-==========================================================
-*/
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function clean(value: unknown): string {
   if (typeof value !== "string") {
@@ -47,113 +11,30 @@ function clean(value: unknown): string {
   return value.trim();
 }
 
-/*
-==========================================================
-POST
-==========================================================
-*/
-
 export async function POST(request: Request) {
   try {
-    /*
-    ------------------------------------------------------
-    1. PROTECTION TAILLE DE REQUÊTE
-    ------------------------------------------------------
-    */
+    // =========================================================
+    // VÉRIFICATION RESEND
+    // =========================================================
 
-    const contentLength =
-      request.headers.get("content-length");
+    const apiKey = process.env.RESEND_API_KEY;
 
-    if (
-      contentLength &&
-      Number(contentLength) > 30000
-    ) {
+    if (!apiKey) {
+      console.error("RESEND_API_KEY manquante.");
+
       return NextResponse.json(
         {
-          error: "Requête trop volumineuse.",
+          error: "Le service d'envoi n'est pas configuré.",
         },
-        {
-          status: 413,
-        }
+        { status: 500 }
       );
     }
 
-    /*
-    ------------------------------------------------------
-    2. IDENTIFICATION IP
-    ------------------------------------------------------
-    */
+    const resend = new Resend(apiKey);
 
-    const forwardedFor =
-      request.headers.get("x-forwarded-for");
-
-    const realIp =
-      request.headers.get("x-real-ip");
-
-    const ip =
-      forwardedFor?.split(",")[0]?.trim() ||
-      realIp ||
-      "unknown";
-
-    /*
-    ------------------------------------------------------
-    3. RATE LIMIT
-    ------------------------------------------------------
-    */
-
-    const now = Date.now();
-
-    const existing = rateLimit.get(ip);
-
-    if (!existing) {
-      rateLimit.set(ip, {
-        count: 1,
-        firstRequest: now,
-      });
-    } else {
-      const elapsed =
-        now - existing.firstRequest;
-
-      /*
-      Nouvelle fenêtre de 10 minutes
-      */
-
-      if (elapsed >= WINDOW_MS) {
-        rateLimit.set(ip, {
-          count: 1,
-          firstRequest: now,
-        });
-      } else {
-        /*
-        Trop de demandes
-        */
-
-        if (
-          existing.count >= MAX_REQUESTS
-        ) {
-          return NextResponse.json(
-            {
-              error:
-                "Trop de demandes. Veuillez patienter quelques minutes avant de réessayer.",
-            },
-            {
-              status: 429,
-              headers: {
-                "Retry-After": "600",
-              },
-            }
-          );
-        }
-
-        existing.count += 1;
-      }
-    }
-
-    /*
-    ------------------------------------------------------
-    4. LECTURE JSON
-    ------------------------------------------------------
-    */
+    // =========================================================
+    // RÉCUPÉRATION DES DONNÉES
+    // =========================================================
 
     const body = await request.json();
 
@@ -162,20 +43,9 @@ export async function POST(request: Request) {
     const message = clean(body.message);
     const website = clean(body.website);
 
-    const startedAt = Number(
-      body.startedAt || 0
-    );
-
-    /*
-    ------------------------------------------------------
-    5. HONEYPOT
-    ------------------------------------------------------
-
-    Si un bot remplit le champ invisible,
-    on ne lui renvoie pas d'erreur.
-
-    On fait semblant que tout s'est bien passé.
-    */
+    // =========================================================
+    // HONEYPOT ANTI-BOT
+    // =========================================================
 
     if (website) {
       return NextResponse.json({
@@ -183,226 +53,178 @@ export async function POST(request: Request) {
       });
     }
 
-    /*
-    ------------------------------------------------------
-    6. TEMPS MINIMUM
-    ------------------------------------------------------
+    // =========================================================
+    // VALIDATION
+    // =========================================================
 
-    Minimum 2,5 secondes avant l'envoi.
-    */
-
-    if (
-      !startedAt ||
-      !Number.isFinite(startedAt)
-    ) {
-      return NextResponse.json(
-        {
-          error:
-            "Formulaire invalide.",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    const formTime =
-      Date.now() - startedAt;
-
-    if (formTime < 2500) {
-      return NextResponse.json(
-        {
-          error:
-            "Veuillez prendre quelques secondes pour remplir le formulaire.",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    /*
-    ------------------------------------------------------
-    7. CHAMPS OBLIGATOIRES
-    ------------------------------------------------------
-    */
-
-    if (
-      !name ||
-      !email ||
-      !message
-    ) {
+    if (!name || !email || !message) {
       return NextResponse.json(
         {
           error:
             "Tous les champs obligatoires doivent être remplis.",
         },
-        {
-          status: 400,
-        }
+        { status: 400 }
       );
     }
-
-    /*
-    ------------------------------------------------------
-    8. EMAIL
-    ------------------------------------------------------
-    */
 
     if (!emailRegex.test(email)) {
       return NextResponse.json(
         {
-          error:
-            "Adresse e-mail invalide.",
+          error: "Adresse e-mail invalide.",
         },
-        {
-          status: 400,
-        }
+        { status: 400 }
       );
     }
 
-    /*
-    ------------------------------------------------------
-    9. LIMITES
-    ------------------------------------------------------
-    */
+    // =========================================================
+    // LIMITES
+    // =========================================================
 
-    if (name.length > 120) {
+    if (name.length > 100) {
       return NextResponse.json(
         {
-          error:
-            "Nom trop long.",
+          error: "Nom trop long.",
         },
-        {
-          status: 400,
-        }
+        { status: 400 }
       );
     }
 
     if (email.length > 254) {
       return NextResponse.json(
         {
-          error:
-            "Adresse e-mail trop longue.",
+          error: "Adresse e-mail trop longue.",
         },
-        {
-          status: 400,
-        }
+        { status: 400 }
       );
     }
 
-    if (message.length > 15000) {
+    if (message.length > 20000) {
+      return NextResponse.json(
+        {
+          error: "Message trop long.",
+        },
+        { status: 400 }
+      );
+    }
+
+    // =========================================================
+    // ADRESSE DE RÉCEPTION
+    // =========================================================
+
+    const contactEmail = clean(
+      process.env.CONTACT_EMAIL
+    );
+
+    if (!contactEmail) {
+      console.error("CONTACT_EMAIL manquante.");
+
       return NextResponse.json(
         {
           error:
-            "Message trop long.",
+            "L'adresse de réception n'est pas configurée.",
         },
-        {
-          status: 400,
-        }
+        { status: 500 }
       );
     }
 
-    /*
-    ------------------------------------------------------
-    10. ENVOI VERS FORMSPREE
-    ------------------------------------------------------
-    */
+    if (!emailRegex.test(contactEmail)) {
+      console.error(
+        "CONTACT_EMAIL invalide :",
+        contactEmail
+      );
 
-    const formData = new FormData();
-
-    formData.append(
-      "_subject",
-      "Nouvelle demande de devis — NOVA Agency"
-    );
-
-    formData.append(
-      "_replyto",
-      email
-    );
-
-    formData.append(
-      "email",
-      email
-    );
-
-    formData.append(
-      "message",
-      message
-    );
-
-    /*
-    ------------------------------------------------------
-    11. APPEL FORMSPREE
-    ------------------------------------------------------
-    */
-
-    const response = await fetch(
-      FORMSPREE_ENDPOINT,
-      {
-        method: "POST",
-        body: formData,
-        headers: {
-          Accept:
-            "application/json",
-        },
-        cache: "no-store",
-      }
-    );
-
-    /*
-    ------------------------------------------------------
-    12. ERREUR FORMSPREE
-    ------------------------------------------------------
-    */
-
-    if (!response.ok) {
       return NextResponse.json(
         {
           error:
-            "Impossible d'envoyer la demande pour le moment.",
+            "L'adresse de réception configurée est invalide.",
         },
-        {
-          status: 502,
-        }
+        { status: 500 }
       );
     }
 
-    /*
-    ------------------------------------------------------
-    13. SUCCÈS
-    ------------------------------------------------------
-    */
+    // =========================================================
+    // ENVOI RESEND
+    // =========================================================
 
-    return NextResponse.json(
-      {
-        success: true,
-        message:
-          "Votre demande a bien été envoyée.",
-      },
-      {
-        status: 200,
-        headers: {
-          "Cache-Control":
-            "no-store, no-cache, must-revalidate",
+    const { data, error } =
+      await resend.emails.send({
+        from:
+          "NOVA Agency <onboarding@resend.dev>",
+
+        to: [contactEmail],
+
+        replyTo: email,
+
+        subject:
+          `Nouvelle demande de devis — ${name}`,
+
+        text: `
+NOUVELLE DEMANDE DE DEVIS — NOVA AGENCY
+
+━━━━━━━━━━━━━━━━━━━━
+
+Nom :
+${name}
+
+Email :
+${email}
+
+━━━━━━━━━━━━━━━━━━━━
+
+MESSAGE :
+
+${message}
+
+━━━━━━━━━━━━━━━━━━━━
+
+FIN DE LA DEMANDE
+        `.trim(),
+      });
+
+    // =========================================================
+    // ERREUR RESEND
+    // =========================================================
+
+    if (error) {
+      console.error(
+        "ERREUR RESEND :",
+        JSON.stringify(error, null, 2)
+      );
+
+      return NextResponse.json(
+        {
+          error:
+            "Resend n'a pas pu envoyer le message.",
         },
-      }
+        { status: 500 }
+      );
+    }
+
+    // =========================================================
+    // SUCCÈS
+    // =========================================================
+
+    console.log(
+      "Email envoyé avec succès :",
+      data?.id
     );
-  } catch {
-    /*
-    ------------------------------------------------------
-    ERREUR GÉNÉRALE
-    ------------------------------------------------------
-    */
+
+    return NextResponse.json({
+      success: true,
+      id: data?.id,
+    });
+  } catch (error) {
+    console.error(
+      "ERREUR API CONTACT :",
+      error
+    );
 
     return NextResponse.json(
       {
         error:
-          "Une erreur est survenue. Veuillez réessayer.",
+          "Une erreur est survenue lors de l'envoi.",
       },
-      {
-        status: 400,
-      }
+      { status: 500 }
     );
   }
 }

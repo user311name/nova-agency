@@ -324,30 +324,17 @@ export default function Contact() {
 
     /*
     ==========================================================
-    PROTECTION ANTI-BOT 1 — HONEYPOT
+    ANTI-BOT — HONEYPOT
     ==========================================================
     */
 
     const honeypot =
-      formData
-        .get("_gotcha")
-        ?.toString()
-        .trim() || "";
+      formData.get("_gotcha")?.toString().trim() || "";
 
     if (honeypot) {
       setSending(false);
       return;
     }
-
-    /*
-    ==========================================================
-    PROTECTION ANTI-BOT 2 — TEMPS MINIMUM
-    ==========================================================
-    */
-
-    const startedAt = Number(
-      formData.get("_form_started_at") || "0"
-    );
 
     /*
     ==========================================================
@@ -358,18 +345,13 @@ export default function Contact() {
     const getValue = (name: string) => {
       const value = formData.get(name);
 
-      return (
-        value?.toString().trim() ||
-        "Non renseigné"
-      );
+      return value?.toString().trim() || "Non renseigné";
     };
 
     const getValues = (name: string) => {
       return formData
         .getAll(name)
-        .map((value) =>
-          value.toString().trim()
-        )
+        .map((value) => value.toString().trim())
         .filter(Boolean);
     };
 
@@ -381,20 +363,17 @@ export default function Contact() {
       }
 
       return values
-        .map(
-          (value) => `• ${value}`
-        )
+        .map((value) => `• ${value}`)
         .join("\n");
     };
 
     /*
     ==========================================================
-    VALIDATION EMAIL
+    EMAIL
     ==========================================================
     */
 
-    const clientEmail =
-      getValue("Email");
+    const clientEmail = getValue("Email");
 
     const emailRegex =
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -411,19 +390,15 @@ export default function Contact() {
 
     /*
     ==========================================================
-    LIMITATION DE TAILLE
+    LIMITES
     ==========================================================
     */
 
     const description =
-      getValue(
-        "Description du projet"
-      );
+      getValue("Description du projet");
 
     const autresBesoins =
-      getValue(
-        "Autres besoins"
-      );
+      getValue("Autres besoins");
 
     if (description.length > 5000) {
       setSending(false);
@@ -435,9 +410,7 @@ export default function Contact() {
       return;
     }
 
-    if (
-      autresBesoins.length > 1500
-    ) {
+    if (autresBesoins.length > 1500) {
       setSending(false);
 
       alert(
@@ -481,65 +454,49 @@ Date souhaitée : ${getValue("Date souhaitée")}
 🌐 SITE & STRUCTURE
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions(
-  "Site et structure[]"
-)}
+${formatOptions("Site et structure[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
 🎨 DESIGN & CONTENU
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions(
-  "Design et contenu[]"
-)}
+${formatOptions("Design et contenu[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
 📞 CONTACT & RÉSERVATION
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions(
-  "Contact et réservation[]"
-)}
+${formatOptions("Contact et réservation[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
 🛒 E-COMMERCE & PAIEMENTS
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions(
-  "E-commerce et paiement[]"
-)}
+${formatOptions("E-commerce et paiement[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
 👥 COMPTES & ESPACE CLIENT
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions(
-  "Comptes et gestion[]"
-)}
+${formatOptions("Comptes et gestion[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
 🤖 IA & AUTOMATISATIONS
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions(
-  "IA et automatisations[]"
-)}
+${formatOptions("IA et automatisations[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
 🔎 SEO, LANGUES & MOBILE
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions(
-  "SEO langues et mobile[]"
-)}
+${formatOptions("SEO langues et mobile[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
 🛠️ BLOG, AVIS & MAINTENANCE
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions(
-  "Blog avis et maintenance[]"
-)}
+${formatOptions("Blog avis et maintenance[]")}
 
 ━━━━━━━━━━━━━━━━━━━━
 ➕ AUTRES BESOINS
@@ -560,40 +517,37 @@ FIN DE LA DEMANDE
 
     /*
     ==========================================================
-    ENVOI À NOTRE API SÉCURISÉE
+    ENVOI À NOTRE API RESEND
     ==========================================================
     */
 
     try {
-      const response = await fetch(
-        "/api/contact",
-        {
-          method: "POST",
+      const response = await fetch("/api/contact", {
+        method: "POST",
 
-          headers: {
-            "Content-Type":
-              "application/json",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
 
-            Accept:
-              "application/json",
-          },
+        body: JSON.stringify({
+          name: getValue("Nom"),
+          email: clientEmail,
+          message,
+          website: honeypot,
+        }),
+      });
 
-          body: JSON.stringify({
-            name: getValue("Nom"),
+      let result: {
+        success?: boolean;
+        error?: string;
+      } = {};
 
-            email: clientEmail,
-
-            message,
-
-            website: honeypot,
-
-            startedAt,
-          }),
-        }
-      );
-
-      const result =
-        await response.json();
+      try {
+        result = await response.json();
+      } catch {
+        result = {};
+      }
 
       /*
       ========================================================
@@ -622,19 +576,10 @@ FIN DE LA DEMANDE
 
       form.reset();
 
-      /*
-      Remise à zéro du timestamp
-      */
-
-      const timestampInput =
-        form.querySelector<HTMLInputElement>(
-          'input[name="_form_started_at"]'
-        );
-
-      if (timestampInput) {
-        timestampInput.value =
-          Date.now().toString();
-      }
+      window.scrollTo({
+        top: formRef.current.offsetTop - 100,
+        behavior: "smooth",
+      });
     } catch {
       alert(
         "Impossible d'envoyer la demande. Vérifiez votre connexion puis réessayez."
@@ -646,8 +591,14 @@ FIN DE LA DEMANDE
 
   return (
     <main className="contact-page">
+
+      {/* =====================================================
+          HERO
+      ===================================================== */}
+
       <section className="contact-hero">
         <div className="contact-hero-inner">
+
           <div className="contact-kicker">
             <span className="contact-kicker-line" />
 
@@ -667,14 +618,24 @@ FIN DE LA DEMANDE
             digitale adaptée à votre activité
             et à vos objectifs.
           </p>
+
         </div>
       </section>
 
+      {/* =====================================================
+          MAIN
+      ===================================================== */}
+
       <section className="contact-container">
+
+        {/* ===================================================
+            LEFT
+        =================================================== */}
+
         <div className="contact-info">
+
           <div className="contact-section-label">
             <span>01</span>
-
             <p>NOTRE APPROCHE</p>
           </div>
 
@@ -690,11 +651,16 @@ FIN DE LA DEMANDE
             devis précis, sans perdre de temps.
           </p>
 
+          {/* =================================================
+              PROCESS
+          ================================================= */}
+
           <div className="project-process">
+
             <div className="process-title">
+
               <div className="contact-section-label">
                 <span>02</span>
-
                 <p>LE PROCESSUS</p>
               </div>
 
@@ -704,19 +670,23 @@ FIN DE LA DEMANDE
                 Un résultat{" "}
                 <span>soigné.</span>
               </h3>
+
             </div>
 
             <div className="process-list">
+
               {processSteps.map((step) => (
                 <div
                   className="process-item"
                   key={step.number}
                 >
+
                   <span className="process-number">
                     {step.number}
                   </span>
 
                   <div className="process-content">
+
                     <h4>
                       {step.title}
                     </h4>
@@ -724,16 +694,28 @@ FIN DE LA DEMANDE
                     <p>
                       {step.text}
                     </p>
+
                   </div>
+
                 </div>
               ))}
+
             </div>
+
           </div>
+
         </div>
 
+        {/* ===================================================
+            FORM
+        =================================================== */}
+
         <div className="contact-form-wrapper">
+
           <div className="form-top">
+
             <div>
+
               <span className="form-label">
                 DEMANDER UN DEVIS
               </span>
@@ -743,11 +725,13 @@ FIN DE LA DEMANDE
                 <br />
                 <span>votre projet.</span>
               </h2>
+
             </div>
 
             <span className="form-index">
               NOVA / 01
             </span>
+
           </div>
 
           <p className="form-description">
@@ -762,9 +746,10 @@ FIN DE LA DEMANDE
             className="contact-form"
             onSubmit={handleSubmit}
           >
-            {/* ==================================================
-                ANTI-BOT — HONEYPOT INVISIBLE
-            ================================================== */}
+
+            {/* =================================================
+                HONEYPOT
+            ================================================= */}
 
             <div
               style={{
@@ -778,6 +763,7 @@ FIN DE LA DEMANDE
               }}
               aria-hidden="true"
             >
+
               <label htmlFor="_gotcha">
                 Ne pas remplir ce champ
               </label>
@@ -789,21 +775,17 @@ FIN DE LA DEMANDE
                 tabIndex={-1}
                 autoComplete="off"
               />
+
             </div>
 
-            {/* ==================================================
-                TIMESTAMP ANTI-BOT
-            ================================================== */}
-
-            <input
-              type="hidden"
-              name="_form_started_at"
-              value={Date.now()}
-              readOnly
-            />
+            {/* =================================================
+                NOM / ENTREPRISE
+            ================================================= */}
 
             <div className="form-row">
+
               <div className="form-field">
+
                 <label htmlFor="nom">
                   Nom <span>*</span>
                 </label>
@@ -817,9 +799,11 @@ FIN DE LA DEMANDE
                   autoComplete="name"
                   required
                 />
+
               </div>
 
               <div className="form-field">
+
                 <label htmlFor="entreprise">
                   Entreprise
                 </label>
@@ -832,11 +816,19 @@ FIN DE LA DEMANDE
                   maxLength={150}
                   autoComplete="organization"
                 />
+
               </div>
+
             </div>
 
+            {/* =================================================
+                EMAIL / TELEPHONE
+            ================================================= */}
+
             <div className="form-row">
+
               <div className="form-field">
+
                 <label htmlFor="email">
                   Email <span>*</span>
                 </label>
@@ -850,9 +842,11 @@ FIN DE LA DEMANDE
                   autoComplete="email"
                   required
                 />
+
               </div>
 
               <div className="form-field">
+
                 <label htmlFor="telephone">
                   Téléphone
                 </label>
@@ -865,11 +859,19 @@ FIN DE LA DEMANDE
                   maxLength={30}
                   autoComplete="tel"
                 />
+
               </div>
+
             </div>
 
+            {/* =================================================
+                BUDGET / DATE
+            ================================================= */}
+
             <div className="form-row">
+
               <div className="form-field">
+
                 <label htmlFor="budget">
                   Budget approximatif
                 </label>
@@ -879,6 +881,7 @@ FIN DE LA DEMANDE
                   name="Budget approximatif"
                   defaultValue=""
                 >
+
                   <option value="">
                     Je ne sais pas encore
                   </option>
@@ -902,10 +905,13 @@ FIN DE LA DEMANDE
                   <option>
                     Plus de 8 000 €
                   </option>
+
                 </select>
+
               </div>
 
               <div className="form-field">
+
                 <label htmlFor="delai">
                   Date souhaitée
                 </label>
@@ -917,20 +923,30 @@ FIN DE LA DEMANDE
                   placeholder="Ex. Octobre 2026"
                   maxLength={100}
                 />
+
               </div>
+
             </div>
 
+            {/* =================================================
+                OPTIONS
+            ================================================= */}
+
             <div className="quote-options">
+
               <p className="quote-options-title">
                 Sélectionnez les éléments souhaités
               </p>
 
               {quoteSections.map((section) => (
+
                 <details
                   className="quote-section"
                   key={section.title}
                 >
+
                   <summary>
+
                     <span>
                       {section.title}
                     </span>
@@ -941,15 +957,19 @@ FIN DE LA DEMANDE
                     >
                       +
                     </span>
+
                   </summary>
 
                   <div className="quote-checkboxes">
+
                     {section.options.map(
                       (option) => (
+
                         <label
                           className="quote-choice"
                           key={option}
                         >
+
                           <input
                             type="checkbox"
                             name={`${section.name}[]`}
@@ -959,15 +979,26 @@ FIN DE LA DEMANDE
                           <span>
                             {option}
                           </span>
+
                         </label>
+
                       )
                     )}
+
                   </div>
+
                 </details>
+
               ))}
+
             </div>
 
+            {/* =================================================
+                AUTRES BESOINS
+            ================================================= */}
+
             <div className="form-field">
+
               <label htmlFor="autre">
                 Autres besoins ou fonctionnalités
               </label>
@@ -979,9 +1010,15 @@ FIN DE LA DEMANDE
                 placeholder="Ex. un système particulier, une idée, une intégration..."
                 maxLength={1500}
               />
+
             </div>
 
+            {/* =================================================
+                DESCRIPTION
+            ================================================= */}
+
             <div className="form-field">
+
               <label htmlFor="message">
                 Décrivez votre projet{" "}
                 <span>*</span>
@@ -994,17 +1031,32 @@ FIN DE LA DEMANDE
                 maxLength={5000}
                 required
               />
+
             </div>
 
+            {/* =================================================
+                SUCCESS
+            ================================================= */}
+
             {sent && (
-              <p className="form-success">
+
+              <p
+                className="form-success"
+                role="status"
+              >
                 Votre demande a bien été envoyée.
                 Nous reviendrons vers vous
                 rapidement.
               </p>
+
             )}
 
+            {/* =================================================
+                BOTTOM
+            ================================================= */}
+
             <div className="form-bottom">
+
               <p>
                 Vos informations servent
                 uniquement à répondre à votre
@@ -1016,24 +1068,41 @@ FIN DE LA DEMANDE
                 disabled={sending}
                 aria-busy={sending}
               >
+
                 <span>
                   {sending
                     ? "ENVOI EN COURS..."
-                    : "ENVOYER LA DEMANDE"}
+                    : "ENVOYER LE DEVIS"}
                 </span>
 
-                <strong>↗</strong>
+                <strong aria-hidden="true">
+                  ↗
+                </strong>
+
               </button>
+
             </div>
+
           </form>
+
         </div>
+
       </section>
 
+      {/* =====================================================
+          BOTTOM
+      ===================================================== */}
+
       <section className="contact-bottom">
+
         <div className="bottom-label">
+
           <span>03</span>
 
-          <p>LA SUITE</p>
+          <p>
+            LA SUITE
+          </p>
+
         </div>
 
         <h2>
@@ -1048,10 +1117,14 @@ FIN DE LA DEMANDE
         </p>
 
         <Link href="/">
-          RETOUR À L&apos;ACCUEIL{" "}
-          <span>↗</span>
+          RETOUR À L&apos;ACCUEIL
+          <span aria-hidden="true">
+            ↗
+          </span>
         </Link>
+
       </section>
+
     </main>
   );
 }

@@ -5,6 +5,7 @@
 
 .contact-page {
   min-height: 100vh;
+
   background:
     radial-gradient(
       circle at 80% 8%,
@@ -12,7 +13,9 @@
       transparent 28%
     ),
     #050505;
+
   color: #fff;
+
   overflow: hidden;
 }
 
@@ -22,45 +25,57 @@
 
 .contact-hero {
   position: relative;
+
   padding: 150px 8% 120px;
+
   border-bottom: 1px solid #181818;
 }
 
 .contact-hero::before {
   content: "";
+
   position: absolute;
+
   top: 0;
   right: 8%;
+
   width: 1px;
   height: 180px;
-  background: linear-gradient(
-    to bottom,
-    rgba(37, 99, 235, 0.7),
-    transparent
-  );
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(37, 99, 235, 0.7),
+      transparent
+    );
 }
 
 .contact-hero-inner {
   max-width: 1180px;
+
   margin: 0 auto;
 }
 
 .contact-kicker {
   display: flex;
   align-items: center;
+
   gap: 14px;
 
   margin-bottom: 32px;
 
   color: #777;
+
   font-size: 11px;
   font-weight: 500;
+
   letter-spacing: 4px;
 }
 
 .contact-kicker-line {
   width: 34px;
   height: 1px;
+
   background: #2563eb;
 }
 
@@ -70,8 +85,11 @@
   margin: 0;
 
   font-size: clamp(52px, 7vw, 96px);
+
   line-height: 0.98;
+
   letter-spacing: -4px;
+
   font-weight: 400;
 }
 
@@ -85,7 +103,9 @@
   margin: 38px 0 0;
 
   color: #8a8a8a;
+
   font-size: 17px;
+
   line-height: 1.8;
 }
 
@@ -97,17 +117,22 @@
   position: relative;
 
   max-width: 1180px;
+
   margin: 0 auto;
 
   padding: 110px 0 130px;
 
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+
+  grid-template-columns:
+    minmax(0, 0.9fr)
+    minmax(420px, 1.1fr);
+
   gap: 110px;
 }
 
 /* =========================================================
-   LEFT SIDE
+   LEFT
 ========================================================= */
 
 .contact-info {
@@ -117,6 +142,7 @@
 .contact-section-label {
   display: flex;
   align-items: center;
+
   gap: 16px;
 
   margin-bottom: 28px;
@@ -124,8 +150,11 @@
 
 .contact-section-label span {
   color: #2563eb;
+
   font-size: 11px;
+
   font-weight: 600;
+
   letter-spacing: 2px;
 }
 
@@ -133,8 +162,11 @@
   margin: 0;
 
   color: #666;
+
   font-size: 10px;
+
   font-weight: 500;
+
   letter-spacing: 4px;
 }
 
@@ -142,8 +174,11 @@
   margin: 0;
 
   font-size: clamp(40px, 4vw, 58px);
+
   line-height: 1.05;
+
   letter-spacing: -2px;
+
   font-weight: 400;
 }
 
@@ -157,52 +192,10 @@
   margin: 28px 0 0;
 
   color: #7d7d7d;
+
   font-size: 16px;
+
   line-height: 1.85;
-}
-
-/* =========================================================
-   REASSURANCE
-========================================================= */
-
-.contact-points {
-  margin-top: 55px;
-
-  border-top: 1px solid #1d1d1d;
-}
-
-.contact-point {
-  display: grid;
-  grid-template-columns: 48px 1fr;
-  gap: 20px;
-
-  padding: 24px 0;
-
-  border-bottom: 1px solid #1d1d1d;
-}
-
-.point-number {
-  color: #3f3f3f;
-
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 2px;
-}
-
-.contact-point strong {
-  display: block;
-
-  color: #e7e7e7;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.contact-point p {
-  margin: 7px 0 0;
-
-  color: #666;
-  font-size: 13px;
-  line-height: 1.6;
 }
 
 /* =========================================================
@@ -211,6 +204,7 @@
 
 .project-process {
   margin-top: 100px;
+
   padding-top: 38px;
 
   border-top: 1px solid #1d1d1d;
@@ -220,8 +214,11 @@
   margin: 0 0 42px;
 
   font-size: clamp(30px, 3vw, 42px);
+
   line-height: 1.1;
+
   letter-spacing: -1.5px;
+
   font-weight: 400;
 }
 
@@ -237,7 +234,9 @@
   content: "";
 
   position: absolute;
+
   left: 5px;
+
   top: 7px;
   bottom: 7px;
 
@@ -250,7 +249,9 @@
   position: relative;
 
   display: grid;
+
   grid-template-columns: 12px 1fr;
+
   gap: 25px;
 
   padding-bottom: 34px;
@@ -262,6 +263,7 @@
 
 .process-number {
   position: relative;
+
   z-index: 2;
 
   width: 11px;
@@ -270,6 +272,7 @@
   margin-top: 3px;
 
   border: 2px solid #2563eb;
+
   border-radius: 50%;
 
   background: #050505;
@@ -281,7 +284,9 @@
   margin: 0;
 
   color: #e8e8e8;
+
   font-size: 15px;
+
   font-weight: 500;
 }
 
@@ -291,7 +296,9 @@
   margin: 8px 0 0;
 
   color: #666;
+
   font-size: 13px;
+
   line-height: 1.7;
 }
 
@@ -312,6 +319,7 @@
     );
 
   border: 1px solid #252525;
+
   border-radius: 2px;
 
   box-shadow:
@@ -323,6 +331,7 @@
   content: "";
 
   position: absolute;
+
   top: -1px;
   left: 40px;
 
@@ -334,7 +343,9 @@
 
 .form-top {
   display: flex;
+
   align-items: flex-start;
+
   justify-content: space-between;
 
   gap: 20px;
@@ -346,8 +357,11 @@
   margin-bottom: 20px;
 
   color: #666;
+
   font-size: 10px;
+
   font-weight: 600;
+
   letter-spacing: 4px;
 }
 
@@ -355,8 +369,11 @@
   margin: 0;
 
   font-size: clamp(34px, 3.5vw, 48px);
+
   line-height: 1;
+
   letter-spacing: -2px;
+
   font-weight: 400;
 }
 
@@ -368,7 +385,9 @@
   color: #444;
 
   font-size: 10px;
+
   font-weight: 600;
+
   letter-spacing: 2px;
 
   white-space: nowrap;
@@ -378,7 +397,9 @@
   margin: 22px 0 42px;
 
   color: #707070;
+
   font-size: 13px;
+
   line-height: 1.6;
 }
 
@@ -388,19 +409,25 @@
 
 .contact-form {
   display: flex;
+
   flex-direction: column;
+
   gap: 24px;
 }
 
 .form-row {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
+
   gap: 18px;
 }
 
 .form-field {
   display: flex;
+
   flex-direction: column;
+
   gap: 10px;
 }
 
@@ -408,8 +435,11 @@
   color: #8b8b8b;
 
   font-size: 10px;
+
   font-weight: 600;
+
   letter-spacing: 2px;
+
   text-transform: uppercase;
 }
 
@@ -421,17 +451,21 @@
 .contact-form textarea,
 .contact-form select {
   width: 100%;
+
   box-sizing: border-box;
 
   border: 1px solid #292929;
+
   border-radius: 0;
 
   outline: none;
 
   background: #080808;
+
   color: #fff;
 
   font-family: inherit;
+
   font-size: 14px;
 
   transition:
@@ -443,14 +477,17 @@
 .contact-form input,
 .contact-form select {
   min-height: 54px;
+
   padding: 0 16px;
 }
 
 .contact-form textarea {
   min-height: 155px;
+
   padding: 16px;
 
   resize: vertical;
+
   line-height: 1.6;
 }
 
@@ -463,8 +500,16 @@
   appearance: none;
 
   background-image:
-    linear-gradient(45deg, transparent 50%, #555 50%),
-    linear-gradient(135deg, #555 50%, transparent 50%);
+    linear-gradient(
+      45deg,
+      transparent 50%,
+      #555 50%
+    ),
+    linear-gradient(
+      135deg,
+      #555 50%,
+      transparent 50%
+    );
 
   background-position:
     calc(100% - 19px) 23px,
@@ -496,328 +541,26 @@
 }
 
 /* =========================================================
-   FORM BOTTOM
+   QUOTE OPTIONS
 ========================================================= */
 
-.form-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 25px;
-
-  margin-top: 5px;
-  padding-top: 25px;
-
-  border-top: 1px solid #1d1d1d;
-}
-
-.form-bottom p {
-  max-width: 240px;
-
-  margin: 0;
-
-  color: #555;
-  font-size: 11px;
-  line-height: 1.6;
-}
-
-.form-bottom button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 30px;
-
-  min-height: 52px;
-  min-width: 220px;
-
-  padding: 0 18px 0 22px;
-
-  border: 1px solid #2563eb;
-  border-radius: 0;
-
-  background: #2563eb;
-  color: #fff;
-
-  cursor: pointer;
-
-  font-family: inherit;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 2px;
-
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.form-bottom button strong {
-  font-size: 18px;
-  font-weight: 400;
-}
-
-.form-bottom button:hover {
-  background: #1d4ed8;
-  border-color: #1d4ed8;
-
-  transform: translateY(-2px);
-
-  box-shadow:
-    0 15px 35px rgba(37, 99, 235, 0.18);
-}
-
-.form-bottom button:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 4px;
-}
-
-/* =========================================================
-   BOTTOM CTA
-========================================================= */
-
-.contact-bottom {
-  position: relative;
-
-  margin: 0 8%;
-  padding: 120px 0 140px;
-
-  text-align: center;
-
-  border-top: 1px solid #181818;
-}
-
-.bottom-label {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-
-  margin-bottom: 28px;
-}
-
-.bottom-label span {
-  color: #2563eb;
-
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 2px;
-}
-
-.bottom-label p {
-  margin: 0;
-
-  color: #555;
-
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 4px;
-}
-
-.contact-bottom h2 {
-  margin: 0;
-
-  font-size: clamp(42px, 6vw, 76px);
-  line-height: 1;
-  letter-spacing: -3px;
-  font-weight: 400;
-}
-
-.contact-bottom h2 span {
-  color: #2563eb;
-}
-
-.contact-bottom > p {
-  margin: 25px 0 35px;
-
-  color: #666;
-  font-size: 15px;
-}
-
-.contact-bottom > a {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-
-  color: #fff;
-
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 3px;
-
-  text-decoration: none;
-
-  transition:
-    color 0.2s ease,
-    gap 0.2s ease;
-}
-
-.contact-bottom > a span {
-  color: #2563eb;
-  font-size: 16px;
-}
-
-.contact-bottom > a:hover {
-  color: #2563eb;
-  gap: 17px;
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 1050px) {
-  .contact-container {
-    padding-left: 25px;
-    padding-right: 25px;
-
-    grid-template-columns: 1fr;
-    gap: 80px;
-  }
-
-  .contact-hero {
-    padding-left: 25px;
-    padding-right: 25px;
-  }
-
-  .contact-hero-inner {
-    max-width: 900px;
-  }
-
-  .contact-form-wrapper {
-    max-width: 760px;
-  }
-}
-
-@media (max-width: 700px) {
-  .contact-hero {
-    padding: 100px 20px 75px;
-  }
-
-  .contact-hero::before {
-    right: 20px;
-    height: 100px;
-  }
-
-  .contact-kicker {
-    margin-bottom: 24px;
-    font-size: 9px;
-    letter-spacing: 3px;
-  }
-
-  .contact-hero h1 {
-    font-size: 47px;
-    line-height: 1;
-    letter-spacing: -2.5px;
-  }
-
-  .contact-hero p {
-    margin-top: 28px;
-
-    font-size: 15px;
-    line-height: 1.7;
-  }
-
-  .contact-container {
-    padding: 75px 20px 90px;
-    gap: 70px;
-  }
-
-  .contact-info h2 {
-    font-size: 42px;
-    letter-spacing: -1.5px;
-  }
-
-  .contact-intro {
-    font-size: 15px;
-  }
-
-  .contact-points {
-    margin-top: 40px;
-  }
-
-  .contact-point {
-    grid-template-columns: 38px 1fr;
-    gap: 14px;
-    padding: 20px 0;
-  }
-
-  .project-process {
-    margin-top: 70px;
-  }
-
-  .process-title h3 {
-    font-size: 31px;
-  }
-
-  .contact-form-wrapper {
-    padding: 30px 22px 24px;
-  }
-
-  .form-top h2 {
-    font-size: 35px;
-  }
-
-  .form-index {
-    display: none;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .contact-form {
-    gap: 22px;
-  }
-
-  .form-bottom {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .form-bottom p {
-    max-width: 100%;
-  }
-
-  .form-bottom button {
-    width: 100%;
-  }
-
-  .contact-bottom {
-    margin: 0 20px;
-    padding: 90px 0 110px;
-  }
-
-  .contact-bottom h2 {
-    font-size: 43px;
-    letter-spacing: -2px;
-  }
-}
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-  .contact-form input,
-  .contact-form textarea,
-  .contact-form select,
-  .form-bottom button,
-  .contact-bottom > a {
-    transition: none;
-  }
-}.quote-options {
+.quote-options {
   display: grid;
+
   gap: 10px;
+
   margin: 10px 0 8px;
 }
 
 .quote-options-title {
   margin: 0 0 4px;
+
+  color: #777;
+
   font-size: 11px;
+
   letter-spacing: 0.08em;
+
   text-transform: uppercase;
 }
 
@@ -831,56 +574,22 @@
 
 .quote-section summary {
   display: flex;
+
+  align-items: center;
+
   justify-content: space-between;
+
+  gap: 15px;
+
   padding: 16px 0;
+
   cursor: pointer;
+
   font-weight: 600;
+
   list-style: none;
-}
 
-.quote-section summary::-webkit-details-marker {
-  display: none;
-}
-
-.quote-section summary::after {
-  content: "+";
-  font-size: 20px;
-  font-weight: 300;
-}
-
-.quote-section[open] summary::after {
-  content: "−";
-}
-
-.quote-checkboxes {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  padding: 2px 0 18px;
-}
-
-.quote-choice {
-  display: flex;
-  align-items: flex-start;
-  gap: 9px;
-  font-size: 13px;
-  line-height: 1.4;
-  cursor: pointer;
-}
-
-.quote-choice input {
-  width: 16px;
-  height: 16px;
-  margin: 1px 0 0;
-  accent-color: #ffffff;
-}
-
-@media (max-width: 600px) {
-  .quote-checkboxes {
-    grid-template-columns: 1fr;
-  }
-}.quote-section summary {
-  list-style: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .quote-section summary::-webkit-details-marker {
@@ -889,4 +598,555 @@
 
 .quote-section summary::marker {
   display: none;
+}
+
+.quote-section-icon {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 24px;
+  height: 24px;
+
+  flex-shrink: 0;
+
+  color: #2563eb;
+
+  font-size: 22px;
+
+  font-weight: 300;
+
+  line-height: 1;
+
+  transition:
+    transform 0.2s ease;
+}
+
+.quote-section[open]
+.quote-section-icon {
+  transform: rotate(45deg);
+}
+
+.quote-checkboxes {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+
+  padding: 2px 0 18px;
+}
+
+.quote-choice {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 9px;
+
+  font-size: 13px;
+
+  line-height: 1.4;
+
+  cursor: pointer;
+}
+
+.quote-choice input {
+  width: 16px;
+  height: 16px;
+
+  margin: 1px 0 0;
+
+  accent-color: #ffffff;
+}
+
+/* =========================================================
+   SUCCESS MESSAGE
+========================================================= */
+
+.form-success {
+  margin: 0;
+
+  padding: 16px;
+
+  border: 1px solid rgba(37, 99, 235, 0.35);
+
+  background: rgba(37, 99, 235, 0.08);
+
+  color: #dbeafe;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+/* =========================================================
+   FORM BOTTOM
+========================================================= */
+
+.form-bottom {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 25px;
+
+  margin-top: 5px;
+
+  padding-top: 25px;
+
+  border-top: 1px solid #1d1d1d;
+}
+
+.form-bottom p {
+  max-width: 240px;
+
+  margin: 0;
+
+  color: #555;
+
+  font-size: 11px;
+
+  line-height: 1.6;
+}
+
+.form-bottom button {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 30px;
+
+  min-height: 52px;
+
+  min-width: 220px;
+
+  padding: 0 18px 0 22px;
+
+  border: 1px solid #2563eb;
+
+  border-radius: 0;
+
+  background: #2563eb;
+
+  color: #fff;
+
+  cursor: pointer;
+
+  font-family: inherit;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 2px;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-bottom button strong {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 22px;
+  height: 22px;
+
+  flex-shrink: 0;
+
+  font-size: 20px;
+
+  font-weight: 400;
+
+  line-height: 1;
+}
+
+.form-bottom button:hover:not(:disabled) {
+  background: #1d4ed8;
+
+  border-color: #1d4ed8;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 15px 35px rgba(37, 99, 235, 0.18);
+}
+
+.form-bottom button:focus-visible {
+  outline: 2px solid #fff;
+
+  outline-offset: 4px;
+}
+
+.form-bottom button:disabled {
+  opacity: 0.65;
+
+  cursor: wait;
+
+  transform: none;
+
+  box-shadow: none;
+}
+
+/* =========================================================
+   BOTTOM CTA
+========================================================= */
+
+.contact-bottom {
+  position: relative;
+
+  margin: 0 8%;
+
+  padding: 120px 0 140px;
+
+  text-align: center;
+
+  border-top: 1px solid #181818;
+}
+
+.bottom-label {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 15px;
+
+  margin-bottom: 28px;
+}
+
+.bottom-label span {
+  color: #2563eb;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  letter-spacing: 2px;
+}
+
+.bottom-label p {
+  margin: 0;
+
+  color: #555;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 4px;
+}
+
+.contact-bottom h2 {
+  margin: 0;
+
+  font-size: clamp(42px, 6vw, 76px);
+
+  line-height: 1;
+
+  letter-spacing: -3px;
+
+  font-weight: 400;
+}
+
+.contact-bottom h2 span {
+  color: #2563eb;
+}
+
+.contact-bottom > p {
+  margin: 25px 0 35px;
+
+  color: #666;
+
+  font-size: 15px;
+}
+
+.contact-bottom > a {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  color: #fff;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 3px;
+
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    gap 0.2s ease;
+}
+
+.contact-bottom > a span {
+  color: #2563eb;
+
+  font-size: 16px;
+}
+
+.contact-bottom > a:hover {
+  color: #2563eb;
+
+  gap: 17px;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+  .contact-container {
+    padding-left: 25px;
+
+    padding-right: 25px;
+
+    grid-template-columns: 1fr;
+
+    gap: 80px;
+  }
+
+  .contact-hero {
+    padding-left: 25px;
+
+    padding-right: 25px;
+  }
+
+  .contact-hero-inner {
+    max-width: 900px;
+  }
+
+  .contact-form-wrapper {
+    max-width: 760px;
+
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+}
+
+/* =========================================================
+   MOBILE PHONE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .contact-hero {
+    padding: 100px 20px 75px;
+  }
+
+  .contact-hero::before {
+    right: 20px;
+
+    height: 100px;
+  }
+
+  .contact-kicker {
+    margin-bottom: 24px;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+  }
+
+  .contact-hero h1 {
+    font-size: 47px;
+
+    line-height: 1;
+
+    letter-spacing: -2.5px;
+  }
+
+  .contact-hero p {
+    margin-top: 28px;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+  }
+
+  .contact-container {
+    padding: 75px 20px 90px;
+
+    gap: 70px;
+  }
+
+  .contact-info h2 {
+    font-size: 42px;
+
+    letter-spacing: -1.5px;
+  }
+
+  .contact-intro {
+    font-size: 15px;
+  }
+
+  .project-process {
+    margin-top: 70px;
+  }
+
+  .process-title h3 {
+    font-size: 31px;
+  }
+
+  .contact-form-wrapper {
+    padding: 30px 22px 24px;
+
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .form-top h2 {
+    font-size: 35px;
+  }
+
+  .form-index {
+    display: none;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+
+    gap: 24px;
+  }
+
+  .contact-form {
+    gap: 22px;
+  }
+
+  /*
+  ==========================================================
+  FLÈCHES / CATÉGORIES SUR TÉLÉPHONE
+  ==========================================================
+  */
+
+  .quote-section summary {
+    min-height: 54px;
+
+    padding: 14px 0;
+
+    touch-action: manipulation;
+  }
+
+  .quote-section-icon {
+    width: 30px;
+    height: 30px;
+
+    font-size: 23px;
+  }
+
+  .quote-checkboxes {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  /*
+  ==========================================================
+  BOUTON DEVIS
+  ==========================================================
+  */
+
+  .form-bottom {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+  .form-bottom p {
+    max-width: 100%;
+  }
+
+  .form-bottom button {
+    width: 100%;
+
+    min-height: 56px;
+  }
+
+  .form-bottom button strong {
+    font-size: 21px;
+  }
+
+  /*
+  ==========================================================
+  BOTTOM
+  ==========================================================
+  */
+
+  .contact-bottom {
+    margin: 0 20px;
+
+    padding: 90px 0 110px;
+  }
+
+  .contact-bottom h2 {
+    font-size: 43px;
+
+    letter-spacing: -2px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .contact-hero h1 {
+    font-size: 40px;
+  }
+
+  .contact-form-wrapper {
+    padding: 26px 17px 22px;
+  }
+
+  .form-top h2 {
+    font-size: 31px;
+  }
+
+  .form-bottom button {
+    min-width: 0;
+
+    padding-left: 18px;
+
+    padding-right: 16px;
+
+    gap: 15px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .contact-form input,
+  .contact-form textarea,
+  .contact-form select,
+  .form-bottom button,
+  .contact-bottom > a,
+  .quote-section-icon {
+    transition: none;
+  }
 }

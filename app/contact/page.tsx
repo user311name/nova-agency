@@ -301,10 +301,9 @@ const quoteSections = [
   },
 ];
 
-const FORM_ENDPOINT = "https://formspree.io/f/mgawenka";
-
 export default function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
+
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
@@ -313,23 +312,27 @@ export default function Contact() {
   ) {
     e.preventDefault();
 
-    if (!formRef.current || sending) return;
+    if (!formRef.current || sending) {
+      return;
+    }
 
     setSending(true);
     setSent(false);
 
-    const formData = new FormData(formRef.current);
+    const form = formRef.current;
+    const formData = new FormData(form);
 
     /*
-      ==========================================================
-      PROTECTION ANTI-BOT 1 — HONEYPOT
-      ==========================================================
-
-      Un vrai visiteur ne voit pas ce champ.
-      Beaucoup de bots remplissent automatiquement tous les champs.
+    ==========================================================
+    PROTECTION ANTI-BOT 1 — HONEYPOT
+    ==========================================================
     */
 
-    const honeypot = formData.get("_gotcha")?.toString().trim();
+    const honeypot =
+      formData
+        .get("_gotcha")
+        ?.toString()
+        .trim() || "";
 
     if (honeypot) {
       setSending(false);
@@ -337,38 +340,19 @@ export default function Contact() {
     }
 
     /*
-      ==========================================================
-      PROTECTION ANTI-BOT 2 — TEMPS MINIMUM
-      ==========================================================
-
-      Le champ est rempli au chargement de la page.
-      Si le formulaire est envoyé presque instantanément,
-      on considère que cela peut être un bot.
+    ==========================================================
+    PROTECTION ANTI-BOT 2 — TEMPS MINIMUM
+    ==========================================================
     */
 
     const startedAt = Number(
       formData.get("_form_started_at") || "0"
     );
 
-    const now = Date.now();
-
-    if (
-      !startedAt ||
-      now - startedAt < 2500
-    ) {
-      setSending(false);
-
-      alert(
-        "Veuillez prendre quelques secondes pour remplir le formulaire."
-      );
-
-      return;
-    }
-
     /*
-      ==========================================================
-      RÉCUPÉRATION DES VALEURS
-      ==========================================================
+    ==========================================================
+    RÉCUPÉRATION DES VALEURS
+    ==========================================================
     */
 
     const getValue = (name: string) => {
@@ -383,7 +367,9 @@ export default function Contact() {
     const getValues = (name: string) => {
       return formData
         .getAll(name)
-        .map((value) => value.toString().trim())
+        .map((value) =>
+          value.toString().trim()
+        )
         .filter(Boolean);
     };
 
@@ -395,17 +381,20 @@ export default function Contact() {
       }
 
       return values
-        .map((value) => `• ${value}`)
+        .map(
+          (value) => `• ${value}`
+        )
         .join("\n");
     };
 
     /*
-      ==========================================================
-      VALIDATION EMAIL
-      ==========================================================
+    ==========================================================
+    VALIDATION EMAIL
+    ==========================================================
     */
 
-    const clientEmail = getValue("Email");
+    const clientEmail =
+      getValue("Email");
 
     const emailRegex =
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -421,18 +410,20 @@ export default function Contact() {
     }
 
     /*
-      ==========================================================
-      LIMITATION DE TAILLE
-      ==========================================================
+    ==========================================================
+    LIMITATION DE TAILLE
+    ==========================================================
     */
 
-    const description = getValue(
-      "Description du projet"
-    );
+    const description =
+      getValue(
+        "Description du projet"
+      );
 
-    const autresBesoins = getValue(
-      "Autres besoins"
-    );
+    const autresBesoins =
+      getValue(
+        "Autres besoins"
+      );
 
     if (description.length > 5000) {
       setSending(false);
@@ -444,7 +435,9 @@ export default function Contact() {
       return;
     }
 
-    if (autresBesoins.length > 1500) {
+    if (
+      autresBesoins.length > 1500
+    ) {
       setSending(false);
 
       alert(
@@ -455,9 +448,9 @@ export default function Contact() {
     }
 
     /*
-      ==========================================================
-      CONSTRUCTION DU MESSAGE
-      ==========================================================
+    ==========================================================
+    CONSTRUCTION DU MESSAGE
+    ==========================================================
     */
 
     const message = `
@@ -488,49 +481,65 @@ Date souhaitée : ${getValue("Date souhaitée")}
 🌐 SITE & STRUCTURE
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Site et structure[]")}
+${formatOptions(
+  "Site et structure[]"
+)}
 
 ━━━━━━━━━━━━━━━━━━━━
 🎨 DESIGN & CONTENU
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Design et contenu[]")}
+${formatOptions(
+  "Design et contenu[]"
+)}
 
 ━━━━━━━━━━━━━━━━━━━━
 📞 CONTACT & RÉSERVATION
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Contact et réservation[]")}
+${formatOptions(
+  "Contact et réservation[]"
+)}
 
 ━━━━━━━━━━━━━━━━━━━━
 🛒 E-COMMERCE & PAIEMENTS
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("E-commerce et paiement[]")}
+${formatOptions(
+  "E-commerce et paiement[]"
+)}
 
 ━━━━━━━━━━━━━━━━━━━━
 👥 COMPTES & ESPACE CLIENT
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Comptes et gestion[]")}
+${formatOptions(
+  "Comptes et gestion[]"
+)}
 
 ━━━━━━━━━━━━━━━━━━━━
 🤖 IA & AUTOMATISATIONS
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("IA et automatisations[]")}
+${formatOptions(
+  "IA et automatisations[]"
+)}
 
 ━━━━━━━━━━━━━━━━━━━━
 🔎 SEO, LANGUES & MOBILE
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("SEO langues et mobile[]")}
+${formatOptions(
+  "SEO langues et mobile[]"
+)}
 
 ━━━━━━━━━━━━━━━━━━━━
 🛠️ BLOG, AVIS & MAINTENANCE
 ━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Blog avis et maintenance[]")}
+${formatOptions(
+  "Blog avis et maintenance[]"
+)}
 
 ━━━━━━━━━━━━━━━━━━━━
 ➕ AUTRES BESOINS
@@ -550,107 +559,81 @@ FIN DE LA DEMANDE
 `;
 
     /*
-      ==========================================================
-      DONNÉES ENVOYÉES À FORMSPREE
-      ==========================================================
+    ==========================================================
+    ENVOI À NOTRE API SÉCURISÉE
+    ==========================================================
     */
-
-    const data = new FormData();
-
-    data.append(
-      "_subject",
-      "Nouvelle demande de devis — NOVA Agency"
-    );
-
-    /*
-      Reply-To :
-      permet de répondre directement au client depuis
-      le mail reçu, selon la configuration Formspree.
-    */
-
-    data.append(
-      "_replyto",
-      clientEmail
-    );
-
-    data.append(
-      "email",
-      clientEmail
-    );
-
-    data.append(
-      "message",
-      message
-    );
-
-    /*
-      Le honeypot est également transmis à Formspree.
-      Formspree peut ainsi appliquer son propre filtrage.
-    */
-
-    data.append(
-      "_gotcha",
-      honeypot || ""
-    );
 
     try {
       const response = await fetch(
-        FORM_ENDPOINT,
+        "/api/contact",
         {
           method: "POST",
-          body: data,
+
           headers: {
-            Accept: "application/json",
+            "Content-Type":
+              "application/json",
+
+            Accept:
+              "application/json",
           },
+
+          body: JSON.stringify({
+            name: getValue("Nom"),
+
+            email: clientEmail,
+
+            message,
+
+            website: honeypot,
+
+            startedAt,
+          }),
         }
       );
 
-      if (response.ok) {
-        setSent(true);
+      const result =
+        await response.json();
 
-        formRef.current.reset();
+      /*
+      ========================================================
+      ERREUR
+      ========================================================
+      */
 
-        /*
-          On remet le timestamp après l'envoi
-          pour éviter une soumission immédiate répétée.
-        */
+      if (!response.ok) {
+        setSending(false);
 
-        const timestampInput =
-          formRef.current.querySelector<HTMLInputElement>(
-            'input[name="_form_started_at"]'
-          );
+        alert(
+          result?.error ||
+            "Une erreur est survenue. Veuillez réessayer."
+        );
 
-        if (timestampInput) {
-          timestampInput.value =
-            Date.now().toString();
-        }
-      } else {
-        let errorMessage =
-          "Une erreur est survenue. Veuillez réessayer.";
+        return;
+      }
 
-        try {
-          const result =
-            await response.json();
+      /*
+      ========================================================
+      SUCCÈS
+      ========================================================
+      */
 
-          if (
-            result?.errors?.length
-          ) {
-            errorMessage =
-              result.errors
-                .map(
-                  (error: {
-                    message?: string;
-                  }) =>
-                    error.message || ""
-                )
-                .filter(Boolean)
-                .join("\n");
-          }
-        } catch {
-          // On garde le message par défaut.
-        }
+      setSent(true);
 
-        alert(errorMessage);
+      form.reset();
+
+      /*
+      Remise à zéro du timestamp
+      */
+
+      const timestampInput =
+        form.querySelector<HTMLInputElement>(
+          'input[name="_form_started_at"]'
+        );
+
+      if (timestampInput) {
+        timestampInput.value =
+          Date.now().toString();
       }
     } catch {
       alert(
@@ -667,6 +650,7 @@ FIN DE LA DEMANDE
         <div className="contact-hero-inner">
           <div className="contact-kicker">
             <span className="contact-kicker-line" />
+
             <span>
               PARLONS DE VOTRE PROJET
             </span>
@@ -690,6 +674,7 @@ FIN DE LA DEMANDE
         <div className="contact-info">
           <div className="contact-section-label">
             <span>01</span>
+
             <p>NOTRE APPROCHE</p>
           </div>
 
@@ -709,6 +694,7 @@ FIN DE LA DEMANDE
             <div className="process-title">
               <div className="contact-section-label">
                 <span>02</span>
+
                 <p>LE PROCESSUS</p>
               </div>
 
@@ -731,9 +717,13 @@ FIN DE LA DEMANDE
                   </span>
 
                   <div className="process-content">
-                    <h4>{step.title}</h4>
+                    <h4>
+                      {step.title}
+                    </h4>
 
-                    <p>{step.text}</p>
+                    <p>
+                      {step.text}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -1042,6 +1032,7 @@ FIN DE LA DEMANDE
       <section className="contact-bottom">
         <div className="bottom-label">
           <span>03</span>
+
           <p>LA SUITE</p>
         </div>
 

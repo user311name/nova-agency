@@ -1,0 +1,107 @@
+"use client";
+
+import { FormEvent, useState } from "react";
+
+export default function ContactPage() {
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>
+  ) {
+    event.preventDefault();
+
+    setLoading(true);
+    setMessage("");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+      website: formData.get("website"),
+    };
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        setMessage(
+          result.error || "Une erreur est survenue."
+        );
+        return;
+      }
+
+      setMessage("Votre message a bien été envoyé.");
+      form.reset();
+    } catch {
+      setMessage(
+        "Impossible d'envoyer le message pour le moment."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <main>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="name"
+          placeholder="Nom"
+          maxLength={100}
+          required
+        />
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          maxLength={254}
+          required
+        />
+
+        <textarea
+          name="message"
+          placeholder="Votre message"
+          maxLength={5000}
+          required
+        />
+
+        <input
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            left: "-9999px",
+            opacity: 0,
+          }}
+        />
+
+        <button type="submit" disabled={loading}>
+          {loading
+            ? "ENVOI..."
+            : "ENVOYER"}
+        </button>
+
+        {message && (
+          <p>{message}</p>
+        )}
+      </form>
+    </main>
+  );
+}

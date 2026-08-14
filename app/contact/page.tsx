@@ -301,27 +301,90 @@ const quoteSections = [
   },
 ];
 
+const FORM_ENDPOINT = "https://formspree.io/f/mgawenka";
+
 export default function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(
+    e: React.FormEvent<HTMLFormElement>
+  ) {
     e.preventDefault();
 
-    if (!formRef.current) return;
+    if (!formRef.current || sending) return;
 
     setSending(true);
     setSent(false);
 
     const formData = new FormData(formRef.current);
 
+    /*
+      ==========================================================
+      PROTECTION ANTI-BOT 1 — HONEYPOT
+      ==========================================================
+
+      Un vrai visiteur ne voit pas ce champ.
+      Beaucoup de bots remplissent automatiquement tous les champs.
+    */
+
+    const honeypot = formData.get("_gotcha")?.toString().trim();
+
+    if (honeypot) {
+      setSending(false);
+      return;
+    }
+
+    /*
+      ==========================================================
+      PROTECTION ANTI-BOT 2 — TEMPS MINIMUM
+      ==========================================================
+
+      Le champ est rempli au chargement de la page.
+      Si le formulaire est envoyé presque instantanément,
+      on considère que cela peut être un bot.
+    */
+
+    const startedAt = Number(
+      formData.get("_form_started_at") || "0"
+    );
+
+    const now = Date.now();
+
+    if (
+      !startedAt ||
+      now - startedAt < 2500
+    ) {
+      setSending(false);
+
+      alert(
+        "Veuillez prendre quelques secondes pour remplir le formulaire."
+      );
+
+      return;
+    }
+
+    /*
+      ==========================================================
+      RÉCUPÉRATION DES VALEURS
+      ==========================================================
+    */
+
     const getValue = (name: string) => {
-      return formData.get(name)?.toString().trim() || "Non renseigné";
+      const value = formData.get(name);
+
+      return (
+        value?.toString().trim() ||
+        "Non renseigné"
+      );
     };
 
     const getValues = (name: string) => {
-      return formData.getAll(name).map((value) => value.toString());
+      return formData
+        .getAll(name)
+        .map((value) => value.toString().trim())
+        .filter(Boolean);
     };
 
     const formatOptions = (name: string) => {
@@ -331,8 +394,71 @@ export default function Contact() {
         return "Aucun choix";
       }
 
-      return values.map((value) => `• ${value}`).join("\n");
+      return values
+        .map((value) => `• ${value}`)
+        .join("\n");
     };
+
+    /*
+      ==========================================================
+      VALIDATION EMAIL
+      ==========================================================
+    */
+
+    const clientEmail = getValue("Email");
+
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(clientEmail)) {
+      setSending(false);
+
+      alert(
+        "Veuillez entrer une adresse e-mail valide."
+      );
+
+      return;
+    }
+
+    /*
+      ==========================================================
+      LIMITATION DE TAILLE
+      ==========================================================
+    */
+
+    const description = getValue(
+      "Description du projet"
+    );
+
+    const autresBesoins = getValue(
+      "Autres besoins"
+    );
+
+    if (description.length > 5000) {
+      setSending(false);
+
+      alert(
+        "La description du projet est trop longue."
+      );
+
+      return;
+    }
+
+    if (autresBesoins.length > 1500) {
+      setSending(false);
+
+      alert(
+        "Le champ des besoins supplémentaires est trop long."
+      );
+
+      return;
+    }
+
+    /*
+      ==========================================================
+      CONSTRUCTION DU MESSAGE
+      ==========================================================
+    */
 
     const message = `
 NOUVELLE DEMANDE DE DEVIS — NOVA AGENCY
@@ -348,7 +474,7 @@ Entreprise : ${getValue("Entreprise")}
 📞 CONTACT
 ━━━━━━━━━━━━━━━━━━━━
 
-Email : ${getValue("Email")}
+Email : ${clientEmail}
 Téléphone : ${getValue("Téléphone")}
 
 ━━━━━━━━━━━━━━━━━━━━
@@ -410,18 +536,24 @@ ${formatOptions("Blog avis et maintenance[]")}
 ➕ AUTRES BESOINS
 ━━━━━━━━━━━━━━━━━━━━
 
-${getValue("Autres besoins")}
+${autresBesoins}
 
 ━━━━━━━━━━━━━━━━━━━━
 📝 DESCRIPTION DU PROJET
 ━━━━━━━━━━━━━━━━━━━━
 
-${getValue("Description du projet")}
+${description}
 
 ━━━━━━━━━━━━━━━━━━━━
 FIN DE LA DEMANDE
 ━━━━━━━━━━━━━━━━━━━━
 `;
+
+    /*
+      ==========================================================
+      DONNÉES ENVOYÉES À FORMSPREE
+      ==========================================================
+    */
 
     const data = new FormData();
 
@@ -430,12 +562,40 @@ FIN DE LA DEMANDE
       "Nouvelle demande de devis — NOVA Agency"
     );
 
-    data.append("email", getValue("Email"));
-    data.append("message", message);
+    /*
+      Reply-To :
+      permet de répondre directement au client depuis
+      le mail reçu, selon la configuration Formspree.
+    */
+
+    data.append(
+      "_replyto",
+      clientEmail
+    );
+
+    data.append(
+      "email",
+      clientEmail
+    );
+
+    data.append(
+      "message",
+      message
+    );
+
+    /*
+      Le honeypot est également transmis à Formspree.
+      Formspree peut ainsi appliquer son propre filtrage.
+    */
+
+    data.append(
+      "_gotcha",
+      honeypot || ""
+    );
 
     try {
       const response = await fetch(
-        "https://formspree.io/f/mgawenka",
+        FORM_ENDPOINT,
         {
           method: "POST",
           body: data,
@@ -447,12 +607,55 @@ FIN DE LA DEMANDE
 
       if (response.ok) {
         setSent(true);
+
         formRef.current.reset();
+
+        /*
+          On remet le timestamp après l'envoi
+          pour éviter une soumission immédiate répétée.
+        */
+
+        const timestampInput =
+          formRef.current.querySelector<HTMLInputElement>(
+            'input[name="_form_started_at"]'
+          );
+
+        if (timestampInput) {
+          timestampInput.value =
+            Date.now().toString();
+        }
       } else {
-        alert("Une erreur est survenue. Veuillez réessayer.");
+        let errorMessage =
+          "Une erreur est survenue. Veuillez réessayer.";
+
+        try {
+          const result =
+            await response.json();
+
+          if (
+            result?.errors?.length
+          ) {
+            errorMessage =
+              result.errors
+                .map(
+                  (error: {
+                    message?: string;
+                  }) =>
+                    error.message || ""
+                )
+                .filter(Boolean)
+                .join("\n");
+          }
+        } catch {
+          // On garde le message par défaut.
+        }
+
+        alert(errorMessage);
       }
     } catch {
-      alert("Impossible d'envoyer la demande.");
+      alert(
+        "Impossible d'envoyer la demande. Vérifiez votre connexion puis réessayez."
+      );
     } finally {
       setSending(false);
     }
@@ -464,7 +667,9 @@ FIN DE LA DEMANDE
         <div className="contact-hero-inner">
           <div className="contact-kicker">
             <span className="contact-kicker-line" />
-            <span>PARLONS DE VOTRE PROJET</span>
+            <span>
+              PARLONS DE VOTRE PROJET
+            </span>
           </div>
 
           <h1>
@@ -473,8 +678,10 @@ FIN DE LA DEMANDE
           </h1>
 
           <p>
-            Présentez-nous votre projet : nous vous proposerons une solution
-            digitale adaptée à votre activité et à vos objectifs.
+            Présentez-nous votre projet : nous
+            vous proposerons une solution
+            digitale adaptée à votre activité
+            et à vos objectifs.
           </p>
         </div>
       </section>
@@ -493,8 +700,9 @@ FIN DE LA DEMANDE
           </h2>
 
           <p className="contact-intro">
-            Sélectionnez ce dont vous avez besoin. Cela nous permet de vous
-            envoyer un devis précis, sans perdre de temps.
+            Sélectionnez ce dont vous avez besoin.
+            Cela nous permet de vous envoyer un
+            devis précis, sans perdre de temps.
           </p>
 
           <div className="project-process">
@@ -507,17 +715,24 @@ FIN DE LA DEMANDE
               <h3>
                 Une méthode simple.
                 <br />
-                Un résultat <span>soigné.</span>
+                Un résultat{" "}
+                <span>soigné.</span>
               </h3>
             </div>
 
             <div className="process-list">
               {processSteps.map((step) => (
-                <div className="process-item" key={step.number}>
-                  <span className="process-number">{step.number}</span>
+                <div
+                  className="process-item"
+                  key={step.number}
+                >
+                  <span className="process-number">
+                    {step.number}
+                  </span>
 
                   <div className="process-content">
                     <h4>{step.title}</h4>
+
                     <p>{step.text}</p>
                   </div>
                 </div>
@@ -529,7 +744,9 @@ FIN DE LA DEMANDE
         <div className="contact-form-wrapper">
           <div className="form-top">
             <div>
-              <span className="form-label">DEMANDER UN DEVIS</span>
+              <span className="form-label">
+                DEMANDER UN DEVIS
+              </span>
 
               <h2>
                 Parlons de
@@ -538,12 +755,16 @@ FIN DE LA DEMANDE
               </h2>
             </div>
 
-            <span className="form-index">NOVA / 01</span>
+            <span className="form-index">
+              NOVA / 01
+            </span>
           </div>
 
           <p className="form-description">
-            Remplissez les informations principales puis ouvrez les catégories
-            qui vous intéressent. Vous pouvez sélectionner plusieurs options.
+            Remplissez les informations principales
+            puis ouvrez les catégories qui vous
+            intéressent. Vous pouvez sélectionner
+            plusieurs options.
           </p>
 
           <form
@@ -551,6 +772,46 @@ FIN DE LA DEMANDE
             className="contact-form"
             onSubmit={handleSubmit}
           >
+            {/* ==================================================
+                ANTI-BOT — HONEYPOT INVISIBLE
+            ================================================== */}
+
+            <div
+              style={{
+                position: "absolute",
+                left: "-9999px",
+                width: "1px",
+                height: "1px",
+                overflow: "hidden",
+                opacity: 0,
+                pointerEvents: "none",
+              }}
+              aria-hidden="true"
+            >
+              <label htmlFor="_gotcha">
+                Ne pas remplir ce champ
+              </label>
+
+              <input
+                id="_gotcha"
+                name="_gotcha"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
+            {/* ==================================================
+                TIMESTAMP ANTI-BOT
+            ================================================== */}
+
+            <input
+              type="hidden"
+              name="_form_started_at"
+              value={Date.now()}
+              readOnly
+            />
+
             <div className="form-row">
               <div className="form-field">
                 <label htmlFor="nom">
@@ -562,6 +823,8 @@ FIN DE LA DEMANDE
                   name="Nom"
                   type="text"
                   placeholder="Jean Dupont"
+                  maxLength={120}
+                  autoComplete="name"
                   required
                 />
               </div>
@@ -576,6 +839,8 @@ FIN DE LA DEMANDE
                   name="Entreprise"
                   type="text"
                   placeholder="Votre entreprise"
+                  maxLength={150}
+                  autoComplete="organization"
                 />
               </div>
             </div>
@@ -591,6 +856,8 @@ FIN DE LA DEMANDE
                   name="Email"
                   type="email"
                   placeholder="vous@entreprise.fr"
+                  maxLength={254}
+                  autoComplete="email"
                   required
                 />
               </div>
@@ -605,6 +872,8 @@ FIN DE LA DEMANDE
                   name="Téléphone"
                   type="tel"
                   placeholder="+33 6 00 00 00 00"
+                  maxLength={30}
+                  autoComplete="tel"
                 />
               </div>
             </div>
@@ -624,11 +893,25 @@ FIN DE LA DEMANDE
                     Je ne sais pas encore
                   </option>
 
-                  <option>Moins de 1 000 €</option>
-                  <option>1 000 € à 2 000 €</option>
-                  <option>2 000 € à 4 000 €</option>
-                  <option>4 000 € à 8 000 €</option>
-                  <option>Plus de 8 000 €</option>
+                  <option>
+                    Moins de 1 000 €
+                  </option>
+
+                  <option>
+                    1 000 € à 2 000 €
+                  </option>
+
+                  <option>
+                    2 000 € à 4 000 €
+                  </option>
+
+                  <option>
+                    4 000 € à 8 000 €
+                  </option>
+
+                  <option>
+                    Plus de 8 000 €
+                  </option>
                 </select>
               </div>
 
@@ -642,6 +925,7 @@ FIN DE LA DEMANDE
                   name="Date souhaitée"
                   type="text"
                   placeholder="Ex. Octobre 2026"
+                  maxLength={100}
                 />
               </div>
             </div>
@@ -657,7 +941,10 @@ FIN DE LA DEMANDE
                   key={section.title}
                 >
                   <summary>
-                    <span>{section.title}</span>
+                    <span>
+                      {section.title}
+                    </span>
+
                     <span
                       className="quote-section-icon"
                       aria-hidden="true"
@@ -667,20 +954,24 @@ FIN DE LA DEMANDE
                   </summary>
 
                   <div className="quote-checkboxes">
-                    {section.options.map((option) => (
-                      <label
-                        className="quote-choice"
-                        key={option}
-                      >
-                        <input
-                          type="checkbox"
-                          name={`${section.name}[]`}
-                          value={option}
-                        />
+                    {section.options.map(
+                      (option) => (
+                        <label
+                          className="quote-choice"
+                          key={option}
+                        >
+                          <input
+                            type="checkbox"
+                            name={`${section.name}[]`}
+                            value={option}
+                          />
 
-                        <span>{option}</span>
-                      </label>
-                    ))}
+                          <span>
+                            {option}
+                          </span>
+                        </label>
+                      )
+                    )}
                   </div>
                 </details>
               ))}
@@ -696,37 +987,44 @@ FIN DE LA DEMANDE
                 name="Autres besoins"
                 type="text"
                 placeholder="Ex. un système particulier, une idée, une intégration..."
+                maxLength={1500}
               />
             </div>
 
             <div className="form-field">
               <label htmlFor="message">
-                Décrivez votre projet <span>*</span>
+                Décrivez votre projet{" "}
+                <span>*</span>
               </label>
 
               <textarea
                 id="message"
                 name="Description du projet"
                 placeholder="Présentez votre activité, vos objectifs et les informations importantes..."
+                maxLength={5000}
                 required
               />
             </div>
 
             {sent && (
               <p className="form-success">
-                Votre demande a bien été envoyée. Nous reviendrons vers vous
+                Votre demande a bien été envoyée.
+                Nous reviendrons vers vous
                 rapidement.
               </p>
             )}
 
             <div className="form-bottom">
               <p>
-                Vos informations servent uniquement à répondre à votre demande.
+                Vos informations servent
+                uniquement à répondre à votre
+                demande.
               </p>
 
               <button
                 type="submit"
                 disabled={sending}
+                aria-busy={sending}
               >
                 <span>
                   {sending
@@ -754,11 +1052,13 @@ FIN DE LA DEMANDE
         </h2>
 
         <p>
-          Commençons simplement par une discussion.
+          Commençons simplement par une
+          discussion.
         </p>
 
         <Link href="/">
-          RETOUR À L&apos;ACCUEIL <span>↗</span>
+          RETOUR À L&apos;ACCUEIL{" "}
+          <span>↗</span>
         </Link>
       </section>
     </main>

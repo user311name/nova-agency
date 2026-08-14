@@ -9,17 +9,18 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
-    default: "NOVA — Agence digitale premium",
-    template: "%s | NOVA",
+    default: "NOVA Agency — Agence digitale premium",
+    template: "%s | NOVA Agency",
   },
 
   description:
-    "NOVA crée des sites web modernes, rapides et élégants pour aider les entreprises à développer leur présence en ligne.",
+    "NOVA Agency crée des sites web modernes, rapides et élégants pour aider les entreprises à développer leur présence en ligne.",
 
-  applicationName: "NOVA",
+  applicationName: "NOVA Agency",
 
   keywords: [
-    "NOVA",
+    "NOVA Agency",
+    "agence NOVA",
     "agence digitale",
     "agence web",
     "création de site web",
@@ -36,12 +37,12 @@ export const metadata: Metadata = {
 
   authors: [
     {
-      name: "NOVA",
+      name: "NOVA Agency",
     },
   ],
 
-  creator: "NOVA",
-  publisher: "NOVA",
+  creator: "NOVA Agency",
+  publisher: "NOVA Agency",
 
   alternates: {
     canonical: siteUrl,
@@ -51,7 +52,6 @@ export const metadata: Metadata = {
     google: "kNbI9l6D1La63lZWbkYMus3zo5BKaZUPBpmFpLE8BP8",
   },
 
-  // FAVICON NOVA
   icons: {
     icon: "/LG-Nova.png",
     shortcut: "/LG-Nova.png",
@@ -62,17 +62,17 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     url: siteUrl,
-    siteName: "NOVA",
-    title: "NOVA — Agence digitale premium",
+    siteName: "NOVA Agency",
+    title: "NOVA Agency — Agence digitale premium",
     description:
-      "NOVA crée des sites web modernes, rapides et élégants pour aider les entreprises à développer leur présence en ligne.",
+      "NOVA Agency crée des sites web modernes, rapides et élégants pour aider les entreprises à développer leur présence en ligne.",
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "NOVA — Agence digitale premium",
+    title: "NOVA Agency — Agence digitale premium",
     description:
-      "NOVA crée des sites web modernes, rapides et élégants pour aider les entreprises à développer leur présence en ligne.",
+      "NOVA Agency crée des sites web modernes, rapides et élégants pour aider les entreprises à développer leur présence en ligne.",
   },
 
   robots: {
@@ -104,11 +104,11 @@ export default function RootLayout({
           <Link
             href="/"
             className="logo"
-            aria-label="NOVA — Accueil"
+            aria-label="NOVA Agency — Accueil"
           >
             <Image
               src="/logo-nova.png"
-              alt="NOVA"
+              alt="NOVA Agency"
               width={160}
               height={60}
               priority

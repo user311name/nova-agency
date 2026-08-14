@@ -335,7 +335,7 @@ export default function Contact() {
     };
 
     const message = `
-NOUVELLE DEMANDE DE DEVIS — NOVA
+NOUVELLE DEMANDE DE DEVIS — NOVA AGENCY
 
 ━━━━━━━━━━━━━━━━━━━━
 👤 INFORMATIONS CLIENT
@@ -425,7 +425,11 @@ FIN DE LA DEMANDE
 
     const data = new FormData();
 
-    data.append("_subject", "Nouvelle demande de devis — NOVA");
+    data.append(
+      "_subject",
+      "Nouvelle demande de devis — NOVA Agency"
+    );
+
     data.append("email", getValue("Email"));
     data.append("message", message);
 
@@ -654,7 +658,10 @@ FIN DE LA DEMANDE
                 >
                   <summary>
                     <span>{section.title}</span>
-                    <span className="quote-section-icon" aria-hidden="true">
+                    <span
+                      className="quote-section-icon"
+                      aria-hidden="true"
+                    >
                       +
                     </span>
                   </summary>

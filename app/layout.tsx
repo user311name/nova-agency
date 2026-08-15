@@ -9,40 +9,39 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
-    default: "NOVA Agency — Agence digitale premium",
-    template: "%s | NOVA Agency",
+    default: "NOVA — Agence digitale & création de sites web",
+    template: "%s | NOVA",
   },
 
   description:
-    "NOVA Agency crée des sites web modernes, rapides et élégants pour aider les entreprises à développer leur présence en ligne.",
+    "NOVA conçoit des sites web modernes, rapides et sur mesure pour donner aux entreprises une présence en ligne professionnelle et performante.",
 
-  applicationName: "NOVA Agency",
+  applicationName: "NOVA",
 
   keywords: [
-    "NOVA Agency",
-    "agence NOVA",
-    "agence digitale",
+    "NOVA",
     "agence web",
+    "agence digitale",
     "création de site web",
     "création de site internet",
     "site vitrine",
-    "site web premium",
-    "site web sur mesure",
     "site web professionnel",
+    "site web sur mesure",
     "refonte de site web",
     "design web",
+    "développement web",
     "SEO",
     "performance web",
   ],
 
   authors: [
     {
-      name: "NOVA Agency",
+      name: "NOVA",
     },
   ],
 
-  creator: "NOVA Agency",
-  publisher: "NOVA Agency",
+  creator: "NOVA",
+  publisher: "NOVA",
 
   alternates: {
     canonical: siteUrl,
@@ -62,17 +61,17 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     url: siteUrl,
-    siteName: "NOVA Agency",
-    title: "NOVA Agency — Agence digitale premium",
+    siteName: "NOVA",
+    title: "NOVA — Agence digitale & création de sites web",
     description:
-      "NOVA Agency crée des sites web modernes, rapides et élégants pour aider les entreprises à développer leur présence en ligne.",
+      "NOVA conçoit des sites web modernes, rapides et sur mesure pour donner aux entreprises une présence en ligne professionnelle et performante.",
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "NOVA Agency — Agence digitale premium",
+    title: "NOVA — Agence digitale & création de sites web",
     description:
-      "NOVA Agency crée des sites web modernes, rapides et élégants pour aider les entreprises à développer leur présence en ligne.",
+      "NOVA conçoit des sites web modernes, rapides et sur mesure pour donner aux entreprises une présence en ligne professionnelle et performante.",
   },
 
   robots: {
@@ -104,11 +103,11 @@ export default function RootLayout({
           <Link
             href="/"
             className="logo"
-            aria-label="NOVA Agency — Accueil"
+            aria-label="NOVA — Accueil"
           >
             <Image
               src="/logo-nova.png"
-              alt="NOVA Agency"
+              alt="NOVA"
               width={160}
               height={60}
               priority

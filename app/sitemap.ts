@@ -5,7 +5,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     {
-      url: baseUrl,
+      url: `${baseUrl}/`,
       lastModified: new Date(),
     },
     {
@@ -22,22 +22,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/realisations/noir-barber`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/realisations/storm`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/realisations/projet-03`,
-      lastModified: new Date(),
-    },
-    {
-      url: `${baseUrl}/realisations/projet-04`,
       lastModified: new Date(),
     },
   ];

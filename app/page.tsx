@@ -43,11 +43,11 @@ export default function Home() {
           <h1>
             Votre activité mérite
             <br />
-            un site web à la hauteur <span>de son image.</span>
+            une meilleure <span>présence en ligne.</span>
           </h1>
 
           <p className="hero-text">
-            NOVA crée des sites web modernes, rapides et sur mesure pour
+            Nous créons des sites modernes, rapides et sur mesure pour
             présenter votre activité avec une image professionnelle
             et donner confiance à vos clients.
           </p>
@@ -115,6 +115,7 @@ export default function Home() {
             </h2>
           </div>
 
+
           <div className="intro-text">
 
             <p>
@@ -155,6 +156,7 @@ export default function Home() {
             </h2>
           </div>
 
+
           <Link
             href="/realisations"
             className="section-link"
@@ -163,6 +165,7 @@ export default function Home() {
           </Link>
 
         </div>
+
 
         <div className="projects-grid">
 
@@ -182,7 +185,7 @@ export default function Home() {
 
                   <img
                     src={project.image}
-                    alt={`${project.title} — réalisation web par NOVA`}
+                    alt={project.title}
                     loading="lazy"
                   />
 
@@ -193,6 +196,7 @@ export default function Home() {
                 </div>
 
               </Link>
+
 
               <div className="project-card-content">
 
@@ -205,6 +209,7 @@ export default function Home() {
                     {project.title}
                   </h3>
                 </div>
+
 
                 <Link
                   href={project.href}
@@ -222,10 +227,7 @@ export default function Home() {
 
         </div>
 
-      </section>
-
-
-      <section className="section services-section">
+      </section>      <section className="section services-section">
 
         <div className="section-heading-row services-heading">
 
@@ -235,25 +237,30 @@ export default function Home() {
               03 — SERVICES
             </span>
 
+
             <h2>
-              Tout ce qu’il faut pour
+              Tout ce qu'il faut pour
               <br />
-              construire votre présence en ligne.
+              construire votre présence digitale.
             </h2>
 
           </div>
 
+
           <p className="section-introduction">
 
-            De la création de sites web à leur optimisation, NOVA construit
-            des solutions digitales adaptées à votre activité et à vos objectifs.
+            De la création à l’optimisation, nous construisons des
+            solutions adaptées à votre activité et à vos objectifs.
 
           </p>
+
 
         </div>
 
 
+
         <div className="services-list">
+
 
           <div className="service-row">
 
@@ -261,20 +268,25 @@ export default function Home() {
               01
             </span>
 
+
             <h3>
               Création de sites web
             </h3>
+
 
             <p>
               Des sites modernes et personnalisés qui présentent
               votre activité de manière claire et professionnelle.
             </p>
 
+
             <span className="service-arrow">
               <span className="arrow-icon" />
             </span>
 
+
           </div>
+
 
 
           <div className="service-row">
@@ -283,20 +295,25 @@ export default function Home() {
               02
             </span>
 
+
             <h3>
               Refonte &amp; optimisation
             </h3>
+
 
             <p>
               Nous modernisons votre site pour améliorer son image,
               son expérience utilisateur et ses performances.
             </p>
 
+
             <span className="service-arrow">
               <span className="arrow-icon" />
             </span>
 
+
           </div>
+
 
 
           <div className="service-row">
@@ -305,20 +322,25 @@ export default function Home() {
               03
             </span>
 
+
             <h3>
               Identité &amp; direction artistique
             </h3>
+
 
             <p>
               Une direction visuelle cohérente pour construire une
               image forte et reconnaissable.
             </p>
 
+
             <span className="service-arrow">
               <span className="arrow-icon" />
             </span>
 
+
           </div>
+
 
 
           <div className="service-row">
@@ -327,35 +349,47 @@ export default function Home() {
               04
             </span>
 
+
             <h3>
               Performance &amp; mobile
             </h3>
+
 
             <p>
               Une expérience rapide, fluide et adaptée à tous les
               écrans, du smartphone à l’ordinateur.
             </p>
 
+
             <span className="service-arrow">
               <span className="arrow-icon" />
             </span>
 
+
           </div>
 
+
         </div>
+
 
       </section>
 
 
+
+
       <section className="why-section">
+
 
         <div className="why-inner">
 
+
           <div className="why-heading">
+
 
             <span>
               04 — POURQUOI NOVA
             </span>
+
 
             <h2>
               Pas juste un site.
@@ -363,22 +397,30 @@ export default function Home() {
               Une vraie image.
             </h2>
 
+
             <p>
               Nous cherchons à créer des sites qui ont du sens pour
               votre activité, pas simplement à remplir une page avec
               des blocs.
             </p>
 
+
           </div>
+
+
 
 
           <div className="advantages-list">
 
+
+
             <div className="advantage">
+
 
               <span>
                 01
               </span>
+
 
               <div>
 
@@ -386,21 +428,28 @@ export default function Home() {
                   Une approche sur mesure
                 </h3>
 
+
                 <p>
                   Chaque projet est construit autour de votre activité,
                   votre clientèle et votre manière de travailler.
                 </p>
 
+
               </div>
+
 
             </div>
 
 
+
+
             <div className="advantage">
+
 
               <span>
                 02
               </span>
+
 
               <div>
 
@@ -408,21 +457,28 @@ export default function Home() {
                   Un design pensé pour convertir
                 </h3>
 
+
                 <p>
                   L’esthétique compte, mais elle doit surtout servir
                   votre message et faciliter la confiance.
                 </p>
 
+
               </div>
+
 
             </div>
 
 
+
+
             <div className="advantage">
+
 
               <span>
                 03
               </span>
+
 
               <div>
 
@@ -430,29 +486,36 @@ export default function Home() {
                   Une expérience simple
                 </h3>
 
+
                 <p>
                   Nous privilégions des interfaces claires, rapides
                   et agréables à utiliser sur tous les appareils.
                 </p>
 
+
               </div>
+
 
             </div>
 
+
           </div>
+
 
         </div>
 
-      </section>
 
+      </section>      <section className="cta">
 
-      <section className="cta">
 
         <div>
+
 
           <span className="cta-label">
             UN PROJET EN TÊTE ?
           </span>
+
+
 
           <h2>
             Donnons à votre activité
@@ -460,18 +523,30 @@ export default function Home() {
             l’image qu’elle mérite.
           </h2>
 
+
+
           <p>
             Parlons de votre projet et voyons ensemble comment
             construire une présence en ligne qui vous ressemble.
           </p>
 
+
         </div>
 
+
+
+
+
         <Link href="/contact">
+
           Parlons de votre projet →
+
         </Link>
 
+
       </section>
+
+
 
     </main>
   );

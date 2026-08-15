@@ -5,14 +5,14 @@ import "./style.css";
 export const metadata: Metadata = {
   title: "Création de sites web & services digitaux",
   description:
-    "NOVA conçoit des sites web modernes et sur mesure : création de sites, refonte, design, identité visuelle, performance et accompagnement digital.",
+    "NOVA crée des sites web modernes, rapides et élégants : création de sites, refonte, identité visuelle, optimisation des performances et accompagnement digital.",
   alternates: {
     canonical: "/services",
   },
   openGraph: {
     title: "Création de sites web & services digitaux | NOVA",
     description:
-      "Découvrez les services de NOVA : création de sites web sur mesure, refonte, design, identité visuelle, performance et accompagnement digital.",
+      "Découvrez les services NOVA : création de sites web premium, refonte, identité visuelle, performances et accompagnement digital.",
     url: "/services",
     type: "website",
   },
@@ -21,33 +21,33 @@ export const metadata: Metadata = {
 const services = [
   {
     numero: "01",
-    titre: "Création de sites web sur mesure",
+    titre: "Création de sites web premium",
     texte:
-      "NOVA conçoit des sites web modernes, rapides et élégants adaptés à votre activité. Chaque projet est pensé pour présenter votre entreprise, rassurer vos clients et développer votre présence en ligne.",
+      "Nous concevons des sites modernes, rapides et élégants adaptés à votre activité. Chaque projet est pensé pour présenter votre entreprise, rassurer vos clients et développer votre présence en ligne.",
   },
   {
     numero: "02",
-    titre: "Refonte & optimisation de site",
+    titre: "Refonte & optimisation",
     texte:
-      "Nous modernisons votre site existant pour améliorer son image, son expérience utilisateur, sa présentation et ses performances afin de mieux répondre à vos objectifs.",
+      "Nous améliorons votre site existant pour lui donner une image plus professionnelle, une meilleure expérience utilisateur et une présentation plus adaptée à vos objectifs.",
   },
   {
     numero: "03",
-    titre: "Identité visuelle & design web",
+    titre: "Identité visuelle & design",
     texte:
-      "Nous créons une identité visuelle cohérente pour votre entreprise avec un univers graphique pensé pour renforcer votre image : logo, couleurs, typographie et direction artistique.",
+      "Nous créons une image forte pour votre entreprise avec un univers graphique cohérent : logo, couleurs et direction artistique.",
   },
   {
     numero: "04",
-    titre: "Performance web & expérience mobile",
+    titre: "Optimisation des performances",
     texte:
-      "Nous optimisons la rapidité, l'affichage et l'expérience utilisateur sur ordinateur, tablette et smartphone afin de proposer une navigation fluide et agréable.",
+      "Nous améliorons la rapidité, l'affichage et l'expérience sur ordinateur, tablette et mobile afin de proposer un site plus agréable.",
   },
   {
     numero: "05",
     titre: "Accompagnement digital",
     texte:
-      "NOVA vous accompagne dans l'évolution de votre présence en ligne avec des conseils, des améliorations et des solutions adaptées à votre activité et à vos objectifs.",
+      "Nous vous accompagnons dans l'évolution de votre présence en ligne avec des conseils et des améliorations adaptées à votre activité.",
   },
 ];
 
@@ -64,9 +64,8 @@ export default function Services() {
         </h1>
 
         <p className="services-intro">
-          NOVA crée des sites web modernes, rapides et personnalisés pour
-          aider les entreprises à construire une image professionnelle et
-          développer leur présence en ligne.
+          NOVA crée des sites premium, modernes et personnalisés pour aider
+          les entreprises à construire une image forte sur internet.
         </p>
       </section>
 

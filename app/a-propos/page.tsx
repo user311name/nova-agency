@@ -1,5 +1,22 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import "./page.css";
+
+export const metadata: Metadata = {
+  title: "À propos de NOVA — Agence web & digitale",
+  description:
+    "Découvrez NOVA, une agence web et digitale spécialisée dans la création de sites internet modernes, sur mesure et professionnels pour les entreprises et indépendants.",
+  alternates: {
+    canonical: "/a-propos",
+  },
+  openGraph: {
+    title: "À propos de NOVA — Agence web & digitale",
+    description:
+      "Découvrez l'approche, la vision et les principes de NOVA pour créer des sites web professionnels et des expériences digitales sur mesure.",
+    url: "/a-propos",
+    type: "website",
+  },
+};
 
 const values = [
   {
@@ -45,10 +62,10 @@ export default function About() {
           </h1>
 
           <p className="about-intro">
-            NOVA est une agence digitale spécialisée dans la création de
-            sites web modernes, rapides et élégants pour les entreprises,
-            indépendants et projets qui souhaitent développer leur présence
-            en ligne.
+            NOVA est une agence web et digitale spécialisée dans la création
+            de sites internet modernes, rapides et élégants pour les
+            entreprises, indépendants et projets qui souhaitent développer
+            leur présence en ligne.
           </p>
         </div>
 
@@ -99,8 +116,8 @@ export default function About() {
             <p>
               De la création d&apos;un site vitrine à la conception d&apos;un
               projet web plus avancé, notre objectif est de construire une
-              solution qui vous ressemble et qui reste pertinente dans le
-              temps.
+              solution sur mesure qui vous ressemble et qui reste pertinente
+              dans le temps.
             </p>
           </div>
         </div>
@@ -128,7 +145,7 @@ export default function About() {
 
               <p>
                 Un bon site web commence toujours par une bonne compréhension
-                du projet, de l&apos;activité et des objectifs.
+                du projet, de l&apos;activité, du public et des objectifs.
               </p>
             </div>
 

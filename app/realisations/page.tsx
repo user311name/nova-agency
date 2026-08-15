@@ -1,6 +1,23 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import "./page.css";
+
+export const metadata: Metadata = {
+  title: "Réalisations — Sites web & projets digitaux",
+  description:
+    "Découvrez les réalisations de NOVA : sites web sur mesure, expériences digitales et projets pensés pour renforcer l'image des entreprises et des marques.",
+  alternates: {
+    canonical: "/realisations",
+  },
+  openGraph: {
+    title: "Réalisations — Sites web & projets digitaux | NOVA",
+    description:
+      "Découvrez les projets web réalisés par NOVA et notre approche du design, de l'expérience utilisateur et de la création de sites sur mesure.",
+    url: "/realisations",
+    type: "website",
+  },
+};
 
 const projects = [
   {
@@ -8,7 +25,7 @@ const projects = [
     title: "STORM",
     category: "SITE PREMIUM • SPORT LIFESTYLE",
     description:
-      "Création d'une expérience digitale premium pour une marque sport lifestyle masculine.",
+      "Création d'un site web premium pour une marque sport lifestyle masculine, avec une identité visuelle forte et une expérience digitale pensée pour mettre l'univers de la marque en valeur.",
     image: "/projets/storm-1.png",
     href: "/realisations/storm",
   },
@@ -17,7 +34,7 @@ const projects = [
     title: "NOIR BARBER",
     category: "SITE PREMIUM • BARBER",
     description:
-      "Un site moderne et élégant pensé pour un barber qui souhaite développer son image et son expérience client.",
+      "Création d'un site web moderne et élégant pour un barber souhaitant développer son image, présenter ses services et offrir une expérience client professionnelle.",
     image: "/projets/barber-home.png",
     href: "/realisations/noir-barber",
   },
@@ -49,10 +66,10 @@ export default function RealisationsPage() {
               <span className="hero-index">NOVA / 02</span>
 
               <p>
-                Nous créons des expériences digitales modernes,
-                des identités fortes et des sites pensés autour
-                d'un objectif simple : donner à chaque activité
-                une présence en ligne à la hauteur de son ambition.
+                Nous créons des expériences digitales modernes, des identités
+                fortes et des sites web sur mesure pensés autour d'un objectif
+                simple : donner à chaque activité une présence en ligne à la
+                hauteur de son ambition.
               </p>
             </div>
           </div>
@@ -88,7 +105,7 @@ export default function RealisationsPage() {
                 <div className="project-image">
                   <Image
                     src={project.image}
-                    alt={`Projet ${project.title}`}
+                    alt={`${project.title} — réalisation web par NOVA`}
                     fill
                     sizes="(max-width: 800px) 100vw, 82vw"
                   />

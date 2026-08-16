@@ -21,22 +21,34 @@ const projects = [
     image: "/projets/barber-home.png",
     href: "/realisations/noir-barber",
   },
+  {
+    number: "03",
+    title: "IA FUTURE",
+    category: "SITE PREMIUM • IA & TECHNOLOGIE",
+    description:
+      "Une expérience digitale moderne pensée pour présenter une activité spécialisée dans l'intelligence artificielle et les nouvelles technologies.",
+    image: "/projets/site-ia.png",
+    href: "/realisations/ia-future",
+  },
 ];
 
 export default function RealisationsPage() {
   return (
     <main className="realisations-page">
+
       <section
         className="realisations-hero"
         aria-labelledby="realisations-title"
       >
         <div className="realisations-hero-inner">
+
           <div className="realisations-kicker">
             <span />
             <p>NOTRE TRAVAIL</p>
           </div>
 
           <div className="realisations-hero-grid">
+
             <h1 id="realisations-title">
               Des projets
               <br />
@@ -46,7 +58,10 @@ export default function RealisationsPage() {
             </h1>
 
             <div className="realisations-hero-side">
-              <span className="hero-index">NOVA / 02</span>
+
+              <span className="hero-index">
+                NOVA / 02
+              </span>
 
               <p>
                 Nous créons des expériences digitales modernes,
@@ -54,38 +69,56 @@ export default function RealisationsPage() {
                 d'un objectif simple : donner à chaque activité
                 une présence en ligne à la hauteur de son ambition.
               </p>
+
             </div>
+
           </div>
+
         </div>
       </section>
+
 
       <section
         className="projects-section"
         aria-labelledby="projects-title"
       >
+
         <div className="projects-heading">
+
           <div>
-            <span className="section-number">01</span>
-            <p id="projects-title">PROJETS SÉLECTIONNÉS</p>
+            <span className="section-number">
+              01
+            </span>
+
+            <p id="projects-title">
+              PROJETS SÉLECTIONNÉS
+            </p>
           </div>
 
           <span className="projects-count">
             {projects.length.toString().padStart(2, "0")} PROJETS
           </span>
+
         </div>
 
+
         <div className="projects-list">
+
           {projects.map((project) => (
+
             <article
               className="project-card"
               key={project.title}
             >
+
               <Link
                 href={project.href}
                 className="project-image-link"
                 aria-label={`Découvrir le projet ${project.title}`}
               >
+
                 <div className="project-image">
+
                   <Image
                     src={project.image}
                     alt={`Projet ${project.title}`}
@@ -103,20 +136,32 @@ export default function RealisationsPage() {
                   <span className="project-number">
                     {project.number}
                   </span>
+
                 </div>
+
               </Link>
 
+
               <div className="project-info">
+
                 <div className="project-title-block">
+
                   <p className="project-category">
                     {project.category}
                   </p>
 
-                  <h2>{project.title}</h2>
+                  <h2>
+                    {project.title}
+                  </h2>
+
                 </div>
 
+
                 <div className="project-description-block">
-                  <p>{project.description}</p>
+
+                  <p>
+                    {project.description}
+                  </p>
 
                   <Link
                     href={project.href}
@@ -125,14 +170,22 @@ export default function RealisationsPage() {
                     DÉCOUVRIR
                     <span>↗</span>
                   </Link>
+
                 </div>
+
               </div>
+
             </article>
+
           ))}
+
         </div>
+
       </section>
 
+
       <section className="realisations-bottom">
+
         <div className="bottom-line">
           <span>02</span>
           <p>VOTRE PROJET</p>
@@ -157,7 +210,9 @@ export default function RealisationsPage() {
           <span>PARLER DE MON PROJET</span>
           <strong>↗</strong>
         </Link>
+
       </section>
+
     </main>
   );
 }

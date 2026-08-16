@@ -1,256 +1,586 @@
 import Link from "next/link";
 import "./page.css";
 
-const values = [
-  {
-    number: "01",
-    title: "Clarté",
-    text: "Nous privilégions les idées simples, les interfaces lisibles et les choix qui ont réellement du sens.",
-  },
-  {
-    number: "02",
-    title: "Exigence",
-    text: "Chaque détail compte. Nous cherchons un résultat propre, cohérent et professionnel jusque dans les finitions.",
-  },
-  {
-    number: "03",
-    title: "Proximité",
-    text: "Un projet se construit à deux. Nous gardons une communication simple, directe et compréhensible.",
-  },
-  {
-    number: "04",
-    title: "Pertinence",
-    text: "Nous ne cherchons pas à en faire trop. Chaque élément doit avoir une raison d'être et servir votre image.",
-  },
-];
-
-export default function About() {
+export default function AboutPage() {
   return (
     <main className="about-page">
-      {/* HERO */}
 
-      <section
-        className="about-hero"
-        aria-labelledby="about-title"
-      >
+      {/* =========================================================
+          HERO
+      ========================================================= */}
+
+      <section className="about-hero">
+
         <div className="about-hero-content">
+
           <p className="about-tag">
-            <span aria-hidden="true">●</span> À PROPOS DE NOVA
+            <span>●</span>
+            À PROPOS DE NOVA
           </p>
 
-          <h1 id="about-title">
-            Agence web digitale,
+          <h1>
+            Une agence digitale
             <br />
-            <span>créative et premium.</span>
+            pensée pour <span>vous.</span>
           </h1>
 
           <p className="about-intro">
-            NOVA est une agence digitale spécialisée dans la création de
-            sites web modernes, rapides et élégants pour les entreprises,
-            indépendants et projets qui souhaitent développer leur présence
+            Chez NOVA, nous pensons qu’un site internet ne doit pas
+            simplement être beau. Il doit représenter votre activité,
+            rassurer vos visiteurs et vous aider à développer votre présence
             en ligne.
           </p>
+
+          <div className="about-hero-reassurance">
+
+            <div>
+              <span>01</span>
+              <strong>Sur mesure</strong>
+            </div>
+
+            <div>
+              <span>02</span>
+              <strong>Approche humaine</strong>
+            </div>
+
+            <div>
+              <span>03</span>
+              <strong>Accompagnement</strong>
+            </div>
+
+          </div>
+
         </div>
 
-        <div
-          className="about-hero-mark"
-          aria-hidden="true"
-        >
+        <div className="about-hero-mark" aria-hidden="true">
           N
         </div>
+
       </section>
 
-      {/* VISION */}
 
-      <section
-        className="about-vision"
-        aria-labelledby="vision-title"
-      >
+      {/* =========================================================
+          QUI EST NOVA
+      ========================================================= */}
+
+      <section className="about-vision">
+
         <div className="about-section-label">
           <span>01</span>
-          NOTRE VISION
+          QUI SOMMES-NOUS ?
         </div>
 
         <div className="about-vision-grid">
-          <div>
-            <p className="about-kicker">POURQUOI NOVA ?</p>
 
-            <h2 id="vision-title">
-              Faire du digital
+          <div>
+
+            <p className="about-kicker">
+              L’AGENCE
+            </p>
+
+            <h2>
+              Plus qu’un site,
               <br />
-              <span>un vrai atout.</span>
+              une présence <span>digitale.</span>
             </h2>
+
           </div>
 
           <div className="about-copy">
+
             <p>
-              Aujourd&apos;hui, avoir une présence en ligne ne suffit plus.
-              Elle doit être claire, crédible et cohérente avec ce que votre
-              entreprise représente réellement.
+              NOVA accompagne les entreprises dans la création de sites
+              internet modernes, professionnels et adaptés à leur activité.
             </p>
 
             <p>
-              C&apos;est cette vision qui guide NOVA. Nous créons des sites
-              internet professionnels et des expériences digitales qui donnent
-              une première impression forte, tout en restant simples à
-              comprendre et agréables à utiliser.
+              Nous partons d’une idée simple : chaque entreprise est
+              différente. Son histoire, son image, ses clients et ses
+              objectifs doivent donc être pris en compte avant de construire
+              sa présence en ligne.
             </p>
 
             <p>
-              De la création d&apos;un site vitrine à la conception d&apos;un
-              projet web plus avancé, notre objectif est de construire une
-              solution qui vous ressemble et qui reste pertinente dans le
-              temps.
+              Notre rôle est de transformer ces éléments en une expérience
+              digitale claire, cohérente et professionnelle.
             </p>
+
+            <p>
+              Le but n’est pas simplement de créer un site. Le but est de
+              créer un outil qui donne confiance et qui représente réellement
+              votre activité.
+            </p>
+
           </div>
+
         </div>
+
       </section>
 
-      {/* APPROCHE */}
 
-      <section
-        className="about-approach"
-        aria-labelledby="approach-title"
-      >
+      {/* =========================================================
+          COMMENT NOUS TRAVAILLONS
+      ========================================================= */}
+
+      <section className="about-approach">
+
         <div className="about-approach-inner">
+
           <div className="about-section-label">
             <span>02</span>
-            NOTRE APPROCHE
+            NOTRE FAÇON DE TRAVAILLER
           </div>
 
           <div className="about-approach-grid">
+
             <div className="about-approach-heading">
-              <h2 id="approach-title">
-                Penser avant
+
+              <h2>
+                Un projet se construit
                 <br />
-                <span>de construire.</span>
+                <span>ensemble.</span>
               </h2>
 
               <p>
-                Un bon site web commence toujours par une bonne compréhension
-                du projet, de l&apos;activité et des objectifs.
+                Avant de penser au design ou aux fonctionnalités, nous
+                cherchons d’abord à comprendre votre activité et ce que vous
+                souhaitez transmettre à vos futurs clients.
               </p>
+
             </div>
 
+
             <div className="about-approach-list">
+
               <div className="approach-item">
+
                 <span>01</span>
 
                 <div>
-                  <h3>Comprendre</h3>
+                  <h3>Échanger</h3>
+
                   <p>
-                    Votre activité, vos objectifs, votre public et surtout ce
-                    qui vous rend différent.
+                    Nous commençons par discuter de votre activité, de vos
+                    besoins et de vos objectifs afin de comprendre réellement
+                    votre projet.
                   </p>
                 </div>
+
               </div>
 
+
               <div className="approach-item">
+
                 <span>02</span>
 
                 <div>
-                  <h3>Structurer</h3>
+                  <h3>Réfléchir</h3>
+
                   <p>
-                    Organiser les informations et les priorités pour créer une
-                    expérience évidente et naturelle.
+                    Nous définissons ensuite une direction adaptée à votre
+                    image, votre clientèle et au message que vous souhaitez
+                    transmettre.
                   </p>
                 </div>
+
               </div>
 
+
               <div className="approach-item">
+
                 <span>03</span>
 
                 <div>
-                  <h3>Soigner</h3>
+                  <h3>Créer</h3>
+
                   <p>
-                    Travailler le design, les détails et la cohérence générale
-                    pour obtenir une image vraiment professionnelle.
+                    Le site est construit sur mesure avec une attention
+                    particulière portée au design, à la clarté et à
+                    l’expérience utilisateur.
                   </p>
                 </div>
+
               </div>
 
+
               <div className="approach-item">
+
                 <span>04</span>
 
                 <div>
-                  <h3>Faire évoluer</h3>
+                  <h3>Échanger à nouveau</h3>
+
                   <p>
-                    Parce qu&apos;un projet digital n&apos;a pas vocation à
-                    rester figé, nous pensons aussi à la suite.
+                    Votre retour fait partie du projet. L’objectif est
+                    d’arriver à une version qui correspond réellement à
+                    votre activité et à vos attentes.
                   </p>
                 </div>
+
               </div>
+
+
+              <div className="approach-item">
+
+                <span>05</span>
+
+                <div>
+                  <h3>Mettre en ligne</h3>
+
+                  <p>
+                    Une fois le projet finalisé, nous vous accompagnons dans
+                    sa mise en ligne et les éléments nécessaires à votre
+                    présence digitale.
+                  </p>
+                </div>
+
+              </div>
+
             </div>
+
           </div>
+
         </div>
+
       </section>
 
-      {/* VALUES */}
 
-      <section
-        className="about-values"
-        aria-labelledby="values-title"
-      >
+      {/* =========================================================
+          CE QUE LE CLIENT PEUT ATTENDRE
+      ========================================================= */}
+
+      <section className="about-values">
+
         <div className="about-section-label">
           <span>03</span>
-          NOS PRINCIPES
+          CE QUE NOUS VOULONS VOUS APPORTER
         </div>
 
         <div className="about-values-heading">
-          <h2 id="values-title">
-            Ce qui guide
+
+          <h2>
+            Une relation simple,
             <br />
-            <span>notre travail.</span>
+            <span>un projet clair.</span>
           </h2>
 
           <p>
-            Une identité forte ne vient pas seulement de ce que l&apos;on
-            montre, mais aussi de la manière dont on travaille.
+            Créer un site est une chose. Savoir avec qui on travaille et
+            comprendre ce qui est réalisé en est une autre.
           </p>
+
         </div>
+
 
         <div className="values-grid">
-          {values.map((value) => (
-            <article
-              className="value-card"
-              key={value.number}
-            >
-              <span>{value.number}</span>
 
-              <div>
-                <h3>{value.title}</h3>
-                <p>{value.text}</p>
-              </div>
-            </article>
-          ))}
+          <div className="value-card">
+
+            <span>01</span>
+
+            <div>
+
+              <h3>Écoute</h3>
+
+              <p>
+                Votre projet commence par vos besoins. Nous prenons le temps
+                de comprendre votre activité avant de proposer une direction.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div className="value-card">
+
+            <span>02</span>
+
+            <div>
+
+              <h3>Transparence</h3>
+
+              <p>
+                Les fonctionnalités, les éléments prévus et les différentes
+                étapes du projet sont définis clairement.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div className="value-card">
+
+            <span>03</span>
+
+            <div>
+
+              <h3>Sur mesure</h3>
+
+              <p>
+                Nous ne cherchons pas à appliquer la même solution à toutes
+                les entreprises. Le projet est construit autour de votre
+                activité.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div className="value-card">
+
+            <span>04</span>
+
+            <div>
+
+              <h3>Responsive</h3>
+
+              <p>
+                Votre site doit fonctionner correctement sur ordinateur,
+                tablette et téléphone afin d’offrir une expérience cohérente
+                à vos visiteurs.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div className="value-card">
+
+            <span>05</span>
+
+            <div>
+
+              <h3>Communication</h3>
+
+              <p>
+                Nous accordons de l’importance aux échanges pendant le
+                projet afin que vous sachiez où en est la création.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div className="value-card">
+
+            <span>06</span>
+
+            <div>
+
+              <h3>Accompagnement</h3>
+
+              <p>
+                La mise en ligne n’est pas forcément la fin. Selon vos
+                besoins, votre présence digitale peut continuer à évoluer.
+              </p>
+
+            </div>
+
+          </div>
+
         </div>
+
       </section>
 
-      {/* CONCLUSION */}
 
-      <section
-        className="about-final"
-        aria-labelledby="about-final-title"
-      >
+      {/* =========================================================
+          VISION GLOBALE
+      ========================================================= */}
+
+      <section className="about-approach about-global">
+
+        <div className="about-approach-inner">
+
+          <div className="about-section-label">
+            <span>04</span>
+            UNE PRÉSENCE DIGITALE COMPLÈTE
+          </div>
+
+          <div className="about-approach-grid">
+
+            <div className="about-approach-heading">
+
+              <h2>
+                Aller plus loin
+                <br />
+                qu’un <span>simple site.</span>
+              </h2>
+
+              <p>
+                Votre site constitue souvent le premier contact entre votre
+                entreprise et un futur client. C’est pourquoi nous pensons
+                votre présence digitale dans son ensemble.
+              </p>
+
+            </div>
+
+
+            <div className="about-approach-list">
+
+              <div className="approach-item">
+
+                <span>01</span>
+
+                <div>
+                  <h3>Votre image</h3>
+
+                  <p>
+                    Une direction visuelle cohérente permet de transmettre
+                    immédiatement une image professionnelle et sérieuse.
+                  </p>
+                </div>
+
+              </div>
+
+
+              <div className="approach-item">
+
+                <span>02</span>
+
+                <div>
+                  <h3>Votre site</h3>
+
+                  <p>
+                    Une structure claire et une expérience adaptée permettent
+                    à vos visiteurs de comprendre rapidement votre activité.
+                  </p>
+                </div>
+
+              </div>
+
+
+              <div className="approach-item">
+
+                <span>03</span>
+
+                <div>
+                  <h3>Votre présence en ligne</h3>
+
+                  <p>
+                    Domaine, adresse e-mail professionnelle et autres éléments
+                    peuvent être intégrés au projet selon vos besoins.
+                  </p>
+                </div>
+
+              </div>
+
+
+              <div className="approach-item">
+
+                <span>04</span>
+
+                <div>
+                  <h3>Votre évolution</h3>
+
+                  <p>
+                    Votre entreprise évolue. Votre présence digitale peut
+                    donc elle aussi être améliorée, enrichie ou adaptée au
+                    fil du temps.
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      {/* =========================================================
+          RASSURANCE
+      ========================================================= */}
+
+      <section className="about-reassurance">
+
+        <div className="about-reassurance-inner">
+
+          <div className="about-section-label">
+            <span>05</span>
+            NOTRE ENGAGEMENT
+          </div>
+
+          <div className="reassurance-grid">
+
+            <div>
+
+              <h2>
+                Vous n’avez pas besoin
+                <br />
+                de tout <span>connaître.</span>
+              </h2>
+
+            </div>
+
+            <div>
+
+              <p>
+                Vous n’avez pas besoin de maîtriser le développement web,
+                l’hébergement ou les aspects techniques pour lancer votre
+                projet.
+              </p>
+
+              <p>
+                Notre rôle est justement de rendre ces étapes plus simples
+                pour vous, tout en vous expliquant clairement ce qui est mis
+                en place.
+              </p>
+
+              <p>
+                Vous restez impliqué dans les décisions importantes et nous
+                nous occupons de transformer ces décisions en une présence
+                digitale concrète.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      {/* =========================================================
+          FINAL CTA
+      ========================================================= */}
+
+      <section className="about-final">
+
         <div>
-          <span>ET MAINTENANT ?</span>
 
-          <h2 id="about-final-title">
-            Parlons de ce que
+          <span>
+            UN PROJET EN TÊTE ?
+          </span>
+
+          <h2>
+            Parlons de votre projet
             <br />
-            <strong>vous voulez construire.</strong>
+            et construisons <strong>quelque chose de solide.</strong>
           </h2>
 
           <p>
-            Vous avez une idée, un projet ou simplement envie d&apos;améliorer
-            votre présence en ligne ? Commençons par en discuter.
+            Vous avez déjà une idée précise ou vous ne savez pas encore
+            exactement ce qu’il vous faut ? Échangeons simplement sur votre
+            activité et voyons ensemble ce qui peut être créé.
           </p>
+
         </div>
 
         <Link href="/contact">
-          Échanger avec NOVA →
+          Parler de mon projet →
         </Link>
+
       </section>
+
     </main>
   );
 }

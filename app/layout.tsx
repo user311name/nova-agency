@@ -130,8 +130,12 @@ export default function RootLayout({
               Réalisations
             </Link>
 
-            <Link href="/a-propos">
-              À propos
+            <Link href="/methode">
+              Méthode
+            </Link>
+
+            <Link href="/faq">
+              FAQ
             </Link>
 
             <Link href="/contact">

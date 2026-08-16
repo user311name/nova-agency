@@ -1,10 +1,10 @@
 /* =========================================================
    À PROPOS — NOVA
+   Premium / Editorial / Human / Digital Agency
 ========================================================= */
 
 .about-page {
   min-height: 100vh;
-
   color: #fff;
   background: #050505;
 }
@@ -45,12 +45,13 @@
   width: 1px;
   height: 100%;
 
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    rgba(255, 255, 255, 0.08),
-    transparent
-  );
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255, 255, 255, 0.08),
+      transparent
+    );
 }
 
 .about-hero::after {
@@ -71,6 +72,8 @@
   box-shadow:
     0 0 0 90px rgba(23, 105, 255, 0.015),
     0 0 0 180px rgba(23, 105, 255, 0.01);
+
+  pointer-events: none;
 }
 
 .about-hero-content {
@@ -132,7 +135,7 @@
 }
 
 .about-intro {
-  max-width: 580px;
+  max-width: 620px;
 
   margin: 28px 0 0;
 
@@ -160,6 +163,46 @@
   font-weight: 700;
 
   user-select: none;
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   HERO REASSURANCE
+========================================================= */
+
+.about-hero-reassurance {
+  display: flex;
+  align-items: center;
+
+  gap: 35px;
+
+  margin-top: 42px;
+}
+
+.about-hero-reassurance > div {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.about-hero-reassurance span {
+  color: #1769ff;
+
+  font-size: 10px;
+
+  letter-spacing: 1px;
+}
+
+.about-hero-reassurance strong {
+  color: #b5b5b5;
+
+  font-size: 11px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.4px;
 }
 
 /* =========================================================
@@ -488,6 +531,86 @@
 }
 
 /* =========================================================
+   GLOBAL
+========================================================= */
+
+.about-global {
+  background:
+    linear-gradient(
+      110deg,
+      #070707,
+      #080b10 55%,
+      #070707
+    );
+}
+
+/* =========================================================
+   RASSURANCE
+========================================================= */
+
+.about-reassurance {
+  width: min(1200px, 100%);
+
+  margin: 0 auto;
+
+  padding: 115px 40px 120px;
+}
+
+.about-reassurance-inner {
+  padding-left: 55px;
+}
+
+.reassurance-grid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(300px, 0.85fr);
+
+  gap: 100px;
+
+  margin-top: 35px;
+}
+
+.reassurance-grid h2 {
+  margin: 0;
+
+  color: #f2f2f2;
+
+  font-size: 48px;
+
+  line-height: 1.1;
+
+  letter-spacing: -1.8px;
+
+  font-weight: 400;
+}
+
+.reassurance-grid h2 span {
+  color: #1769ff;
+}
+
+.reassurance-grid > div:last-child {
+  padding-top: 5px;
+}
+
+.reassurance-grid p {
+  max-width: 500px;
+
+  margin: 0 0 20px;
+
+  color: #777;
+
+  font-size: 14px;
+
+  line-height: 1.8;
+}
+
+.reassurance-grid p:last-child {
+  margin-bottom: 0;
+}
+
+/* =========================================================
    FINAL
 ========================================================= */
 
@@ -643,6 +766,7 @@
 ========================================================= */
 
 @media (max-width: 900px) {
+
   .about-hero-content {
     padding-top: 105px;
     padding-bottom: 90px;
@@ -650,14 +774,16 @@
 
   .about-hero-mark {
     right: 4%;
-
     font-size: 280px;
+  }
+
+  .about-hero-reassurance {
+    gap: 22px;
   }
 
   .about-vision-grid,
   .about-approach-grid {
     gap: 60px;
-
     padding-left: 30px;
   }
 
@@ -666,8 +792,13 @@
   }
 
   .about-approach-heading h2,
-  .about-values-heading h2 {
+  .about-values-heading h2,
+  .reassurance-grid h2 {
     font-size: 42px;
+  }
+
+  .about-reassurance-inner {
+    padding-left: 30px;
   }
 
   .about-final {
@@ -680,6 +811,7 @@
 ========================================================= */
 
 @media (max-width: 700px) {
+
   .about-hero {
     min-height: auto;
   }
@@ -716,6 +848,20 @@
     font-size: 15px;
 
     line-height: 1.65;
+  }
+
+  .about-hero-reassurance {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 13px;
+
+    margin-top: 30px;
+  }
+
+  .about-hero-reassurance > div {
+    gap: 10px;
   }
 
   .about-vision {
@@ -842,6 +988,48 @@
     font-size: 12.5px;
   }
 
+  /* =========================
+     RASSURANCE MOBILE
+  ========================= */
+
+  .about-reassurance {
+    padding: 75px 20px 80px;
+  }
+
+  .about-reassurance-inner {
+    padding-left: 0;
+  }
+
+  .reassurance-grid {
+    grid-template-columns: 1fr;
+
+    gap: 30px;
+
+    margin-top: 28px;
+  }
+
+  .reassurance-grid h2 {
+    font-size: 35px;
+
+    line-height: 1.15;
+
+    letter-spacing: -1px;
+  }
+
+  .reassurance-grid > div:last-child {
+    padding-top: 0;
+  }
+
+  .reassurance-grid p {
+    font-size: 13px;
+
+    line-height: 1.75;
+  }
+
+  /* =========================
+     FINAL MOBILE
+  ========================= */
+
   .about-final {
     width: calc(100% - 40px);
 
@@ -880,6 +1068,7 @@
 ========================================================= */
 
 @media (max-width: 420px) {
+
   .about-hero-content {
     padding: 75px 18px 65px;
   }
@@ -896,7 +1085,8 @@
 
   .about-vision,
   .about-approach-inner,
-  .about-values {
+  .about-values,
+  .about-reassurance {
     padding-left: 18px;
     padding-right: 18px;
   }
@@ -917,6 +1107,7 @@
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
+
   .about-final > a {
     transition: none;
   }

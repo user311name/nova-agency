@@ -1,8 +1,7 @@
 import Link from "next/link";
 import "./page.css";
 
-const siteUrl = "#";
-// Remplace "#" par le vrai lien du site IA Future.
+const siteUrl = "https://site-ia-inky.vercel.app/";
 
 export default function IAFuturePage() {
   return (
@@ -21,12 +20,14 @@ export default function IAFuturePage() {
           IA FUTURE
         </span>
 
-        <Link
-          href="/realisations"
+        <a
+          href={siteUrl}
+          target="_blank"
+          rel="noopener noreferrer"
           className="ia-top-link"
         >
-          VOIR
-        </Link>
+          VOIR ↗
+        </a>
 
       </header>
 

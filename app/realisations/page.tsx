@@ -30,6 +30,15 @@ const projects = [
     image: "/projets/site-ia.png",
     href: "/realisations/ia-future",
   },
+  {
+    number: "04",
+    title: "NOVA ASSIST",
+    category: "SITE PREMIUM • AGENCE DIGITALE",
+    description:
+      "Une expérience digitale premium pensée pour présenter une agence moderne, ses services et son savoir-faire.",
+    image: "/projets/nova-assist.png",
+    href: "/realisations/nova-assist",
+  },
 ];
 
 export default function RealisationsPage() {
@@ -124,6 +133,7 @@ export default function RealisationsPage() {
                     alt={`Projet ${project.title}`}
                     fill
                     sizes="(max-width: 800px) 100vw, 82vw"
+                    priority={project.number === "01"}
                   />
 
                   <div className="project-image-shade" />

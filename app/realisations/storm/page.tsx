@@ -20,7 +20,8 @@ export default function StormPage() {
       <header className="project-header">
 
         <Link href="/realisations" className="project-back">
-          ← RÉALISATIONS
+          <span className="clean-arrow clean-arrow-left" />
+          RÉALISATIONS
         </Link>
 
         <Image
@@ -38,7 +39,8 @@ export default function StormPage() {
           rel="noopener noreferrer"
           className="project-live"
         >
-          VOIR LE SITE ↗
+          VOIR LE SITE
+          <span className="clean-arrow" />
         </a>
 
       </header>
@@ -90,7 +92,8 @@ export default function StormPage() {
           rel="noopener noreferrer"
           className="visit-button"
         >
-          VISITER LE SITE ↗
+          VISITER LE SITE
+          <span className="clean-arrow" />
         </a>
 
       </section>

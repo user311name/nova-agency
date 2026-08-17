@@ -26,6 +26,10 @@ export default function Home() {
   return (
     <main className="nova-home">
 
+      {/* =========================
+          HERO
+      ========================= */}
+
       <section className="nova-hero">
         <div className="hero-content">
 
@@ -47,6 +51,7 @@ export default function Home() {
           </p>
 
           <div className="hero-buttons">
+
             <Link href="/realisations">
               Découvrir nos créations
             </Link>
@@ -54,12 +59,14 @@ export default function Home() {
             <Link href="/contact">
               Demander un devis
             </Link>
+
           </div>
 
           <div className="hero-reassurance">
 
             <div className="reassurance-item">
               <span className="reassurance-check">✓</span>
+
               <div>
                 <strong>Design sur mesure</strong>
                 <span>Une identité pensée pour votre activité</span>
@@ -68,6 +75,7 @@ export default function Home() {
 
             <div className="reassurance-item">
               <span className="reassurance-check">✓</span>
+
               <div>
                 <strong>Mobile &amp; rapide</strong>
                 <span>Une expérience fluide sur tous les écrans</span>
@@ -76,6 +84,7 @@ export default function Home() {
 
             <div className="reassurance-item">
               <span className="reassurance-check">✓</span>
+
               <div>
                 <strong>Accompagnement</strong>
                 <span>Un projet suivi de la conception au lancement</span>
@@ -88,6 +97,10 @@ export default function Home() {
       </section>
 
 
+      {/* =========================
+          APPROCHE
+      ========================= */}
+
       <section className="intro-section">
 
         <div className="intro-label">
@@ -98,6 +111,7 @@ export default function Home() {
         <div className="intro-content">
 
           <div className="intro-heading">
+
             <p className="section-kicker">
               UNE PRÉSENCE QUI COMPTE
             </p>
@@ -107,8 +121,8 @@ export default function Home() {
               <br />
               envie de vous choisir.
             </h2>
-          </div>
 
+          </div>
 
           <div className="intro-text">
 
@@ -134,11 +148,16 @@ export default function Home() {
       </section>
 
 
+      {/* =========================
+          REALISATIONS
+      ========================= */}
+
       <section className="section projects-section">
 
         <div className="section-heading-row">
 
           <div>
+
             <span>
               02 — RÉALISATIONS
             </span>
@@ -148,8 +167,8 @@ export default function Home() {
               <br />
               faire bonne impression.
             </h2>
-          </div>
 
+          </div>
 
           <Link
             href="/realisations"
@@ -195,6 +214,7 @@ export default function Home() {
               <div className="project-card-content">
 
                 <div>
+
                   <p>
                     {project.category}
                   </p>
@@ -202,6 +222,7 @@ export default function Home() {
                   <h3>
                     {project.title}
                   </h3>
+
                 </div>
 
 
@@ -224,6 +245,10 @@ export default function Home() {
       </section>
 
 
+      {/* =========================
+          SERVICES
+      ========================= */}
+
       <section className="section services-section">
 
         <div className="section-heading-row services-heading">
@@ -241,7 +266,6 @@ export default function Home() {
             </h2>
 
           </div>
-
 
           <p className="section-introduction">
             De la création à l’optimisation, nous construisons des
@@ -345,6 +369,10 @@ export default function Home() {
       </section>
 
 
+      {/* =========================
+          POURQUOI NOVA
+      ========================= */}
+
       <section className="why-section">
 
         <div className="why-inner">
@@ -374,9 +402,7 @@ export default function Home() {
 
             <div className="advantage">
 
-              <span>
-                01
-              </span>
+              <span>01</span>
 
               <div>
 
@@ -396,9 +422,7 @@ export default function Home() {
 
             <div className="advantage">
 
-              <span>
-                02
-              </span>
+              <span>02</span>
 
               <div>
 
@@ -418,9 +442,7 @@ export default function Home() {
 
             <div className="advantage">
 
-              <span>
-                03
-              </span>
+              <span>03</span>
 
               <div>
 
@@ -443,6 +465,10 @@ export default function Home() {
 
       </section>
 
+
+      {/* =========================
+          CTA
+      ========================= */}
 
       <section className="cta">
 
@@ -471,6 +497,67 @@ export default function Home() {
         </Link>
 
       </section>
+
+
+      {/* =========================
+          FOOTER LÉGAL
+      ========================= */}
+
+      <footer className="nova-footer">
+
+        <div className="nova-footer-inner">
+
+          <div className="nova-footer-brand">
+
+            <span className="nova-footer-logo">
+              NOVA
+            </span>
+
+            <p>
+              Agence digitale premium.
+              <br />
+              Création de sites web sur mesure.
+            </p>
+
+          </div>
+
+
+          <div className="nova-footer-links">
+
+            <span className="nova-footer-title">
+              INFORMATIONS
+            </span>
+
+            <Link href="/contact">
+              Contact
+            </Link>
+
+            <Link href="/realisations">
+              Réalisations
+            </Link>
+
+            <Link href="/mentions-legales" className="legal-link">
+              Mentions légales
+            </Link>
+
+          </div>
+
+        </div>
+
+
+        <div className="nova-footer-bottom">
+
+          <span>
+            © {new Date().getFullYear()} NOVA — Tous droits réservés.
+          </span>
+
+          <Link href="/mentions-legales">
+            Mentions légales
+          </Link>
+
+        </div>
+
+      </footer>
 
     </main>
   );

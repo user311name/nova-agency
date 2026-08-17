@@ -13,7 +13,8 @@ export default function IAFuturePage() {
           href="/realisations"
           className="ia-back"
         >
-          ← RÉALISATIONS
+          <span className="css-arrow css-arrow-left" />
+          RÉALISATIONS
         </Link>
 
         <span className="ia-project-name">
@@ -26,7 +27,8 @@ export default function IAFuturePage() {
           rel="noopener noreferrer"
           className="ia-top-link"
         >
-          VOIR ↗
+          VOIR
+          <span className="css-arrow" />
         </a>
 
       </header>
@@ -91,8 +93,8 @@ export default function IAFuturePage() {
             rel="noopener noreferrer"
             className="ia-visit"
           >
-            VISITER LE SITE
-            <span>↗</span>
+            <span>VISITER LE SITE</span>
+            <span className="css-arrow" />
           </a>
 
         </div>
@@ -153,8 +155,10 @@ export default function IAFuturePage() {
           className="ia-nav-card"
         >
           <span>PROJET PRÉCÉDENT</span>
+
           <strong>
-            NOIR BARBER ↗
+            NOIR BARBER
+            <span className="css-arrow css-arrow-left-nav" />
           </strong>
         </Link>
 
@@ -172,8 +176,10 @@ export default function IAFuturePage() {
           className="ia-nav-card ia-nav-right"
         >
           <span>VOTRE PROJET</span>
+
           <strong>
-            PARLONS-EN ↗
+            PARLONS-EN
+            <span className="css-arrow" />
           </strong>
         </Link>
 

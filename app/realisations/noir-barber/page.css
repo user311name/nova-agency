@@ -20,6 +20,10 @@
 .project-back {
   justify-self: start;
 
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
   color: #777777;
   text-decoration: none;
 
@@ -52,6 +56,10 @@
 .project-live {
   justify-self: end;
 
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
   color: #ffffff;
   text-decoration: none;
 
@@ -61,6 +69,61 @@
 
 .project-live:hover {
   color: #bbbbbb;
+}
+
+
+/* =========================================================
+   FLÈCHES PROPRES
+========================================================= */
+
+.clean-arrow {
+  position: relative;
+
+  display: inline-block;
+
+  width: 15px;
+  height: 1px;
+
+  flex-shrink: 0;
+
+  background: #2563eb;
+
+  transform: translateY(0);
+
+  transition:
+    width 0.25s ease,
+    background 0.25s ease;
+}
+
+.clean-arrow::after {
+  content: "";
+
+  position: absolute;
+
+  right: 0;
+  top: 50%;
+
+  width: 6px;
+  height: 6px;
+
+  border-top: 1px solid #2563eb;
+  border-right: 1px solid #2563eb;
+
+  transform: translateY(-50%) rotate(45deg);
+
+  box-sizing: border-box;
+}
+
+.clean-arrow-left {
+  transform: rotate(180deg);
+}
+
+.project-back:hover .clean-arrow {
+  width: 19px;
+}
+
+.project-live:hover .clean-arrow {
+  width: 19px;
 }
 
 
@@ -172,7 +235,10 @@
 }
 
 .visit-button {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
 
   margin-top: 18px;
 
@@ -194,6 +260,23 @@
 .visit-button:hover {
   background: #2563eb;
   color: #ffffff;
+}
+
+.visit-button .clean-arrow {
+  background: #050505;
+}
+
+.visit-button .clean-arrow::after {
+  border-color: #050505;
+}
+
+.visit-button:hover .clean-arrow {
+  background: #ffffff;
+  width: 19px;
+}
+
+.visit-button:hover .clean-arrow::after {
+  border-color: #ffffff;
 }
 
 
@@ -325,6 +408,23 @@
   .project-live {
     font-size: 8px;
     letter-spacing: 1px;
+  }
+
+  .project-back {
+    gap: 9px;
+  }
+
+  .project-live {
+    gap: 9px;
+  }
+
+  .clean-arrow {
+    width: 12px;
+  }
+
+  .clean-arrow::after {
+    width: 5px;
+    height: 5px;
   }
 
   .project-intro {

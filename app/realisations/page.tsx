@@ -130,7 +130,7 @@ export default function RealisationsPage() {
 
                   <div className="project-view">
                     <span>VOIR LE PROJET</span>
-                    <strong>↗</strong>
+                    <strong aria-hidden="true">→</strong>
                   </div>
 
                   <span className="project-number">
@@ -168,7 +168,7 @@ export default function RealisationsPage() {
                     aria-label={`Voir le projet ${project.title}`}
                   >
                     DÉCOUVRIR
-                    <span>↗</span>
+                    <span aria-hidden="true">→</span>
                   </Link>
 
                 </div>
@@ -208,7 +208,7 @@ export default function RealisationsPage() {
           className="realisations-button"
         >
           <span>PARLER DE MON PROJET</span>
-          <strong>↗</strong>
+          <strong aria-hidden="true">→</strong>
         </Link>
 
       </section>

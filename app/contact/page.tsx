@@ -1076,7 +1076,7 @@ FIN DE LA DEMANDE
                 </span>
 
                 <strong aria-hidden="true">
-                  ↗
+                  →
                 </strong>
 
               </button>
@@ -1119,7 +1119,7 @@ FIN DE LA DEMANDE
         <Link href="/">
           RETOUR À L&apos;ACCUEIL
           <span aria-hidden="true">
-            ↗
+            →
           </span>
         </Link>
 

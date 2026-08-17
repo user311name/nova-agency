@@ -29,14 +29,86 @@
   color: #ffffff;
 }
 
+.ia-back,
+.ia-top-link,
+.ia-visit {
+  display: inline-flex;
+  align-items: center;
+}
+
+.ia-back {
+  gap: 12px;
+}
+
 .ia-top-link {
   justify-self: end;
+  gap: 12px;
 }
 
 .ia-project-name {
   font-weight: 600;
   letter-spacing: 0.25em;
 }
+
+
+/* =========================================================
+   VRAIES FLÈCHES CSS
+========================================================= */
+
+.css-arrow {
+  position: relative;
+
+  display: inline-block;
+
+  width: 18px;
+  height: 12px;
+
+  flex: 0 0 18px;
+}
+
+.css-arrow::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 5px;
+
+  width: 13px;
+  height: 1px;
+
+  background: currentColor;
+}
+
+.css-arrow::after {
+  content: "";
+
+  position: absolute;
+
+  right: 0;
+  top: 2px;
+
+  width: 7px;
+  height: 7px;
+
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+
+  transform: rotate(45deg);
+}
+
+.css-arrow-left {
+  transform: rotate(180deg);
+}
+
+.css-arrow-left-nav {
+  transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
 
 .ia-hero {
   width: min(1180px, calc(100% - 48px));
@@ -141,9 +213,14 @@
   color: #ffffff;
 }
 
-.ia-visit span {
-  font-size: 14px;
+.ia-visit .css-arrow {
+  font-size: 0;
 }
+
+
+/* =========================================================
+   DETAILS
+========================================================= */
 
 .ia-details {
   width: min(1180px, calc(100% - 48px));
@@ -197,6 +274,11 @@
   line-height: 1.85;
 }
 
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
 .ia-navigation {
   min-height: 130px;
   padding: 30px 32px;
@@ -222,9 +304,17 @@
 }
 
 .ia-nav-card strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
   font-size: 11px;
   letter-spacing: 0.16em;
   font-weight: 500;
+}
+
+.ia-nav-card strong .css-arrow {
+  color: #ffffff;
 }
 
 .ia-nav-center {
@@ -244,7 +334,17 @@
   text-align: right;
 }
 
+.ia-nav-right strong {
+  justify-content: flex-end;
+}
+
+
+/* =========================================================
+   TABLET / MOBILE
+========================================================= */
+
 @media (max-width: 800px) {
+
   .ia-topbar {
     height: 72px;
     padding: 0 18px;
@@ -315,7 +415,9 @@
   }
 }
 
+
 @media (max-width: 480px) {
+
   .ia-topbar {
     padding: 0 15px;
     font-size: 9px;
@@ -350,5 +452,20 @@
 
   .ia-nav-card strong {
     font-size: 9px;
+  }
+
+  .css-arrow {
+    width: 16px;
+    height: 11px;
+    flex-basis: 16px;
+  }
+
+  .css-arrow::before {
+    width: 11px;
+  }
+
+  .css-arrow::after {
+    width: 6px;
+    height: 6px;
   }
 }

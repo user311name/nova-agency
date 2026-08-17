@@ -24,8 +24,7 @@ export async function POST(request: Request) {
 
       return NextResponse.json(
         {
-          error:
-            "Le service d'envoi n'est pas configuré.",
+          error: "Le service d'envoi n'est pas configuré.",
         },
         {
           status: 500,
@@ -63,8 +62,7 @@ export async function POST(request: Request) {
     if (!name || !email || !message) {
       return NextResponse.json(
         {
-          error:
-            "Tous les champs obligatoires doivent être remplis.",
+          error: "Tous les champs obligatoires doivent être remplis.",
         },
         {
           status: 400,
@@ -101,8 +99,7 @@ export async function POST(request: Request) {
     if (email.length > 254) {
       return NextResponse.json(
         {
-          error:
-            "Adresse e-mail trop longue.",
+          error: "Adresse e-mail trop longue.",
         },
         {
           status: 400,
@@ -130,14 +127,11 @@ export async function POST(request: Request) {
     );
 
     if (!contactEmail) {
-      console.error(
-        "CONTACT_EMAIL manquante."
-      );
+      console.error("CONTACT_EMAIL manquante.");
 
       return NextResponse.json(
         {
-          error:
-            "L'adresse de réception n'est pas configurée.",
+          error: "L'adresse de réception n'est pas configurée.",
         },
         {
           status: 500,
@@ -166,19 +160,29 @@ export async function POST(request: Request) {
     // ENVOI RESEND
     // =========================================================
 
-    const { data, error } =
-      await resend.emails.send({
-        from:
-          "NOVA Agency <onboarding@resend.dev>",
+    const { data, error } = await resend.emails.send({
+      // =======================================================
+      // ADRESSE PROFESSIONNELLE NOVA
+      // =======================================================
 
-        to: [contactEmail],
+      from: "NOVA Agency <contact@agency-nova.fr>",
 
-        replyTo: email,
+      // =======================================================
+      // BOÎTE QUI REÇOIT LES DEMANDES
+      // =======================================================
 
-        subject:
-          `Nouvelle demande de devis — ${name}`,
+      to: [contactEmail],
 
-        text: `
+      // =======================================================
+      // QUAND TU CLIQUES SUR "RÉPONDRE"
+      // LA RÉPONSE PART DIRECTEMENT AU CLIENT
+      // =======================================================
+
+      replyTo: email,
+
+      subject: `Nouvelle demande de devis — ${name}`,
+
+      text: `
 NOUVELLE DEMANDE DE DEVIS — NOVA AGENCY
 
 ━━━━━━━━━━━━━━━━━━━━
@@ -198,8 +202,8 @@ ${message}
 ━━━━━━━━━━━━━━━━━━━━
 
 FIN DE LA DEMANDE
-        `.trim(),
-      });
+      `.trim(),
+    });
 
     // =========================================================
     // ERREUR RESEND

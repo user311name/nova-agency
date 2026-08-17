@@ -8,295 +8,176 @@ const processSteps = [
   {
     number: "01",
     title: "Demande de devis",
-    text: "Vous nous présentez votre activité et votre projet.",
+    text: "Vous présentez votre activité et votre projet.",
   },
   {
     number: "02",
     title: "Étude du projet",
-    text: "Nous étudions vos besoins afin de définir la meilleure solution.",
+    text: "Nous analysons vos besoins et les fonctionnalités souhaitées.",
   },
   {
     number: "03",
     title: "Devis personnalisé",
-    text: "Chaque projet étant différent, le tarif est établi uniquement sur devis.",
+    text: "Nous établissons une proposition adaptée à votre projet.",
   },
   {
     number: "04",
-    title: "Validation & règlement",
-    text: "Après validation du devis, le règlement peut être effectué par virement bancaire.",
+    title: "Validation",
+    text: "Après validation du devis, nous préparons le lancement du projet.",
   },
   {
     number: "05",
     title: "Réalisation",
-    text: "Nous lançons ensuite la création de votre projet.",
+    text: "Nous créons votre site avec une attention particulière au design et au mobile.",
   },
 ];
 
 const quoteSections = [
   {
-    title: "Site & structure",
-    name: "Site et structure",
+    title: "Type de site",
+    name: "Type de site",
     options: [
-      "Site vitrine simple",
-      "Site vitrine professionnel",
-      "Site vitrine avec fonctionnalités avancées",
+      "Site vitrine",
+      "Site vitrine premium",
+      "Site professionnel",
       "Portfolio",
-      "Blog / site d'actualités",
-      "Site pour une association",
-      "Site pour un restaurant",
-      "Site pour un commerce",
+      "Site pour restaurant",
+      "Site immobilier",
+      "Site pour commerce",
+      "Boutique / e-commerce",
       "Site de réservation",
-      "Site avec espace membre",
-      "Boutique en ligne / e-commerce",
-      "Application web",
+      "Blog",
+      "Site personnalisé",
+      "Autre",
+    ],
+  },
+  {
+    title: "Pages souhaitées",
+    name: "Pages souhaitées",
+    options: [
       "Accueil",
       "À propos",
       "Présentation de l'entreprise",
-      "Nos services",
-      "Nos prestations",
+      "Services",
+      "Prestations",
       "Tarifs",
-      "Galerie photos",
-      "Portfolio / réalisations",
-      "Témoignages / avis clients",
+      "Réalisations / Portfolio",
+      "Galerie",
+      "Témoignages / Avis",
       "FAQ",
       "Contact",
-      "Horaires",
-      "Localisation / carte",
-      "Blog",
-      "Actualités",
-      "Mentions légales",
-      "Politique de confidentialité",
+      "Blog / Actualités",
       "Page personnalisée",
-      "Plusieurs pages de services",
-      "Pages pour plusieurs établissements",
-      "Pages pour plusieurs produits",
     ],
   },
   {
-    title: "Design & contenu",
-    name: "Design et contenu",
+    title: "Style & identité",
+    name: "Style et identité",
     options: [
-      "Design simple et professionnel",
-      "Design moderne",
-      "Design haut de gamme",
-      "Design minimaliste",
-      "Design coloré",
-      "Design sombre / dark mode",
-      "Design entièrement personnalisé",
-      "Logo intégré",
-      "Création ou adaptation d'un logo",
-      "Couleurs personnalisées",
-      "Polices personnalisées",
-      "Icônes",
-      "Illustrations",
-      "Images",
-      "Vidéos",
+      "Moderne",
+      "Minimaliste",
+      "Premium / haut de gamme",
+      "Élégant",
+      "Sombre / Dark",
+      "Coloré",
+      "Sobre / professionnel",
+      "Entièrement personnalisé",
+      "Logo déjà disponible",
+      "Création / adaptation du logo",
+      "Couleurs déjà définies",
+      "NOVA propose les couleurs",
+      "Le client fournit les images",
+      "Aide pour les images",
+      "Aide pour les textes",
+    ],
+  },
+  {
+    title: "Fonctionnalités",
+    name: "Fonctionnalités",
+    options: [
+      "Formulaire de contact",
+      "Galerie photos",
       "Animations",
       "Effets au survol",
-      "Transitions entre les pages",
-      "Sliders / carrousels",
-      "Pop-ups",
-      "Sections interactives",
-      "Compteurs animés",
-      "Timeline",
-      "Cartes interactives",
-      "Le client fournit les textes",
-      "Aide à la rédaction",
-      "Rédaction avec l'aide de l'IA",
-      "Correction et amélioration des textes",
-      "Création de descriptions de services",
-      "Création de FAQ",
-      "Création de slogans / accroches",
-      "Traduction des textes",
-      "Le client fournit les images",
-      "Organisation des images",
-      "Retouche d'images",
-      "Création de visuels avec l'IA",
-      "Création d'illustrations",
-      "Intégration de vidéos",
-      "Galerie avec catégories",
-      "Galerie avec filtres",
-      "Galerie avec zoom",
-    ],
-  },
-  {
-    title: "Contact & réservation",
-    name: "Contact et réservation",
-    options: [
-      "Formulaire de contact simple",
-      "Formulaire de contact avancé",
-      "Adresse e-mail cliquable",
-      "Téléphone cliquable",
-      "Bouton WhatsApp",
-      "Réseaux sociaux",
+      "Vidéos",
       "Google Maps",
-      "Horaires d'ouverture",
-      "Plusieurs moyens de contact",
-      "Demande de devis",
-      "Demande de renseignements",
-      "Formulaire de réservation",
-      "Formulaire avec plusieurs choix",
-      "Formulaire avec téléchargement de fichier",
-      "Formulaire personnalisé",
-      "Calendrier simple",
-      "Affichage des disponibilités",
-      "Choix d'une date",
-      "Choix d'une heure",
-      "Choix d'une prestation",
-      "Prise de rendez-vous",
-      "Réservation",
-      "Confirmation automatique",
-      "E-mail de confirmation",
-      "Modification d'une réservation",
-      "Annulation d'une réservation",
-      "Rappel automatique",
-      "Gestion des disponibilités",
-      "Plusieurs types de rendez-vous",
-      "Plusieurs employés / intervenants",
-      "Réservation avec paiement",
-      "Système de réservation personnalisé",
-    ],
-  },
-  {
-    title: "E-commerce & paiements",
-    name: "E-commerce et paiement",
-    options: [
-      "Catalogue de produits",
-      "Catégories",
+      "Réseaux sociaux",
       "Recherche",
       "Filtres",
-      "Photos des produits",
-      "Descriptions",
-      "Prix",
-      "Variantes, tailles ou couleurs",
-      "Gestion du stock",
-      "Produits similaires",
-      "Panier",
-      "Codes promo",
-      "Frais de livraison",
-      "Calcul automatique du total",
-      "Paiement en ligne",
-      "Confirmation de commande",
-      "E-mail automatique",
-      "Historique et suivi des commandes",
-      "Aucun paiement en ligne",
-      "Paiement d'une commande",
-      "Paiement d'une réservation",
-      "Paiement d'un acompte",
-      "Paiement unique",
-      "Abonnement",
-      "Facturation",
-      "Confirmation automatique du paiement",
+      "FAQ interactive",
+      "Espace client",
+      "Connexion / compte",
+      "Tableau de bord",
+      "Fonctionnalité personnalisée",
     ],
   },
   {
-    title: "Comptes & espace client",
-    name: "Comptes et gestion",
+    title: "Réservation & contact",
+    name: "Réservation et contact",
     options: [
-      "Aucun compte utilisateur",
-      "Création de compte",
-      "Connexion / déconnexion",
-      "Mot de passe oublié",
-      "Profil utilisateur",
-      "Photo de profil",
-      "Espace personnel",
-      "Historique des réservations",
-      "Historique des commandes",
-      "Tableau de bord utilisateur",
-      "Système de rôles / permissions",
-      "Modifier les textes",
-      "Modifier les photos",
-      "Ajouter des photos",
-      "Supprimer des photos",
-      "Modifier les horaires",
-      "Modifier les tarifs",
-      "Ajouter / supprimer des services",
-      "Ajouter des actualités",
-      "Publier des articles",
-      "Gérer les réservations",
-      "Gérer les produits",
-      "Gérer les commandes",
-      "Gérer les avis",
-      "Gérer les utilisateurs",
-      "Espace administrateur complet",
+      "Formulaire de contact",
+      "Demande de devis",
+      "Prise de rendez-vous",
+      "Calendrier",
+      "Choix d'une date",
+      "Choix d'une heure",
+      "Réservation d'une prestation",
+      "Confirmation automatique",
+      "E-mail automatique",
+      "WhatsApp",
+      "Téléphone",
+      "Plusieurs moyens de contact",
+    ],
+  },
+  {
+    title: "Boutique & paiement",
+    name: "Boutique et paiement",
+    options: [
+      "Pas de boutique",
+      "Catalogue de produits",
+      "Catégories de produits",
+      "Panier",
+      "Paiement en ligne",
+      "Codes promo",
+      "Gestion du stock",
+      "Livraison",
+      "Paiement d'un acompte",
+      "Abonnement",
+      "Confirmation automatique",
     ],
   },
   {
     title: "IA & automatisations",
     name: "IA et automatisations",
     options: [
+      "Pas d'IA",
       "Chatbot IA",
-      "Assistant IA pour répondre aux visiteurs",
-      "Réponses sur l'entreprise",
-      "Recommandation de services",
-      "Recommandation de produits",
-      "Assistant IA personnalisé",
+      "Assistant IA",
+      "Réponses automatiques",
       "Génération de contenu",
-      "Descriptions de produits avec IA",
-      "Articles avec IA",
-      "FAQ avec IA",
-      "Traduction automatique",
-      "Outil IA personnalisé",
-      "Analyse ou traitement de données avec IA",
-      "Envoi automatique d'e-mails",
-      "Confirmation après formulaire",
-      "Confirmation après réservation",
-      "Rappels de rendez-vous",
+      "E-mails automatiques",
       "Notifications",
-      "Enregistrement automatique des demandes",
-      "Création automatique de rendez-vous",
-      "Envoi automatique de documents",
-      "Newsletter automatique",
-      "Google Analytics",
-      "Google Search Console",
-      "Calendrier externe",
-      "Service de réservation",
-      "CRM",
-      "Service d'e-mail",
+      "Automatisation personnalisée",
+      "Connexion à un outil externe",
       "Base de données",
       "API externe",
-      "Outil de facturation",
-      "Service de livraison",
     ],
   },
   {
-    title: "SEO, langues & mobile",
-    name: "SEO langues et mobile",
+    title: "SEO & langues",
+    name: "SEO et langues",
     options: [
-      "Uniquement en français",
+      "Français",
       "Français + anglais",
       "Plusieurs langues",
-      "Optimisation SEO de base",
+      "SEO de base",
+      "SEO avancé",
       "Titres et descriptions Google",
       "Optimisation des images",
-      "Sitemap",
-      "Pages locales",
-      "FAQ optimisée SEO",
       "Google Analytics",
+      "Google Search Console",
+      "Optimisation mobile",
       "Site responsive téléphone / tablette / ordinateur",
-      "Interface optimisée mobile",
-      "Site installable comme application (PWA)",
-    ],
-  },
-  {
-    title: "Blog, avis & maintenance",
-    name: "Blog avis et maintenance",
-    options: [
-      "Blog simple",
-      "Articles",
-      "Catégories d'articles",
-      "Recherche d'articles",
-      "Commentaires",
-      "Publication depuis l'administration",
-      "Affichage d'avis clients",
-      "Formulaire pour laisser un avis",
-      "Système de notation",
-      "Import d'avis externes",
-      "Gestion des avis depuis l'administration",
-      "Modifications occasionnelles",
-      "Maintenance régulière",
-      "Surveillance du site",
-      "Assistance technique",
     ],
   },
 ];
@@ -322,11 +203,9 @@ export default function Contact() {
     const form = formRef.current;
     const formData = new FormData(form);
 
-    /*
-    ==========================================================
-    ANTI-BOT — HONEYPOT
-    ==========================================================
-    */
+    /* ======================================================
+       ANTI-BOT
+    ====================================================== */
 
     const honeypot =
       formData.get("_gotcha")?.toString().trim() || "";
@@ -336,11 +215,9 @@ export default function Contact() {
       return;
     }
 
-    /*
-    ==========================================================
-    RÉCUPÉRATION DES VALEURS
-    ==========================================================
-    */
+    /* ======================================================
+       RÉCUPÉRATION
+    ====================================================== */
 
     const getValue = (name: string) => {
       const value = formData.get(name);
@@ -367,11 +244,9 @@ export default function Contact() {
         .join("\n");
     };
 
-    /*
-    ==========================================================
-    EMAIL
-    ==========================================================
-    */
+    /* ======================================================
+       EMAIL
+    ====================================================== */
 
     const clientEmail = getValue("Email");
 
@@ -388,11 +263,9 @@ export default function Contact() {
       return;
     }
 
-    /*
-    ==========================================================
-    LIMITES
-    ==========================================================
-    */
+    /* ======================================================
+       LIMITES
+    ====================================================== */
 
     const description =
       getValue("Description du projet");
@@ -420,106 +293,129 @@ export default function Contact() {
       return;
     }
 
-    /*
-    ==========================================================
-    CONSTRUCTION DU MESSAGE
-    ==========================================================
-    */
+    /* ======================================================
+       CONSTRUCTION DU BRIEF
+    ====================================================== */
 
     const message = `
-NOUVELLE DEMANDE DE DEVIS — NOVA AGENCY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NOUVEAU PROJET — NOVA AGENCY
+BRIEF DE CRÉATION DE SITE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-━━━━━━━━━━━━━━━━━━━━
-👤 INFORMATIONS CLIENT
-━━━━━━━━━━━━━━━━━━━━
+CLIENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Nom : ${getValue("Nom")}
 Entreprise : ${getValue("Entreprise")}
-
-━━━━━━━━━━━━━━━━━━━━
-📞 CONTACT
-━━━━━━━━━━━━━━━━━━━━
-
 Email : ${clientEmail}
 Téléphone : ${getValue("Téléphone")}
 
-━━━━━━━━━━━━━━━━━━━━
-💰 PROJET
-━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROJET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Budget : ${getValue("Budget approximatif")}
 Date souhaitée : ${getValue("Date souhaitée")}
 
-━━━━━━━━━━━━━━━━━━━━
-🌐 SITE & STRUCTURE
-━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+01 — TYPE DE SITE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Site et structure[]")}
+${formatOptions("Type de site[]")}
 
-━━━━━━━━━━━━━━━━━━━━
-🎨 DESIGN & CONTENU
-━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+02 — PAGES SOUHAITÉES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Design et contenu[]")}
+${formatOptions("Pages souhaitées[]")}
 
-━━━━━━━━━━━━━━━━━━━━
-📞 CONTACT & RÉSERVATION
-━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+03 — STYLE & IDENTITÉ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Contact et réservation[]")}
+${formatOptions("Style et identité[]")}
 
-━━━━━━━━━━━━━━━━━━━━
-🛒 E-COMMERCE & PAIEMENTS
-━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+04 — FONCTIONNALITÉS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("E-commerce et paiement[]")}
+${formatOptions("Fonctionnalités[]")}
 
-━━━━━━━━━━━━━━━━━━━━
-👥 COMPTES & ESPACE CLIENT
-━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+05 — RÉSERVATION & CONTACT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("Comptes et gestion[]")}
+${formatOptions("Réservation et contact[]")}
 
-━━━━━━━━━━━━━━━━━━━━
-🤖 IA & AUTOMATISATIONS
-━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+06 — BOUTIQUE & PAIEMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${formatOptions("Boutique et paiement[]")}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+07 — IA & AUTOMATISATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ${formatOptions("IA et automatisations[]")}
 
-━━━━━━━━━━━━━━━━━━━━
-🔎 SEO, LANGUES & MOBILE
-━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+08 — SEO & LANGUES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-${formatOptions("SEO langues et mobile[]")}
+${formatOptions("SEO et langues[]")}
 
-━━━━━━━━━━━━━━━━━━━━
-🛠️ BLOG, AVIS & MAINTENANCE
-━━━━━━━━━━━━━━━━━━━━
-
-${formatOptions("Blog avis et maintenance[]")}
-
-━━━━━━━━━━━━━━━━━━━━
-➕ AUTRES BESOINS
-━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AUTRES BESOINS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ${autresBesoins}
 
-━━━━━━━━━━━━━━━━━━━━
-📝 DESCRIPTION DU PROJET
-━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DESCRIPTION DU PROJET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ${description}
 
-━━━━━━━━━━━━━━━━━━━━
-FIN DE LA DEMANDE
-━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BRIEF POUR LA CRÉATION DU SITE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Créer un site web complet correspondant
+aux besoins décrits dans ce brief.
+
+Respecter précisément :
+
+• Le type de site demandé
+• Les pages sélectionnées
+• Le style et l'identité visuelle
+• Les fonctionnalités demandées
+• Les besoins de réservation et de contact
+• Les besoins liés à la boutique et au paiement
+• Les éventuelles fonctionnalités IA
+• Les besoins SEO et les langues
+• La description et les objectifs du client
+
+Le site doit être professionnel,
+moderne, responsive et optimisé pour
+ordinateur, tablette et téléphone.
+
+Ne pas inventer d'informations importantes
+sur l'entreprise.
+
+Lorsque certaines informations manquent,
+proposer une solution cohérente et
+professionnelle.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FIN DU BRIEF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 `;
 
-    /*
-    ==========================================================
-    ENVOI À NOTRE API RESEND
-    ==========================================================
-    */
+    /* ======================================================
+       ENVOI RESEND
+    ====================================================== */
 
     try {
       const response = await fetch("/api/contact", {
@@ -549,12 +445,6 @@ FIN DE LA DEMANDE
         result = {};
       }
 
-      /*
-      ========================================================
-      ERREUR
-      ========================================================
-      */
-
       if (!response.ok) {
         setSending(false);
 
@@ -565,12 +455,6 @@ FIN DE LA DEMANDE
 
         return;
       }
-
-      /*
-      ========================================================
-      SUCCÈS
-      ========================================================
-      */
 
       setSent(true);
 
@@ -597,6 +481,7 @@ FIN DE LA DEMANDE
       ===================================================== */}
 
       <section className="contact-hero">
+
         <div className="contact-hero-inner">
 
           <div className="contact-kicker">
@@ -613,13 +498,14 @@ FIN DE LA DEMANDE
           </h1>
 
           <p>
-            Présentez-nous votre projet : nous
-            vous proposerons une solution
-            digitale adaptée à votre activité
-            et à vos objectifs.
+            Présentez-nous votre projet.
+            Sélectionnez simplement vos besoins
+            et nous vous proposerons une solution
+            adaptée à votre activité.
           </p>
 
         </div>
+
       </section>
 
       {/* =====================================================
@@ -646,14 +532,12 @@ FIN DE LA DEMANDE
           </h2>
 
           <p className="contact-intro">
-            Sélectionnez ce dont vous avez besoin.
-            Cela nous permet de vous envoyer un
-            devis précis, sans perdre de temps.
+            Quelques choix suffisent pour nous
+            permettre de comprendre votre projet
+            et de préparer un devis précis.
           </p>
 
-          {/* =================================================
-              PROCESS
-          ================================================= */}
+          {/* PROCESS */}
 
           <div className="project-process">
 
@@ -735,10 +619,10 @@ FIN DE LA DEMANDE
           </div>
 
           <p className="form-description">
-            Remplissez les informations principales
-            puis ouvrez les catégories qui vous
-            intéressent. Vous pouvez sélectionner
-            plusieurs options.
+            Renseignez vos informations puis
+            sélectionnez les éléments qui
+            correspondent à votre projet.
+            Plusieurs choix sont possibles.
           </p>
 
           <form
@@ -822,7 +706,7 @@ FIN DE LA DEMANDE
             </div>
 
             {/* =================================================
-                EMAIL / TELEPHONE
+                EMAIL / TÉLÉPHONE
             ================================================= */}
 
             <div className="form-row">
@@ -935,7 +819,7 @@ FIN DE LA DEMANDE
             <div className="quote-options">
 
               <p className="quote-options-title">
-                Sélectionnez les éléments souhaités
+                VOS BESOINS
               </p>
 
               {quoteSections.map((section) => (
@@ -1000,14 +884,14 @@ FIN DE LA DEMANDE
             <div className="form-field">
 
               <label htmlFor="autre">
-                Autres besoins ou fonctionnalités
+                Autres besoins
               </label>
 
               <input
                 id="autre"
                 name="Autres besoins"
                 type="text"
-                placeholder="Ex. un système particulier, une idée, une intégration..."
+                placeholder="Une idée ou fonctionnalité particulière..."
                 maxLength={1500}
               />
 
@@ -1020,14 +904,13 @@ FIN DE LA DEMANDE
             <div className="form-field">
 
               <label htmlFor="message">
-                Décrivez votre projet{" "}
-                <span>*</span>
+                Décrivez votre projet <span>*</span>
               </label>
 
               <textarea
                 id="message"
                 name="Description du projet"
-                placeholder="Présentez votre activité, vos objectifs et les informations importantes..."
+                placeholder="Présentez votre activité, vos objectifs et ce que vous souhaitez obtenir avec votre site..."
                 maxLength={5000}
                 required
               />
@@ -1059,8 +942,8 @@ FIN DE LA DEMANDE
 
               <p>
                 Vos informations servent
-                uniquement à répondre à votre
-                demande.
+                uniquement à traiter votre
+                demande de projet.
               </p>
 
               <button

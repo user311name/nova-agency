@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Image from "next/image";
 import Link from "next/link";
+import { Analytics } from "@vercel/analytics/next";
 
 const siteUrl = "https://nova-agency-sigma.vercel.app";
 
@@ -154,6 +155,8 @@ export default function RootLayout({
         </header>
 
         {children}
+
+        <Analytics />
       </body>
     </html>
   );

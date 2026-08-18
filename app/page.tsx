@@ -56,7 +56,7 @@ export default function Home() {
               Découvrir nos créations
             </Link>
 
-            <Link href="/contact">
+            <Link href="/devis">
               Demander un devis
             </Link>
 
@@ -492,7 +492,7 @@ export default function Home() {
         </div>
 
 
-        <Link href="/contact">
+        <Link href="/devis">
           Parlons de votre projet →
         </Link>
 

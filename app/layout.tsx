@@ -100,6 +100,7 @@ export default function RootLayout({
     <html lang="fr">
       <body>
         <header className="navbar">
+
           <Link
             href="/"
             className="logo"
@@ -144,11 +145,12 @@ export default function RootLayout({
           </nav>
 
           <Link
-            href="/contact"
+            href="/devis"
             className="nav-button"
           >
             Demander un devis
           </Link>
+
         </header>
 
         {children}

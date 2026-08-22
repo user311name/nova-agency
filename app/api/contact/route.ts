@@ -11,10 +11,29 @@ function clean(value: unknown): string {
   return value.trim();
 }
 
+function cleanList(value: unknown): string[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .filter((item): item is string => typeof item === "string")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function display(value: string): string {
+  return value || "Non renseigné";
+}
+
+function displayList(values: string[]): string {
+  return values.length > 0 ? values.join(", ") : "Non renseigné";
+}
+
 export async function POST(request: Request) {
   try {
     // =========================================================
-    // VÉRIFICATION DE LA CLÉ RESEND
+    // CONFIGURATION RESEND
     // =========================================================
 
     const apiKey = process.env.RESEND_API_KEY;
@@ -25,6 +44,34 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error: "Le service d'envoi n'est pas configuré.",
+        },
+        {
+          status: 500,
+        }
+      );
+    }
+
+    const contactEmail = clean(process.env.CONTACT_EMAIL);
+
+    if (!contactEmail) {
+      console.error("CONTACT_EMAIL manquante.");
+
+      return NextResponse.json(
+        {
+          error: "L'adresse de réception n'est pas configurée.",
+        },
+        {
+          status: 500,
+        }
+      );
+    }
+
+    if (!emailRegex.test(contactEmail)) {
+      console.error("CONTACT_EMAIL invalide :", contactEmail);
+
+      return NextResponse.json(
+        {
+          error: "L'adresse de réception configurée est invalide.",
         },
         {
           status: 500,
@@ -44,6 +91,14 @@ export async function POST(request: Request) {
     const email = clean(body.email);
     const message = clean(body.message);
     const website = clean(body.website);
+
+    const project = cleanList(body.project);
+    const needs = cleanList(body.needs);
+    const style = cleanList(body.style);
+    const budget = clean(body.budget);
+    const launchDate = clean(body.launchDate);
+    const company = clean(body.company);
+    const phone = clean(body.phone);
 
     // =========================================================
     // HONEYPOT ANTI-BOT
@@ -83,7 +138,7 @@ export async function POST(request: Request) {
     }
 
     // =========================================================
-    // LIMITES
+    // LIMITES DE SÉCURITÉ
     // =========================================================
 
     if (name.length > 100) {
@@ -120,156 +175,22 @@ export async function POST(request: Request) {
     }
 
     // =========================================================
-    // EMAIL DE RÉCEPTION
+    // PROMPT IA
     // =========================================================
 
-    const contactEmail = clean(
-      process.env.CONTACT_EMAIL
-    );
+    const aiPrompt = `
+Tu es un expert senior en conception, UX/UI,
+développement web et création de sites internet
+professionnels.
 
-    if (!contactEmail) {
-      console.error("CONTACT_EMAIL manquante.");
-
-      return NextResponse.json(
-        {
-          error:
-            "L'adresse de réception n'est pas configurée.",
-        },
-        {
-          status: 500,
-        }
-      );
-    }
-
-    if (!emailRegex.test(contactEmail)) {
-      console.error(
-        "CONTACT_EMAIL invalide :",
-        contactEmail
-      );
-
-      return NextResponse.json(
-        {
-          error:
-            "L'adresse de réception configurée est invalide.",
-        },
-        {
-          status: 500,
-        }
-      );
-    }
-
-    // =========================================================
-    // ENVOI RESEND
-    // =========================================================
-
-    const { data, error } = await resend.emails.send({
-      // =======================================================
-      // ADRESSE PROFESSIONNELLE NOVA
-      // =======================================================
-
-      from: "NOVA Agency <contact@agency-nova.fr>",
-
-      // =======================================================
-      // BOÎTE QUI REÇOIT LES DEMANDES
-      // =======================================================
-
-      to: [contactEmail],
-
-      // =======================================================
-      // RÉPONDRE DIRECTEMENT AU CLIENT
-      // =======================================================
-
-      replyTo: email,
-
-      // =======================================================
-      // SUJET
-      // =======================================================
-
-      subject: `Nouvelle demande de devis — ${name}`,
-
-      // =======================================================
-      // CONTENU DU MAIL
-      // =======================================================
-
-      text: `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-NOVA AGENCY
-NOUVELLE DEMANDE DE DEVIS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-
-╔════════════════════════════════════════════╗
-║                                            ║
-║        01 — BRIEF DU CLIENT                ║
-║                                            ║
-╚════════════════════════════════════════════╝
-
-
-Voici le brief complet transmis par le client.
-
-Ce bloc contient toutes les informations
-nécessaires pour comprendre le projet.
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-INFORMATIONS CLIENT
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Nom :
-${name}
-
-Email :
-${email}
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-BRIEF CLIENT
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-${message}
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-FIN DU BRIEF CLIENT
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-
-
-╔════════════════════════════════════════════╗
-║                                            ║
-║        02 — PROMPT IA                     ║
-║                                            ║
-╚════════════════════════════════════════════╝
-
-
-IMPORTANT :
-
-Le texte ci-dessous est conçu pour être
-copié-collé directement dans ChatGPT ou
-un autre outil d'intelligence artificielle.
-
-Il permet de générer une première base
-du site à partir du brief du client.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-PROMPT À COPIER-COLLER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-
-Tu es un expert senior en conception,
-UX/UI, développement web et création de
-sites internet professionnels.
-
-Tu travailles pour une agence digitale
-appelée NOVA Agency.
+Tu travailles pour une agence digitale appelée
+NOVA Agency.
 
 Ta mission est de créer une PREMIÈRE BASE
-COMPLÈTE d'un site internet à partir du
-brief client fourni à la fin de ce prompt.
+COMPLÈTE d'un site internet à partir du brief
+client fourni ci-dessous.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 OBJECTIF
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Créer une première version professionnelle,
 moderne, cohérente et responsive du site.
@@ -278,75 +199,24 @@ Le site doit être pensé comme un véritable
 projet client et non comme une simple
 démonstration technique.
 
-L'objectif est d'obtenir une base suffisamment
-complète pour que l'équipe NOVA puisse ensuite
-la reprendre, la modifier et la personnaliser.
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 RÈGLES IMPORTANTES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-1. Respecte précisément les informations
-   fournies dans le brief.
-
+1. Respecte précisément les informations fournies.
 2. Respecte le type de site demandé.
+3. Respecte le style visuel demandé.
+4. Respecte les fonctionnalités demandées.
+5. Respecte les langues demandées.
+6. Prévois un responsive complet.
+7. Le design doit être professionnel.
+8. L'expérience utilisateur doit être claire.
+9. La navigation doit être simple et intuitive.
+10. N'invente jamais de coordonnées,
+    prix, statistiques ou témoignages.
+11. Lorsque des informations manquent,
+    utilise des placeholders clairement identifiés.
+12. Le code doit être propre, organisé et lisible.
 
-3. Respecte les pages demandées.
-
-4. Respecte le style visuel demandé.
-
-5. Respecte les fonctionnalités demandées.
-
-6. Respecte les besoins de réservation,
-   contact, paiement, boutique ou espace
-   client lorsqu'ils sont demandés.
-
-7. Respecte les besoins liés à l'IA et aux
-   automatisations lorsqu'ils sont demandés.
-
-8. Respecte les langues demandées.
-
-9. Prévois une structure responsive complète
-   pour ordinateur, tablette et téléphone.
-
-10. Le design doit être professionnel,
-    moderne et cohérent avec l'activité.
-
-11. L'expérience utilisateur doit être claire.
-
-12. La navigation doit être simple et intuitive.
-
-13. Les boutons et appels à l'action doivent
-    être clairement visibles.
-
-14. Les sections doivent avoir une hiérarchie
-    visuelle logique.
-
-15. Ne surcharge pas inutilement le design.
-
-16. N'invente jamais de coordonnées,
-    informations légales, prix, statistiques,
-    témoignages ou informations importantes
-    qui ne figurent pas dans le brief.
-
-17. Lorsque des informations importantes
-    manquent, utilise des placeholders
-    clairement identifiés.
-
-18. Ne présente jamais une information
-    inventée comme une information réelle.
-
-19. Le site doit être facilement modifiable
-    par un développeur après génération.
-
-20. Le code doit être propre, organisé,
-    lisible et cohérent.
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 TECHNOLOGIES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Utilise de préférence :
 
@@ -355,165 +225,29 @@ Utilise de préférence :
 - TypeScript
 - CSS
 
-Si le projet nécessite une autre technologie
-ou une bibliothèque particulière pour une
-fonctionnalité précise, explique clairement
-pourquoi elle est nécessaire.
-
-Évite les dépendances inutiles.
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-DESIGN
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Analyse les indications de style du client
-avant de créer l'interface.
-
-Adapte notamment :
-
-- les couleurs
-- la typographie
-- les espacements
-- les boutons
-- les cartes
-- les sections
-- les images
-- les animations
-- les effets
-- la navigation
-- la hiérarchie visuelle
-
-Le design doit correspondre à l'activité
-et au positionnement du client.
-
-Ne crée pas systématiquement un design
-identique pour tous les projets.
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 RESPONSIVE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Le site doit être parfaitement utilisable sur :
+Le site doit fonctionner sur :
 
 - ordinateur
 - tablette
 - téléphone
 
-Porte une attention particulière à :
+Aucun élément ne doit provoquer
+de débordement horizontal sur mobile.
 
-- la navigation mobile
-- les tailles de texte
-- les espacements
-- les boutons
-- les formulaires
-- les images
-- les grilles
-- les menus
-- les sections horizontales
-
-Aucun élément ne doit provoquer de
-débordement horizontal sur mobile.
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-CONTENU
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Utilise les informations disponibles
-dans le brief.
-
-Lorsque le client a fourni des textes,
-respecte-les.
-
-Lorsque certains textes manquent :
-
-- propose du contenu provisoire cohérent
-- indique clairement qu'il s'agit d'un
-  contenu provisoire
-- ne présente pas ce contenu comme venant
-  réellement du client
-
-Les coordonnées doivent rester celles
-fournies dans le brief.
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-FONCTIONNALITÉS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Implémente les fonctionnalités demandées
-dans le brief lorsque cela est possible.
-
-Pour les fonctionnalités nécessitant :
-
-- une API
-- une clé secrète
-- une base de données
-- un compte externe
-- un service de paiement
-- un service d'e-mail
-- une configuration serveur
-
-ne mets jamais de véritable clé secrète
-dans le code.
-
-Utilise des variables d'environnement et
-indique clairement ce qui devra être
-configuré plus tard.
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SEO
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Lorsque le SEO est demandé :
-
-- prévoir les metadata
-- prévoir des titres cohérents
-- utiliser une structure HTML sémantique
-- optimiser les images
-- prévoir les éléments nécessaires
-  au référencement
-
-Ne promets jamais un référencement Google
-garanti.
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-IMAGES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Si les images du client ne sont pas fournies :
-
-- utilise des placeholders
-- ou indique clairement les emplacements
-  où les images devront être ajoutées
-
-Ne prétends pas avoir reçu des images
-qui ne sont pas présentes.
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-LIVRABLE ATTENDU
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LIVRABLE
 
 Commence par analyser le brief.
 
 Ensuite :
 
-1. Résume rapidement le projet.
-
+1. Résume le projet.
 2. Définis la structure du site.
-
 3. Définis les pages nécessaires.
-
 4. Définis la direction visuelle.
-
-5. Définis les principales fonctionnalités.
-
-6. Crée ensuite le code nécessaire.
+5. Définis les fonctionnalités.
+6. Génère ensuite le code nécessaire.
 
 Lorsque tu fournis du code :
 
@@ -521,70 +255,130 @@ Lorsque tu fournis du code :
 - indique le chemin de chaque fichier
 - ne donne pas uniquement des extraits
 - assure-toi que les fichiers sont cohérents
-  entre eux
 
-Le résultat doit constituer une première base
-réellement exploitable du projet.
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-IMPORTANT — TRAVAIL DE NOVA
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+IMPORTANT
 
 Cette génération constitue uniquement une
 PREMIÈRE BASE DE TRAVAIL.
 
-Après génération, l'équipe NOVA Agency
-reprendra le projet afin de :
+L'équipe NOVA Agency reprendra ensuite le projet
+afin de vérifier, corriger, personnaliser,
+tester et améliorer le résultat.
 
-- vérifier le contenu
-- corriger le code
-- améliorer le design
-- ajuster le responsive
-- personnaliser les textes
-- remplacer les placeholders
-- intégrer les vraies images
-- connecter les services nécessaires
-- tester les fonctionnalités
-- améliorer l'expérience utilisateur
-- effectuer les dernières modifications
-  demandées par le client
-
-Ne considère donc pas la première génération
-comme une version finale.
-
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+==================================================
 BRIEF COMPLET DU CLIENT
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+==================================================
 
-${message}
+Nom : ${display(name)}
+Entreprise : ${display(company)}
+Email : ${display(email)}
+Téléphone : ${display(phone)}
 
+Type de projet :
+${displayList(project)}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Besoins :
+${displayList(needs)}
+
+Style :
+${displayList(style)}
+
+Budget :
+${display(budget)}
+
+Date souhaitée :
+${display(launchDate)}
+
+Message / brief :
+${display(message)}
+
+==================================================
 FIN DU BRIEF
+==================================================
+
+Analyse maintenant le brief et commence par
+définir précisément la structure du projet.
+`.trim();
+
+    // =========================================================
+    // EMAIL PROPRE
+    // =========================================================
+
+    const emailText = `
+NOVA AGENCY
+NOUVELLE DEMANDE DE DEVIS
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+01 — INFORMATIONS CLIENT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+Nom
+${display(name)}
 
-Maintenant, analyse le brief et commence
-par définir précisément la structure du projet
-avant de générer la première base du site.
+Entreprise
+${display(company)}
+
+Email
+${display(email)}
+
+Téléphone
+${display(phone)}
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-FIN DU PROMPT IA
+02 — PROJET
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+Type de projet
+${displayList(project)}
+
+Besoins
+${displayList(needs)}
+
+Style souhaité
+${displayList(style)}
 
 
-╔════════════════════════════════════════════╗
-║                                            ║
-║              NOVA AGENCY                   ║
-║                                            ║
-║        Brief reçu avec succès              ║
-║                                            ║
-╚════════════════════════════════════════════╝
-`.trim(),
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+03 — BUDGET & DÉLAI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Budget
+${display(budget)}
+
+Date de lancement souhaitée
+${display(launchDate)}
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+04 — BRIEF DU CLIENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${display(message)}
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+05 — PROMPT IA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${aiPrompt}
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NOVA AGENCY
+Brief reçu via le formulaire de demande de devis.
+`.trim();
+
+    // =========================================================
+    // ENVOI
+    // =========================================================
+
+    const { data, error } = await resend.emails.send({
+      from: "NOVA Agency <contact@agency-nova.fr>",
+      to: [contactEmail],
+      replyTo: email,
+      subject: `Nouvelle demande de devis — ${name}`,
+      text: emailText,
     });
 
     // =========================================================

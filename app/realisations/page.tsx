@@ -41,9 +41,34 @@ const projects = [
   },
 ];
 
+const benefits = [
+  {
+    number: "01",
+    title: "IMAGE",
+    description:
+      "Une présence digitale qui inspire confiance dès la première visite et donne une vraie valeur à votre activité.",
+  },
+  {
+    number: "02",
+    title: "CONVERSION",
+    description:
+      "Une expérience pensée pour guider vos visiteurs et les pousser naturellement vers la prise de contact.",
+  },
+  {
+    number: "03",
+    title: "SUR-MESURE",
+    description:
+      "Pas de modèle générique. Chaque détail est construit autour de votre activité, de votre image et de vos objectifs.",
+  },
+];
+
 export default function RealisationsPage() {
   return (
     <main className="realisations-page">
+      {/* =====================================================
+          HERO
+      ===================================================== */}
+
       <section
         className="realisations-hero"
         aria-labelledby="realisations-title"
@@ -88,6 +113,10 @@ export default function RealisationsPage() {
           </div>
         </div>
       </section>
+
+      {/* =====================================================
+          PROJECTS
+      ===================================================== */}
 
       <section
         className="projects-section"
@@ -187,6 +216,10 @@ export default function RealisationsPage() {
         </div>
       </section>
 
+      {/* =====================================================
+          ANCIEN CTA / TRANSITION
+      ===================================================== */}
+
       <section className="realisations-bottom">
         <div className="bottom-line">
           <span>02</span>
@@ -221,6 +254,138 @@ export default function RealisationsPage() {
               aria-hidden="true"
             />
           </Link>
+        </div>
+      </section>
+
+      {/* =====================================================
+          ÉTAPE 4 — CTA COMMERCIAL
+      ===================================================== */}
+
+      <section
+        className="commercial-cta"
+        aria-labelledby="commercial-cta-title"
+      >
+        <div className="commercial-cta-inner">
+          <div className="commercial-cta-top">
+            <div className="commercial-cta-label">
+              <span />
+              <p>03 — PASSER À L'ACTION</p>
+            </div>
+
+            <span className="commercial-cta-index">
+              NOVA / VOTRE PROJET
+            </span>
+          </div>
+
+          <div className="commercial-cta-main">
+            <div className="commercial-cta-heading">
+              <span className="commercial-cta-eyebrow">
+                VOTRE ACTIVITÉ MÉRITE MIEUX
+              </span>
+
+              <h2 id="commercial-cta-title">
+                Votre activité mérite
+                <br />
+                <span>mieux qu'un site standard.</span>
+              </h2>
+            </div>
+
+            <div className="commercial-cta-intro">
+              <p>
+                Un site pensé pour votre image, votre activité
+                et surtout pour transformer vos visiteurs en
+                clients.
+              </p>
+
+              <div className="commercial-cta-note">
+                <span className="commercial-cta-note-dot" />
+                <span>
+                  Une approche pensée pour votre business.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="commercial-benefits">
+            {benefits.map((benefit) => (
+              <article
+                className="commercial-benefit"
+                key={benefit.number}
+              >
+                <div className="commercial-benefit-top">
+                  <span>{benefit.number}</span>
+
+                  <span className="commercial-benefit-line" />
+                </div>
+
+                <h3>{benefit.title}</h3>
+
+                <p>{benefit.description}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="commercial-cta-action">
+            <div className="commercial-cta-action-content">
+              <span className="commercial-action-eyebrow">
+                PRÊT À FAIRE ÉVOLUER VOTRE PRÉSENCE EN LIGNE ?
+              </span>
+
+              <h3>
+                Parlons de
+                <br />
+                <span>votre projet.</span>
+              </h3>
+            </div>
+
+            <div className="commercial-cta-button-wrap">
+              <Link
+                href="/contact"
+                className="commercial-cta-button"
+              >
+                <span>DÉMARRER MON PROJET</span>
+
+                <span
+                  className="commercial-cta-arrow"
+                  aria-hidden="true"
+                />
+              </Link>
+
+              <p className="commercial-cta-reassurance">
+                Réponse sous 24h&nbsp; • &nbsp;Échange gratuit
+                &nbsp; • &nbsp;Sans engagement
+              </p>
+            </div>
+          </div>
+
+          <div className="commercial-existing-site">
+            <div className="commercial-existing-icon">
+              <span />
+            </div>
+
+            <div>
+              <span className="commercial-existing-label">
+                VOUS AVEZ DÉJÀ UN SITE ?
+              </span>
+
+              <p>
+                On peut aussi l'améliorer, le moderniser ou
+                repenser complètement son expérience.
+              </p>
+            </div>
+
+            <Link
+              href="/contact"
+              className="commercial-existing-link"
+            >
+              <span>EN PARLER</span>
+
+              <span
+                className="commercial-existing-arrow"
+                aria-hidden="true"
+              />
+            </Link>
+          </div>
         </div>
       </section>
     </main>

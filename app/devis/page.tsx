@@ -70,7 +70,9 @@ export default function Devis() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(
+    e: React.FormEvent<HTMLFormElement>
+  ) {
     e.preventDefault();
 
     if (!formRef.current || sending) return;
@@ -81,6 +83,10 @@ export default function Devis() {
     const form = formRef.current;
     const formData = new FormData(form);
 
+    // =========================================================
+    // HONEYPOT ANTI-BOT
+    // =========================================================
+
     const honeypot =
       formData.get("_gotcha")?.toString().trim() || "";
 
@@ -89,8 +95,13 @@ export default function Devis() {
       return;
     }
 
+    // =========================================================
+    // RÉCUPÉRATION DES VALEURS
+    // =========================================================
+
     const getValue = (name: string) => {
       const value = formData.get(name);
+
       return value?.toString().trim() || "Non renseigné";
     };
 
@@ -101,68 +112,141 @@ export default function Devis() {
         .filter(Boolean);
     };
 
+    // =========================================================
+    // DONNÉES CLIENT
+    // =========================================================
+
+    const name = getValue("Nom");
     const clientEmail = getValue("Email");
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const company = getValue("Entreprise");
+    const phone = getValue("Téléphone");
+
+    const project = getValues("Projet[]");
+    const needs = getValues("Besoins[]");
+    const style = getValues("Style[]");
+
+    const budget = getValue("Budget");
+    const launchDate = getValue("Date souhaitée");
+    const message = getValue("Message");
+
+    // =========================================================
+    // VALIDATION EMAIL
+    // =========================================================
+
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(clientEmail)) {
       setSending(false);
-      alert("Veuillez entrer une adresse e-mail valide.");
+
+      alert(
+        "Veuillez entrer une adresse e-mail valide."
+      );
+
       return;
     }
 
-    const message = `
+    // =========================================================
+    // BRIEF COMPLET
+    // =========================================================
+
+    const brief = `
 NOUVELLE DEMANDE DE DEVIS — NOVA AGENCY
 
-CLIENT
-Nom : ${getValue("Nom")}
-Entreprise : ${getValue("Entreprise")}
-Email : ${clientEmail}
-Téléphone : ${getValue("Téléphone")}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INFORMATIONS CLIENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+Nom :
+${name}
+
+Entreprise :
+${company}
+
+Email :
+${clientEmail}
+
+Téléphone :
+${phone}
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 PROJET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 Type de projet :
-${getValues("Projet[]").join(", ") || "Non renseigné"}
+${project.join(", ") || "Non renseigné"}
 
-BESOINS :
-${getValues("Besoins[]").join(", ") || "Non renseigné"}
+Besoins :
+${needs.join(", ") || "Non renseigné"}
 
-STYLE :
-${getValues("Style[]").join(", ") || "Non renseigné"}
+Style :
+${style.join(", ") || "Non renseigné"}
 
-BUDGET :
-${getValue("Budget")}
 
-DATE DE LANCEMENT :
-${getValue("Date souhaitée")}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BUDGET & DÉLAI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-MESSAGE :
-${getValue("Message")}
+Budget :
+${budget}
 
-BRIEF
-Créer une proposition web professionnelle,
-moderne, responsive et cohérente avec les
-besoins indiqués par le client.
-`;
+Date de lancement souhaitée :
+${launchDate}
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MESSAGE DU CLIENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${message}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FIN DU BRIEF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+`.trim();
+
+    // =========================================================
+    // ENVOI API
+    // =========================================================
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
+
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
+
         body: JSON.stringify({
-          name: getValue("Nom"),
+          name,
           email: clientEmail,
-          message,
+          message: brief,
+
+          company,
+          phone,
+
+          project,
+          needs,
+          style,
+
+          budget,
+          launchDate,
+
           website: honeypot,
         }),
       });
 
+      // =======================================================
+      // RÉPONSE API
+      // =======================================================
+
       let result: {
         success?: boolean;
         error?: string;
+        id?: string;
       } = {};
 
       try {
@@ -171,25 +255,39 @@ besoins indiqués par le client.
         result = {};
       }
 
+      // =======================================================
+      // ERREUR
+      // =======================================================
+
       if (!response.ok) {
         setSending(false);
 
         alert(
-          result?.error ||
+          result.error ||
             "Une erreur est survenue. Veuillez réessayer."
         );
 
         return;
       }
 
+      // =======================================================
+      // SUCCÈS
+      // =======================================================
+
       setSent(true);
+
       form.reset();
 
       window.scrollTo({
         top: formRef.current.offsetTop - 100,
         behavior: "smooth",
       });
-    } catch {
+    } catch (error) {
+      console.error(
+        "Erreur lors de l'envoi du formulaire :",
+        error
+      );
+
       alert(
         "Impossible d'envoyer la demande. Vérifiez votre connexion puis réessayez."
       );
@@ -200,10 +298,15 @@ besoins indiqués par le client.
 
   return (
     <main className="contact-page">
+      {/* =====================================================
+          HERO
+      ====================================================== */}
+
       <section className="contact-hero">
         <div className="contact-hero-inner">
           <div className="contact-kicker">
             <span className="contact-kicker-line" />
+
             <span>DEMANDER UN DEVIS</span>
           </div>
 
@@ -214,16 +317,26 @@ besoins indiqués par le client.
           </h1>
 
           <p>
-            Quelques choix suffisent pour nous permettre de comprendre votre
-            projet et de préparer une proposition adaptée.
+            Quelques choix suffisent pour nous permettre
+            de comprendre votre projet et de préparer une
+            proposition adaptée.
           </p>
         </div>
       </section>
 
+      {/* =====================================================
+          MAIN
+      ====================================================== */}
+
       <section className="contact-container">
+        {/* ===================================================
+            LEFT
+        ==================================================== */}
+
         <aside className="contact-info">
           <div className="contact-section-label">
             <span>01</span>
+
             <p>UN CADRE CLAIR</p>
           </div>
 
@@ -237,39 +350,50 @@ besoins indiqués par le client.
 
           <p className="contact-intro">
             Pas besoin de maîtriser les détails techniques.
-            Expliquez-nous simplement votre besoin : nous vous guidons
-            ensuite à chaque étape du projet.
+            Expliquez-nous simplement votre besoin : nous
+            vous guidons ensuite à chaque étape du projet.
           </p>
 
           <div className="mini-points">
             <div>
               <span>01</span>
+
               <p>
-                Un premier échange pour comprendre votre activité et vos
-                objectifs.
+                Un premier échange pour comprendre votre
+                activité et vos objectifs.
               </p>
             </div>
 
             <div>
               <span>02</span>
+
               <p>
-                Une proposition claire, adaptée au niveau de votre projet.
+                Une proposition claire, adaptée au niveau
+                de votre projet.
               </p>
             </div>
 
             <div>
               <span>03</span>
+
               <p>
-                Des étapes et des validations avant toute mise en ligne.
+                Des étapes et des validations avant toute
+                mise en ligne.
               </p>
             </div>
           </div>
         </aside>
 
+        {/* ===================================================
+            FORMULAIRE
+        ==================================================== */}
+
         <div className="contact-form-wrapper">
           <div className="form-top">
             <div>
-              <span className="form-label">NOVA / DEVIS</span>
+              <span className="form-label">
+                NOVA / DEVIS
+              </span>
 
               <h2>
                 Parlons de
@@ -278,12 +402,14 @@ besoins indiqués par le client.
               </h2>
             </div>
 
-            <span className="form-index">01 — 05</span>
+            <span className="form-index">
+              01 — 05
+            </span>
           </div>
 
           <p className="form-description">
-            Sélectionnez simplement les options qui correspondent à votre
-            projet.
+            Sélectionnez simplement les options qui
+            correspondent à votre projet.
           </p>
 
           <form
@@ -291,8 +417,17 @@ besoins indiqués par le client.
             className="contact-form"
             onSubmit={handleSubmit}
           >
-            <div className="honeypot" aria-hidden="true">
-              <label htmlFor="_gotcha">Ne pas remplir</label>
+            {/* =================================================
+                HONEYPOT
+            ================================================== */}
+
+            <div
+              className="honeypot"
+              aria-hidden="true"
+            >
+              <label htmlFor="_gotcha">
+                Ne pas remplir
+              </label>
 
               <input
                 id="_gotcha"
@@ -303,13 +438,20 @@ besoins indiqués par le client.
               />
             </div>
 
+            {/* =================================================
+                01 — PROJET
+            ================================================== */}
+
             <section className="form-section">
               <div className="form-section-heading">
                 <span>01</span>
 
                 <div>
                   <small>VOTRE PROJET</small>
-                  <h3>Que souhaitez-vous créer ?</h3>
+
+                  <h3>
+                    Que souhaitez-vous créer ?
+                  </h3>
                 </div>
               </div>
 
@@ -319,13 +461,20 @@ besoins indiqués par le client.
               />
             </section>
 
+            {/* =================================================
+                02 — BESOINS
+            ================================================== */}
+
             <section className="form-section">
               <div className="form-section-heading">
                 <span>02</span>
 
                 <div>
                   <small>VOS BESOINS</small>
-                  <h3>Quel est votre objectif ?</h3>
+
+                  <h3>
+                    Quel est votre objectif ?
+                  </h3>
                 </div>
               </div>
 
@@ -336,13 +485,20 @@ besoins indiqués par le client.
               />
             </section>
 
+            {/* =================================================
+                03 — STYLE
+            ================================================== */}
+
             <section className="form-section">
               <div className="form-section-heading">
                 <span>03</span>
 
                 <div>
                   <small>VOTRE UNIVERS</small>
-                  <h3>Quel style vous correspond ?</h3>
+
+                  <h3>
+                    Quel style vous correspond ?
+                  </h3>
                 </div>
               </div>
 
@@ -353,13 +509,20 @@ besoins indiqués par le client.
               />
             </section>
 
+            {/* =================================================
+                04 — BUDGET / DÉLAI
+            ================================================== */}
+
             <section className="form-section">
               <div className="form-section-heading">
                 <span>04</span>
 
                 <div>
-                  <small>BUDGET & DÉLAI</small>
-                  <h3>Où en êtes-vous ?</h3>
+                  <small>BUDGET &amp; DÉLAI</small>
+
+                  <h3>
+                    Où en êtes-vous ?
+                  </h3>
                 </div>
               </div>
 
@@ -383,15 +546,24 @@ besoins indiqués par le client.
               </div>
             </section>
 
+            {/* =================================================
+                05 — INFORMATIONS CLIENT
+            ================================================== */}
+
             <section className="form-section">
               <div className="form-section-heading">
                 <span>05</span>
 
                 <div>
                   <small>DERNIÈRE ÉTAPE</small>
-                  <h3>Parlons de vous.</h3>
+
+                  <h3>
+                    Parlons de vous.
+                  </h3>
                 </div>
               </div>
+
+              {/* NOM / ENTREPRISE */}
 
               <div className="form-row">
                 <div className="form-field">
@@ -411,7 +583,9 @@ besoins indiqués par le client.
                 </div>
 
                 <div className="form-field">
-                  <label htmlFor="entreprise">ENTREPRISE</label>
+                  <label htmlFor="entreprise">
+                    ENTREPRISE
+                  </label>
 
                   <input
                     id="entreprise"
@@ -423,6 +597,8 @@ besoins indiqués par le client.
                   />
                 </div>
               </div>
+
+              {/* EMAIL / TÉLÉPHONE */}
 
               <div className="form-row">
                 <div className="form-field">
@@ -442,7 +618,9 @@ besoins indiqués par le client.
                 </div>
 
                 <div className="form-field">
-                  <label htmlFor="telephone">TÉLÉPHONE</label>
+                  <label htmlFor="telephone">
+                    TÉLÉPHONE
+                  </label>
 
                   <input
                     id="telephone"
@@ -454,6 +632,8 @@ besoins indiqués par le client.
                   />
                 </div>
               </div>
+
+              {/* MESSAGE */}
 
               <div className="form-field">
                 <label htmlFor="message">
@@ -471,18 +651,29 @@ besoins indiqués par le client.
               </div>
             </section>
 
+            {/* =================================================
+                MESSAGE SUCCÈS
+            ================================================== */}
+
             {sent && (
-              <p className="form-success" role="status">
+              <p
+                className="form-success"
+                role="status"
+              >
                 Votre demande a bien été envoyée.
                 <br />
                 Nous revenons vers vous rapidement.
               </p>
             )}
 
+            {/* =================================================
+                BOTTOM
+            ================================================== */}
+
             <div className="form-bottom">
               <p>
-                Vos informations sont utilisées uniquement pour traiter votre
-                demande.
+                Vos informations sont utilisées uniquement
+                pour traiter votre demande.
               </p>
 
               <button
@@ -496,16 +687,23 @@ besoins indiqués par le client.
                     : "DEMANDER MON DEVIS"}
                 </span>
 
-                <strong aria-hidden="true">→</strong>
+                <strong aria-hidden="true">
+                  →
+                </strong>
               </button>
             </div>
           </form>
         </div>
       </section>
 
+      {/* =====================================================
+          BOTTOM CTA
+      ====================================================== */}
+
       <section className="contact-bottom">
         <div className="bottom-label">
           <span>NOVA</span>
+
           <p>AGENCE DIGITALE</p>
         </div>
 
@@ -515,11 +713,16 @@ besoins indiqués par le client.
           <span>Un projet.</span>
         </h2>
 
-        <p>Commençons simplement par une discussion.</p>
+        <p>
+          Commençons simplement par une discussion.
+        </p>
 
         <Link href="/">
           RETOUR À L&apos;ACCUEIL
-          <span aria-hidden="true">→</span>
+
+          <span aria-hidden="true">
+            →
+          </span>
         </Link>
       </section>
     </main>

@@ -37,20 +37,21 @@ export default function Home() {
           </p>
 
           <h1>
-            Votre site mérite
+            Un site qui valorise
             <br />
-            <span>d’être à la hauteur de votre activité.</span>
+            <span>votre entreprise.</span>
           </h1>
 
           <p className="hero-text">
-            Nous créons des sites web sur mesure qui donnent confiance,
-            valorisent votre image et transforment vos visiteurs en clients.
+            Nous concevons des sites web sur mesure qui renforcent votre
+            crédibilité, clarifient votre offre et transforment vos visiteurs
+            en véritables opportunités de contact.
           </p>
 
           <div className="hero-buttons">
             <Link href="/devis">Parler de mon projet →</Link>
 
-            <Link href="/realisations">Voir nos réalisations</Link>
+            <Link href="/realisations">Découvrir nos réalisations</Link>
           </div>
 
           <div className="hero-reassurance">
@@ -58,10 +59,10 @@ export default function Home() {
               <span className="reassurance-check">✓</span>
 
               <div>
-                <strong>Design sur mesure</strong>
+                <strong>Une image premium</strong>
 
                 <span>
-                  Une image qui correspond vraiment à votre activité
+                  Une présence digitale à la hauteur de votre positionnement
                 </span>
               </div>
             </div>
@@ -70,10 +71,10 @@ export default function Home() {
               <span className="reassurance-check">✓</span>
 
               <div>
-                <strong>Mobile & rapide</strong>
+                <strong>Pensé pour convertir</strong>
 
                 <span>
-                  Une expérience fluide, quel que soit l’écran
+                  Une expérience claire qui guide vos visiteurs vers l’action
                 </span>
               </div>
             </div>
@@ -82,10 +83,11 @@ export default function Home() {
               <span className="reassurance-check">✓</span>
 
               <div>
-                <strong>Accompagnement</strong>
+                <strong>100 % sur mesure</strong>
 
                 <span>
-                  Un suivi clair de la première idée à la mise en ligne
+                  Un site conçu autour de votre activité, pas d’un modèle
+                  générique
                 </span>
               </div>
             </div>

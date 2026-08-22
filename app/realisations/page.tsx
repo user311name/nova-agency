@@ -8,7 +8,7 @@ const projects = [
     title: "STORM",
     category: "SITE PREMIUM • SPORT LIFESTYLE",
     description:
-      "Création d'une expérience digitale premium pour une marque sport lifestyle masculine.",
+      "Projet concept imaginé pour montrer comment une identité digitale forte peut valoriser une marque sport lifestyle et rendre son univers immédiatement reconnaissable.",
     image: "/projets/storm-1.png",
     href: "/realisations/storm",
   },
@@ -17,7 +17,7 @@ const projects = [
     title: "NOIR BARBER",
     category: "SITE PREMIUM • BARBER",
     description:
-      "Un site moderne et élégant pensé pour un barber qui souhaite développer son image et son expérience client.",
+      "Projet concept pensé autour de l’image, de la prise de rendez-vous et d’une expérience plus premium pour un barber moderne.",
     image: "/projets/barber-home.png",
     href: "/realisations/noir-barber",
   },
@@ -26,7 +26,7 @@ const projects = [
     title: "IA FUTURE",
     category: "SITE PREMIUM • IA & TECHNOLOGIE",
     description:
-      "Une expérience digitale moderne pensée pour présenter une activité spécialisée dans l'intelligence artificielle et les nouvelles technologies.",
+      "Projet concept conçu pour présenter une activité technologique de façon claire, moderne et accessible, sans perdre en crédibilité.",
     image: "/projets/site-ia.png",
     href: "/realisations/ia-future",
   },
@@ -35,7 +35,7 @@ const projects = [
     title: "NOVA ASSIST",
     category: "SITE PREMIUM • AGENCE DIGITALE",
     description:
-      "Une expérience digitale premium pensée pour présenter une agence moderne, ses services et son savoir-faire.",
+      "Projet concept qui démontre comment structurer une offre de services, mettre en avant un savoir-faire et encourager la prise de contact.",
     image: "/projets/nova-assist.png",
     href: "/realisations/nova-assist",
   },
@@ -44,24 +44,17 @@ const projects = [
 export default function RealisationsPage() {
   return (
     <main className="realisations-page">
-
-      {/* =====================================================
-          HERO
-      ===================================================== */}
-
       <section
         className="realisations-hero"
         aria-labelledby="realisations-title"
       >
         <div className="realisations-hero-inner">
-
           <div className="realisations-kicker">
             <span />
             <p>NOTRE TRAVAIL</p>
           </div>
 
           <div className="realisations-hero-grid">
-
             <div className="realisations-hero-title">
               <span className="hero-small-label">
                 NOVA / RÉALISATIONS
@@ -77,92 +70,66 @@ export default function RealisationsPage() {
             </div>
 
             <div className="realisations-hero-side">
-
               <span className="hero-index">
                 01 — NOS PROJETS
               </span>
 
               <p>
-                Nous créons des expériences digitales modernes,
-                des identités fortes et des sites pensés autour
-                d'un objectif simple :
+                Une sélection de projets de démonstration conçus
+                pour présenter notre approche, notre direction
+                artistique et notre attention aux détails.
               </p>
 
               <strong>
                 Donner à chaque activité une présence en ligne
                 à la hauteur de son ambition.
               </strong>
-
             </div>
-
           </div>
-
         </div>
       </section>
-
-
-      {/* =====================================================
-          PROJETS
-      ===================================================== */}
 
       <section
         className="projects-section"
         aria-labelledby="projects-title"
       >
-
         <div className="projects-heading">
-
           <div className="projects-heading-left">
-
-            <span className="section-number">
-              01
-            </span>
+            <span className="section-number">01</span>
 
             <div>
-
               <p className="section-eyebrow">
-                PROJETS SÉLECTIONNÉS
+                PROJETS DE DÉMONSTRATION
               </p>
 
               <h2 id="projects-title">
-                Des réalisations qui
+                Des projets qui montrent
                 <br />
-                parlent d'elles-mêmes.
+                notre approche.
               </h2>
-
             </div>
-
           </div>
 
           <span className="projects-count">
             {projects.length.toString().padStart(2, "0")} PROJETS
           </span>
-
         </div>
 
-
         <div className="projects-list">
-
           {projects.map((project) => (
-
             <article
               className="project-card"
               key={project.title}
             >
-
-              {/* IMAGE */}
-
               <Link
                 href={project.href}
                 className="project-image-link"
                 aria-label={`Découvrir le projet ${project.title}`}
               >
-
                 <div className="project-image">
-
                   <Image
                     src={project.image}
-                    alt={`Projet ${project.title}`}
+                    alt={`Projet concept ${project.title}`}
                     fill
                     sizes="(max-width: 800px) 100vw, 82vw"
                     priority={project.number === "01"}
@@ -175,97 +142,58 @@ export default function RealisationsPage() {
                   </span>
 
                   <div className="project-view">
-
-                    <span>
-                      VOIR LE PROJET
-                    </span>
+                    <span>VOIR LE PROJET</span>
 
                     <span
                       className="project-view-arrow"
                       aria-hidden="true"
                     />
-
                   </div>
-
                 </div>
-
               </Link>
 
-
-              {/* INFORMATIONS */}
-
               <div className="project-info">
-
                 <div className="project-title-block">
+                  <span className="project-status">
+                    PROJET CONCEPT
+                  </span>
 
                   <p className="project-category">
                     {project.category}
                   </p>
 
-                  <h2>
-                    {project.title}
-                  </h2>
-
+                  <h2>{project.title}</h2>
                 </div>
 
-
                 <div className="project-description-block">
-
-                  <p>
-                    {project.description}
-                  </p>
+                  <p>{project.description}</p>
 
                   <Link
                     href={project.href}
                     className="project-discover"
                     aria-label={`Voir le projet ${project.title}`}
                   >
-
-                    <span>
-                      DÉCOUVRIR
-                    </span>
+                    <span>DÉCOUVRIR</span>
 
                     <span
                       className="discover-arrow"
                       aria-hidden="true"
                     />
-
                   </Link>
-
                 </div>
-
               </div>
-
             </article>
-
           ))}
-
         </div>
-
       </section>
 
-
-      {/* =====================================================
-          CTA FINAL
-      ===================================================== */}
-
       <section className="realisations-bottom">
-
         <div className="bottom-line">
-
-          <span>
-            02
-          </span>
-
-          <p>
-            VOTRE PROJET
-          </p>
-
+          <span>02</span>
+          <p>VOTRE PROJET</p>
         </div>
 
-
         <div className="bottom-content">
-
           <span className="bottom-eyebrow">
             ET SI C'ÉTAIT VOUS ?
           </span>
@@ -273,8 +201,7 @@ export default function RealisationsPage() {
           <h2>
             Et si le prochain
             <br />
-            projet était{" "}
-            <span>le vôtre ?</span>
+            projet était <span>le vôtre ?</span>
           </h2>
 
           <p className="bottom-description">
@@ -287,22 +214,15 @@ export default function RealisationsPage() {
             href="/contact"
             className="realisations-button"
           >
-
-            <span>
-              PARLER DE MON PROJET
-            </span>
+            <span>PARLER DE MON PROJET</span>
 
             <span
               className="cta-arrow"
               aria-hidden="true"
             />
-
           </Link>
-
         </div>
-
       </section>
-
     </main>
   );
 }

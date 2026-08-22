@@ -115,10 +115,6 @@ const principles = [
 export default function Services() {
   return (
     <main className="services-page">
-      {/* =====================================================
-          HERO
-      ===================================================== */}
-
       <section className="services-hero">
         <div className="services-hero-inner">
           <div className="services-hero-top">
@@ -150,19 +146,11 @@ export default function Services() {
               className="services-hero-link"
             >
               <span>DEMANDER UN DEVIS</span>
-
-              <strong
-                className="css-arrow"
-                aria-hidden="true"
-              />
+              <strong aria-hidden="true">→</strong>
             </Link>
           </div>
         </div>
       </section>
-
-      {/* =====================================================
-          INTRODUCTION
-      ===================================================== */}
 
       <section className="services-introduction">
         <div className="services-section-label">
@@ -184,10 +172,6 @@ export default function Services() {
           </p>
         </div>
       </section>
-
-      {/* =====================================================
-          SERVICES
-      ===================================================== */}
 
       <section className="services-list-section">
         <div className="services-section-heading">
@@ -212,11 +196,6 @@ export default function Services() {
                 <span className="service-number">
                   {service.numero}
                 </span>
-
-                <span
-                  className="service-arrow css-arrow"
-                  aria-hidden="true"
-                />
               </div>
 
               <div className="service-card-content">
@@ -233,9 +212,7 @@ export default function Services() {
                 <ul className="service-points">
                   {service.points.map((point) => (
                     <li key={point}>
-                      <span aria-hidden="true">
-                        —
-                      </span>
+                      <span aria-hidden="true">—</span>
                       {point}
                     </li>
                   ))}
@@ -245,10 +222,6 @@ export default function Services() {
           ))}
         </div>
       </section>
-
-      {/* =====================================================
-          METHOD
-      ===================================================== */}
 
       <section className="services-method">
         <div className="services-section-label">
@@ -290,17 +263,9 @@ export default function Services() {
           className="services-method-link"
         >
           <span>DÉCOUVRIR NOTRE MÉTHODE</span>
-
-          <strong
-            className="css-arrow"
-            aria-hidden="true"
-          />
+          <strong aria-hidden="true">→</strong>
         </Link>
       </section>
-
-      {/* =====================================================
-          FINAL CTA
-      ===================================================== */}
 
       <section className="services-final">
         <div className="services-final-label">
@@ -326,11 +291,7 @@ export default function Services() {
             className="services-final-button"
           >
             <span>PARLONS DE VOTRE PROJET</span>
-
-            <strong
-              className="css-arrow"
-              aria-hidden="true"
-            />
+            <strong aria-hidden="true">→</strong>
           </Link>
         </div>
       </section>

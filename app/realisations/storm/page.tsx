@@ -18,17 +18,8 @@ export default function StormPage() {
 
   return (
     <main className="project-page">
-
-      {/* =====================================================
-          HEADER
-      ===================================================== */}
-
       <header className="project-header">
-
-        <Link
-          href="/realisations"
-          className="project-back"
-        >
+        <Link href="/realisations" className="project-back">
           <span
             className="clean-arrow clean-arrow-left"
             aria-hidden="true"
@@ -51,48 +42,29 @@ export default function StormPage() {
           rel="noopener noreferrer"
           className="project-live"
         >
-          VOIR LE SITE
-          <span
-            className="clean-arrow"
-            aria-hidden="true"
-          />
+          VOIR LA DÉMO
+          <span className="clean-arrow" aria-hidden="true" />
         </a>
-
       </header>
-
-
-      {/* =====================================================
-          INTRO
-      ===================================================== */}
 
       <section
         className="project-intro"
         aria-labelledby="storm-title"
       >
+        <p>PROJET CONCEPT • SPORT LIFESTYLE</p>
 
-        <p>PROJET • SPORT LIFESTYLE</p>
-
-        <h1 id="storm-title">
-          STORM
-        </h1>
+        <h1 id="storm-title">STORM</h1>
 
         <span>
-          Une expérience digitale premium imaginée pour une marque
-          sport lifestyle masculine.
+          Un concept digital imaginé pour une marque sport lifestyle
+          masculine, forte et immédiatement reconnaissable.
         </span>
-
       </section>
-
-
-      {/* =====================================================
-          GALLERY
-      ===================================================== */}
 
       <section
         className="project-gallery"
         aria-label="Galerie du projet STORM"
       >
-
         {images.map((image, index) => (
           <button
             key={image}
@@ -109,57 +81,81 @@ export default function StormPage() {
             />
           </button>
         ))}
-
       </section>
 
+      <section className="project-case-study">
+        <div className="case-study-heading">
+          <span>01</span>
+          <p>CE QUE CE PROJET DÉMONTRE</p>
+        </div>
 
-      {/* =====================================================
-          CTA
-      ===================================================== */}
+        <div className="case-study-grid">
+          <article>
+            <span>LE CONCEPT</span>
+
+            <h2>Une identité qui marque.</h2>
+
+            <p>
+              Un univers visuel direct et premium, pensé pour
+              donner à une marque sport lifestyle une présence
+              distinctive dès les premières secondes.
+            </p>
+          </article>
+
+          <article>
+            <span>L’OBJECTIF</span>
+
+            <h2>Créer de l’envie avant même l’achat.</h2>
+
+            <p>
+              Le site met l’accent sur l’image, la collection et
+              l’énergie de la marque pour rendre l’expérience plus
+              mémorable et engager le visiteur.
+            </p>
+          </article>
+
+          <article>
+            <span>L’APPROCHE NOVA</span>
+
+            <h2>Un univers cohérent sur chaque écran.</h2>
+
+            <p>
+              Ce projet montre notre manière de travailler :
+              une direction artistique claire, une navigation fluide
+              et une expérience pensée aussi pour le mobile.
+            </p>
+          </article>
+        </div>
+      </section>
 
       <section className="project-bottom">
+        <p>STORM • PROJET CONCEPT DIGITAL</p>
 
-        <p>
-          SILENCE BEFORE THE STORM
-        </p>
+        <div className="project-actions">
+          <a
+            href={stormUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="visit-button"
+          >
+            VOIR LA DÉMO
+            <span className="clean-arrow" aria-hidden="true" />
+          </a>
 
-        <a
-          href={stormUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="visit-button"
-        >
-          VISITER LE SITE
-
-          <span
-            className="clean-arrow"
-            aria-hidden="true"
-          />
-        </a>
-
+          <Link href="/devis" className="project-devis-link">
+            PARLER DE MON PROJET
+            <span className="clean-arrow" aria-hidden="true" />
+          </Link>
+        </div>
       </section>
 
-
-      {/* =====================================================
-          FOOTER
-      ===================================================== */}
-
       <footer className="project-footer">
-
-        <span>
-          STORM
-        </span>
+        <span>STORM</span>
 
         <Link href="/realisations">
           RETOUR AUX RÉALISATIONS
         </Link>
-
       </footer>
-
-
-      {/* =====================================================
-          LIGHTBOX
-      ===================================================== */}
 
       {selectedImage && (
         <div
@@ -169,7 +165,6 @@ export default function StormPage() {
           aria-label="Aperçu de l'image STORM"
           onClick={() => setSelectedImage(null)}
         >
-
           <button
             type="button"
             className="lightbox-close"
@@ -190,10 +185,8 @@ export default function StormPage() {
               sizes="90vw"
             />
           </div>
-
         </div>
       )}
-
     </main>
   );
 }

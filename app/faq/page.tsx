@@ -4,55 +4,62 @@ import "./page.css";
 const faqItems = [
   {
     number: "01",
+    category: "NOVA",
+    question: "Qui est NOVA ?",
+    answer:
+      "NOVA est une agence digitale créée autour d’une idée simple : une entreprise mérite mieux qu’un site générique. Nous concevons des sites sur mesure pour présenter votre activité clairement, renforcer votre image et donner envie à vos futurs clients d’aller plus loin.",
+  },
+  {
+    number: "02",
     category: "PROJET",
     question: "Comment se déroule la création d’un site ?",
     answer:
       "Chaque projet commence par une compréhension précise de votre activité, de vos objectifs et de votre image. Nous construisons ensuite l’architecture, le design, les interactions puis développons le site avant de le mettre en ligne.",
   },
   {
-    number: "02",
+    number: "03",
     category: "DÉLAI",
     question: "Combien de temps faut-il pour créer un site ?",
     answer:
       "Le délai dépend du projet et de son niveau de personnalisation. Un site vitrine peut généralement être conçu en quelques jours à quelques semaines selon le nombre de pages, les fonctionnalités et les validations.",
   },
   {
-    number: "03",
+    number: "04",
     category: "DESIGN",
     question: "Est-ce que le design est entièrement personnalisé ?",
     answer:
       "Oui. Nous ne cherchons pas simplement à reproduire un modèle existant. L’objectif est de créer une identité digitale cohérente avec votre marque, votre positionnement et votre clientèle.",
   },
   {
-    number: "04",
+    number: "05",
     category: "MOBILE",
     question: "Le site sera-t-il adapté aux téléphones ?",
     answer:
       "Oui. Chaque interface est pensée pour ordinateur, tablette et mobile. Les espacements, les tailles, les animations et la navigation sont ajustés pour offrir une expérience fluide sur chaque écran.",
   },
   {
-    number: "05",
+    number: "06",
     category: "SEO",
     question: "Le référencement naturel est-il pris en compte ?",
     answer:
       "La structure du site est pensée avec les bonnes bases techniques : structure des pages, titres, performances, responsive design et éléments nécessaires à une bonne compréhension du contenu par les moteurs de recherche.",
   },
   {
-    number: "06",
+    number: "07",
     category: "CONTENU",
     question: "Dois-je fournir tous les textes et les images ?",
     answer:
       "Vous pouvez fournir vos contenus si vous les avez déjà. Nous pouvons également vous accompagner dans leur organisation afin que le site présente votre activité de manière claire, premium et convaincante.",
   },
   {
-    number: "07",
+    number: "08",
     category: "HÉBERGEMENT",
     question: "Qui s’occupe de la mise en ligne ?",
     answer:
       "Nous pouvons nous occuper de la mise en ligne et de la configuration technique du projet. L’objectif est que vous puissiez disposer d’un site fonctionnel sans avoir à gérer toute la partie technique.",
   },
   {
-    number: "08",
+    number: "09",
     category: "APRÈS",
     question: "Que se passe-t-il après la livraison ?",
     answer:
@@ -117,7 +124,7 @@ export default function FAQPage() {
               <i />
             </div>
 
-            <p>Questions fréquentes / NOVA STUDIO</p>
+            <p>Questions fréquentes / NOVA</p>
           </div>
         </div>
       </header>
@@ -162,7 +169,6 @@ export default function FAQPage() {
                   </div>
 
                   <h3>{item.question}</h3>
-
                   <p>{item.answer}</p>
                 </div>
 

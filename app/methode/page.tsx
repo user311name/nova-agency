@@ -4,33 +4,33 @@ const steps = [
   {
     number: "01",
     label: "PHASE 01",
-    title: "Immersion & stratégie",
+    title: "Échange & stratégie",
     description:
-      "Avant de créer, nous cherchons à comprendre. Votre activité, vos objectifs, votre marché et surtout ce qui doit réellement changer.",
+      "Nous commençons par vous écouter. Nous prenons le temps de comprendre votre activité, vos objectifs et vos attentes pour définir ensemble une direction claire et adaptée à votre projet.",
     details: [
-      "Analyse de votre activité",
-      "Identification des objectifs",
-      "Étude du positionnement",
-      "Définition de la direction",
+      "Compréhension de votre activité",
+      "Clarification de vos objectifs",
+      "Analyse de votre positionnement",
+      "Définition d’une feuille de route",
     ],
   },
   {
     number: "02",
     label: "PHASE 02",
-    title: "Direction créative",
+    title: "Direction & conception",
     description:
-      "Nous transformons la stratégie en une direction visuelle cohérente, identifiable et pensée pour construire une véritable image de marque.",
+      "Nous transformons cette réflexion en une direction visuelle claire. Vous découvrez progressivement les choix proposés et leur rôle dans votre image de marque.",
     details: [
       "Direction artistique",
       "Univers visuel",
       "Hiérarchie graphique",
-      "Références & intentions",
+      "Références & propositions",
     ],
   },
   {
     number: "03",
     label: "PHASE 03",
-    title: "Conception",
+    title: "Conception sur mesure",
     description:
       "Chaque élément est conçu avec précision. Nous travaillons l'expérience, le design et les détails pour créer une présence qui inspire confiance.",
     details: [
@@ -43,38 +43,38 @@ const steps = [
   {
     number: "04",
     label: "PHASE 04",
-    title: "Développement",
+    title: "Développement & intégration",
     description:
-      "Le design prend vie dans une expérience rapide, fluide et parfaitement adaptée à tous les écrans.",
+      "Nous donnons vie au design avec un développement propre, fiable et adapté à tous les écrans. Nous veillons à ce que votre site soit aussi agréable à utiliser qu’à regarder.",
     details: [
-      "Développement sur mesure",
-      "Responsive mobile",
+      "Développement & intégration sur mesure",
+      "Adaptation mobile",
       "Optimisation des performances",
-      "Animations & interactions",
+      "Interactions utiles",
     ],
   },
   {
     number: "05",
     label: "PHASE 05",
-    title: "Tests & perfectionnement",
+    title: "Vérifications & ajustements",
     description:
       "Nous vérifions chaque détail avant la mise en ligne afin que l'expérience finale soit aussi solide techniquement que visuellement.",
     details: [
-      "Contrôle responsive",
+      "Vérification sur les écrans",
       "Tests d'interactions",
       "Optimisation technique",
-      "Corrections finales",
+      "Derniers ajustements",
     ],
   },
   {
     number: "06",
     label: "PHASE 06",
-    title: "Mise en ligne",
+    title: "Mise en ligne & accompagnement",
     description:
       "Une fois tout validé, nous préparons et déployons votre projet dans les meilleures conditions pour qu'il soit prêt à rencontrer votre audience.",
     details: [
       "Préparation du lancement",
-      "Mise en production",
+      "Mise en ligne",
       "Vérifications finales",
       "Accompagnement au lancement",
     ],
@@ -84,27 +84,27 @@ const steps = [
 const reassurance = [
   {
     number: "01",
-    title: "Une vision globale",
+    title: "Une vision claire",
     description:
-      "Nous ne pensons jamais un élément isolément. Stratégie, identité, design et technologie doivent fonctionner ensemble.",
+      "Nous gardons une vue d’ensemble du projet afin que chaque décision serve le même objectif et reste cohérente avec votre activité.",
   },
   {
     number: "02",
-    title: "Du sur-mesure",
+    title: "Une solution sur mesure",
     description:
-      "Pas de modèle générique. Chaque projet est construit autour de votre identité, vos enjeux et votre audience.",
+      "Nous partons de votre situation, de vos besoins et de votre audience. Votre projet est conçu pour vous, pas adapté à un modèle générique.",
   },
   {
     number: "03",
-    title: "Une exigence constante",
+    title: "Un projet soigné",
     description:
       "Nous accordons autant d'importance aux détails visibles qu'à ceux que l'on ne remarque qu'une fois qu'ils sont parfaitement maîtrisés.",
   },
   {
     number: "04",
-    title: "Une relation simple",
+    title: "Une relation transparente",
     description:
-      "Des échanges clairs, des étapes définies et une communication directe pour avancer efficacement sans complexité inutile.",
+      "Vous savez ce qui est en cours, ce qui est attendu de vous et ce qui vient ensuite. Nous privilégions des échanges simples et directs.",
   },
 ];
 
@@ -117,19 +117,19 @@ const clientPoints = [
   },
   {
     number: "02",
-    title: "Vous restez impliqué",
+    title: "Vous gardez la main",
     description:
-      "Votre vision reste au centre du projet. Nous apportons notre expertise sans jamais perdre de vue votre réalité métier.",
+      "Votre avis compte à chaque étape importante. Nous vous conseillons avec notre expertise tout en respectant vos priorités et votre réalité métier.",
   },
   {
     number: "03",
-    title: "Vous voyez le projet évoluer",
+    title: "Vous suivez l’avancement",
     description:
-      "Les décisions importantes sont partagées au bon moment afin de construire progressivement un résultat qui vous ressemble.",
+      "Vous découvrez le projet au fur et à mesure et les décisions importantes sont partagées au bon moment. Pas besoin d’attendre la fin pour découvrir le résultat.",
   },
   {
     number: "04",
-    title: "Vous repartez avec une vraie base",
+    title: "Vous repartez avec une base solide",
     description:
       "L'objectif n'est pas simplement de livrer un site, mais de construire une présence digitale capable d'évoluer avec votre activité.",
   },
@@ -138,27 +138,27 @@ const clientPoints = [
 const deliverables = [
   {
     number: "01",
-    title: "Une identité digitale forte",
+    title: "Une présence digitale cohérente",
     description:
-      "Une direction visuelle cohérente qui donne à votre marque une présence claire, moderne et immédiatement reconnaissable.",
+      "Une direction visuelle cohérente qui permet à votre marque d’être claire, professionnelle et reconnaissable.",
   },
   {
     number: "02",
-    title: "Une expérience pensée pour vos utilisateurs",
+    title: "Une expérience simple pour vos utilisateurs",
     description:
-      "Une navigation intuitive et des interfaces conçues pour rendre chaque interaction simple, naturelle et efficace.",
+      "Une navigation intuitive et des interfaces pensées pour guider vos visiteurs naturellement vers l’information et l’action.",
   },
   {
     number: "03",
-    title: "Un site développé sur mesure",
+    title: "Un site fiable et sur mesure",
     description:
-      "Une intégration propre, responsive et optimisée pour offrir une expérience fluide sur ordinateur, tablette et mobile.",
+      "Un site propre, responsive et optimisé pour offrir une expérience fluide sur ordinateur, tablette et mobile.",
   },
   {
     number: "04",
-    title: "Une base évolutive",
+    title: "Une base prête pour la suite",
     description:
-      "Une architecture pensée pour permettre à votre projet de grandir sans devoir tout reconstruire quelques mois plus tard.",
+      "Une structure pensée pour évoluer avec votre activité, sans devoir repartir de zéro à chaque nouvelle étape.",
   },
 ];
 
@@ -180,13 +180,13 @@ export default function MethodPage() {
               <span className="method-index-mobile">01 / MÉTHODE</span>
 
               <h1>
-                Créer du sens.
+                Créer avec méthode.
                 <br />
                 <span>Créer de l&apos;impact.</span>
               </h1>
 
               <p className="method-hero-description">
-                Une méthode pensée pour transformer une idée en une présence
+                Un processus pensée pour transformer une idée en une présence
                 digitale forte, cohérente et durable.
               </p>
             </div>
@@ -202,12 +202,12 @@ export default function MethodPage() {
           </div>
 
           <div className="method-hero-bottom">
-            <span>STRATÉGIE → DESIGN → TECHNOLOGIE</span>
+            <span>ÉCOUTE → STRATÉGIE → DESIGN → TECHNOLOGIE</span>
 
             <p>
               Une approche structurée.
               <br />
-              Une exigence créative.
+              Un accompagnement transparent.
             </p>
           </div>
         </div>
@@ -227,9 +227,9 @@ export default function MethodPage() {
             <p className="method-kicker-blue">PENSER AVANT DE CRÉER</p>
 
             <h2>
-              La créativité
+              Un processus
               <br />
-              <span>avec une direction.</span>
+              <span>qui vous guide.</span>
             </h2>
           </div>
 
@@ -266,9 +266,9 @@ export default function MethodPage() {
           <div className="method-process-heading">
             <div>
               <h2>
-                Une méthode
+                Un processus
                 <br />
-                <span>en mouvement.</span>
+                <span>clair et maîtrisé.</span>
               </h2>
             </div>
 
@@ -330,7 +330,7 @@ export default function MethodPage() {
               <h2>
                 Plus qu&apos;un
                 <br />
-                <span>prestataire.</span>
+                <span>à vos côtés.</span>
               </h2>
             </div>
 
@@ -369,7 +369,7 @@ export default function MethodPage() {
           <div className="method-client-grid">
             <div>
               <h2>
-                Vous êtes
+                Votre projet est
                 <br />
                 <span>au centre.</span>
               </h2>
@@ -404,9 +404,9 @@ export default function MethodPage() {
           <div className="deliverables-heading">
             <div>
               <h2>
-                Pensé pour
+                Conçu pour
                 <br />
-                <span>durer.</span>
+                <span>évoluer.</span>
               </h2>
             </div>
 
@@ -445,9 +445,9 @@ export default function MethodPage() {
             <span>07 / TRANSPARENCE</span>
 
             <h2>
-              Pas de zone
+              Tout est
               <br />
-              <strong>grise.</strong>
+              <strong>transparent.</strong>
             </h2>
 
             <p>
@@ -486,7 +486,7 @@ export default function MethodPage() {
           <h2>
             Votre projet mérite
             <br />
-            <strong>une vraie direction.</strong>
+            <strong>un accompagnement clair.</strong>
           </h2>
 
           <p>
@@ -495,7 +495,7 @@ export default function MethodPage() {
           </p>
 
           <a className="method-final-link" href="/contact">
-            <span>PARLER DE MON PROJET</span>
+            <span>ÉCHANGER SUR MON PROJET</span>
 
             <span className="method-final-arrow" aria-hidden="true" />
           </a>

@@ -81,7 +81,6 @@ export default function Devis() {
     const form = formRef.current;
     const formData = new FormData(form);
 
-    // Anti-bot
     const honeypot =
       formData.get("_gotcha")?.toString().trim() || "";
 
@@ -104,8 +103,7 @@ export default function Devis() {
 
     const clientEmail = getValue("Email");
 
-    const emailRegex =
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(clientEmail)) {
       setSending(false);
@@ -202,12 +200,8 @@ besoins indiqués par le client.
 
   return (
     <main className="contact-page">
-
-      {/* HERO */}
-
       <section className="contact-hero">
         <div className="contact-hero-inner">
-
           <div className="contact-kicker">
             <span className="contact-kicker-line" />
             <span>DEMANDER UN DEVIS</span>
@@ -220,26 +214,17 @@ besoins indiqués par le client.
           </h1>
 
           <p>
-            Quelques choix suffisent pour nous
-            permettre de comprendre votre projet
-            et de préparer une proposition adaptée.
+            Quelques choix suffisent pour nous permettre de comprendre votre
+            projet et de préparer une proposition adaptée.
           </p>
-
         </div>
       </section>
 
-
-      {/* MAIN */}
-
       <section className="contact-container">
-
-        {/* LEFT */}
-
         <aside className="contact-info">
-
           <div className="contact-section-label">
             <span>01</span>
-            <p>NOTRE APPROCHE</p>
+            <p>UN CADRE CLAIR</p>
           </div>
 
           <h2>
@@ -251,43 +236,40 @@ besoins indiqués par le client.
           </h2>
 
           <p className="contact-intro">
-            Pas besoin de connaître les détails
-            techniques. Dites-nous simplement
-            ce que vous souhaitez créer.
+            Pas besoin de maîtriser les détails techniques.
+            Expliquez-nous simplement votre besoin : nous vous guidons
+            ensuite à chaque étape du projet.
           </p>
 
           <div className="mini-points">
-
             <div>
               <span>01</span>
-              <p>Une première analyse de votre projet.</p>
+              <p>
+                Un premier échange pour comprendre votre activité et vos
+                objectifs.
+              </p>
             </div>
 
             <div>
               <span>02</span>
-              <p>Une proposition adaptée à vos besoins.</p>
+              <p>
+                Une proposition claire, adaptée au niveau de votre projet.
+              </p>
             </div>
 
             <div>
               <span>03</span>
-              <p>Un échange avant le lancement.</p>
+              <p>
+                Des étapes et des validations avant toute mise en ligne.
+              </p>
             </div>
-
           </div>
-
         </aside>
 
-
-        {/* FORM */}
-
         <div className="contact-form-wrapper">
-
           <div className="form-top">
-
             <div>
-              <span className="form-label">
-                NOVA / DEVIS
-              </span>
+              <span className="form-label">NOVA / DEVIS</span>
 
               <h2>
                 Parlons de
@@ -296,33 +278,21 @@ besoins indiqués par le client.
               </h2>
             </div>
 
-            <span className="form-index">
-              01 — 05
-            </span>
-
+            <span className="form-index">01 — 05</span>
           </div>
 
           <p className="form-description">
-            Sélectionnez simplement les options
-            qui correspondent à votre projet.
+            Sélectionnez simplement les options qui correspondent à votre
+            projet.
           </p>
-
 
           <form
             ref={formRef}
             className="contact-form"
             onSubmit={handleSubmit}
           >
-
-            {/* HONEYPOT */}
-
-            <div
-              className="honeypot"
-              aria-hidden="true"
-            >
-              <label htmlFor="_gotcha">
-                Ne pas remplir
-              </label>
+            <div className="honeypot" aria-hidden="true">
+              <label htmlFor="_gotcha">Ne pas remplir</label>
 
               <input
                 id="_gotcha"
@@ -333,49 +303,30 @@ besoins indiqués par le client.
               />
             </div>
 
-
-            {/* 01 — PROJET */}
-
             <section className="form-section">
-
               <div className="form-section-heading">
-
                 <span>01</span>
 
                 <div>
                   <small>VOTRE PROJET</small>
-
-                  <h3>
-                    Que souhaitez-vous créer ?
-                  </h3>
+                  <h3>Que souhaitez-vous créer ?</h3>
                 </div>
-
               </div>
 
               <SelectionCards
                 name="Projet[]"
                 options={projectOptions}
               />
-
             </section>
 
-
-            {/* 02 — BESOINS */}
-
             <section className="form-section">
-
               <div className="form-section-heading">
-
                 <span>02</span>
 
                 <div>
                   <small>VOS BESOINS</small>
-
-                  <h3>
-                    Quel est votre objectif ?
-                  </h3>
+                  <h3>Quel est votre objectif ?</h3>
                 </div>
-
               </div>
 
               <SelectionCards
@@ -383,26 +334,16 @@ besoins indiqués par le client.
                 options={needsOptions}
                 multiple
               />
-
             </section>
 
-
-            {/* 03 — STYLE */}
-
             <section className="form-section">
-
               <div className="form-section-heading">
-
                 <span>03</span>
 
                 <div>
                   <small>VOTRE UNIVERS</small>
-
-                  <h3>
-                    Quel style vous correspond ?
-                  </h3>
+                  <h3>Quel style vous correspond ?</h3>
                 </div>
-
               </div>
 
               <SelectionCards
@@ -410,26 +351,16 @@ besoins indiqués par le client.
                 options={styleOptions}
                 multiple
               />
-
             </section>
 
-
-            {/* 04 — BUDGET */}
-
             <section className="form-section">
-
               <div className="form-section-heading">
-
                 <span>04</span>
 
                 <div>
                   <small>BUDGET & DÉLAI</small>
-
-                  <h3>
-                    Où en êtes-vous ?
-                  </h3>
+                  <h3>Où en êtes-vous ?</h3>
                 </div>
-
               </div>
 
               <SelectionCards
@@ -438,7 +369,6 @@ besoins indiqués par le client.
               />
 
               <div className="form-field date-field">
-
                 <label htmlFor="date">
                   DATE DE LANCEMENT SOUHAITÉE
                 </label>
@@ -450,34 +380,21 @@ besoins indiqués par le client.
                   placeholder="Ex. Octobre 2026"
                   maxLength={100}
                 />
-
               </div>
-
             </section>
 
-
-            {/* 05 — CONTACT */}
-
             <section className="form-section">
-
               <div className="form-section-heading">
-
                 <span>05</span>
 
                 <div>
                   <small>DERNIÈRE ÉTAPE</small>
-
-                  <h3>
-                    Parlons de vous.
-                  </h3>
+                  <h3>Parlons de vous.</h3>
                 </div>
-
               </div>
 
               <div className="form-row">
-
                 <div className="form-field">
-
                   <label htmlFor="nom">
                     NOM <span>*</span>
                   </label>
@@ -491,14 +408,10 @@ besoins indiqués par le client.
                     autoComplete="name"
                     required
                   />
-
                 </div>
 
                 <div className="form-field">
-
-                  <label htmlFor="entreprise">
-                    ENTREPRISE
-                  </label>
+                  <label htmlFor="entreprise">ENTREPRISE</label>
 
                   <input
                     id="entreprise"
@@ -508,16 +421,11 @@ besoins indiqués par le client.
                     maxLength={150}
                     autoComplete="organization"
                   />
-
                 </div>
-
               </div>
 
-
               <div className="form-row">
-
                 <div className="form-field">
-
                   <label htmlFor="email">
                     EMAIL <span>*</span>
                   </label>
@@ -531,14 +439,10 @@ besoins indiqués par le client.
                     autoComplete="email"
                     required
                   />
-
                 </div>
 
                 <div className="form-field">
-
-                  <label htmlFor="telephone">
-                    TÉLÉPHONE
-                  </label>
+                  <label htmlFor="telephone">TÉLÉPHONE</label>
 
                   <input
                     id="telephone"
@@ -548,14 +452,10 @@ besoins indiqués par le client.
                     maxLength={30}
                     autoComplete="tel"
                   />
-
                 </div>
-
               </div>
 
-
               <div className="form-field">
-
                 <label htmlFor="message">
                   PARLEZ-NOUS DE VOTRE PROJET
                   <span> *</span>
@@ -568,33 +468,20 @@ besoins indiqués par le client.
                   maxLength={3000}
                   required
                 />
-
               </div>
-
             </section>
 
-
-            {/* SUCCESS */}
-
             {sent && (
-              <p
-                className="form-success"
-                role="status"
-              >
+              <p className="form-success" role="status">
                 Votre demande a bien été envoyée.
                 <br />
                 Nous revenons vers vous rapidement.
               </p>
             )}
 
-
-            {/* BOTTOM */}
-
             <div className="form-bottom">
-
               <p>
-                Vos informations sont utilisées
-                uniquement pour traiter votre
+                Vos informations sont utilisées uniquement pour traiter votre
                 demande.
               </p>
 
@@ -609,24 +496,14 @@ besoins indiqués par le client.
                     : "DEMANDER MON DEVIS"}
                 </span>
 
-                <strong aria-hidden="true">
-                  →
-                </strong>
+                <strong aria-hidden="true">→</strong>
               </button>
-
             </div>
-
           </form>
-
         </div>
-
       </section>
 
-
-      {/* BOTTOM CTA */}
-
       <section className="contact-bottom">
-
         <div className="bottom-label">
           <span>NOVA</span>
           <p>AGENCE DIGITALE</p>
@@ -638,17 +515,13 @@ besoins indiqués par le client.
           <span>Un projet.</span>
         </h2>
 
-        <p>
-          Commençons simplement par une discussion.
-        </p>
+        <p>Commençons simplement par une discussion.</p>
 
         <Link href="/">
-          RETOUR À L'ACCUEIL
+          RETOUR À L&apos;ACCUEIL
           <span aria-hidden="true">→</span>
         </Link>
-
       </section>
-
     </main>
   );
 }

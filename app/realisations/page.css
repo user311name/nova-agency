@@ -1,6 +1,5 @@
 /* =========================================================
    NOVA — RÉALISATIONS
-   Premium / Editorial / Digital Agency
 ========================================================= */
 
 .realisations-page {
@@ -77,12 +76,12 @@
 }
 
 .realisations-hero h1 {
-  margin: 0;
   max-width: 850px;
+  margin: 0;
   font-size: clamp(58px, 8vw, 105px);
+  font-weight: 400;
   line-height: 0.94;
   letter-spacing: -5px;
-  font-weight: 400;
 }
 
 .realisations-hero h1 span {
@@ -234,10 +233,6 @@
   );
 }
 
-/* =========================================================
-   PROJECT NUMBER
-========================================================= */
-
 .project-number {
   position: absolute;
   top: 25px;
@@ -250,29 +245,20 @@
   line-height: 1;
 }
 
-/* =========================================================
-   VIEW PROJECT
-========================================================= */
-
 .project-view {
   position: absolute;
   top: 50%;
   left: 50%;
   z-index: 3;
-
   display: flex;
   align-items: center;
   gap: 16px;
-
   padding: 14px 18px;
-
   opacity: 0;
   border: 1px solid rgba(255, 255, 255, 0.25);
   background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(8px);
-
   transform: translate(-50%, -42%);
-
   transition:
     opacity 0.35s ease,
     transform 0.35s ease;
@@ -336,6 +322,19 @@
   min-width: 0;
 }
 
+.project-status {
+  display: inline-flex;
+  margin-bottom: 12px;
+  padding: 6px 9px;
+  border: 1px solid rgba(37, 99, 235, 0.35);
+  background: rgba(37, 99, 235, 0.07);
+  color: #7fa6ff;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
 .project-category {
   margin: 0 0 14px;
   color: #555;
@@ -348,9 +347,9 @@
 .project-title-block h2 {
   margin: 0;
   font-size: clamp(42px, 5vw, 68px);
+  font-weight: 400;
   line-height: 0.95;
   letter-spacing: -3px;
-  font-weight: 400;
 }
 
 .project-description-block {
@@ -373,20 +372,16 @@
   align-items: center;
   gap: 13px;
   width: fit-content;
-
   color: #fff;
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 3px;
   line-height: 1;
   text-decoration: none;
-
   transition:
     color 0.2s ease,
     gap 0.2s ease;
 }
-
-/* UNE SEULE FLÈCHE */
 
 .project-description-block a .discover-arrow {
   position: relative;
@@ -394,9 +389,6 @@
   width: 22px;
   height: 18px;
   flex: 0 0 22px;
-
-  color: transparent;
-  font-size: 0;
 }
 
 .project-description-block a .discover-arrow::before {
@@ -440,8 +432,8 @@
 
 .bottom-line {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   gap: 15px;
   margin-bottom: 30px;
 }
@@ -467,9 +459,9 @@
   max-width: 900px;
   margin: 0 auto;
   font-size: clamp(45px, 6vw, 78px);
+  font-weight: 400;
   line-height: 0.98;
   letter-spacing: -4px;
-  font-weight: 400;
 }
 
 .realisations-bottom h2 span {
@@ -484,45 +476,36 @@
 }
 
 .realisations-button {
-  position: relative;
-
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
   gap: 35px;
-
   min-width: 245px;
   min-height: 54px;
   padding: 0 18px 0 22px;
-
   border: 1px solid #2563eb;
   background: #2563eb;
   color: #fff;
-
-  text-decoration: none;
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 3px;
   line-height: 1;
-
+  text-decoration: none;
   transition:
     background-color 0.2s ease,
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
 
-.realisations-button strong {
+.realisations-button .cta-arrow {
   position: relative;
   display: block;
   width: 22px;
   height: 18px;
   flex: 0 0 22px;
-
-  color: transparent;
-  font-size: 0;
 }
 
-.realisations-button strong::before {
+.realisations-button .cta-arrow::before {
   content: "";
   position: absolute;
   top: 8px;
@@ -532,7 +515,7 @@
   background: #fff;
 }
 
-.realisations-button strong::after {
+.realisations-button .cta-arrow::after {
   content: "";
   position: absolute;
   top: 5px;
@@ -595,8 +578,6 @@
     overflow-x: hidden;
   }
 
-  /* ---------- HERO ---------- */
-
   .realisations-hero {
     padding: 92px 20px 72px;
   }
@@ -653,8 +634,6 @@
     line-height: 1.75;
   }
 
-  /* ---------- PROJECTS ---------- */
-
   .projects-section {
     width: auto;
     margin: 0;
@@ -689,8 +668,6 @@
     margin-top: 34px;
   }
 
-  /* ---------- IMAGE ---------- */
-
   .project-image {
     aspect-ratio: 4 / 3;
     border-color: #191919;
@@ -707,13 +684,18 @@
     display: none;
   }
 
-  /* ---------- INFO ---------- */
-
   .project-info {
     display: flex;
     flex-direction: column;
     gap: 19px;
     padding-top: 20px;
+  }
+
+  .project-status {
+    margin-bottom: 9px;
+    padding: 5px 7px;
+    font-size: 7px;
+    letter-spacing: 1.5px;
   }
 
   .project-category {
@@ -752,8 +734,6 @@
     height: 18px;
     flex: 0 0 21px;
   }
-
-  /* ---------- CTA ---------- */
 
   .realisations-bottom {
     margin: 0 20px;
@@ -800,7 +780,7 @@
     letter-spacing: 2px;
   }
 
-  .realisations-button strong {
+  .realisations-button .cta-arrow {
     flex: 0 0 22px;
   }
 }
@@ -872,10 +852,6 @@
   outline: 2px solid #fff;
   outline-offset: 5px;
 }
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
   .project-image img,

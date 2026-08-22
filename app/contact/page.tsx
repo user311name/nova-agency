@@ -1,13 +1,34 @@
 "use client";
 
+import Link from "next/link";
 import "./page.css";
 
 export default function Contact() {
   return (
     <main className="contact-page">
       <section className="contact-only">
+        <div className="contact-intro-section">
+          <span>CONTACT / NOVA</span>
+
+          <h1>
+            Parlons de
+            <br />
+            <strong>votre projet.</strong>
+          </h1>
+
+          <p>
+            Une question, une idée ou un besoin plus précis ?
+            Écrivez-nous simplement : nous prendrons le temps de
+            comprendre votre projet.
+          </p>
+
+          <Link href="/devis" className="contact-devis-button">
+            DEMANDER UN DEVIS
+            <span>→</span>
+          </Link>
+        </div>
+
         <div className="contact-grid">
-          {/* EMAIL */}
           <a
             href="mailto:contactpro@agency-nova.fr"
             className="contact-card email-card"
@@ -47,15 +68,14 @@ export default function Contact() {
 
               <h2>contactpro@agency-nova.fr</h2>
 
-              <p>Contactez NOVA directement.</p>
+              <p>
+                Une question, une idée ou un projet à nous présenter ?
+                Écrivez-nous directement.
+              </p>
             </div>
 
             <div className="contact-arrow" aria-hidden="true">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg viewBox="0 0 24 24" fill="none">
                 <path
                   d="M7 17L17 7"
                   stroke="currentColor"
@@ -75,7 +95,6 @@ export default function Contact() {
             <div className="card-line" />
           </a>
 
-          {/* INSTAGRAM */}
           <a
             href="https://www.instagram.com/novagency75/"
             target="_blank"
@@ -100,7 +119,6 @@ export default function Contact() {
                   stroke="currentColor"
                   strokeWidth="1.5"
                 />
-
                 <circle
                   cx="12"
                   cy="12"
@@ -108,13 +126,7 @@ export default function Contact() {
                   stroke="currentColor"
                   strokeWidth="1.5"
                 />
-
-                <circle
-                  cx="17.3"
-                  cy="6.8"
-                  r="1"
-                  fill="currentColor"
-                />
+                <circle cx="17.3" cy="6.8" r="1" fill="currentColor" />
               </svg>
             </div>
 
@@ -122,25 +134,18 @@ export default function Contact() {
 
             <div className="contact-content">
               <span className="contact-label">INSTAGRAM</span>
-
               <h2>@novagency75</h2>
-
-              <p>Suivez NOVA sur Instagram.</p>
+              <p>Découvrez l’univers et les projets de NOVA.</p>
             </div>
 
             <div className="contact-arrow" aria-hidden="true">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg viewBox="0 0 24 24" fill="none">
                 <path
                   d="M7 17L17 7"
                   stroke="currentColor"
                   strokeWidth="1.5"
                   strokeLinecap="round"
                 />
-
                 <path
                   d="M9 7H17V15"
                   stroke="currentColor"
@@ -154,7 +159,6 @@ export default function Contact() {
             <div className="card-line" />
           </a>
 
-          {/* TIKTOK */}
           <a
             href="https://www.tiktok.com/@novagency75"
             target="_blank"
@@ -183,25 +187,18 @@ export default function Contact() {
 
             <div className="contact-content">
               <span className="contact-label">TIKTOK</span>
-
               <h2>@novagency75</h2>
-
-              <p>Retrouvez NOVA sur TikTok.</p>
+              <p>Retrouvez NOVA et ses inspirations sur TikTok.</p>
             </div>
 
             <div className="contact-arrow" aria-hidden="true">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <svg viewBox="0 0 24 24" fill="none">
                 <path
                   d="M7 17L17 7"
                   stroke="currentColor"
                   strokeWidth="1.5"
                   strokeLinecap="round"
                 />
-
                 <path
                   d="M9 7H17V15"
                   stroke="currentColor"

@@ -12,9 +12,7 @@ export default function IAFuturePage() {
           RÉALISATIONS
         </Link>
 
-        <span className="ia-project-name">
-          IA FUTURE
-        </span>
+        <span className="ia-project-name">IA FUTURE</span>
 
         <a
           href={siteUrl}
@@ -22,7 +20,7 @@ export default function IAFuturePage() {
           rel="noopener noreferrer"
           className="ia-top-link"
         >
-          VOIR
+          VOIR LA DÉMO
           <span className="css-arrow" />
         </a>
       </header>
@@ -30,15 +28,14 @@ export default function IAFuturePage() {
       <section className="ia-hero">
         <div className="ia-hero-content">
           <span className="ia-kicker">
-            PROJET • IA &amp; TECHNOLOGIE
+            PROJET CONCEPT • IA & TECHNOLOGIE
           </span>
 
           <h1>IA FUTURE</h1>
 
           <p>
-            Une expérience digitale moderne pensée pour présenter
-            l&apos;intelligence artificielle de manière claire, premium
-            et accessible.
+            Un concept digital pensé pour rendre une activité liée à
+            l’intelligence artificielle claire, premium et accessible.
           </p>
         </div>
 
@@ -66,31 +63,36 @@ export default function IAFuturePage() {
         </div>
 
         <div className="ia-project-footer">
-          <span>IA FUTURE • CONCEPT DIGITAL</span>
+          <span>IA FUTURE • PROJET CONCEPT DIGITAL</span>
 
-          <a
-            href={siteUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ia-visit"
-          >
-            <span>VISITER LE SITE</span>
-            <span className="css-arrow" />
-          </a>
+          <div className="ia-project-actions">
+            <a
+              href={siteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ia-visit"
+            >
+              <span>VOIR LA DÉMO</span>
+              <span className="css-arrow" />
+            </a>
+
+            <Link href="/devis" className="ia-devis-link">
+              PARLER DE MON PROJET
+              <span className="css-arrow" />
+            </Link>
+          </div>
         </div>
       </section>
 
       <section className="ia-details">
         <div className="ia-detail-label">
           <span>01</span>
-          <span>LE PROJET</span>
+          <span>CE QUE CE PROJET DÉMONTRE</span>
         </div>
 
         <div className="ia-detail-content">
           <div>
-            <span className="ia-small-title">
-              IA FUTURE
-            </span>
+            <span className="ia-small-title">IA FUTURE</span>
 
             <h2>
               Une présence digitale
@@ -101,16 +103,22 @@ export default function IAFuturePage() {
 
           <div className="ia-detail-text">
             <p>
-              IA Future est un projet digital imaginé autour
-              de l&apos;intelligence artificielle et des nouvelles
-              technologies.
+              <strong>LE CONCEPT</strong>
+              Un projet de démonstration imaginé autour de l’intelligence
+              artificielle et des nouvelles technologies.
             </p>
 
             <p>
-              L&apos;objectif était de créer une interface moderne,
-              claire et immersive capable de présenter un univers
-              technologique tout en restant simple à comprendre
-              pour les visiteurs.
+              <strong>L’OBJECTIF</strong>
+              Présenter un univers technologique de façon claire, moderne
+              et facile à comprendre, même pour un visiteur non spécialiste.
+            </p>
+
+            <p>
+              <strong>L’APPROCHE NOVA</strong>
+              Une interface immersive, une information structurée et un
+              parcours pensé pour inspirer confiance puis faciliter le
+              passage à l’action.
             </p>
           </div>
         </div>
@@ -136,10 +144,7 @@ export default function IAFuturePage() {
           TOUTES LES RÉALISATIONS
         </Link>
 
-        <Link
-          href="/contact"
-          className="ia-nav-card ia-nav-right"
-        >
+        <Link href="/devis" className="ia-nav-card ia-nav-right">
           <span>VOTRE PROJET</span>
 
           <strong>

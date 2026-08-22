@@ -533,73 +533,50 @@
 
 .method-step-arrow {
   position: relative;
-
   display: block;
-
   width: 38px;
   height: 38px;
-
   min-width: 38px;
   min-height: 38px;
-
   flex: 0 0 38px;
-
   margin-top: 3px;
-
   border: 1px solid rgba(37, 99, 235, 0.2);
   border-radius: 50%;
-
   font-size: 0 !important;
   line-height: 0 !important;
   color: transparent !important;
   text-indent: -9999px;
-
   overflow: hidden;
-
   transition:
     transform 0.7s ease,
     border-color 0.7s ease,
     background-color 0.7s ease;
 }
 
-/* Ligne horizontale → */
 .method-step-arrow::before {
   content: "";
-
   position: absolute;
-
   width: 16px;
   height: 1px;
-
   left: 9px;
   top: 18px;
-
   background: #2563eb;
-
   transform: none;
-
   transition:
     width 0.7s ease,
     background-color 0.7s ease;
 }
 
-/* Pointe → */
 .method-step-arrow::after {
   content: "";
-
   position: absolute;
-
   width: 7px;
   height: 7px;
-
   right: 8px;
   top: 14px;
-
   border-top: 1px solid #2563eb;
   border-right: 1px solid #2563eb;
-
   transform: rotate(45deg);
-
   transition:
     border-color 0.7s ease,
     transform 0.7s ease;
@@ -607,7 +584,6 @@
 
 .method-step:hover .method-step-arrow {
   transform: translateX(5px);
-
   border-color: rgba(37, 99, 235, 0.55);
   background: rgba(37, 99, 235, 0.06);
 }
@@ -956,13 +932,10 @@
   max-width: 1180px;
   margin: 0 auto;
   padding: 55px;
-
   display: grid;
   grid-template-columns: 70px minmax(0, 1fr) 180px;
   gap: 40px;
-
   overflow: hidden;
-
   background:
     radial-gradient(
       circle at 80% 50%,
@@ -970,9 +943,7 @@
       transparent 38%
     ),
     #080b11;
-
   border: 1px solid rgba(37, 99, 235, 0.2);
-
   transition:
     border-color 0.8s ease,
     transform 0.8s ease;
@@ -998,19 +969,14 @@
 .transparency-icon {
   position: relative;
   z-index: 1;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: 45px;
   height: 45px;
-
   border: 1px solid rgba(37, 99, 235, 0.4);
-
   color: #2563eb;
   font-size: 25px;
-
   animation: methodPulse 3s ease-in-out infinite;
 }
 
@@ -1048,11 +1014,9 @@
 .transparency-side {
   position: relative;
   z-index: 1;
-
   display: flex;
   flex-direction: column;
   gap: 20px;
-
   align-self: center;
 }
 
@@ -1129,24 +1093,17 @@
   align-items: center;
   justify-content: space-between;
   gap: 35px;
-
   min-width: 245px;
   min-height: 54px;
-
   padding: 0 18px 0 22px;
-
   box-sizing: border-box;
-
   border: 1px solid #2563eb;
   background: #2563eb;
-
   color: #fff;
   text-decoration: none;
-
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 3px;
-
   transition:
     background-color 0.7s ease,
     transform 0.7s ease,
@@ -1170,54 +1127,38 @@
 
 .method-final-arrow {
   position: relative;
-
   display: block;
-
   width: 22px;
   height: 22px;
-
   min-width: 22px;
-
   flex: 0 0 22px;
-
   font-size: 0 !important;
   line-height: 0 !important;
   color: transparent !important;
   text-indent: -9999px;
-
   overflow: hidden;
 }
 
 .method-final-arrow::before {
   content: "";
-
   position: absolute;
-
   width: 12px;
   height: 1px;
-
   left: 3px;
   top: 11px;
-
   background: #fff;
-
   transform: none;
 }
 
 .method-final-arrow::after {
   content: "";
-
   position: absolute;
-
   width: 6px;
   height: 6px;
-
   right: 1px;
   top: 8px;
-
   border-top: 1px solid #fff;
   border-right: 1px solid #fff;
-
   transform: rotate(45deg);
 }
 
@@ -1447,46 +1388,33 @@
   .method-step-arrow {
     width: 32px;
     height: 32px;
-
     min-width: 32px;
     min-height: 32px;
-
     flex: 0 0 32px;
-
     margin-top: 0;
-
     font-size: 0 !important;
     line-height: 0 !important;
     color: transparent !important;
     text-indent: -9999px;
-
     overflow: hidden;
   }
 
-  /* Ligne horizontale → */
   .method-step-arrow::before {
     width: 13px;
     height: 1px;
-
     left: 7px;
     top: 15px;
-
     background: #2563eb;
-
     transform: none;
   }
 
-  /* Pointe → */
   .method-step-arrow::after {
     width: 6px;
     height: 6px;
-
     right: 6px;
     top: 12px;
-
     border-top: 1px solid #2563eb;
     border-right: 1px solid #2563eb;
-
     transform: rotate(45deg);
   }
 
@@ -1723,39 +1651,30 @@
   .method-final-arrow {
     width: 22px;
     height: 22px;
-
     min-width: 22px;
-
     font-size: 0 !important;
     line-height: 0 !important;
     color: transparent !important;
     text-indent: -9999px;
-
     overflow: hidden;
   }
 
   .method-final-arrow::before {
     width: 12px;
     height: 1px;
-
     left: 3px;
     top: 11px;
-
     background: #fff;
-
     transform: none;
   }
 
   .method-final-arrow::after {
     width: 6px;
     height: 6px;
-
     right: 1px;
     top: 8px;
-
     border-top: 1px solid #fff;
     border-right: 1px solid #fff;
-
     transform: rotate(45deg);
   }
 }
@@ -1802,49 +1721,37 @@
     font-size: 24px;
   }
 
-  /* =======================================================
-     PETITE FLÈCHE DROITE
-  ======================================================= */
+  /* Petite flèche droite */
 
   .method-step-arrow {
     width: 29px;
     height: 29px;
-
     min-width: 29px;
     min-height: 29px;
-
     flex-basis: 29px;
-
     font-size: 0 !important;
     line-height: 0 !important;
     color: transparent !important;
     text-indent: -9999px;
-
     overflow: hidden;
   }
 
   .method-step-arrow::before {
     width: 11px;
     height: 1px;
-
     left: 6px;
     top: 14px;
-
     background: #2563eb;
-
     transform: none;
   }
 
   .method-step-arrow::after {
     width: 5px;
     height: 5px;
-
     right: 5px;
     top: 11px;
-
     border-top: 1px solid #2563eb;
     border-right: 1px solid #2563eb;
-
     transform: rotate(45deg);
   }
 
@@ -1858,10 +1765,10 @@
   }
 
   /* Petite flèche CTA */
+
   .method-final-arrow::before {
     width: 11px;
     height: 1px;
-
     left: 3px;
     top: 11px;
   }
@@ -1869,10 +1776,8 @@
   .method-final-arrow::after {
     width: 5px;
     height: 5px;
-
     right: 1px;
     top: 8px;
-
     transform: rotate(45deg);
   }
 }

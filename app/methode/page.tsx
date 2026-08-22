@@ -1,46 +1,82 @@
-"use client";
-
-import Link from "next/link";
 import "./page.css";
 
 const steps = [
   {
     number: "01",
-    label: "PREMIÈRE ÉTAPE",
-    title: "Échanger",
+    label: "PHASE 01",
+    title: "Immersion & stratégie",
     description:
-      "Tout commence par un échange. Nous prenons le temps de comprendre votre activité, votre vision, vos objectifs et ce qui vous différencie.",
+      "Avant de créer, nous cherchons à comprendre. Votre activité, vos objectifs, votre marché et surtout ce qui doit réellement changer.",
     details: [
-      "Comprendre votre activité",
-      "Identifier vos objectifs",
-      "Définir vos priorités",
-      "Poser les bonnes bases",
+      "Analyse de votre activité",
+      "Identification des objectifs",
+      "Étude du positionnement",
+      "Définition de la direction",
     ],
   },
   {
     number: "02",
-    label: "DEUXIÈME ÉTAPE",
-    title: "Imaginer",
+    label: "PHASE 02",
+    title: "Direction créative",
     description:
-      "Nous transformons vos idées en une direction claire. L'univers visuel, l'expérience et la structure sont pensés pour donner du sens à votre projet.",
+      "Nous transformons la stratégie en une direction visuelle cohérente, identifiable et pensée pour construire une véritable image de marque.",
     details: [
       "Direction artistique",
-      "Architecture du site",
-      "Expérience utilisateur",
-      "Identité digitale",
+      "Univers visuel",
+      "Hiérarchie graphique",
+      "Références & intentions",
     ],
   },
   {
     number: "03",
-    label: "TROISIÈME ÉTAPE",
-    title: "Construire",
+    label: "PHASE 03",
+    title: "Conception",
     description:
-      "Une fois la direction définie, nous construisons une expérience digitale moderne, fluide et pensée dans les moindres détails.",
+      "Chaque élément est conçu avec précision. Nous travaillons l'expérience, le design et les détails pour créer une présence qui inspire confiance.",
+    details: [
+      "UX / UI design",
+      "Création graphique",
+      "Design responsive",
+      "Système visuel cohérent",
+    ],
+  },
+  {
+    number: "04",
+    label: "PHASE 04",
+    title: "Développement",
+    description:
+      "Le design prend vie dans une expérience rapide, fluide et parfaitement adaptée à tous les écrans.",
     details: [
       "Développement sur mesure",
-      "Responsive mobile & desktop",
-      "Animations et interactions",
+      "Responsive mobile",
       "Optimisation des performances",
+      "Animations & interactions",
+    ],
+  },
+  {
+    number: "05",
+    label: "PHASE 05",
+    title: "Tests & perfectionnement",
+    description:
+      "Nous vérifions chaque détail avant la mise en ligne afin que l'expérience finale soit aussi solide techniquement que visuellement.",
+    details: [
+      "Contrôle responsive",
+      "Tests d'interactions",
+      "Optimisation technique",
+      "Corrections finales",
+    ],
+  },
+  {
+    number: "06",
+    label: "PHASE 06",
+    title: "Mise en ligne",
+    description:
+      "Une fois tout validé, nous préparons et déployons votre projet dans les meilleures conditions pour qu'il soit prêt à rencontrer votre audience.",
+    details: [
+      "Préparation du lancement",
+      "Mise en production",
+      "Vérifications finales",
+      "Accompagnement au lancement",
     ],
   },
 ];
@@ -48,547 +84,423 @@ const steps = [
 const reassurance = [
   {
     number: "01",
-    title: "Une approche sur mesure",
-    text: "Chaque projet est différent. Nous construisons une expérience adaptée à votre activité et non un simple modèle préfabriqué.",
+    title: "Une vision globale",
+    description:
+      "Nous ne pensons jamais un élément isolément. Stratégie, identité, design et technologie doivent fonctionner ensemble.",
   },
   {
     number: "02",
-    title: "Une vision claire",
-    text: "Chaque choix graphique et technique répond à un objectif précis pour garder une expérience cohérente et efficace.",
+    title: "Du sur-mesure",
+    description:
+      "Pas de modèle générique. Chaque projet est construit autour de votre identité, vos enjeux et votre audience.",
   },
   {
     number: "03",
-    title: "Un design qui dure",
-    text: "Nous privilégions des interfaces élégantes et intemporelles plutôt que des effets qui vieillissent rapidement.",
+    title: "Une exigence constante",
+    description:
+      "Nous accordons autant d'importance aux détails visibles qu'à ceux que l'on ne remarque qu'une fois qu'ils sont parfaitement maîtrisés.",
   },
   {
     number: "04",
-    title: "Une expérience fluide",
-    text: "Navigation, animations, responsive et performances sont pensés ensemble pour créer une expérience agréable.",
+    title: "Une relation simple",
+    description:
+      "Des échanges clairs, des étapes définies et une communication directe pour avancer efficacement sans complexité inutile.",
   },
 ];
 
 const clientPoints = [
   {
     number: "01",
-    title: "Vous savez où nous en sommes",
-    text: "Les grandes étapes du projet sont claires. Vous savez ce qui est en cours et ce qui arrive ensuite.",
+    title: "Vous savez où nous allons",
+    description:
+      "Chaque étape possède un objectif précis. Vous comprenez ce qui est travaillé, pourquoi nous le faisons et ce qui vient ensuite.",
   },
   {
     number: "02",
     title: "Vous restez impliqué",
-    text: "Votre vision reste au centre du projet. Nous échangeons avec vous pour faire évoluer la direction au bon moment.",
+    description:
+      "Votre vision reste au centre du projet. Nous apportons notre expertise sans jamais perdre de vue votre réalité métier.",
   },
   {
     number: "03",
-    title: "Vous comprenez nos choix",
-    text: "Nous ne faisons pas simplement du design pour faire joli. Chaque décision possède une raison.",
+    title: "Vous voyez le projet évoluer",
+    description:
+      "Les décisions importantes sont partagées au bon moment afin de construire progressivement un résultat qui vous ressemble.",
   },
   {
     number: "04",
-    title: "Vous repartez avec une vraie identité",
-    text: "L'objectif est de créer un univers digital qui vous ressemble et qui peut réellement accompagner votre activité.",
+    title: "Vous repartez avec une vraie base",
+    description:
+      "L'objectif n'est pas simplement de livrer un site, mais de construire une présence digitale capable d'évoluer avec votre activité.",
   },
 ];
 
 const deliverables = [
   {
     number: "01",
-    title: "Direction artistique",
-    text: "Une direction visuelle cohérente, pensée autour de votre image, de votre positionnement et de votre audience.",
+    title: "Une identité digitale forte",
+    description:
+      "Une direction visuelle cohérente qui donne à votre marque une présence claire, moderne et immédiatement reconnaissable.",
   },
   {
     number: "02",
-    title: "Design de l'expérience",
-    text: "Une interface claire et intuitive pour guider naturellement vos visiteurs vers les bonnes informations.",
+    title: "Une expérience pensée pour vos utilisateurs",
+    description:
+      "Une navigation intuitive et des interfaces conçues pour rendre chaque interaction simple, naturelle et efficace.",
   },
   {
     number: "03",
-    title: "Développement",
-    text: "Un site moderne, responsive et performant, construit pour fonctionner parfaitement sur ordinateur comme sur mobile.",
+    title: "Un site développé sur mesure",
+    description:
+      "Une intégration propre, responsive et optimisée pour offrir une expérience fluide sur ordinateur, tablette et mobile.",
   },
   {
     number: "04",
-    title: "Animations & interactions",
-    text: "Des mouvements subtils et des interactions travaillées pour donner de la profondeur sans ralentir la navigation.",
-  },
-  {
-    number: "05",
-    title: "Optimisation",
-    text: "Nous travaillons la structure, les performances et les détails techniques afin de proposer une expérience propre et rapide.",
+    title: "Une base évolutive",
+    description:
+      "Une architecture pensée pour permettre à votre projet de grandir sans devoir tout reconstruire quelques mois plus tard.",
   },
 ];
 
 export default function MethodPage() {
   return (
     <main className="method-page">
-
-      {/* HERO */}
+      {/* =====================================================
+          HERO
+      ===================================================== */}
       <section className="method-hero">
         <div className="method-hero-inner">
-
           <div className="method-kicker">
             <span />
-            <p>NOTRE MÉTHODE</p>
+            <p>NOVA — NOTRE MÉTHODE</p>
           </div>
 
           <div className="method-hero-grid">
-
             <div>
+              <span className="method-index-mobile">01 / MÉTHODE</span>
+
               <h1>
-                Une méthode pensée
+                Créer du sens.
                 <br />
-                pour créer <span>mieux.</span>
+                <span>Créer de l&apos;impact.</span>
               </h1>
 
               <p className="method-hero-description">
-                Pas de recette toute faite. Chaque projet commence par une
-                réflexion, une direction claire et une volonté de construire
-                quelque chose qui a du sens.
+                Une méthode pensée pour transformer une idée en une présence
+                digitale forte, cohérente et durable.
               </p>
             </div>
 
             <div className="method-hero-side">
-              <span className="method-index">/ 01 — 06</span>
+              <span className="method-index">01 / 08</span>
 
               <p>
-                De la première idée jusqu&apos;à la mise en ligne, nous
-                avançons étape par étape avec une vision simple : créer une
-                expérience digitale forte, élégante et utile.
+                Chez NOVA, nous ne commençons jamais par le design. Nous
+                commençons par comprendre ce que votre marque doit devenir.
               </p>
             </div>
-
           </div>
 
           <div className="method-hero-bottom">
-            <span>SCROLL TO EXPLORE</span>
+            <span>STRATÉGIE → DESIGN → TECHNOLOGIE</span>
 
             <p>
-              Une approche humaine.
+              Une approche structurée.
               <br />
-              Une exécution précise.
+              Une exigence créative.
             </p>
           </div>
-
         </div>
       </section>
 
-
-      {/* INTRO */}
+      {/* =====================================================
+          INTRO
+      ===================================================== */}
       <section className="method-intro">
-
         <div className="method-section-label">
-          <span>01</span>
-          <p>AVANT DE CONSTRUIRE</p>
+          <span>02</span>
+          <p>NOTRE APPROCHE</p>
         </div>
 
         <div className="method-intro-grid">
-
           <div>
-            <p className="method-kicker-blue">
-              L&apos;IDÉE
-            </p>
+            <p className="method-kicker-blue">PENSER AVANT DE CRÉER</p>
 
             <h2>
-              Tout projet commence
+              La créativité
               <br />
-              par une <span>bonne question.</span>
+              <span>avec une direction.</span>
             </h2>
           </div>
 
           <div className="method-intro-copy">
-
             <p>
-              Avant de parler de couleurs, d&apos;animations ou de
-              développement, nous cherchons à comprendre ce que vous voulez
-              réellement transmettre.
+              Un beau site ne suffit pas. Il doit avoir une raison d&apos;être,
+              raconter quelque chose et surtout servir vos objectifs.
             </p>
 
             <p>
-              Votre activité, vos ambitions, votre clientèle et votre
-              différence deviennent la base de toute la réflexion.
+              Notre méthode repose donc sur un équilibre entre réflexion,
+              création et technologie. Chaque décision est prise pour donner
+              plus de force à votre marque et plus de clarté à votre message.
             </p>
 
+            <p>
+              Nous avançons étape par étape, avec une vision globale du projet
+              et une attention particulière portée aux détails.
+            </p>
           </div>
-
         </div>
-
       </section>
 
-
-      {/* PROCESS */}
+      {/* =====================================================
+          PROCESS
+      ===================================================== */}
       <section className="method-process">
-
         <div className="method-process-inner">
-
           <div className="method-section-label">
-            <span>02</span>
+            <span>03</span>
             <p>LE PROCESSUS</p>
           </div>
 
           <div className="method-process-heading">
-
             <div>
               <h2>
-                Trois étapes.
+                Une méthode
                 <br />
-                Une seule <span>direction.</span>
+                <span>en mouvement.</span>
               </h2>
             </div>
 
             <p>
-              Nous avons volontairement simplifié notre méthode. L&apos;objectif
-              est de garder un processus clair, fluide et compréhensible du
-              début à la fin.
+              Six étapes pensées pour garder une direction claire du premier
+              échange jusqu&apos;à la mise en ligne.
             </p>
-
           </div>
 
-
           <div className="method-steps">
-
             {steps.map((step) => (
-              <article
-                className="method-step"
-                key={step.number}
-              >
-
-                <div className="method-step-number">
-                  {step.number}
-                </div>
+              <article className="method-step" key={step.number}>
+                <div className="method-step-number">{step.number}</div>
 
                 <div className="method-step-main">
-
                   <div className="method-step-title">
-
-                    <div>
+                    <div className="method-step-heading-content">
                       <span>{step.label}</span>
-
-                      <h3>
-                        {step.title}
-                      </h3>
+                      <h3>{step.title}</h3>
                     </div>
 
-                    {/* FLÈCHE UNIQUEMENT EN CSS */}
-                    <div
+                    <span
                       className="method-step-arrow"
                       aria-hidden="true"
                     />
-
                   </div>
-
 
                   <p className="method-step-description">
                     {step.description}
                   </p>
 
-
                   <div className="method-step-details">
-
                     {step.details.map((detail) => (
-                      <div
-                        className="method-detail"
-                        key={detail}
-                      >
-
+                      <div className="method-detail" key={detail}>
                         <span>+</span>
-
-                        <p>
-                          {detail}
-                        </p>
-
+                        <p>{detail}</p>
                       </div>
                     ))}
-
                   </div>
-
                 </div>
-
               </article>
             ))}
-
           </div>
-
         </div>
-
       </section>
 
-
-      {/* REASSURANCE */}
+      {/* =====================================================
+          REASSURANCE
+      ===================================================== */}
       <section className="method-reassurance">
-
         <div className="method-reassurance-inner">
-
           <div className="method-section-label">
-            <span>03</span>
-            <p>NOTRE VISION</p>
+            <span>04</span>
+            <p>POURQUOI NOVA</p>
           </div>
 
           <div className="method-reassurance-heading">
-
             <div>
               <h2>
-                Faire moins,
+                Plus qu&apos;un
                 <br />
-                mais le faire <span>mieux.</span>
+                <span>prestataire.</span>
               </h2>
             </div>
 
             <p>
-              Nous préférons une expérience maîtrisée, cohérente et utile à
-              une accumulation d&apos;effets qui finit par perdre le visiteur.
+              Nous construisons avec vous, pas simplement pour vous. Le projet
+              devient une collaboration où chaque expertise sert la même
+              vision.
             </p>
-
           </div>
-
 
           <div className="reassurance-grid">
-
             {reassurance.map((item) => (
-              <article
-                className="reassurance-card"
-                key={item.number}
-              >
-
-                <span>
-                  {item.number}
-                </span>
+              <article className="reassurance-card" key={item.number}>
+                <span>{item.number}</span>
 
                 <div>
-
-                  <h3>
-                    {item.title}
-                  </h3>
-
-                  <p>
-                    {item.text}
-                  </p>
-
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
                 </div>
-
               </article>
             ))}
-
           </div>
-
         </div>
-
       </section>
 
-
-      {/* CLIENT EXPERIENCE */}
+      {/* =====================================================
+          CLIENT
+      ===================================================== */}
       <section className="method-client">
-
         <div className="method-client-inner">
-
           <div className="method-section-label">
-            <span>04</span>
-            <p>VOTRE EXPÉRIENCE</p>
+            <span>05</span>
+            <p>VOTRE PLACE</p>
           </div>
 
           <div className="method-client-grid">
-
             <div>
-
               <h2>
-                Vous n&apos;êtes
+                Vous êtes
                 <br />
-                jamais <span>à côté.</span>
+                <span>au centre.</span>
               </h2>
-
             </div>
-
 
             <div className="client-points">
-
               {clientPoints.map((point) => (
-                <article
-                  className="client-point"
-                  key={point.number}
-                >
-
-                  <span>
-                    {point.number}
-                  </span>
+                <article className="client-point" key={point.number}>
+                  <span>{point.number}</span>
 
                   <div>
-
-                    <h3>
-                      {point.title}
-                    </h3>
-
-                    <p>
-                      {point.text}
-                    </p>
-
+                    <h3>{point.title}</h3>
+                    <p>{point.description}</p>
                   </div>
-
                 </article>
               ))}
-
             </div>
-
           </div>
-
         </div>
-
       </section>
 
-
-      {/* DELIVERABLES */}
+      {/* =====================================================
+          DELIVERABLES
+      ===================================================== */}
       <section className="method-deliverables">
-
         <div className="method-deliverables-inner">
-
           <div className="method-section-label">
-            <span>05</span>
-            <p>CE QUE NOUS CONSTRUISONS</p>
+            <span>06</span>
+            <p>CE QUE VOUS RECEVEZ</p>
           </div>
 
           <div className="deliverables-heading">
-
             <div>
-
               <h2>
-                Chaque détail
+                Pensé pour
                 <br />
-                compte dans le <span>résultat.</span>
+                <span>durer.</span>
               </h2>
-
             </div>
 
             <p>
-              Une identité digitale ne se limite pas à une belle page
-              d&apos;accueil. Chaque élément doit participer à l&apos;ensemble.
+              Chaque projet est conçu comme une base solide : esthétique,
+              fonctionnelle et suffisamment flexible pour accompagner la suite
+              de votre histoire.
             </p>
-
           </div>
-
 
           <div className="deliverables-list">
-
             {deliverables.map((item) => (
-              <article
-                className="deliverable"
-                key={item.number}
-              >
-
-                <span>
-                  {item.number}
-                </span>
+              <article className="deliverable" key={item.number}>
+                <span>{item.number}</span>
 
                 <div>
-
-                  <h3>
-                    {item.title}
-                  </h3>
-
-                  <p>
-                    {item.text}
-                  </p>
-
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
                 </div>
-
               </article>
             ))}
-
           </div>
-
         </div>
-
       </section>
 
-
-      {/* TRANSPARENCY */}
+      {/* =====================================================
+          TRANSPARENCY
+      ===================================================== */}
       <section className="method-transparency">
-
         <div className="method-transparency-inner">
-
-          <div className="transparency-icon">
+          <div className="transparency-icon" aria-hidden="true">
             +
           </div>
 
           <div>
-
-            <span>
-              UNE APPROCHE SIMPLE
-            </span>
+            <span>07 / TRANSPARENCE</span>
 
             <h2>
-              Pas de jargon.
+              Pas de zone
               <br />
-              Pas de mauvaise surprise.
+              <strong>grise.</strong>
             </h2>
 
             <p>
-              Nous privilégions une communication simple et transparente.
-              Vous devez comprendre ce que nous faisons, pourquoi nous le
-              faisons et ce que cela apporte réellement à votre projet.
+              Nous privilégions une relation simple et transparente. Les
+              décisions importantes sont expliquées, les étapes sont visibles
+              et les échanges restent directs du début à la fin.
             </p>
-
           </div>
 
-
           <div className="transparency-side">
-
             <div>
               <span>01</span>
-              <p>CLAIR</p>
+              <p>ÉCHANGES CLAIRS</p>
             </div>
 
             <div>
               <span>02</span>
-              <p>DIRECT</p>
+              <p>ÉTAPES VISIBLES</p>
             </div>
 
             <div>
               <span>03</span>
-              <p>HUMAIN</p>
+              <p>DÉCISIONS PARTAGÉES</p>
             </div>
-
           </div>
-
         </div>
-
       </section>
 
-
-      {/* FINAL CTA */}
+      {/* =====================================================
+          FINAL CTA
+      ===================================================== */}
       <section className="method-final">
-
         <div className="method-final-content">
-
-          <span>
-            ET SI ON COMMENÇAIT ?
-          </span>
+          <span>08 / ET MAINTENANT ?</span>
 
           <h2>
             Votre projet mérite
             <br />
-            une vraie <strong>direction.</strong>
+            <strong>une vraie direction.</strong>
           </h2>
 
           <p>
-            Parlons de votre activité, de vos idées et de ce que nous pouvons
-            construire ensemble.
+            Vous avez une idée, une marque à faire évoluer ou un projet à
+            lancer ? Parlons-en et construisons quelque chose qui a du sens.
           </p>
 
-          <Link href="/contact">
+          <a className="method-final-link" href="/contact">
+            <span>PARLER DE MON PROJET</span>
 
-            <span>
-              PARLER DE MON PROJET
-            </span>
-
-            <strong>
-              →
-            </strong>
-
-          </Link>
-
+            <span className="method-final-arrow" aria-hidden="true" />
+          </a>
         </div>
-
       </section>
-
     </main>
   );
 }

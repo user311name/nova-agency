@@ -6,7 +6,6 @@
 .realisations-page {
   min-height: 100vh;
   overflow: hidden;
-
   background:
     radial-gradient(
       circle at 75% 8%,
@@ -14,7 +13,6 @@
       transparent 30%
     ),
     #050505;
-
   color: #fff;
 }
 
@@ -24,22 +22,17 @@
 
 .realisations-hero {
   position: relative;
-
   padding: 150px 8% 120px;
-
   border-bottom: 1px solid #181818;
 }
 
 .realisations-hero::after {
   content: "";
-
   position: absolute;
   right: 8%;
   bottom: 0;
-
   width: 1px;
   height: 190px;
-
   background: linear-gradient(
     to top,
     rgba(37, 99, 235, 0.65),
@@ -48,6 +41,7 @@
 }
 
 .realisations-hero-inner {
+  width: 100%;
   max-width: 1180px;
   margin: 0 auto;
 }
@@ -56,38 +50,35 @@
   display: flex;
   align-items: center;
   gap: 14px;
-
   margin-bottom: 38px;
 }
 
 .realisations-kicker span {
   width: 35px;
   height: 1px;
-
+  flex: 0 0 auto;
   background: #2563eb;
 }
 
 .realisations-kicker p {
   margin: 0;
-
   color: #666;
-
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 4px;
+  line-height: 1;
 }
 
 .realisations-hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.6fr);
   gap: 80px;
-
   align-items: end;
 }
 
 .realisations-hero h1 {
   margin: 0;
-
+  max-width: 850px;
   font-size: clamp(58px, 8vw, 105px);
   line-height: 0.94;
   letter-spacing: -5px;
@@ -104,24 +95,29 @@
 
 .hero-index {
   display: block;
-
   margin-bottom: 30px;
-
   color: #3f3f3f;
-
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 2px;
+  line-height: 1;
 }
 
 .realisations-hero-side p {
   max-width: 390px;
-
   margin: 0;
-
   color: #707070;
-
   font-size: 14px;
+  line-height: 1.85;
+}
+
+.realisations-hero-side strong {
+  display: block;
+  max-width: 390px;
+  margin-top: 2px;
+  color: #a0a0a0;
+  font-size: 14px;
+  font-weight: 500;
   line-height: 1.85;
 }
 
@@ -130,9 +126,9 @@
 ========================================================= */
 
 .projects-section {
+  width: calc(100% - 40px);
   max-width: 1180px;
   margin: 0 auto;
-
   padding: 110px 0 130px;
 }
 
@@ -140,9 +136,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
+  gap: 30px;
   padding-bottom: 28px;
-
   border-bottom: 1px solid #1b1b1b;
 }
 
@@ -154,36 +149,34 @@
 
 .section-number {
   color: #2563eb;
-
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 2px;
+  line-height: 1;
 }
 
 .projects-heading p {
   margin: 0;
-
   color: #666;
-
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 4px;
+  line-height: 1;
 }
 
 .projects-count {
   color: #3f3f3f;
-
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 2px;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .projects-list {
   display: flex;
   flex-direction: column;
-
   gap: 110px;
-
   margin-top: 60px;
 }
 
@@ -197,27 +190,21 @@
 
 .project-image-link {
   display: block;
-
   color: inherit;
   text-decoration: none;
 }
 
 .project-image {
   position: relative;
-
   width: 100%;
   aspect-ratio: 16 / 9;
-
   overflow: hidden;
-
   background: #0b0b0b;
-
   border: 1px solid #1d1d1d;
 }
 
 .project-image img {
   object-fit: cover;
-
   transition:
     transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
     filter 0.5s ease;
@@ -226,14 +213,11 @@
 .project-image-shade {
   position: absolute;
   inset: 0;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.05),
-      rgba(0, 0, 0, 0.25)
-    );
-
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.05),
+    rgba(0, 0, 0, 0.25)
+  );
   transition: background 0.4s ease;
 }
 
@@ -243,12 +227,11 @@
 }
 
 .project-image-link:hover .project-image-shade {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.08),
-      rgba(0, 0, 0, 0.45)
-    );
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.08),
+    rgba(0, 0, 0, 0.45)
+  );
 }
 
 /* =========================================================
@@ -259,14 +242,12 @@
   position: absolute;
   top: 25px;
   left: 25px;
-
-  color: rgba(255, 255, 255, 0.7);
-
+  z-index: 2;
+  color: rgba(255, 255, 255, 0.72);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 3px;
-
-  z-index: 2;
+  line-height: 1;
 }
 
 /* =========================================================
@@ -275,48 +256,68 @@
 
 .project-view {
   position: absolute;
-  left: 50%;
   top: 50%;
-
-  transform: translate(-50%, -42%);
+  left: 50%;
+  z-index: 3;
 
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
+
+  padding: 14px 18px;
 
   opacity: 0;
-
-  padding: 13px 18px;
-
   border: 1px solid rgba(255, 255, 255, 0.25);
-
   background: rgba(0, 0, 0, 0.45);
-
   backdrop-filter: blur(8px);
+
+  transform: translate(-50%, -42%);
 
   transition:
     opacity 0.35s ease,
     transform 0.35s ease;
 }
 
-.project-view span {
+.project-view span:first-child {
   color: #fff;
-
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 2px;
+  line-height: 1;
 }
 
-.project-view strong {
-  color: #2563eb;
+.project-view-arrow {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
 
-  font-size: 17px;
-  font-weight: 400;
+.project-view-arrow::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 1px;
+  width: 14px;
+  height: 1px;
+  background: #2563eb;
+}
+
+.project-view-arrow::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: 1px;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid #2563eb;
+  border-right: 1px solid #2563eb;
+  transform: rotate(45deg);
 }
 
 .project-image-link:hover .project-view {
   opacity: 1;
-
   transform: translate(-50%, -50%);
 }
 
@@ -328,23 +329,24 @@
   display: grid;
   grid-template-columns: 1fr 0.7fr;
   gap: 70px;
-
   padding-top: 27px;
+}
+
+.project-title-block {
+  min-width: 0;
 }
 
 .project-category {
   margin: 0 0 14px;
-
   color: #555;
-
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 3px;
+  line-height: 1.5;
 }
 
 .project-title-block h2 {
   margin: 0;
-
   font-size: clamp(42px, 5vw, 68px);
   line-height: 0.95;
   letter-spacing: -3px;
@@ -355,17 +357,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   gap: 25px;
 }
 
 .project-description-block p {
   max-width: 420px;
-
   margin: 0;
-
   color: #707070;
-
   font-size: 14px;
   line-height: 1.8;
 }
@@ -373,16 +371,14 @@
 .project-description-block a {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-
+  gap: 13px;
   width: fit-content;
 
   color: #fff;
-
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 3px;
-
+  line-height: 1;
   text-decoration: none;
 
   transition:
@@ -390,15 +386,43 @@
     gap 0.2s ease;
 }
 
-.project-description-block a span {
-  color: #2563eb;
+/* UNE SEULE FLÈCHE */
 
-  font-size: 16px;
-  font-weight: 400;
+.project-description-block a .discover-arrow {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 18px;
+  flex: 0 0 22px;
+
+  color: transparent;
+  font-size: 0;
+}
+
+.project-description-block a .discover-arrow::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 16px;
+  height: 1px;
+  background: #2563eb;
+}
+
+.project-description-block a .discover-arrow::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: 1px;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid #2563eb;
+  border-right: 1px solid #2563eb;
+  transform: rotate(45deg);
 }
 
 .project-description-block a:hover {
-  gap: 17px;
+  gap: 18px;
   color: #2563eb;
 }
 
@@ -408,12 +432,9 @@
 
 .realisations-bottom {
   position: relative;
-
   margin: 0 8%;
   padding: 125px 0 145px;
-
   text-align: center;
-
   border-top: 1px solid #181818;
 }
 
@@ -422,31 +443,29 @@
   justify-content: center;
   align-items: center;
   gap: 15px;
-
   margin-bottom: 30px;
 }
 
 .bottom-line span {
   color: #2563eb;
-
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 2px;
+  line-height: 1;
 }
 
 .bottom-line p {
   margin: 0;
-
   color: #555;
-
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 4px;
+  line-height: 1;
 }
 
 .realisations-bottom h2 {
-  margin: 0;
-
+  max-width: 900px;
+  margin: 0 auto;
   font-size: clamp(45px, 6vw, 78px);
   line-height: 0.98;
   letter-spacing: -4px;
@@ -459,14 +478,14 @@
 
 .bottom-description {
   margin: 28px 0 38px;
-
   color: #666;
-
   font-size: 14px;
   line-height: 1.7;
 }
 
 .realisations-button {
+  position: relative;
+
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
@@ -474,19 +493,17 @@
 
   min-width: 245px;
   min-height: 54px;
-
   padding: 0 18px 0 22px;
 
   border: 1px solid #2563eb;
-
   background: #2563eb;
   color: #fff;
 
   text-decoration: none;
-
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 3px;
+  line-height: 1;
 
   transition:
     background-color 0.2s ease,
@@ -495,17 +512,42 @@
 }
 
 .realisations-button strong {
-  font-size: 18px;
-  font-weight: 400;
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 18px;
+  flex: 0 0 22px;
+
+  color: transparent;
+  font-size: 0;
+}
+
+.realisations-button strong::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 16px;
+  height: 1px;
+  background: #fff;
+}
+
+.realisations-button strong::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: 1px;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid #fff;
+  border-right: 1px solid #fff;
+  transform: rotate(45deg);
 }
 
 .realisations-button:hover {
   background: #1d4ed8;
-
   transform: translateY(-2px);
-
-  box-shadow:
-    0 18px 40px rgba(37, 99, 235, 0.18);
+  box-shadow: 0 18px 40px rgba(37, 99, 235, 0.18);
 }
 
 /* =========================================================
@@ -513,23 +555,34 @@
 ========================================================= */
 
 @media (max-width: 1050px) {
-  .realisations-hero,
-  .projects-section {
-    padding-left: 25px;
-    padding-right: 25px;
-  }
-
   .realisations-hero {
-    padding-top: 120px;
+    padding: 120px 25px 100px;
   }
 
-  .projects-section {
-    padding-top: 90px;
+  .realisations-hero::after {
+    right: 25px;
   }
 
   .realisations-hero-grid {
-    grid-template-columns: 1fr 0.7fr;
+    grid-template-columns: minmax(0, 1fr) minmax(250px, 0.65fr);
     gap: 50px;
+  }
+
+  .realisations-hero h1 {
+    font-size: clamp(58px, 8vw, 88px);
+  }
+
+  .projects-section {
+    width: calc(100% - 50px);
+    padding-top: 90px;
+  }
+
+  .project-info {
+    gap: 45px;
+  }
+
+  .realisations-bottom {
+    margin: 0 25px;
   }
 }
 
@@ -538,49 +591,93 @@
 ========================================================= */
 
 @media (max-width: 700px) {
+  .realisations-page {
+    overflow-x: hidden;
+  }
+
+  /* ---------- HERO ---------- */
+
   .realisations-hero {
-    padding: 95px 20px 75px;
+    padding: 92px 20px 72px;
   }
 
   .realisations-hero::after {
     right: 20px;
-    height: 100px;
+    height: 85px;
   }
 
   .realisations-kicker {
-    margin-bottom: 27px;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+
+  .realisations-kicker span {
+    width: 24px;
+  }
+
+  .realisations-kicker p {
+    font-size: 8px;
+    letter-spacing: 2.5px;
   }
 
   .realisations-hero-grid {
-    grid-template-columns: 1fr;
-    gap: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    align-items: flex-start;
   }
 
   .realisations-hero h1 {
-    font-size: 50px;
+    max-width: 100%;
+    font-size: clamp(43px, 13vw, 58px);
     line-height: 0.98;
-    letter-spacing: -2.5px;
+    letter-spacing: -2.8px;
   }
 
   .realisations-hero-side {
-    padding-bottom: 0;
+    width: 100%;
+    padding: 0;
   }
 
   .hero-index {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
+    font-size: 8px;
+    letter-spacing: 2px;
   }
 
-  .realisations-hero-side p {
-    font-size: 14px;
-    line-height: 1.7;
+  .realisations-hero-side p,
+  .realisations-hero-side strong {
+    max-width: 100%;
+    padding-right: 25px;
+    font-size: 13px;
+    line-height: 1.75;
   }
+
+  /* ---------- PROJECTS ---------- */
 
   .projects-section {
-    padding: 70px 20px 90px;
+    width: auto;
+    margin: 0;
+    padding: 65px 20px 85px;
   }
 
   .projects-heading {
-    padding-bottom: 22px;
+    align-items: flex-start;
+    padding-bottom: 20px;
+  }
+
+  .projects-heading > div {
+    gap: 11px;
+  }
+
+  .section-number {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+
+  .projects-heading p {
+    font-size: 8px;
+    letter-spacing: 2.5px;
   }
 
   .projects-count {
@@ -588,71 +685,185 @@
   }
 
   .projects-list {
-    gap: 75px;
-    margin-top: 38px;
+    gap: 68px;
+    margin-top: 34px;
   }
+
+  /* ---------- IMAGE ---------- */
 
   .project-image {
     aspect-ratio: 4 / 3;
+    border-color: #191919;
   }
 
   .project-number {
-    top: 17px;
-    left: 17px;
+    top: 15px;
+    left: 15px;
+    font-size: 8px;
+    letter-spacing: 2px;
   }
 
   .project-view {
     display: none;
   }
 
-  .project-info {
-    grid-template-columns: 1fr;
-    gap: 22px;
+  /* ---------- INFO ---------- */
 
-    padding-top: 22px;
+  .project-info {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+    padding-top: 20px;
   }
 
   .project-category {
-    font-size: 8px;
-    letter-spacing: 2px;
+    max-width: 100%;
+    margin: 0 0 10px;
+    font-size: 7.5px;
+    letter-spacing: 1.8px;
+    line-height: 1.6;
   }
 
   .project-title-block h2 {
-    font-size: 48px;
-    letter-spacing: -2px;
+    font-size: clamp(38px, 12vw, 50px);
+    line-height: 0.96;
+    letter-spacing: -2.2px;
   }
 
   .project-description-block {
-    gap: 20px;
+    gap: 18px;
   }
 
   .project-description-block p {
-    font-size: 13px;
-    line-height: 1.7;
+    max-width: 100%;
+    color: #6c6c6c;
+    font-size: 12.5px;
+    line-height: 1.75;
   }
+
+  .project-description-block a {
+    gap: 11px;
+    font-size: 8px;
+    letter-spacing: 2.2px;
+  }
+
+  .project-description-block a .discover-arrow {
+    width: 21px;
+    height: 18px;
+    flex: 0 0 21px;
+  }
+
+  /* ---------- CTA ---------- */
 
   .realisations-bottom {
     margin: 0 20px;
-    padding: 90px 0 110px;
+    padding: 78px 0 92px;
+  }
+
+  .bottom-line {
+    gap: 10px;
+    margin-bottom: 25px;
+  }
+
+  .bottom-line span {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+
+  .bottom-line p {
+    font-size: 8px;
+    letter-spacing: 2.5px;
   }
 
   .realisations-bottom h2 {
-    font-size: 45px;
+    max-width: 100%;
+    font-size: clamp(38px, 11.5vw, 48px);
+    line-height: 1;
     letter-spacing: -2.5px;
   }
 
   .bottom-description {
-    font-size: 13px;
+    max-width: 290px;
+    margin: 22px auto 30px;
+    font-size: 12.5px;
+    line-height: 1.7;
   }
 
   .realisations-button {
     width: 100%;
+    min-width: 0;
+    min-height: 55px;
     box-sizing: border-box;
+    padding: 0 16px 0 18px;
+    gap: 20px;
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+
+  .realisations-button strong {
+    flex: 0 0 22px;
   }
 }
 
 /* =========================================================
-   ACCESSIBILITY / REDUCED MOTION
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 390px) {
+  .realisations-hero {
+    padding-top: 82px;
+    padding-bottom: 65px;
+  }
+
+  .realisations-hero h1 {
+    font-size: 42px;
+    letter-spacing: -2.3px;
+  }
+
+  .realisations-hero-side p,
+  .realisations-hero-side strong {
+    padding-right: 10px;
+    font-size: 12.5px;
+  }
+
+  .projects-section {
+    padding-top: 58px;
+    padding-bottom: 75px;
+  }
+
+  .projects-list {
+    gap: 60px;
+    margin-top: 30px;
+  }
+
+  .project-title-block h2 {
+    font-size: 39px;
+    letter-spacing: -1.8px;
+  }
+
+  .project-description-block p {
+    font-size: 12px;
+  }
+
+  .realisations-bottom {
+    padding-top: 70px;
+    padding-bottom: 80px;
+  }
+
+  .realisations-bottom h2 {
+    font-size: 37px;
+    letter-spacing: -2px;
+  }
+
+  .realisations-button {
+    min-height: 53px;
+    font-size: 7.5px;
+    letter-spacing: 1.7px;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITY
 ========================================================= */
 
 .project-image-link:focus-visible,
@@ -661,6 +872,10 @@
   outline: 2px solid #fff;
   outline-offset: 5px;
 }
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
   .project-image img,

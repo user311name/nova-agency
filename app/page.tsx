@@ -25,207 +25,143 @@ const projects = [
 export default function Home() {
   return (
     <main className="nova-home">
-
       {/* =========================
           HERO
       ========================= */}
 
       <section className="nova-hero">
-
         <div className="hero-content">
-
           <p className="badge">
             <span>●</span>
             AGENCE DIGITALE PREMIUM
           </p>
 
           <h1>
-            Plus qu’une présence.
+            Votre site mérite
             <br />
-            <span>Une signature.</span>
+            <span>d’être à la hauteur de votre activité.</span>
           </h1>
 
           <p className="hero-text">
-            Nous créons des sites modernes, rapides et sur mesure pour
-            donner à votre activité une image forte, professionnelle
-            et mémorable.
+            Nous créons des sites web sur mesure qui donnent confiance,
+            valorisent votre image et transforment vos visiteurs en clients.
           </p>
 
           <div className="hero-buttons">
+            <Link href="/devis">Parler de mon projet →</Link>
 
-            <Link href="/realisations">
-              Découvrir nos créations
-            </Link>
-
-            <Link href="/devis">
-              Demander un devis
-            </Link>
-
+            <Link href="/realisations">Voir nos réalisations</Link>
           </div>
 
           <div className="hero-reassurance">
-
             <div className="reassurance-item">
-
-              <span className="reassurance-check">
-                ✓
-              </span>
+              <span className="reassurance-check">✓</span>
 
               <div>
                 <strong>Design sur mesure</strong>
 
                 <span>
-                  Une identité pensée pour votre activité
+                  Une image qui correspond vraiment à votre activité
                 </span>
               </div>
-
             </div>
 
-
             <div className="reassurance-item">
-
-              <span className="reassurance-check">
-                ✓
-              </span>
+              <span className="reassurance-check">✓</span>
 
               <div>
                 <strong>Mobile & rapide</strong>
 
                 <span>
-                  Une expérience fluide sur tous les écrans
+                  Une expérience fluide, quel que soit l’écran
                 </span>
               </div>
-
             </div>
 
-
             <div className="reassurance-item">
-
-              <span className="reassurance-check">
-                ✓
-              </span>
+              <span className="reassurance-check">✓</span>
 
               <div>
                 <strong>Accompagnement</strong>
 
                 <span>
-                  Un projet suivi de la conception au lancement
+                  Un suivi clair de la première idée à la mise en ligne
                 </span>
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       </section>
-
 
       {/* =========================
           APPROCHE
       ========================= */}
 
       <section className="intro-section">
-
         <div className="intro-label">
           <span>01</span>
           <span>NOTRE APPROCHE</span>
         </div>
 
         <div className="intro-content">
-
           <div className="intro-heading">
-
-            <p className="section-kicker">
-              L’IMAGE AVANT TOUT
-            </p>
+            <p className="section-kicker">VOTRE PREMIÈRE IMPRESSION</p>
 
             <h2>
-              Votre image mérite
+              Votre site est souvent
               <br />
-              mieux qu’un simple site.
+              le premier contact avec votre entreprise.
             </h2>
-
           </div>
-
 
           <div className="intro-text">
-
             <p>
-              Aujourd’hui, votre présence en ligne peut faire la différence
-              entre un visiteur qui passe et un client qui vous contacte.
+              En quelques secondes, un visiteur décide s’il vous fait
+              confiance ou s’il passe son chemin.
             </p>
 
             <p>
-              Chez NOVA, nous concevons des expériences digitales pensées
-              pour donner confiance, valoriser votre activité et laisser
-              une vraie impression.
+              Chez NOVA, nous concevons des sites qui présentent votre
+              activité avec clarté, valorisent votre image et donnent
+              envie d’aller plus loin.
             </p>
 
-            <Link
-              href="/a-propos"
-              className="text-link"
-            >
+            <Link href="/a-propos" className="text-link">
               Découvrir NOVA →
             </Link>
-
           </div>
-
         </div>
-
       </section>
-
 
       {/* =========================
           REALISATIONS
       ========================= */}
 
       <section className="section projects-section">
-
         <div className="section-heading-row">
-
           <div>
-
-            <span>
-              02 — RÉALISATIONS
-            </span>
+            <span>02 — RÉALISATIONS</span>
 
             <h2>
               Des projets pensés pour
               <br />
               faire bonne impression.
             </h2>
-
           </div>
 
-
-          <Link
-            href="/realisations"
-            className="section-link"
-          >
+          <Link href="/realisations" className="section-link">
             Voir toutes les réalisations →
           </Link>
-
         </div>
 
-
         <div className="projects-grid">
-
           {projects.map((project) => (
-
-            <article
-              className="card"
-              key={project.title}
-            >
-
+            <article className="card" key={project.title}>
               <Link
                 href={project.href}
                 className="project-image-link"
               >
-
                 <div className="project-image-wrap">
-
                   <img
                     src={project.image}
                     alt={project.title}
@@ -235,26 +171,15 @@ export default function Home() {
                   <span className="project-overlay">
                     Voir le projet
                   </span>
-
                 </div>
-
               </Link>
 
-
               <div className="project-card-content">
-
                 <div>
+                  <p>{project.category}</p>
 
-                  <p>
-                    {project.category}
-                  </p>
-
-                  <h3>
-                    {project.title}
-                  </h3>
-
+                  <h3>{project.title}</h3>
                 </div>
-
 
                 <Link
                   href={project.href}
@@ -263,60 +188,39 @@ export default function Home() {
                 >
                   <span className="arrow-icon" />
                 </Link>
-
               </div>
-
             </article>
-
           ))}
-
         </div>
-
       </section>
-
 
       {/* =========================
           SERVICES
       ========================= */}
 
       <section className="section services-section">
-
         <div className="section-heading-row services-heading">
-
           <div>
-
-            <span>
-              03 — SERVICES
-            </span>
+            <span>03 — SERVICES</span>
 
             <h2>
-              Tout ce qu'il faut pour
+              Tout ce qu&apos;il faut pour
               <br />
               construire votre présence digitale.
             </h2>
-
           </div>
-
 
           <p className="section-introduction">
             De la création à l’optimisation, nous construisons des
             solutions adaptées à votre activité et à vos objectifs.
           </p>
-
         </div>
 
-
         <div className="services-list">
-
           <div className="service-row">
+            <span className="service-number">01</span>
 
-            <span className="service-number">
-              01
-            </span>
-
-            <h3>
-              Création de sites web
-            </h3>
+            <h3>Création de sites web</h3>
 
             <p>
               Des sites modernes et personnalisés qui présentent
@@ -326,19 +230,12 @@ export default function Home() {
             <span className="service-arrow">
               <span className="arrow-icon" />
             </span>
-
           </div>
 
-
           <div className="service-row">
+            <span className="service-number">02</span>
 
-            <span className="service-number">
-              02
-            </span>
-
-            <h3>
-              Refonte & optimisation
-            </h3>
+            <h3>Refonte & optimisation</h3>
 
             <p>
               Nous modernisons votre site pour améliorer son image,
@@ -348,19 +245,12 @@ export default function Home() {
             <span className="service-arrow">
               <span className="arrow-icon" />
             </span>
-
           </div>
 
-
           <div className="service-row">
+            <span className="service-number">03</span>
 
-            <span className="service-number">
-              03
-            </span>
-
-            <h3>
-              Identité & direction artistique
-            </h3>
+            <h3>Identité & direction artistique</h3>
 
             <p>
               Une direction visuelle cohérente pour construire une
@@ -370,19 +260,12 @@ export default function Home() {
             <span className="service-arrow">
               <span className="arrow-icon" />
             </span>
-
           </div>
 
-
           <div className="service-row">
+            <span className="service-number">04</span>
 
-            <span className="service-number">
-              04
-            </span>
-
-            <h3>
-              Performance & mobile
-            </h3>
+            <h3>Performance & mobile</h3>
 
             <p>
               Une expérience rapide, fluide et adaptée à tous les
@@ -392,27 +275,103 @@ export default function Home() {
             <span className="service-arrow">
               <span className="arrow-icon" />
             </span>
-
           </div>
-
         </div>
-
       </section>
 
+      {/* =========================
+          MÉTHODE
+      ========================= */}
+
+      <section className="section services-section">
+        <div className="section-heading-row services-heading">
+          <div>
+            <span>04 — NOTRE MÉTHODE</span>
+
+            <h2>
+              Un projet clair,
+              <br />
+              du premier échange à la mise en ligne.
+            </h2>
+          </div>
+
+          <p className="section-introduction">
+            Pas de processus compliqué. Nous avançons étape par étape
+            pour transformer votre idée en une présence digitale solide.
+          </p>
+        </div>
+
+        <div className="services-list">
+          <div className="service-row">
+            <span className="service-number">01</span>
+
+            <h3>Échange</h3>
+
+            <p>
+              Nous comprenons votre activité, vos objectifs, votre
+              clientèle et ce que vous souhaitez améliorer.
+            </p>
+
+            <span className="service-arrow">
+              <span className="arrow-icon" />
+            </span>
+          </div>
+
+          <div className="service-row">
+            <span className="service-number">02</span>
+
+            <h3>Direction artistique</h3>
+
+            <p>
+              Nous définissons une identité, une structure et une
+              expérience adaptées à votre entreprise.
+            </p>
+
+            <span className="service-arrow">
+              <span className="arrow-icon" />
+            </span>
+          </div>
+
+          <div className="service-row">
+            <span className="service-number">03</span>
+
+            <h3>Création</h3>
+
+            <p>
+              Nous concevons et développons votre site avec une
+              attention particulière portée au design et à l’expérience.
+            </p>
+
+            <span className="service-arrow">
+              <span className="arrow-icon" />
+            </span>
+          </div>
+
+          <div className="service-row">
+            <span className="service-number">04</span>
+
+            <h3>Mise en ligne</h3>
+
+            <p>
+              Nous vérifions, optimisons et préparons votre site pour
+              qu’il soit prêt à présenter votre activité au monde.
+            </p>
+
+            <span className="service-arrow">
+              <span className="arrow-icon" />
+            </span>
+          </div>
+        </div>
+      </section>
 
       {/* =========================
           POURQUOI NOVA
       ========================= */}
 
       <section className="why-section">
-
         <div className="why-inner">
-
           <div className="why-heading">
-
-            <span>
-              04 — POURQUOI NOVA
-            </span>
+            <span>05 — POURQUOI NOVA</span>
 
             <h2>
               Pas juste un site.
@@ -421,99 +380,63 @@ export default function Home() {
             </h2>
 
             <p>
-              Nous cherchons à créer des sites qui ont du sens pour
-              votre activité, pas simplement à remplir une page avec
-              des blocs.
+              Pas de modèle préfabriqué ni de site générique.
+              Chaque projet NOVA part de votre activité, de votre
+              clientèle et de l’image que vous voulez construire.
             </p>
-
           </div>
-
 
           <div className="advantages-list">
-
             <div className="advantage">
-
-              <span>
-                01
-              </span>
+              <span>01</span>
 
               <div>
-
-                <h3>
-                  Une approche sur mesure
-                </h3>
+                <h3>Une vraie direction artistique</h3>
 
                 <p>
-                  Chaque projet est construit autour de votre activité,
-                  votre clientèle et votre manière de travailler.
+                  Nous ne nous contentons pas d’assembler des blocs.
+                  Chaque choix visuel doit servir votre image et votre
+                  positionnement.
                 </p>
-
               </div>
-
             </div>
-
 
             <div className="advantage">
-
-              <span>
-                02
-              </span>
+              <span>02</span>
 
               <div>
-
-                <h3>
-                  Un design pensé pour convertir
-                </h3>
+                <h3>Une expérience pensée pour vos clients</h3>
 
                 <p>
-                  L’esthétique compte, mais elle doit surtout servir
-                  votre message et faciliter la confiance.
+                  Le design doit être beau, mais surtout clair, intuitif
+                  et pensé pour faciliter la confiance et le passage à l’action.
                 </p>
-
               </div>
-
             </div>
-
 
             <div className="advantage">
-
-              <span>
-                03
-              </span>
+              <span>03</span>
 
               <div>
-
-                <h3>
-                  Une expérience simple
-                </h3>
+                <h3>Un accompagnement humain</h3>
 
                 <p>
-                  Nous privilégions des interfaces claires, rapides
-                  et agréables à utiliser sur tous les appareils.
+                  Vous savez où en est votre projet et pourquoi chaque
+                  décision est prise, de la première idée jusqu’au lancement.
                 </p>
-
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       </section>
-
 
       {/* =========================
           CTA
       ========================= */}
 
       <section className="cta">
-
         <div>
-
-          <span className="cta-label">
-            UN PROJET EN TÊTE ?
-          </span>
+          <span className="cta-label">UN PROJET EN TÊTE ?</span>
 
           <h2>
             Donnons à votre activité
@@ -525,80 +448,48 @@ export default function Home() {
             Parlons de votre projet et voyons ensemble comment
             construire une présence en ligne qui vous ressemble.
           </p>
-
         </div>
 
-
-        <Link href="/devis">
-          Parlons de votre projet →
-        </Link>
-
+        <Link href="/devis">Parlons de votre projet →</Link>
       </section>
-
 
       {/* =========================
           FOOTER
       ========================= */}
 
       <footer className="nova-footer">
-
         <div className="nova-footer-inner">
-
           <div className="nova-footer-brand">
-
-            <span className="nova-footer-logo">
-              NOVA
-            </span>
+            <span className="nova-footer-logo">NOVA</span>
 
             <p>
               Agence digitale premium.
               <br />
               Création de sites web sur mesure.
             </p>
-
           </div>
-
 
           <div className="nova-footer-links">
+            <span className="nova-footer-title">INFORMATIONS</span>
 
-            <span className="nova-footer-title">
-              INFORMATIONS
-            </span>
+            <Link href="/contact">Contact</Link>
 
-            <Link href="/contact">
-              Contact
-            </Link>
+            <Link href="/realisations">Réalisations</Link>
 
-            <Link href="/realisations">
-              Réalisations
-            </Link>
-
-            <Link
-              href="/mentions-legales"
-              className="legal-link"
-            >
+            <Link href="/mentions-legales" className="legal-link">
               Mentions légales
             </Link>
-
           </div>
-
         </div>
 
-
         <div className="nova-footer-bottom">
-
           <span>
             © {new Date().getFullYear()} NOVA — Tous droits réservés.
           </span>
 
-          <Link href="/mentions-legales">
-            Mentions légales
-          </Link>
-
+          <Link href="/mentions-legales">Mentions légales</Link>
         </div>
-
       </footer>
-
     </main>
   );
 }

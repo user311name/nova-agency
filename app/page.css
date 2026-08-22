@@ -10,6 +10,113 @@
 }
 
 /* =========================================================
+   NAVIGATION — INTÉGRÉE AU HERO
+========================================================= */
+
+.nova-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 20;
+
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(5, 5, 5, 0.72),
+    rgba(5, 5, 5, 0.25),
+    rgba(5, 5, 5, 0)
+  );
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.nova-nav-inner {
+  width: 100%;
+  max-width: 1200px;
+
+  height: 100%;
+
+  padding: 0 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nova-nav-logo {
+  color: #fff;
+
+  font-size: 19px;
+  font-weight: 500;
+
+  letter-spacing: 4px;
+
+  text-decoration: none;
+}
+
+.nova-nav-links {
+  display: flex;
+  align-items: center;
+
+  gap: 34px;
+}
+
+.nova-nav-links a {
+  position: relative;
+
+  color: rgba(255, 255, 255, 0.68);
+
+  font-size: 11px;
+  font-weight: 400;
+
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.nova-nav-links a::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: -7px;
+
+  height: 1px;
+
+  background: #1769ff;
+
+  transform: scaleX(0);
+  transform-origin: center;
+
+  transition: transform 0.25s ease;
+}
+
+.nova-nav-links a:hover {
+  color: #fff;
+}
+
+.nova-nav-links a:hover::after {
+  transform: scaleX(1);
+}
+
+/* =========================================================
    HERO
 ========================================================= */
 
@@ -27,11 +134,11 @@
   background:
     linear-gradient(
       90deg,
-      rgba(0, 0, 0, .99) 0%,
-      rgba(0, 0, 0, .95) 24%,
-      rgba(0, 0, 0, .72) 52%,
-      rgba(0, 0, 0, .28) 80%,
-      rgba(0, 0, 0, .12) 100%
+      rgba(0, 0, 0, 0.96) 0%,
+      rgba(0, 0, 0, 0.88) 24%,
+      rgba(0, 0, 0, 0.62) 52%,
+      rgba(0, 0, 0, 0.22) 80%,
+      rgba(0, 0, 0, 0.08) 100%
     ),
     url("/nova-hero.png");
 
@@ -50,12 +157,12 @@
   background:
     radial-gradient(
       circle at 70% 45%,
-      rgba(23, 105, 255, .16),
+      rgba(23, 105, 255, 0.16),
       transparent 34%
     ),
     radial-gradient(
       circle at 45% 55%,
-      rgba(23, 105, 255, .04),
+      rgba(23, 105, 255, 0.04),
       transparent 30%
     );
 
@@ -117,7 +224,7 @@
       rgba(23, 105, 255, 0)
     );
 
-  opacity: .7;
+  opacity: 0.7;
 }
 
 .badge {
@@ -143,7 +250,7 @@
   font-size: 8px;
 
   text-shadow:
-    0 0 14px rgba(23, 105, 255, .95);
+    0 0 14px rgba(23, 105, 255, 0.95);
 }
 
 /* =========================================================
@@ -158,7 +265,7 @@
   color: #f7f7f7;
 
   font-size: 82px;
-  line-height: .98;
+  line-height: 0.98;
 
   letter-spacing: -4.8px;
 
@@ -171,7 +278,7 @@
   color: #1769ff;
 
   text-shadow:
-    0 0 40px rgba(23, 105, 255, .18);
+    0 0 40px rgba(23, 105, 255, 0.18);
 }
 
 /* =========================================================
@@ -221,10 +328,10 @@
   text-decoration: none;
 
   transition:
-    transform .25s ease,
-    background-color .25s ease,
-    border-color .25s ease,
-    box-shadow .25s ease;
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .hero-buttons a:hover {
@@ -239,30 +346,30 @@
   border: 1px solid #1769ff;
 
   box-shadow:
-    0 8px 30px rgba(23, 105, 255, .16);
+    0 8px 30px rgba(23, 105, 255, 0.16);
 }
 
 .hero-buttons a:first-child:hover {
   background: #1259dc;
 
   box-shadow:
-    0 12px 35px rgba(23, 105, 255, .25);
+    0 12px 35px rgba(23, 105, 255, 0.25);
 }
 
 .hero-buttons a:last-child {
   color: #fff;
 
-  background: rgba(0, 0, 0, .22);
+  background: rgba(0, 0, 0, 0.22);
 
-  border: 1px solid rgba(255, 255, 255, .20);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
   backdrop-filter: blur(8px);
 }
 
 .hero-buttons a:last-child:hover {
-  background: rgba(23, 105, 255, .07);
+  background: rgba(23, 105, 255, 0.07);
 
-  border-color: rgba(23, 105, 255, .8);
+  border-color: rgba(23, 105, 255, 0.8);
 }
 
 /* =========================================================
@@ -306,7 +413,7 @@
 
   flex-shrink: 0;
 
-  border: 1px solid rgba(23, 105, 255, .8);
+  border: 1px solid rgba(23, 105, 255, 0.8);
 
   border-radius: 50%;
 
@@ -369,7 +476,7 @@
 
   grid-template-columns:
     minmax(0, 1.25fr)
-    minmax(280px, .75fr);
+    minmax(280px, 0.75fr);
 
   gap: 100px;
 
@@ -518,8 +625,8 @@
   overflow: hidden;
 
   transition:
-    border-color .25s ease,
-    transform .25s ease;
+    border-color 0.25s ease,
+    transform 0.25s ease;
 }
 
 .card:hover {
@@ -553,7 +660,7 @@
 
   object-fit: cover;
 
-  transition: transform .45s ease;
+  transition: transform 0.45s ease;
 }
 
 .card:hover .project-image-wrap img {
@@ -568,11 +675,11 @@
 
   padding: 8px 12px;
 
-  border: 1px solid rgba(255,255,255,.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
   border-radius: 5px;
 
-  background: rgba(0,0,0,.65);
+  background: rgba(0, 0, 0, 0.65);
 
   color: #fff;
 
@@ -584,8 +691,8 @@
   transform: translateY(5px);
 
   transition:
-    opacity .25s ease,
-    transform .25s ease;
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
 
 .card:hover .project-overlay {
@@ -645,9 +752,9 @@
   border-radius: 50%;
 
   transition:
-    color .2s ease,
-    background-color .2s ease,
-    border-color .2s ease;
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .project-arrow:hover,
@@ -731,7 +838,7 @@
 
   grid-template-columns:
     70px
-    minmax(230px, .9fr)
+    minmax(230px, 0.9fr)
     minmax(300px, 1.1fr)
     40px;
 
@@ -799,7 +906,7 @@
   display: grid;
 
   grid-template-columns:
-    minmax(0, .9fr)
+    minmax(0, 0.9fr)
     minmax(0, 1.1fr);
 
   gap: 100px;
@@ -903,12 +1010,12 @@
   background:
     radial-gradient(
       circle at 85% 50%,
-      rgba(23,105,255,.15),
+      rgba(23, 105, 255, 0.15),
       transparent 36%
     ),
     #07101f;
 
-  border: 1px solid rgba(23,105,255,.6);
+  border: 1px solid rgba(23, 105, 255, 0.6);
 
   border-radius: 12px;
 }
@@ -924,7 +1031,7 @@
   right: -100px;
   top: -120px;
 
-  border: 1px solid rgba(23,105,255,.14);
+  border: 1px solid rgba(23, 105, 255, 0.14);
 
   border-radius: 50%;
 }
@@ -994,7 +1101,7 @@
 
   text-decoration: none;
 
-  transition: background .2s ease;
+  transition: background 0.2s ease;
 }
 
 .cta > a:hover {
@@ -1002,7 +1109,7 @@
 }
 
 /* =========================================================
-   FOOTER LÉGAL
+   FOOTER
 ========================================================= */
 
 .nova-footer {
@@ -1077,8 +1184,8 @@
   text-decoration: none;
 
   transition:
-    color .2s ease,
-    border-color .2s ease;
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .nova-footer-links a:hover {
@@ -1140,6 +1247,14 @@
 
 @media (max-width: 1050px) {
 
+  .nova-nav-inner {
+    padding: 0 25px;
+  }
+
+  .nova-nav-links {
+    gap: 24px;
+  }
+
   .hero-content h1 {
     font-size: 64px;
 
@@ -1164,7 +1279,7 @@
   .service-row {
     grid-template-columns:
       55px
-      minmax(200px, .9fr)
+      minmax(200px, 0.9fr)
       minmax(260px, 1.1fr)
       35px;
   }
@@ -1176,6 +1291,44 @@
 ========================================================= */
 
 @media (max-width: 768px) {
+
+  .nova-nav {
+    height: 56px;
+
+    background: linear-gradient(
+      to bottom,
+      rgba(5, 5, 5, 0.78),
+      rgba(5, 5, 5, 0.3),
+      transparent
+    );
+
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .nova-nav-inner {
+    padding: 0 20px;
+  }
+
+  .nova-nav-logo {
+    font-size: 17px;
+
+    letter-spacing: 3px;
+  }
+
+  .nova-nav-links {
+    gap: 16px;
+  }
+
+  .nova-nav-links a {
+    font-size: 9px;
+
+    letter-spacing: 1px;
+  }
+
+  .nova-nav-links a::after {
+    display: none;
+  }
 
   .nova-hero {
     min-height: auto;
@@ -1234,10 +1387,6 @@
     margin-top: 32px;
   }
 
-  /* =====================================================
-     INTRO MOBILE
-  ===================================================== */
-
   .intro-section {
     padding: 75px 20px 70px;
   }
@@ -1253,10 +1402,6 @@
   .intro-heading h2 {
     font-size: 35px;
   }
-
-  /* =====================================================
-     SECTIONS MOBILE
-  ===================================================== */
 
   .section {
     padding: 65px 20px;
@@ -1276,10 +1421,6 @@
     margin-top: 25px;
   }
 
-  /* =====================================================
-     PROJECTS MOBILE
-  ===================================================== */
-
   .projects-grid {
     grid-template-columns: 1fr;
   }
@@ -1287,10 +1428,6 @@
   .project-image-wrap img {
     height: 220px;
   }
-
-  /* =====================================================
-     SERVICES MOBILE
-  ===================================================== */
 
   .service-row {
     grid-template-columns:
@@ -1318,10 +1455,6 @@
     grid-row: 1;
   }
 
-  /* =====================================================
-     WHY NOVA MOBILE
-  ===================================================== */
-
   .why-inner {
     grid-template-columns: 1fr;
 
@@ -1333,10 +1466,6 @@
   .why-heading h2 {
     font-size: 35px;
   }
-
-  /* =====================================================
-     CTA MOBILE
-  ===================================================== */
 
   .cta {
     margin: 20px 20px 45px;
@@ -1355,10 +1484,6 @@
 
     margin-top: 25px;
   }
-
-  /* =====================================================
-     FOOTER MOBILE
-  ===================================================== */
 
   .nova-footer {
     margin-top: 10px;
@@ -1409,7 +1534,7 @@
 
     font-size: 12px;
 
-    letter-spacing: .5px;
+    letter-spacing: 0.5px;
   }
 
   .nova-footer-bottom {
@@ -1439,6 +1564,18 @@
 ========================================================= */
 
 @media (max-width: 420px) {
+
+  .nova-nav-inner {
+    padding: 0 18px;
+  }
+
+  .nova-nav-links {
+    gap: 11px;
+  }
+
+  .nova-nav-links a {
+    font-size: 8px;
+  }
 
   .hero-content {
     padding: 72px 18px 62px;

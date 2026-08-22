@@ -45,6 +45,10 @@ export default function RealisationsPage() {
   return (
     <main className="realisations-page">
 
+      {/* =====================================================
+          HERO
+      ===================================================== */}
+
       <section
         className="realisations-hero"
         aria-labelledby="realisations-title"
@@ -58,26 +62,36 @@ export default function RealisationsPage() {
 
           <div className="realisations-hero-grid">
 
-            <h1 id="realisations-title">
-              Des projets
-              <br />
-              pensés pour
-              <br />
-              <span>marquer.</span>
-            </h1>
+            <div className="realisations-hero-title">
+              <span className="hero-small-label">
+                NOVA / RÉALISATIONS
+              </span>
+
+              <h1 id="realisations-title">
+                Des projets
+                <br />
+                pensés pour
+                <br />
+                <span>marquer.</span>
+              </h1>
+            </div>
 
             <div className="realisations-hero-side">
 
               <span className="hero-index">
-                NOVA / 02
+                01 — NOS PROJETS
               </span>
 
               <p>
                 Nous créons des expériences digitales modernes,
                 des identités fortes et des sites pensés autour
-                d'un objectif simple : donner à chaque activité
-                une présence en ligne à la hauteur de son ambition.
+                d'un objectif simple :
               </p>
+
+              <strong>
+                Donner à chaque activité une présence en ligne
+                à la hauteur de son ambition.
+              </strong>
 
             </div>
 
@@ -87,6 +101,10 @@ export default function RealisationsPage() {
       </section>
 
 
+      {/* =====================================================
+          PROJETS
+      ===================================================== */}
+
       <section
         className="projects-section"
         aria-labelledby="projects-title"
@@ -94,14 +112,26 @@ export default function RealisationsPage() {
 
         <div className="projects-heading">
 
-          <div>
+          <div className="projects-heading-left">
+
             <span className="section-number">
               01
             </span>
 
-            <p id="projects-title">
-              PROJETS SÉLECTIONNÉS
-            </p>
+            <div>
+
+              <p className="section-eyebrow">
+                PROJETS SÉLECTIONNÉS
+              </p>
+
+              <h2 id="projects-title">
+                Des réalisations qui
+                <br />
+                parlent d'elles-mêmes.
+              </h2>
+
+            </div>
+
           </div>
 
           <span className="projects-count">
@@ -119,6 +149,8 @@ export default function RealisationsPage() {
               className="project-card"
               key={project.title}
             >
+
+              {/* IMAGE */}
 
               <Link
                 href={project.href}
@@ -138,19 +170,29 @@ export default function RealisationsPage() {
 
                   <div className="project-image-shade" />
 
-                  <div className="project-view">
-                    <span>VOIR LE PROJET</span>
-                    <strong aria-hidden="true">→</strong>
-                  </div>
-
                   <span className="project-number">
                     {project.number}
                   </span>
+
+                  <div className="project-view">
+
+                    <span>
+                      VOIR LE PROJET
+                    </span>
+
+                    <span
+                      className="project-view-arrow"
+                      aria-hidden="true"
+                    />
+
+                  </div>
 
                 </div>
 
               </Link>
 
+
+              {/* INFORMATIONS */}
 
               <div className="project-info">
 
@@ -175,10 +217,19 @@ export default function RealisationsPage() {
 
                   <Link
                     href={project.href}
+                    className="project-discover"
                     aria-label={`Voir le projet ${project.title}`}
                   >
-                    DÉCOUVRIR
-                    <span aria-hidden="true">→</span>
+
+                    <span>
+                      DÉCOUVRIR
+                    </span>
+
+                    <span
+                      className="discover-arrow"
+                      aria-hidden="true"
+                    />
+
                   </Link>
 
                 </div>
@@ -194,32 +245,61 @@ export default function RealisationsPage() {
       </section>
 
 
+      {/* =====================================================
+          CTA FINAL
+      ===================================================== */}
+
       <section className="realisations-bottom">
 
         <div className="bottom-line">
-          <span>02</span>
-          <p>VOTRE PROJET</p>
+
+          <span>
+            02
+          </span>
+
+          <p>
+            VOTRE PROJET
+          </p>
+
         </div>
 
-        <h2>
-          Et si le prochain
-          <br />
-          projet était <span>le vôtre ?</span>
-        </h2>
 
-        <p className="bottom-description">
-          Chaque projet commence par une idée.
-          <br />
-          Parlons de la vôtre.
-        </p>
+        <div className="bottom-content">
 
-        <Link
-          href="/contact"
-          className="realisations-button"
-        >
-          <span>PARLER DE MON PROJET</span>
-          <strong aria-hidden="true">→</strong>
-        </Link>
+          <span className="bottom-eyebrow">
+            ET SI C'ÉTAIT VOUS ?
+          </span>
+
+          <h2>
+            Et si le prochain
+            <br />
+            projet était{" "}
+            <span>le vôtre ?</span>
+          </h2>
+
+          <p className="bottom-description">
+            Chaque projet commence par une idée.
+            <br />
+            Parlons de la vôtre.
+          </p>
+
+          <Link
+            href="/contact"
+            className="realisations-button"
+          >
+
+            <span>
+              PARLER DE MON PROJET
+            </span>
+
+            <span
+              className="cta-arrow"
+              aria-hidden="true"
+            />
+
+          </Link>
+
+        </div>
 
       </section>
 

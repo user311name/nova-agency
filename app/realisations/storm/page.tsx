@@ -11,16 +11,28 @@ const images = [
   "/projets/storm-3.png",
 ];
 
+const stormUrl = "https://storm-peach.vercel.app/";
+
 export default function StormPage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   return (
     <main className="project-page">
 
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
+
       <header className="project-header">
 
-        <Link href="/realisations" className="project-back">
-          <span className="clean-arrow clean-arrow-left" />
+        <Link
+          href="/realisations"
+          className="project-back"
+        >
+          <span
+            className="clean-arrow clean-arrow-left"
+            aria-hidden="true"
+          />
           RÉALISATIONS
         </Link>
 
@@ -34,23 +46,35 @@ export default function StormPage() {
         />
 
         <a
-          href="https://storm-peach.vercel.app/"
+          href={stormUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="project-live"
         >
           VOIR LE SITE
-          <span className="clean-arrow" />
+          <span
+            className="clean-arrow"
+            aria-hidden="true"
+          />
         </a>
 
       </header>
 
 
-      <section className="project-intro">
+      {/* =====================================================
+          INTRO
+      ===================================================== */}
+
+      <section
+        className="project-intro"
+        aria-labelledby="storm-title"
+      >
 
         <p>PROJET • SPORT LIFESTYLE</p>
 
-        <h1>STORM</h1>
+        <h1 id="storm-title">
+          STORM
+        </h1>
 
         <span>
           Une expérience digitale premium imaginée pour une marque
@@ -60,7 +84,14 @@ export default function StormPage() {
       </section>
 
 
-      <section className="project-gallery">
+      {/* =====================================================
+          GALLERY
+      ===================================================== */}
+
+      <section
+        className="project-gallery"
+        aria-label="Galerie du projet STORM"
+      >
 
         {images.map((image, index) => (
           <button
@@ -82,26 +113,42 @@ export default function StormPage() {
       </section>
 
 
+      {/* =====================================================
+          CTA
+      ===================================================== */}
+
       <section className="project-bottom">
 
-        <p>SILENCE BEFORE THE STORM</p>
+        <p>
+          SILENCE BEFORE THE STORM
+        </p>
 
         <a
-          href="https://storm-peach.vercel.app/"
+          href={stormUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="visit-button"
         >
           VISITER LE SITE
-          <span className="clean-arrow" />
+
+          <span
+            className="clean-arrow"
+            aria-hidden="true"
+          />
         </a>
 
       </section>
 
 
+      {/* =====================================================
+          FOOTER
+      ===================================================== */}
+
       <footer className="project-footer">
 
-        <span>STORM</span>
+        <span>
+          STORM
+        </span>
 
         <Link href="/realisations">
           RETOUR AUX RÉALISATIONS
@@ -110,9 +157,16 @@ export default function StormPage() {
       </footer>
 
 
+      {/* =====================================================
+          LIGHTBOX
+      ===================================================== */}
+
       {selectedImage && (
         <div
           className="image-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Aperçu de l'image STORM"
           onClick={() => setSelectedImage(null)}
         >
 
@@ -120,7 +174,7 @@ export default function StormPage() {
             type="button"
             className="lightbox-close"
             onClick={() => setSelectedImage(null)}
-            aria-label="Fermer"
+            aria-label="Fermer l'aperçu"
           >
             ×
           </button>

@@ -7,7 +7,6 @@ export default function Contact() {
     <main className="contact-page">
       <section className="contact-only">
         <div className="contact-grid">
-
           {/* EMAIL */}
           <a
             href="mailto:contactpro@agency-nova.fr"
@@ -41,22 +40,14 @@ export default function Contact() {
               </svg>
             </div>
 
-            <div className="contact-number">
-              01
-            </div>
+            <div className="contact-number">01</div>
 
             <div className="contact-content">
-              <span className="contact-label">
-                E-MAIL
-              </span>
+              <span className="contact-label">E-MAIL</span>
 
-              <h2>
-                contactpro@agency-nova.fr
-              </h2>
+              <h2>contactpro@agency-nova.fr</h2>
 
-              <p>
-                Contactez NOVA directement.
-              </p>
+              <p>Contactez NOVA directement.</p>
             </div>
 
             <div className="contact-arrow" aria-hidden="true">
@@ -83,7 +74,6 @@ export default function Contact() {
 
             <div className="card-line" />
           </a>
-
 
           {/* INSTAGRAM */}
           <a
@@ -128,22 +118,14 @@ export default function Contact() {
               </svg>
             </div>
 
-            <div className="contact-number">
-              02
-            </div>
+            <div className="contact-number">02</div>
 
             <div className="contact-content">
-              <span className="contact-label">
-                INSTAGRAM
-              </span>
+              <span className="contact-label">INSTAGRAM</span>
 
-              <h2>
-                @novagency75
-              </h2>
+              <h2>@novagency75</h2>
 
-              <p>
-                Suivez NOVA sur Instagram.
-              </p>
+              <p>Suivez NOVA sur Instagram.</p>
             </div>
 
             <div className="contact-arrow" aria-hidden="true">
@@ -171,7 +153,6 @@ export default function Contact() {
 
             <div className="card-line" />
           </a>
-
 
           {/* TIKTOK */}
           <a
@@ -198,22 +179,14 @@ export default function Contact() {
               </svg>
             </div>
 
-            <div className="contact-number">
-              03
-            </div>
+            <div className="contact-number">03</div>
 
             <div className="contact-content">
-              <span className="contact-label">
-                TIKTOK
-              </span>
+              <span className="contact-label">TIKTOK</span>
 
-              <h2>
-                @novagency75
-              </h2>
+              <h2>@novagency75</h2>
 
-              <p>
-                Retrouvez NOVA sur TikTok.
-              </p>
+              <p>Retrouvez NOVA sur TikTok.</p>
             </div>
 
             <div className="contact-arrow" aria-hidden="true">
@@ -241,7 +214,6 @@ export default function Contact() {
 
             <div className="card-line" />
           </a>
-
         </div>
       </section>
     </main>

@@ -11,27 +11,23 @@ const images = [
   "/projets/barber-services.png",
 ];
 
+const siteUrl = "https://noir-barber-weld.vercel.app/#booking";
+
 export default function NoirBarberPage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   return (
     <main className="project-page">
-
       <header className="project-header">
-
         <Link href="/realisations" className="project-back">
           <span className="clean-arrow clean-arrow-left" />
           RÉALISATIONS
         </Link>
 
-
-        <div className="barber-title">
-          NOIR BARBER
-        </div>
-
+        <div className="barber-title">NOIR BARBER</div>
 
         <a
-          href="https://noir-barber-weld.vercel.app/#booking"
+          href={siteUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="project-live"
@@ -39,12 +35,9 @@ export default function NoirBarberPage() {
           VOIR LE SITE
           <span className="clean-arrow" />
         </a>
-
       </header>
 
-
       <section className="project-intro">
-
         <p>PROJET • BARBER SHOP</p>
 
         <h1>NOIR BARBER</h1>
@@ -53,12 +46,9 @@ export default function NoirBarberPage() {
           Une expérience digitale premium créée pour un barber
           moderne, élégant et orienté expérience client.
         </span>
-
       </section>
 
-
       <section className="project-gallery">
-
         {images.map((image, index) => (
           <button
             key={image}
@@ -75,16 +65,13 @@ export default function NoirBarberPage() {
             />
           </button>
         ))}
-
       </section>
 
-
       <section className="project-bottom">
-
         <p>NOIR BARBER • CONCEPT DIGITAL</p>
 
         <a
-          href="https://noir-barber-weld.vercel.app/#booking"
+          href={siteUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="visit-button"
@@ -92,27 +79,21 @@ export default function NoirBarberPage() {
           VISITER LE SITE
           <span className="clean-arrow" />
         </a>
-
       </section>
 
-
       <footer className="project-footer">
-
         <span>NOIR BARBER</span>
 
         <Link href="/realisations">
           RETOUR AUX RÉALISATIONS
         </Link>
-
       </footer>
-
 
       {selectedImage && (
         <div
           className="image-lightbox"
           onClick={() => setSelectedImage(null)}
         >
-
           <button
             type="button"
             className="lightbox-close"
@@ -122,24 +103,19 @@ export default function NoirBarberPage() {
             ×
           </button>
 
-
           <div
             className="lightbox-image"
             onClick={(event) => event.stopPropagation()}
           >
-
             <Image
               src={selectedImage}
               alt="Noir Barber aperçu"
               fill
               sizes="90vw"
             />
-
           </div>
-
         </div>
       )}
-
     </main>
   );
 }

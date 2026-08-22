@@ -4,183 +4,65 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import "./page.css";
 
-const processSteps = [
-  {
-    number: "01",
-    title: "Demande de devis",
-    text: "Vous présentez votre activité et votre projet.",
-  },
-  {
-    number: "02",
-    title: "Étude du projet",
-    text: "Nous analysons vos besoins et les fonctionnalités souhaitées.",
-  },
-  {
-    number: "03",
-    title: "Devis personnalisé",
-    text: "Nous établissons une proposition adaptée à votre projet.",
-  },
-  {
-    number: "04",
-    title: "Validation",
-    text: "Après validation du devis, nous préparons le lancement du projet.",
-  },
-  {
-    number: "05",
-    title: "Réalisation",
-    text: "Nous créons votre site avec une attention particulière au design et au mobile.",
-  },
+const projectOptions = [
+  "Site vitrine",
+  "E-commerce",
+  "Portfolio",
+  "Réservation",
+  "Site personnalisé",
 ];
 
-const quoteSections = [
-  {
-    title: "Type de site",
-    name: "Type de site",
-    options: [
-      "Site vitrine",
-      "Site vitrine premium",
-      "Site professionnel",
-      "Portfolio",
-      "Site pour restaurant",
-      "Site immobilier",
-      "Site pour commerce",
-      "Boutique / e-commerce",
-      "Site de réservation",
-      "Blog",
-      "Site personnalisé",
-      "Autre",
-    ],
-  },
-  {
-    title: "Pages souhaitées",
-    name: "Pages souhaitées",
-    options: [
-      "Accueil",
-      "À propos",
-      "Présentation de l'entreprise",
-      "Services",
-      "Prestations",
-      "Tarifs",
-      "Réalisations / Portfolio",
-      "Galerie",
-      "Témoignages / Avis",
-      "FAQ",
-      "Contact",
-      "Blog / Actualités",
-      "Page personnalisée",
-    ],
-  },
-  {
-    title: "Style & identité",
-    name: "Style et identité",
-    options: [
-      "Moderne",
-      "Minimaliste",
-      "Premium / haut de gamme",
-      "Élégant",
-      "Sombre / Dark",
-      "Coloré",
-      "Sobre / professionnel",
-      "Entièrement personnalisé",
-      "Logo déjà disponible",
-      "Création / adaptation du logo",
-      "Couleurs déjà définies",
-      "NOVA propose les couleurs",
-      "Le client fournit les images",
-      "Aide pour les images",
-      "Aide pour les textes",
-    ],
-  },
-  {
-    title: "Fonctionnalités",
-    name: "Fonctionnalités",
-    options: [
-      "Formulaire de contact",
-      "Galerie photos",
-      "Animations",
-      "Effets au survol",
-      "Vidéos",
-      "Google Maps",
-      "Réseaux sociaux",
-      "Recherche",
-      "Filtres",
-      "FAQ interactive",
-      "Espace client",
-      "Connexion / compte",
-      "Tableau de bord",
-      "Fonctionnalité personnalisée",
-    ],
-  },
-  {
-    title: "Réservation & contact",
-    name: "Réservation et contact",
-    options: [
-      "Formulaire de contact",
-      "Demande de devis",
-      "Prise de rendez-vous",
-      "Calendrier",
-      "Choix d'une date",
-      "Choix d'une heure",
-      "Réservation d'une prestation",
-      "Confirmation automatique",
-      "E-mail automatique",
-      "WhatsApp",
-      "Téléphone",
-      "Plusieurs moyens de contact",
-    ],
-  },
-  {
-    title: "Boutique & paiement",
-    name: "Boutique et paiement",
-    options: [
-      "Pas de boutique",
-      "Catalogue de produits",
-      "Catégories de produits",
-      "Panier",
-      "Paiement en ligne",
-      "Codes promo",
-      "Gestion du stock",
-      "Livraison",
-      "Paiement d'un acompte",
-      "Abonnement",
-      "Confirmation automatique",
-    ],
-  },
-  {
-    title: "IA & automatisations",
-    name: "IA et automatisations",
-    options: [
-      "Pas d'IA",
-      "Chatbot IA",
-      "Assistant IA",
-      "Réponses automatiques",
-      "Génération de contenu",
-      "E-mails automatiques",
-      "Notifications",
-      "Automatisation personnalisée",
-      "Connexion à un outil externe",
-      "Base de données",
-      "API externe",
-    ],
-  },
-  {
-    title: "SEO & langues",
-    name: "SEO et langues",
-    options: [
-      "Français",
-      "Français + anglais",
-      "Plusieurs langues",
-      "SEO de base",
-      "SEO avancé",
-      "Titres et descriptions Google",
-      "Optimisation des images",
-      "Google Analytics",
-      "Google Search Console",
-      "Optimisation mobile",
-      "Site responsive téléphone / tablette / ordinateur",
-    ],
-  },
+const needsOptions = [
+  "Présenter mon activité",
+  "Vendre en ligne",
+  "Prendre des rendez-vous",
+  "Générer des demandes",
+  "Automatiser certaines tâches",
 ];
+
+const styleOptions = [
+  "Minimal",
+  "Premium",
+  "Moderne",
+  "Élégant",
+  "Sur mesure",
+];
+
+const budgetOptions = [
+  "Moins de 1 000 €",
+  "1 000 – 2 000 €",
+  "2 000 – 4 000 €",
+  "4 000 €+",
+];
+
+function SelectionCards({
+  name,
+  options,
+  multiple = false,
+}: {
+  name: string;
+  options: string[];
+  multiple?: boolean;
+}) {
+  return (
+    <div className="selection-grid">
+      {options.map((option) => (
+        <label className="selection-card" key={option}>
+          <input
+            type={multiple ? "checkbox" : "radio"}
+            name={name}
+            value={option}
+          />
+
+          <span className="selection-card-content">
+            <span>{option}</span>
+            <strong>+</strong>
+          </span>
+        </label>
+      ))}
+    </div>
+  );
+}
 
 export default function Devis() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -188,14 +70,10 @@ export default function Devis() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
-  async function handleSubmit(
-    e: React.FormEvent<HTMLFormElement>
-  ) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!formRef.current || sending) {
-      return;
-    }
+    if (!formRef.current || sending) return;
 
     setSending(true);
     setSent(false);
@@ -203,10 +81,7 @@ export default function Devis() {
     const form = formRef.current;
     const formData = new FormData(form);
 
-    /* ======================================================
-       ANTI-BOT
-    ====================================================== */
-
+    // Anti-bot
     const honeypot =
       formData.get("_gotcha")?.toString().trim() || "";
 
@@ -215,13 +90,8 @@ export default function Devis() {
       return;
     }
 
-    /* ======================================================
-       RÉCUPÉRATION
-    ====================================================== */
-
     const getValue = (name: string) => {
       const value = formData.get(name);
-
       return value?.toString().trim() || "Non renseigné";
     };
 
@@ -232,22 +102,6 @@ export default function Devis() {
         .filter(Boolean);
     };
 
-    const formatOptions = (name: string) => {
-      const values = getValues(name);
-
-      if (values.length === 0) {
-        return "Aucun choix";
-      }
-
-      return values
-        .map((value) => `• ${value}`)
-        .join("\n");
-    };
-
-    /* ======================================================
-       EMAIL
-    ====================================================== */
-
     const clientEmail = getValue("Email");
 
     const emailRegex =
@@ -255,177 +109,51 @@ export default function Devis() {
 
     if (!emailRegex.test(clientEmail)) {
       setSending(false);
-
-      alert(
-        "Veuillez entrer une adresse e-mail valide."
-      );
-
+      alert("Veuillez entrer une adresse e-mail valide.");
       return;
     }
-
-    /* ======================================================
-       LIMITES
-    ====================================================== */
-
-    const description =
-      getValue("Description du projet");
-
-    const autresBesoins =
-      getValue("Autres besoins");
-
-    if (description.length > 5000) {
-      setSending(false);
-
-      alert(
-        "La description du projet est trop longue."
-      );
-
-      return;
-    }
-
-    if (autresBesoins.length > 1500) {
-      setSending(false);
-
-      alert(
-        "Le champ des besoins supplémentaires est trop long."
-      );
-
-      return;
-    }
-
-    /* ======================================================
-       CONSTRUCTION DU BRIEF
-    ====================================================== */
 
     const message = `
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-NOUVEAU PROJET — NOVA AGENCY
-BRIEF DE CRÉATION DE SITE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+NOUVELLE DEMANDE DE DEVIS — NOVA AGENCY
 
 CLIENT
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 Nom : ${getValue("Nom")}
 Entreprise : ${getValue("Entreprise")}
 Email : ${clientEmail}
 Téléphone : ${getValue("Téléphone")}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 PROJET
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Type de projet :
+${getValues("Projet[]").join(", ") || "Non renseigné"}
 
-Budget : ${getValue("Budget approximatif")}
-Date souhaitée : ${getValue("Date souhaitée")}
+BESOINS :
+${getValues("Besoins[]").join(", ") || "Non renseigné"}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-01 — TYPE DE SITE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STYLE :
+${getValues("Style[]").join(", ") || "Non renseigné"}
 
-${formatOptions("Type de site[]")}
+BUDGET :
+${getValue("Budget")}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-02 — PAGES SOUHAITÉES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DATE DE LANCEMENT :
+${getValue("Date souhaitée")}
 
-${formatOptions("Pages souhaitées[]")}
+MESSAGE :
+${getValue("Message")}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-03 — STYLE & IDENTITÉ
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-${formatOptions("Style et identité[]")}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-04 — FONCTIONNALITÉS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-${formatOptions("Fonctionnalités[]")}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-05 — RÉSERVATION & CONTACT
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-${formatOptions("Réservation et contact[]")}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-06 — BOUTIQUE & PAIEMENT
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-${formatOptions("Boutique et paiement[]")}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-07 — IA & AUTOMATISATIONS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-${formatOptions("IA et automatisations[]")}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-08 — SEO & LANGUES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-${formatOptions("SEO et langues[]")}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-AUTRES BESOINS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-${autresBesoins}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-DESCRIPTION DU PROJET
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-${description}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-BRIEF POUR LA CRÉATION DU SITE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Créer un site web complet correspondant
-aux besoins décrits dans ce brief.
-
-Respecter précisément :
-
-• Le type de site demandé
-• Les pages sélectionnées
-• Le style et l'identité visuelle
-• Les fonctionnalités demandées
-• Les besoins de réservation et de contact
-• Les besoins liés à la boutique et au paiement
-• Les éventuelles fonctionnalités IA
-• Les besoins SEO et les langues
-• La description et les objectifs du client
-
-Le site doit être professionnel,
-moderne, responsive et optimisé pour
-ordinateur, tablette et téléphone.
-
-Ne pas inventer d'informations importantes
-sur l'entreprise.
-
-Lorsque certaines informations manquent,
-proposer une solution cohérente et
-professionnelle.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-FIN DU BRIEF
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BRIEF
+Créer une proposition web professionnelle,
+moderne, responsive et cohérente avec les
+besoins indiqués par le client.
 `;
-
-    /* ======================================================
-       ENVOI RESEND
-    ====================================================== */
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-
         body: JSON.stringify({
           name: getValue("Nom"),
           email: clientEmail,
@@ -457,7 +185,6 @@ FIN DU BRIEF
       }
 
       setSent(true);
-
       form.reset();
 
       window.scrollTo({
@@ -476,180 +203,108 @@ FIN DU BRIEF
   return (
     <main className="contact-page">
 
-      {/* =====================================================
-          HERO
-      ===================================================== */}
+      {/* HERO */}
 
       <section className="contact-hero">
-
         <div className="contact-hero-inner">
 
           <div className="contact-kicker">
-
             <span className="contact-kicker-line" />
-
-            <span>
-              DEMANDER UN DEVIS
-            </span>
-
+            <span>DEMANDER UN DEVIS</span>
           </div>
 
           <h1>
-            Construisons quelque chose
-            <span> de remarquable.</span>
+            Votre projet.
+            <br />
+            <span>Notre expertise.</span>
           </h1>
 
           <p>
-            Présentez-nous votre projet.
-            Sélectionnez simplement vos besoins
-            et nous vous proposerons une solution
-            adaptée à votre activité.
+            Quelques choix suffisent pour nous
+            permettre de comprendre votre projet
+            et de préparer une proposition adaptée.
           </p>
 
         </div>
-
       </section>
 
 
-      {/* =====================================================
-          MAIN
-      ===================================================== */}
+      {/* MAIN */}
 
       <section className="contact-container">
 
-        {/* ===================================================
-            LEFT
-        =================================================== */}
+        {/* LEFT */}
 
-        <div className="contact-info">
+        <aside className="contact-info">
 
           <div className="contact-section-label">
-
-            <span>
-              01
-            </span>
-
-            <p>
-              NOTRE APPROCHE
-            </p>
-
+            <span>01</span>
+            <p>NOTRE APPROCHE</p>
           </div>
 
           <h2>
-            Pas simplement
+            Simple.
             <br />
-            <span>un site web.</span>
+            <span>Précis.</span>
+            <br />
+            Sur mesure.
           </h2>
 
           <p className="contact-intro">
-            Quelques choix suffisent pour nous
-            permettre de comprendre votre projet
-            et de préparer un devis précis.
+            Pas besoin de connaître les détails
+            techniques. Dites-nous simplement
+            ce que vous souhaitez créer.
           </p>
 
+          <div className="mini-points">
 
-          {/* PROCESS */}
-
-          <div className="project-process">
-
-            <div className="process-title">
-
-              <div className="contact-section-label">
-
-                <span>
-                  02
-                </span>
-
-                <p>
-                  LE PROCESSUS
-                </p>
-
-              </div>
-
-              <h3>
-                Une méthode simple.
-                <br />
-                Un résultat{" "}
-                <span>
-                  soigné.
-                </span>
-              </h3>
-
+            <div>
+              <span>01</span>
+              <p>Une première analyse de votre projet.</p>
             </div>
 
+            <div>
+              <span>02</span>
+              <p>Une proposition adaptée à vos besoins.</p>
+            </div>
 
-            <div className="process-list">
-
-              {processSteps.map((step) => (
-
-                <div
-                  className="process-item"
-                  key={step.number}
-                >
-
-                  <span className="process-number">
-                    {step.number}
-                  </span>
-
-                  <div className="process-content">
-
-                    <h4>
-                      {step.title}
-                    </h4>
-
-                    <p>
-                      {step.text}
-                    </p>
-
-                  </div>
-
-                </div>
-
-              ))}
-
+            <div>
+              <span>03</span>
+              <p>Un échange avant le lancement.</p>
             </div>
 
           </div>
 
-        </div>
+        </aside>
 
 
-        {/* ===================================================
-            FORMULAIRE
-        =================================================== */}
+        {/* FORM */}
 
         <div className="contact-form-wrapper">
 
           <div className="form-top">
 
             <div>
-
               <span className="form-label">
-                DEMANDER UN DEVIS
+                NOVA / DEVIS
               </span>
 
               <h2>
                 Parlons de
                 <br />
-                <span>
-                  votre projet.
-                </span>
+                <span>votre projet.</span>
               </h2>
-
             </div>
 
             <span className="form-index">
-              NOVA / DEVIS
+              01 — 05
             </span>
 
           </div>
 
-
           <p className="form-description">
-            Renseignez vos informations puis
-            sélectionnez les éléments qui
-            correspondent à votre projet.
-            Plusieurs choix sont possibles.
+            Sélectionnez simplement les options
+            qui correspondent à votre projet.
           </p>
 
 
@@ -659,25 +314,14 @@ FIN DU BRIEF
             onSubmit={handleSubmit}
           >
 
-            {/* =================================================
-                HONEYPOT
-            ================================================= */}
+            {/* HONEYPOT */}
 
             <div
-              style={{
-                position: "absolute",
-                left: "-9999px",
-                width: "1px",
-                height: "1px",
-                overflow: "hidden",
-                opacity: 0,
-                pointerEvents: "none",
-              }}
+              className="honeypot"
               aria-hidden="true"
             >
-
               <label htmlFor="_gotcha">
-                Ne pas remplir ce champ
+                Ne pas remplir
               </label>
 
               <input
@@ -687,155 +331,120 @@ FIN DU BRIEF
                 tabIndex={-1}
                 autoComplete="off"
               />
-
             </div>
 
 
-            {/* =================================================
-                NOM / ENTREPRISE
-            ================================================= */}
+            {/* 01 — PROJET */}
 
-            <div className="form-row">
+            <section className="form-section">
 
-              <div className="form-field">
+              <div className="form-section-heading">
 
-                <label htmlFor="nom">
-                  Nom <span>*</span>
-                </label>
+                <span>01</span>
 
-                <input
-                  id="nom"
-                  name="Nom"
-                  type="text"
-                  placeholder="Jean Dupont"
-                  maxLength={120}
-                  autoComplete="name"
-                  required
-                />
+                <div>
+                  <small>VOTRE PROJET</small>
+
+                  <h3>
+                    Que souhaitez-vous créer ?
+                  </h3>
+                </div>
 
               </div>
 
+              <SelectionCards
+                name="Projet[]"
+                options={projectOptions}
+              />
 
-              <div className="form-field">
-
-                <label htmlFor="entreprise">
-                  Entreprise
-                </label>
-
-                <input
-                  id="entreprise"
-                  name="Entreprise"
-                  type="text"
-                  placeholder="Votre entreprise"
-                  maxLength={150}
-                  autoComplete="organization"
-                />
-
-              </div>
-
-            </div>
+            </section>
 
 
-            {/* =================================================
-                EMAIL / TÉLÉPHONE
-            ================================================= */}
+            {/* 02 — BESOINS */}
 
-            <div className="form-row">
+            <section className="form-section">
 
-              <div className="form-field">
+              <div className="form-section-heading">
 
-                <label htmlFor="email">
-                  Email <span>*</span>
-                </label>
+                <span>02</span>
 
-                <input
-                  id="email"
-                  name="Email"
-                  type="email"
-                  placeholder="vous@entreprise.fr"
-                  maxLength={254}
-                  autoComplete="email"
-                  required
-                />
+                <div>
+                  <small>VOS BESOINS</small>
+
+                  <h3>
+                    Quel est votre objectif ?
+                  </h3>
+                </div>
 
               </div>
 
+              <SelectionCards
+                name="Besoins[]"
+                options={needsOptions}
+                multiple
+              />
 
-              <div className="form-field">
-
-                <label htmlFor="telephone">
-                  Téléphone
-                </label>
-
-                <input
-                  id="telephone"
-                  name="Téléphone"
-                  type="tel"
-                  placeholder="+33 6 00 00 00 00"
-                  maxLength={30}
-                  autoComplete="tel"
-                />
-
-              </div>
-
-            </div>
+            </section>
 
 
-            {/* =================================================
-                BUDGET / DATE
-            ================================================= */}
+            {/* 03 — STYLE */}
 
-            <div className="form-row">
+            <section className="form-section">
 
-              <div className="form-field">
+              <div className="form-section-heading">
 
-                <label htmlFor="budget">
-                  Budget approximatif
-                </label>
+                <span>03</span>
 
-                <select
-                  id="budget"
-                  name="Budget approximatif"
-                  defaultValue=""
-                >
+                <div>
+                  <small>VOTRE UNIVERS</small>
 
-                  <option value="">
-                    Je ne sais pas encore
-                  </option>
-
-                  <option>
-                    Moins de 1 000 €
-                  </option>
-
-                  <option>
-                    1 000 € à 2 000 €
-                  </option>
-
-                  <option>
-                    2 000 € à 4 000 €
-                  </option>
-
-                  <option>
-                    4 000 € à 8 000 €
-                  </option>
-
-                  <option>
-                    Plus de 8 000 €
-                  </option>
-
-                </select>
+                  <h3>
+                    Quel style vous correspond ?
+                  </h3>
+                </div>
 
               </div>
 
+              <SelectionCards
+                name="Style[]"
+                options={styleOptions}
+                multiple
+              />
 
-              <div className="form-field">
+            </section>
 
-                <label htmlFor="delai">
-                  Date souhaitée
+
+            {/* 04 — BUDGET */}
+
+            <section className="form-section">
+
+              <div className="form-section-heading">
+
+                <span>04</span>
+
+                <div>
+                  <small>BUDGET & DÉLAI</small>
+
+                  <h3>
+                    Où en êtes-vous ?
+                  </h3>
+                </div>
+
+              </div>
+
+              <SelectionCards
+                name="Budget"
+                options={budgetOptions}
+              />
+
+              <div className="form-field date-field">
+
+                <label htmlFor="date">
+                  DATE DE LANCEMENT SOUHAITÉE
                 </label>
 
                 <input
-                  id="delai"
+                  id="date"
                   name="Date souhaitée"
                   type="text"
                   placeholder="Ex. Octobre 2026"
@@ -844,165 +453,165 @@ FIN DU BRIEF
 
               </div>
 
-            </div>
+            </section>
 
 
-            {/* =================================================
-                OPTIONS
-            ================================================= */}
+            {/* 05 — CONTACT */}
 
-            <div className="quote-options">
+            <section className="form-section">
 
-              <p className="quote-options-title">
-                VOS BESOINS
-              </p>
+              <div className="form-section-heading">
 
-              {quoteSections.map((section) => (
+                <span>05</span>
 
-                <details
-                  className="quote-section"
-                  key={section.title}
-                >
+                <div>
+                  <small>DERNIÈRE ÉTAPE</small>
 
-                  <summary>
+                  <h3>
+                    Parlons de vous.
+                  </h3>
+                </div>
 
-                    <span>
-                      {section.title}
-                    </span>
+              </div>
 
-                    <span
-                      className="quote-section-icon"
-                      aria-hidden="true"
-                    >
-                      +
-                    </span>
+              <div className="form-row">
 
-                  </summary>
+                <div className="form-field">
 
+                  <label htmlFor="nom">
+                    NOM <span>*</span>
+                  </label>
 
-                  <div className="quote-checkboxes">
+                  <input
+                    id="nom"
+                    name="Nom"
+                    type="text"
+                    placeholder="Jean Dupont"
+                    maxLength={120}
+                    autoComplete="name"
+                    required
+                  />
 
-                    {section.options.map(
-                      (option) => (
+                </div>
 
-                        <label
-                          className="quote-choice"
-                          key={option}
-                        >
+                <div className="form-field">
 
-                          <input
-                            type="checkbox"
-                            name={`${section.name}[]`}
-                            value={option}
-                          />
+                  <label htmlFor="entreprise">
+                    ENTREPRISE
+                  </label>
 
-                          <span>
-                            {option}
-                          </span>
+                  <input
+                    id="entreprise"
+                    name="Entreprise"
+                    type="text"
+                    placeholder="Votre entreprise"
+                    maxLength={150}
+                    autoComplete="organization"
+                  />
 
-                        </label>
+                </div>
 
-                      )
-                    )}
-
-                  </div>
-
-                </details>
-
-              ))}
-
-            </div>
+              </div>
 
 
-            {/* =================================================
-                AUTRES BESOINS
-            ================================================= */}
+              <div className="form-row">
 
-            <div className="form-field">
+                <div className="form-field">
 
-              <label htmlFor="autre">
-                Autres besoins
-              </label>
+                  <label htmlFor="email">
+                    EMAIL <span>*</span>
+                  </label>
 
-              <input
-                id="autre"
-                name="Autres besoins"
-                type="text"
-                placeholder="Une idée ou fonctionnalité particulière..."
-                maxLength={1500}
-              />
+                  <input
+                    id="email"
+                    name="Email"
+                    type="email"
+                    placeholder="vous@entreprise.fr"
+                    maxLength={254}
+                    autoComplete="email"
+                    required
+                  />
 
-            </div>
+                </div>
 
+                <div className="form-field">
 
-            {/* =================================================
-                DESCRIPTION
-            ================================================= */}
+                  <label htmlFor="telephone">
+                    TÉLÉPHONE
+                  </label>
 
-            <div className="form-field">
+                  <input
+                    id="telephone"
+                    name="Téléphone"
+                    type="tel"
+                    placeholder="+33 6 00 00 00 00"
+                    maxLength={30}
+                    autoComplete="tel"
+                  />
 
-              <label htmlFor="message">
-                Décrivez votre projet <span>*</span>
-              </label>
+                </div>
 
-              <textarea
-                id="message"
-                name="Description du projet"
-                placeholder="Présentez votre activité, vos objectifs et ce que vous souhaitez obtenir avec votre site..."
-                maxLength={5000}
-                required
-              />
-
-            </div>
+              </div>
 
 
-            {/* =================================================
-                SUCCESS
-            ================================================= */}
+              <div className="form-field">
+
+                <label htmlFor="message">
+                  PARLEZ-NOUS DE VOTRE PROJET
+                  <span> *</span>
+                </label>
+
+                <textarea
+                  id="message"
+                  name="Message"
+                  placeholder="Votre activité, votre idée, vos objectifs..."
+                  maxLength={3000}
+                  required
+                />
+
+              </div>
+
+            </section>
+
+
+            {/* SUCCESS */}
 
             {sent && (
-
               <p
                 className="form-success"
                 role="status"
               >
                 Votre demande a bien été envoyée.
-                Nous reviendrons vers vous
-                rapidement.
+                <br />
+                Nous revenons vers vous rapidement.
               </p>
-
             )}
 
 
-            {/* =================================================
-                BOTTOM
-            ================================================= */}
+            {/* BOTTOM */}
 
             <div className="form-bottom">
 
               <p>
-                Vos informations servent
-                uniquement à traiter votre
-                demande de projet.
+                Vos informations sont utilisées
+                uniquement pour traiter votre
+                demande.
               </p>
-
 
               <button
                 type="submit"
                 disabled={sending}
                 aria-busy={sending}
               >
-
                 <span>
                   {sending
                     ? "ENVOI EN COURS..."
-                    : "ENVOYER LE DEVIS"}
+                    : "DEMANDER MON DEVIS"}
                 </span>
 
                 <strong aria-hidden="true">
                   →
                 </strong>
-
               </button>
 
             </div>
@@ -1014,46 +623,28 @@ FIN DU BRIEF
       </section>
 
 
-      {/* =====================================================
-          BOTTOM
-      ===================================================== */}
+      {/* BOTTOM CTA */}
 
       <section className="contact-bottom">
 
         <div className="bottom-label">
-
-          <span>
-            03
-          </span>
-
-          <p>
-            LA SUITE
-          </p>
-
+          <span>NOVA</span>
+          <p>AGENCE DIGITALE</p>
         </div>
 
-
         <h2>
-          Une idée aujourd&apos;hui.
+          Une idée.
           <br />
-          <span>
-            Un projet demain.
-          </span>
+          <span>Un projet.</span>
         </h2>
 
-
         <p>
-          Commençons simplement par une
-          discussion.
+          Commençons simplement par une discussion.
         </p>
 
-
         <Link href="/">
-          RETOUR À L&apos;ACCUEIL
-
-          <span aria-hidden="true">
-            →
-          </span>
+          RETOUR À L'ACCUEIL
+          <span aria-hidden="true">→</span>
         </Link>
 
       </section>

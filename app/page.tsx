@@ -31,6 +31,7 @@ export default function Home() {
       ========================= */}
 
       <section className="nova-hero">
+
         <div className="hero-content">
 
           <p className="badge">
@@ -39,15 +40,15 @@ export default function Home() {
           </p>
 
           <h1>
-            Votre activité mérite
+            Plus qu’une présence.
             <br />
-            une meilleure <span>présence en ligne.</span>
+            <span>Une signature.</span>
           </h1>
 
           <p className="hero-text">
             Nous créons des sites modernes, rapides et sur mesure pour
-            présenter votre activité avec une image professionnelle
-            et donner confiance à vos clients.
+            donner à votre activité une image forte, professionnelle
+            et mémorable.
           </p>
 
           <div className="hero-buttons">
@@ -65,35 +66,59 @@ export default function Home() {
           <div className="hero-reassurance">
 
             <div className="reassurance-item">
-              <span className="reassurance-check">✓</span>
+
+              <span className="reassurance-check">
+                ✓
+              </span>
 
               <div>
                 <strong>Design sur mesure</strong>
-                <span>Une identité pensée pour votre activité</span>
+
+                <span>
+                  Une identité pensée pour votre activité
+                </span>
               </div>
+
             </div>
 
+
             <div className="reassurance-item">
-              <span className="reassurance-check">✓</span>
+
+              <span className="reassurance-check">
+                ✓
+              </span>
 
               <div>
-                <strong>Mobile &amp; rapide</strong>
-                <span>Une expérience fluide sur tous les écrans</span>
+                <strong>Mobile & rapide</strong>
+
+                <span>
+                  Une expérience fluide sur tous les écrans
+                </span>
               </div>
+
             </div>
 
+
             <div className="reassurance-item">
-              <span className="reassurance-check">✓</span>
+
+              <span className="reassurance-check">
+                ✓
+              </span>
 
               <div>
                 <strong>Accompagnement</strong>
-                <span>Un projet suivi de la conception au lancement</span>
+
+                <span>
+                  Un projet suivi de la conception au lancement
+                </span>
               </div>
+
             </div>
 
           </div>
 
         </div>
+
       </section>
 
 
@@ -113,31 +138,35 @@ export default function Home() {
           <div className="intro-heading">
 
             <p className="section-kicker">
-              UNE PRÉSENCE QUI COMPTE
+              L’IMAGE AVANT TOUT
             </p>
 
             <h2>
-              Votre site doit donner
+              Votre image mérite
               <br />
-              envie de vous choisir.
+              mieux qu’un simple site.
             </h2>
 
           </div>
 
+
           <div className="intro-text">
 
             <p>
-              Aujourd’hui, votre site est souvent le premier contact
-              entre votre activité et un futur client.
+              Aujourd’hui, votre présence en ligne peut faire la différence
+              entre un visiteur qui passe et un client qui vous contacte.
             </p>
 
             <p>
-              Chez NOVA, nous créons des expériences digitales qui
-              mettent votre activité en valeur, rassurent vos visiteurs
-              et vous ressemblent réellement.
+              Chez NOVA, nous concevons des expériences digitales pensées
+              pour donner confiance, valoriser votre activité et laisser
+              une vraie impression.
             </p>
 
-            <Link href="/a-propos" className="text-link">
+            <Link
+              href="/a-propos"
+              className="text-link"
+            >
               Découvrir NOVA →
             </Link>
 
@@ -169,6 +198,7 @@ export default function Home() {
             </h2>
 
           </div>
+
 
           <Link
             href="/realisations"
@@ -267,6 +297,7 @@ export default function Home() {
 
           </div>
 
+
           <p className="section-introduction">
             De la création à l’optimisation, nous construisons des
             solutions adaptées à votre activité et à vos objectifs.
@@ -306,7 +337,7 @@ export default function Home() {
             </span>
 
             <h3>
-              Refonte &amp; optimisation
+              Refonte & optimisation
             </h3>
 
             <p>
@@ -328,7 +359,7 @@ export default function Home() {
             </span>
 
             <h3>
-              Identité &amp; direction artistique
+              Identité & direction artistique
             </h3>
 
             <p>
@@ -350,7 +381,7 @@ export default function Home() {
             </span>
 
             <h3>
-              Performance &amp; mobile
+              Performance & mobile
             </h3>
 
             <p>
@@ -402,7 +433,9 @@ export default function Home() {
 
             <div className="advantage">
 
-              <span>01</span>
+              <span>
+                01
+              </span>
 
               <div>
 
@@ -422,7 +455,9 @@ export default function Home() {
 
             <div className="advantage">
 
-              <span>02</span>
+              <span>
+                02
+              </span>
 
               <div>
 
@@ -442,7 +477,9 @@ export default function Home() {
 
             <div className="advantage">
 
-              <span>03</span>
+              <span>
+                03
+              </span>
 
               <div>
 
@@ -500,7 +537,7 @@ export default function Home() {
 
 
       {/* =========================
-          FOOTER LÉGAL
+          FOOTER
       ========================= */}
 
       <footer className="nova-footer">
@@ -536,7 +573,10 @@ export default function Home() {
               Réalisations
             </Link>
 
-            <Link href="/mentions-legales" className="legal-link">
+            <Link
+              href="/mentions-legales"
+              className="legal-link"
+            >
               Mentions légales
             </Link>
 

@@ -6,13 +6,8 @@ const siteUrl = "https://site-ia-inky.vercel.app/";
 export default function IAFuturePage() {
   return (
     <main className="ia-page">
-
       <header className="ia-topbar">
-
-        <Link
-          href="/realisations"
-          className="ia-back"
-        >
+        <Link href="/realisations" className="ia-back">
           <span className="css-arrow css-arrow-left" />
           RÉALISATIONS
         </Link>
@@ -30,33 +25,24 @@ export default function IAFuturePage() {
           VOIR
           <span className="css-arrow" />
         </a>
-
       </header>
 
-
       <section className="ia-hero">
-
         <div className="ia-hero-content">
-
           <span className="ia-kicker">
             PROJET • IA &amp; TECHNOLOGIE
           </span>
 
-          <h1>
-            IA FUTURE
-          </h1>
+          <h1>IA FUTURE</h1>
 
           <p>
             Une expérience digitale moderne pensée pour présenter
-            l'intelligence artificielle de manière claire, premium
+            l&apos;intelligence artificielle de manière claire, premium
             et accessible.
           </p>
-
         </div>
 
-
         <div className="ia-gallery">
-
           <div className="ia-image">
             <img
               src="/projets/site-ia.png"
@@ -77,15 +63,10 @@ export default function IAFuturePage() {
               alt="IA Future - présentation"
             />
           </div>
-
         </div>
 
-
         <div className="ia-project-footer">
-
-          <span>
-            IA FUTURE • CONCEPT DIGITAL
-          </span>
+          <span>IA FUTURE • CONCEPT DIGITAL</span>
 
           <a
             href={siteUrl}
@@ -96,23 +77,17 @@ export default function IAFuturePage() {
             <span>VISITER LE SITE</span>
             <span className="css-arrow" />
           </a>
-
         </div>
-
       </section>
 
-
       <section className="ia-details">
-
         <div className="ia-detail-label">
           <span>01</span>
           <span>LE PROJET</span>
         </div>
 
         <div className="ia-detail-content">
-
           <div>
-
             <span className="ia-small-title">
               IA FUTURE
             </span>
@@ -122,34 +97,26 @@ export default function IAFuturePage() {
               <br />
               tournée vers le futur.
             </h2>
-
           </div>
 
-
           <div className="ia-detail-text">
-
             <p>
               IA Future est un projet digital imaginé autour
-              de l'intelligence artificielle et des nouvelles
+              de l&apos;intelligence artificielle et des nouvelles
               technologies.
             </p>
 
             <p>
-              L'objectif était de créer une interface moderne,
+              L&apos;objectif était de créer une interface moderne,
               claire et immersive capable de présenter un univers
               technologique tout en restant simple à comprendre
               pour les visiteurs.
             </p>
-
           </div>
-
         </div>
-
       </section>
 
-
       <section className="ia-navigation">
-
         <Link
           href="/realisations/noir-barber"
           className="ia-nav-card"
@@ -162,14 +129,12 @@ export default function IAFuturePage() {
           </strong>
         </Link>
 
-
         <Link
           href="/realisations"
           className="ia-nav-center"
         >
           TOUTES LES RÉALISATIONS
         </Link>
-
 
         <Link
           href="/contact"
@@ -182,9 +147,7 @@ export default function IAFuturePage() {
             <span className="css-arrow" />
           </strong>
         </Link>
-
       </section>
-
     </main>
   );
 }

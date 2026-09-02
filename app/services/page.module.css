@@ -317,12 +317,22 @@
   line-height: 1.75;
 }
 
-.service-card-arrow {
+/* =========================================================
+   REAL SVG ARROW
+========================================================= */
+
+.service-card-arrow,
+.method-arrow {
   align-self: start;
+
+  width: 22px;
+  height: 22px;
+
+  display: block;
 
   color: #444;
 
-  font-size: 19px;
+  flex-shrink: 0;
 
   transition:
     color 0.2s ease,
@@ -472,12 +482,6 @@
 
 .method-arrow {
   color: #444;
-
-  font-size: 18px;
-
-  transition:
-    color 0.2s ease,
-    transform 0.2s ease;
 }
 
 .method-item:hover .method-arrow {
@@ -1184,7 +1188,8 @@
   }
 
   .service-card-arrow {
-    font-size: 17px;
+    width: 20px;
+    height: 20px;
   }
 
   /* METHOD */
@@ -1243,6 +1248,11 @@
     font-size: 12.5px;
 
     line-height: 1.7;
+  }
+
+  .method-arrow {
+    width: 20px;
+    height: 20px;
   }
 
   /* REASSURANCE */

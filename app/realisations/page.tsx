@@ -11,6 +11,7 @@ const projects = [
       "Projet concept imaginé pour montrer comment une identité digitale forte peut valoriser une marque sport lifestyle et rendre son univers immédiatement reconnaissable.",
     image: "/projets/storm-1.png",
     href: "/realisations/storm",
+    year: "2026",
   },
   {
     number: "02",
@@ -20,6 +21,7 @@ const projects = [
       "Projet concept pensé autour de l’image, de la prise de rendez-vous et d’une expérience plus premium pour un barber moderne.",
     image: "/projets/barber-home.png",
     href: "/realisations/noir-barber",
+    year: "2026",
   },
   {
     number: "03",
@@ -29,6 +31,7 @@ const projects = [
       "Projet concept conçu pour présenter une activité technologique de façon claire, moderne et accessible, sans perdre en crédibilité.",
     image: "/projets/site-ia.png",
     href: "/realisations/ia-future",
+    year: "2026",
   },
   {
     number: "04",
@@ -38,6 +41,7 @@ const projects = [
       "Projet concept qui démontre comment structurer une offre de services, mettre en avant un savoir-faire et encourager la prise de contact.",
     image: "/projets/nova-assist.png",
     href: "/realisations/nova-assist",
+    year: "2026",
   },
 ];
 
@@ -62,30 +66,65 @@ const benefits = [
   },
 ];
 
+const categories = [
+  "TOUS",
+  "SITE PREMIUM",
+  "SPORT",
+  "BARBER",
+  "IA & TECHNOLOGIE",
+];
+
+function Arrow() {
+  return (
+    <svg
+      className="real-arrow"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M7 17L17 7"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+
+      <path
+        d="M9 7H17V15"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export default function RealisationsPage() {
   return (
     <main className="realisations-page">
-      {/* =====================================================
-          HERO
-      ===================================================== */}
+      {/* HERO */}
 
-      <section
-        className="realisations-hero"
-        aria-labelledby="realisations-title"
-      >
-        <div className="realisations-hero-inner">
-          <div className="realisations-kicker">
-            <span />
-            <p>NOTRE TRAVAIL</p>
+      <section className="real-hero">
+        <div className="real-hero-inner">
+          <div className="real-hero-top">
+            <span className="real-eyebrow">
+              NOTRE TRAVAIL
+            </span>
+
+            <span className="real-location">
+              NOVA / DIGITAL STUDIO
+            </span>
           </div>
 
-          <div className="realisations-hero-grid">
-            <div className="realisations-hero-title">
-              <span className="hero-small-label">
+          <div className="real-hero-grid">
+            <div>
+              <span className="real-small-label">
                 NOVA / RÉALISATIONS
               </span>
 
-              <h1 id="realisations-title">
+              <h1>
                 Des projets
                 <br />
                 pensés pour
@@ -94,10 +133,8 @@ export default function RealisationsPage() {
               </h1>
             </div>
 
-            <div className="realisations-hero-side">
-              <span className="hero-index">
-                01 — NOS PROJETS
-              </span>
+            <div className="real-hero-text">
+              <span>01 — NOS PROJETS</span>
 
               <p>
                 Une sélection de projets de démonstration conçus
@@ -114,120 +151,111 @@ export default function RealisationsPage() {
         </div>
       </section>
 
-      {/* =====================================================
-          PROJECTS
-      ===================================================== */}
+      {/* PROJECTS */}
 
-      <section
-        className="projects-section"
-        aria-labelledby="projects-title"
-      >
-        <div className="projects-heading">
-          <div className="projects-heading-left">
-            <span className="section-number">01</span>
+      <section className="real-projects">
+        <div className="real-section-head">
+          <div>
+            <span className="real-section-number">01</span>
 
             <div>
-              <p className="section-eyebrow">
+              <p className="real-eyebrow">
                 PROJETS DE DÉMONSTRATION
               </p>
 
-              <h2 id="projects-title">
-                Des projets qui montrent
-                <br />
-                notre approche.
-              </h2>
+              <h2>Notre sélection.</h2>
             </div>
           </div>
 
-          <span className="projects-count">
-            {projects.length.toString().padStart(2, "0")} PROJETS
+          <span className="real-count">
+            04 PROJETS
           </span>
         </div>
 
-        <div className="projects-list">
+        <div className="real-toolbar">
+          <div className="real-filters">
+            {categories.map((category, index) => (
+              <button
+                key={category}
+                type="button"
+                className={index === 0 ? "active" : ""}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="real-project-list">
           {projects.map((project) => (
             <article
-              className="project-card"
+              className="real-project"
               key={project.title}
             >
               <Link
                 href={project.href}
-                className="project-image-link"
+                className="real-project-image"
                 aria-label={`Découvrir le projet ${project.title}`}
               >
-                <div className="project-image">
-                  <Image
-                    src={project.image}
-                    alt={`Projet concept ${project.title}`}
-                    fill
-                    sizes="(max-width: 800px) 100vw, 82vw"
-                    priority={project.number === "01"}
-                  />
+                <Image
+                  src={project.image}
+                  alt={`Projet concept ${project.title}`}
+                  fill
+                  sizes="(max-width: 700px) 100vw, 50vw"
+                  priority={project.number === "01"}
+                />
 
-                  <div className="project-image-shade" />
+                <div className="real-image-overlay" />
 
-                  <span className="project-number">
-                    {project.number}
-                  </span>
+                <span className="real-project-number">
+                  {project.number}
+                </span>
 
-                  <div className="project-view">
-                    <span>VOIR LE PROJET</span>
-
-                    <span
-                      className="project-view-arrow"
-                      aria-hidden="true"
-                    />
-                  </div>
-                </div>
+                <span className="real-view">
+                  VOIR LE PROJET
+                  <Arrow />
+                </span>
               </Link>
 
-              <div className="project-info">
-                <div className="project-title-block">
-                  <span className="project-status">
-                    PROJET CONCEPT
-                  </span>
+              <div className="real-project-info">
+                <div className="real-project-meta">
+                  <div>
+                    <span>PROJET CONCEPT</span>
 
-                  <p className="project-category">
-                    {project.category}
-                  </p>
+                    <p>{project.category}</p>
+                  </div>
 
-                  <h2>{project.title}</h2>
+                  <span>{project.year}</span>
                 </div>
 
-                <div className="project-description-block">
-                  <p>{project.description}</p>
+                <div className="real-project-title">
+                  <h2>{project.title}</h2>
 
-                  <Link
-                    href={project.href}
-                    className="project-discover"
-                    aria-label={`Voir le projet ${project.title}`}
-                  >
-                    <span>DÉCOUVRIR</span>
-
-                    <span
-                      className="discover-arrow"
-                      aria-hidden="true"
-                    />
+                  <Link href={project.href}>
+                    DÉCOUVRIR
+                    <Arrow />
                   </Link>
                 </div>
+
+                <p className="real-description">
+                  {project.description}
+                </p>
               </div>
             </article>
           ))}
         </div>
       </section>
 
-      {/* =====================================================
-          ANCIEN CTA / TRANSITION
-      ===================================================== */}
+      {/* CTA */}
 
-      <section className="realisations-bottom">
-        <div className="bottom-line">
+      <section className="real-bottom">
+        <div className="real-bottom-top">
           <span>02</span>
           <p>VOTRE PROJET</p>
         </div>
 
-        <div className="bottom-content">
-          <span className="bottom-eyebrow">
+        <div className="real-bottom-content">
+          <span className="real-eyebrow">
             ET SI C'ÉTAIT VOUS ?
           </span>
 
@@ -237,7 +265,7 @@ export default function RealisationsPage() {
             projet était <span>le vôtre ?</span>
           </h2>
 
-          <p className="bottom-description">
+          <p>
             Chaque projet commence par une idée.
             <br />
             Parlons de la vôtre.
@@ -245,78 +273,54 @@ export default function RealisationsPage() {
 
           <Link
             href="/contact"
-            className="realisations-button"
+            className="real-button"
           >
-            <span>PARLER DE MON PROJET</span>
-
-            <span
-              className="cta-arrow"
-              aria-hidden="true"
-            />
+            PARLER DE MON PROJET
+            <Arrow />
           </Link>
         </div>
       </section>
 
-      {/* =====================================================
-          ÉTAPE 4 — CTA COMMERCIAL
-      ===================================================== */}
+      {/* COMMERCIAL CTA */}
 
-      <section
-        className="commercial-cta"
-        aria-labelledby="commercial-cta-title"
-      >
-        <div className="commercial-cta-inner">
-          <div className="commercial-cta-top">
-            <div className="commercial-cta-label">
-              <span />
-              <p>03 — PASSER À L'ACTION</p>
-            </div>
+      <section className="commercial">
+        <div className="commercial-inner">
+          <div className="commercial-top">
+            <span>03 — PASSER À L'ACTION</span>
 
-            <span className="commercial-cta-index">
-              NOVA / VOTRE PROJET
-            </span>
+            <span>NOVA / VOTRE PROJET</span>
           </div>
 
-          <div className="commercial-cta-main">
-            <div className="commercial-cta-heading">
-              <span className="commercial-cta-eyebrow">
-                VOTRE ACTIVITÉ MÉRITE MIEUX
-              </span>
+          <div className="commercial-main">
+            <div>
+              <span>VOTRE ACTIVITÉ MÉRITE MIEUX</span>
 
-              <h2 id="commercial-cta-title">
+              <h2>
                 Votre activité mérite
                 <br />
-                <span>mieux qu'un site standard.</span>
+                <span>
+                  mieux qu'un site standard.
+                </span>
               </h2>
             </div>
 
-            <div className="commercial-cta-intro">
+            <div className="commercial-intro">
               <p>
                 Un site pensé pour votre image, votre activité
                 et surtout pour transformer vos visiteurs en
                 clients.
               </p>
 
-              <div className="commercial-cta-note">
-                <span className="commercial-cta-note-dot" />
-                <span>
-                  Une approche pensée pour votre business.
-                </span>
-              </div>
+              <small>
+                Une approche pensée pour votre business.
+              </small>
             </div>
           </div>
 
           <div className="commercial-benefits">
             {benefits.map((benefit) => (
-              <article
-                className="commercial-benefit"
-                key={benefit.number}
-              >
-                <div className="commercial-benefit-top">
-                  <span>{benefit.number}</span>
-
-                  <span className="commercial-benefit-line" />
-                </div>
+              <article key={benefit.number}>
+                <span>{benefit.number}</span>
 
                 <h3>{benefit.title}</h3>
 
@@ -325,9 +329,9 @@ export default function RealisationsPage() {
             ))}
           </div>
 
-          <div className="commercial-cta-action">
-            <div className="commercial-cta-action-content">
-              <span className="commercial-action-eyebrow">
+          <div className="commercial-action">
+            <div>
+              <span>
                 PRÊT À FAIRE ÉVOLUER VOTRE PRÉSENCE EN LIGNE ?
               </span>
 
@@ -338,35 +342,24 @@ export default function RealisationsPage() {
               </h3>
             </div>
 
-            <div className="commercial-cta-button-wrap">
+            <div>
               <Link
                 href="/contact"
-                className="commercial-cta-button"
+                className="commercial-button"
               >
-                <span>DÉMARRER MON PROJET</span>
-
-                <span
-                  className="commercial-cta-arrow"
-                  aria-hidden="true"
-                />
+                DÉMARRER MON PROJET
+                <Arrow />
               </Link>
 
-              <p className="commercial-cta-reassurance">
-                Réponse sous 24h&nbsp; • &nbsp;Échange gratuit
-                &nbsp; • &nbsp;Sans engagement
+              <p>
+                Réponse sous 24h • Échange gratuit • Sans engagement
               </p>
             </div>
           </div>
 
-          <div className="commercial-existing-site">
-            <div className="commercial-existing-icon">
-              <span />
-            </div>
-
+          <div className="existing-site">
             <div>
-              <span className="commercial-existing-label">
-                VOUS AVEZ DÉJÀ UN SITE ?
-              </span>
+              <span>VOUS AVEZ DÉJÀ UN SITE ?</span>
 
               <p>
                 On peut aussi l'améliorer, le moderniser ou
@@ -374,16 +367,9 @@ export default function RealisationsPage() {
               </p>
             </div>
 
-            <Link
-              href="/contact"
-              className="commercial-existing-link"
-            >
-              <span>EN PARLER</span>
-
-              <span
-                className="commercial-existing-arrow"
-                aria-hidden="true"
-              />
+            <Link href="/contact">
+              EN PARLER
+              <Arrow />
             </Link>
           </div>
         </div>

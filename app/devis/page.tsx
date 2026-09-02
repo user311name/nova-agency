@@ -35,6 +35,31 @@ const budgetOptions = [
   "4 000 €+",
 ];
 
+function DiagonalArrow() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M7 17L17 7"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M9 7H17V15"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function SelectionCards({
   name,
   options,
@@ -70,9 +95,7 @@ export default function Devis() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
-  async function handleSubmit(
-    e: React.FormEvent<HTMLFormElement>
-  ) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!formRef.current || sending) return;
@@ -134,15 +157,12 @@ export default function Devis() {
     // VALIDATION EMAIL
     // =========================================================
 
-    const emailRegex =
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(clientEmail)) {
       setSending(false);
 
-      alert(
-        "Veuillez entrer une adresse e-mail valide."
-      );
+      alert("Veuillez entrer une adresse e-mail valide.");
 
       return;
     }
@@ -298,12 +318,14 @@ FIN DU BRIEF
 
   return (
     <main className="contact-page">
+
       {/* =====================================================
           HERO
       ====================================================== */}
 
       <section className="contact-hero">
         <div className="contact-hero-inner">
+
           <div className="contact-kicker">
             <span className="contact-kicker-line" />
 
@@ -321,6 +343,7 @@ FIN DU BRIEF
             de comprendre votre projet et de préparer une
             proposition adaptée.
           </p>
+
         </div>
       </section>
 
@@ -329,11 +352,13 @@ FIN DU BRIEF
       ====================================================== */}
 
       <section className="contact-container">
+
         {/* ===================================================
             LEFT
         ==================================================== */}
 
         <aside className="contact-info">
+
           <div className="contact-section-label">
             <span>01</span>
 
@@ -355,6 +380,7 @@ FIN DU BRIEF
           </p>
 
           <div className="mini-points">
+
             <div>
               <span>01</span>
 
@@ -381,7 +407,9 @@ FIN DU BRIEF
                 mise en ligne.
               </p>
             </div>
+
           </div>
+
         </aside>
 
         {/* ===================================================
@@ -389,7 +417,9 @@ FIN DU BRIEF
         ==================================================== */}
 
         <div className="contact-form-wrapper">
+
           <div className="form-top">
+
             <div>
               <span className="form-label">
                 NOVA / DEVIS
@@ -405,6 +435,7 @@ FIN DU BRIEF
             <span className="form-index">
               01 — 05
             </span>
+
           </div>
 
           <p className="form-description">
@@ -417,6 +448,7 @@ FIN DU BRIEF
             className="contact-form"
             onSubmit={handleSubmit}
           >
+
             {/* =================================================
                 HONEYPOT
             ================================================== */}
@@ -443,7 +475,9 @@ FIN DU BRIEF
             ================================================== */}
 
             <section className="form-section">
+
               <div className="form-section-heading">
+
                 <span>01</span>
 
                 <div>
@@ -453,12 +487,14 @@ FIN DU BRIEF
                     Que souhaitez-vous créer ?
                   </h3>
                 </div>
+
               </div>
 
               <SelectionCards
                 name="Projet[]"
                 options={projectOptions}
               />
+
             </section>
 
             {/* =================================================
@@ -466,7 +502,9 @@ FIN DU BRIEF
             ================================================== */}
 
             <section className="form-section">
+
               <div className="form-section-heading">
+
                 <span>02</span>
 
                 <div>
@@ -476,6 +514,7 @@ FIN DU BRIEF
                     Quel est votre objectif ?
                   </h3>
                 </div>
+
               </div>
 
               <SelectionCards
@@ -483,6 +522,7 @@ FIN DU BRIEF
                 options={needsOptions}
                 multiple
               />
+
             </section>
 
             {/* =================================================
@@ -490,7 +530,9 @@ FIN DU BRIEF
             ================================================== */}
 
             <section className="form-section">
+
               <div className="form-section-heading">
+
                 <span>03</span>
 
                 <div>
@@ -500,6 +542,7 @@ FIN DU BRIEF
                     Quel style vous correspond ?
                   </h3>
                 </div>
+
               </div>
 
               <SelectionCards
@@ -507,6 +550,7 @@ FIN DU BRIEF
                 options={styleOptions}
                 multiple
               />
+
             </section>
 
             {/* =================================================
@@ -514,7 +558,9 @@ FIN DU BRIEF
             ================================================== */}
 
             <section className="form-section">
+
               <div className="form-section-heading">
+
                 <span>04</span>
 
                 <div>
@@ -524,6 +570,7 @@ FIN DU BRIEF
                     Où en êtes-vous ?
                   </h3>
                 </div>
+
               </div>
 
               <SelectionCards
@@ -532,6 +579,7 @@ FIN DU BRIEF
               />
 
               <div className="form-field date-field">
+
                 <label htmlFor="date">
                   DATE DE LANCEMENT SOUHAITÉE
                 </label>
@@ -543,7 +591,9 @@ FIN DU BRIEF
                   placeholder="Ex. Octobre 2026"
                   maxLength={100}
                 />
+
               </div>
+
             </section>
 
             {/* =================================================
@@ -551,7 +601,9 @@ FIN DU BRIEF
             ================================================== */}
 
             <section className="form-section">
+
               <div className="form-section-heading">
+
                 <span>05</span>
 
                 <div>
@@ -561,12 +613,15 @@ FIN DU BRIEF
                     Parlons de vous.
                   </h3>
                 </div>
+
               </div>
 
               {/* NOM / ENTREPRISE */}
 
               <div className="form-row">
+
                 <div className="form-field">
+
                   <label htmlFor="nom">
                     NOM <span>*</span>
                   </label>
@@ -580,9 +635,11 @@ FIN DU BRIEF
                     autoComplete="name"
                     required
                   />
+
                 </div>
 
                 <div className="form-field">
+
                   <label htmlFor="entreprise">
                     ENTREPRISE
                   </label>
@@ -595,13 +652,17 @@ FIN DU BRIEF
                     maxLength={150}
                     autoComplete="organization"
                   />
+
                 </div>
+
               </div>
 
               {/* EMAIL / TÉLÉPHONE */}
 
               <div className="form-row">
+
                 <div className="form-field">
+
                   <label htmlFor="email">
                     EMAIL <span>*</span>
                   </label>
@@ -615,9 +676,11 @@ FIN DU BRIEF
                     autoComplete="email"
                     required
                   />
+
                 </div>
 
                 <div className="form-field">
+
                   <label htmlFor="telephone">
                     TÉLÉPHONE
                   </label>
@@ -630,12 +693,15 @@ FIN DU BRIEF
                     maxLength={30}
                     autoComplete="tel"
                   />
+
                 </div>
+
               </div>
 
               {/* MESSAGE */}
 
               <div className="form-field">
+
                 <label htmlFor="message">
                   PARLEZ-NOUS DE VOTRE PROJET
                   <span> *</span>
@@ -648,7 +714,9 @@ FIN DU BRIEF
                   maxLength={3000}
                   required
                 />
+
               </div>
+
             </section>
 
             {/* =================================================
@@ -671,6 +739,7 @@ FIN DU BRIEF
             ================================================== */}
 
             <div className="form-bottom">
+
               <p>
                 Vos informations sont utilisées uniquement
                 pour traiter votre demande.
@@ -688,12 +757,16 @@ FIN DU BRIEF
                 </span>
 
                 <strong aria-hidden="true">
-                  →
+                  <DiagonalArrow />
                 </strong>
               </button>
+
             </div>
+
           </form>
+
         </div>
+
       </section>
 
       {/* =====================================================
@@ -701,6 +774,7 @@ FIN DU BRIEF
       ====================================================== */}
 
       <section className="contact-bottom">
+
         <div className="bottom-label">
           <span>NOVA</span>
 
@@ -721,10 +795,12 @@ FIN DU BRIEF
           RETOUR À L&apos;ACCUEIL
 
           <span aria-hidden="true">
-            →
+            <DiagonalArrow />
           </span>
         </Link>
+
       </section>
+
     </main>
   );
 }

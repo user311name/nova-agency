@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
 
   poweredByHeader: false,
 
+  // Autorise l'accès au serveur Next.js depuis ton réseau local
+  allowedDevOrigins: ["192.168.1.42"],
+
   async headers() {
     return [
       {

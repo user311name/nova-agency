@@ -5,14 +5,14 @@ import "./style.css";
 export const metadata: Metadata = {
   title: "Création de sites web & services digitaux",
   description:
-    "NOVA crée des sites web modernes, rapides et élégants : création de sites, refonte, identité visuelle, optimisation des performances et accompagnement digital.",
+    "NOVA conçoit des sites web premium, des identités digitales fortes et des expériences digitales pensées pour votre activité.",
   alternates: {
     canonical: "/services",
   },
   openGraph: {
     title: "Création de sites web & services digitaux | NOVA",
     description:
-      "Découvrez les services NOVA : création de sites web premium, refonte, identité visuelle, performances et accompagnement digital.",
+      "Des solutions digitales pensées pour votre activité.",
     url: "/services",
     type: "website",
   },
@@ -20,216 +20,353 @@ export const metadata: Metadata = {
 
 const services = [
   {
-    numero: "01",
-    titre: "Création de sites web premium",
-    court:
-      "Une présence en ligne pensée autour de votre activité, de votre image et de vos objectifs.",
-    texte:
-      "Nous concevons des sites modernes, rapides et élégants adaptés à votre activité. Chaque projet est pensé pour présenter votre entreprise, rassurer vos visiteurs et créer une présence en ligne professionnelle.",
+    number: "01",
+    title: "Création de sites web premium",
+    short:
+      "Des sites modernes, rapides et conçus pour transformer vos visiteurs en clients.",
+    text:
+      "Nous créons des sites web sur mesure qui combinent direction artistique, expérience utilisateur, performance et identité de marque.",
     points: [
-      "Design personnalisé",
-      "Structure adaptée à votre activité",
-      "Expérience ordinateur, tablette et mobile",
-      "Interface claire et professionnelle",
+      "Design entièrement sur mesure",
+      "Interface responsive",
+      "Animations et interactions",
+      "Optimisation mobile",
     ],
   },
   {
-    numero: "02",
-    titre: "Refonte & optimisation",
-    court:
-      "Transformez un site existant en une expérience plus actuelle, claire et cohérente.",
-    texte:
-      "Nous améliorons votre site existant pour lui donner une image plus professionnelle, une meilleure expérience utilisateur et une présentation davantage adaptée à vos objectifs.",
+    number: "02",
+    title: "Refonte & optimisation",
+    short:
+      "Votre site existe déjà ? Nous lui donnons une nouvelle dimension.",
+    text:
+      "Nous analysons votre présence actuelle et repensons les éléments qui peuvent freiner votre image, votre expérience utilisateur ou votre conversion.",
     points: [
-      "Analyse de l'existant",
-      "Modernisation du design",
-      "Amélioration de la navigation",
-      "Adaptation aux usages mobiles",
+      "Audit de l'existant",
+      "Nouvelle direction artistique",
+      "UX & navigation",
+      "Optimisation des conversions",
     ],
   },
   {
-    numero: "03",
-    titre: "Identité visuelle & design",
-    court:
-      "Construisez une image cohérente qui permet à votre entreprise d'être immédiatement reconnaissable.",
-    texte:
-      "Nous créons un univers visuel cohérent pour accompagner votre présence en ligne : logo, couleurs, typographies et direction artistique.",
+    number: "03",
+    title: "Identité visuelle & design",
+    short:
+      "Une image cohérente pour rendre votre entreprise immédiatement reconnaissable.",
+    text:
+      "Nous construisons une direction visuelle cohérente qui traduit votre positionnement et vous permet de vous démarquer.",
     points: [
       "Direction artistique",
-      "Palette de couleurs",
-      "Choix typographiques",
-      "Cohérence visuelle du site",
+      "Palette & typographie",
+      "Univers visuel",
+      "Design digital",
     ],
   },
   {
-    numero: "04",
-    titre: "Optimisation des performances",
-    court:
-      "Un site agréable à utiliser doit aussi être rapide et efficace sur tous les écrans.",
-    texte:
-      "Nous travaillons sur la rapidité, l'affichage et l'expérience générale du site afin de proposer une navigation plus fluide sur ordinateur, tablette et mobile.",
+    number: "04",
+    title: "Optimisation des performances",
+    short:
+      "Un site beau ne suffit pas. Il doit également être rapide et efficace.",
+    text:
+      "Nous optimisons les performances techniques de votre site afin d'offrir une expérience fluide, particulièrement sur mobile.",
     points: [
-      "Optimisation du chargement",
-      "Affichage responsive",
-      "Structure plus légère",
-      "Expérience mobile améliorée",
+      "Temps de chargement",
+      "Optimisation mobile",
+      "Structure technique",
+      "Expérience utilisateur",
     ],
   },
   {
-    numero: "05",
-    titre: "Accompagnement digital",
-    court:
-      "Votre site peut évoluer avec votre activité. NOVA vous accompagne dans cette évolution.",
-    texte:
-      "Nous vous accompagnons dans l'évolution de votre présence en ligne avec des conseils et des améliorations adaptés à votre activité et à vos besoins.",
+    number: "05",
+    title: "Accompagnement digital",
+    short:
+      "Un partenaire pour faire évoluer votre présence en ligne dans le temps.",
+    text:
+      "NOVA vous accompagne au-delà de la mise en ligne pour faire évoluer votre site, votre image et vos outils selon vos besoins.",
     points: [
-      "Conseils sur votre présence en ligne",
+      "Conseil stratégique",
       "Évolutions du site",
-      "Améliorations de contenu",
-      "Accompagnement selon vos besoins",
+      "Maintenance",
+      "Accompagnement personnalisé",
     ],
   },
 ];
 
 const principles = [
   {
-    numero: "01",
-    titre: "Comprendre",
-    texte:
-      "Avant de concevoir, nous cherchons à comprendre votre activité, votre image et ce que votre site doit réellement accomplir.",
+    number: "01",
+    title: "Comprendre",
+    text:
+      "Avant de créer, nous cherchons à comprendre votre activité, votre cible et ce qui vous différencie.",
   },
   {
-    numero: "02",
-    titre: "Concevoir",
-    texte:
-      "Nous transformons vos besoins en une structure claire, une direction visuelle cohérente et une expérience simple à parcourir.",
+    number: "02",
+    title: "Concevoir",
+    text:
+      "Nous transformons cette vision en une direction artistique claire, cohérente et adaptée à votre positionnement.",
   },
   {
-    numero: "03",
-    titre: "Construire",
-    texte:
-      "Le site est développé avec une attention particulière portée au responsive, aux performances et aux détails.",
+    number: "03",
+    title: "Construire",
+    text:
+      "Nous développons une expérience digitale performante, responsive et pensée pour durer.",
   },
 ];
 
-export default function Services() {
+/* =========================================================
+   UNIQUEMENT POUR LES 2 FLÈCHES DEMANDÉES
+========================================================= */
+
+function DiagonalArrow({
+  className = "",
+}: {
+  className?: string;
+}) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M7 17L17 7"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <path
+        d="M9 7H17V15"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export default function ServicesPage() {
   return (
     <main className="services-page">
-      <section className="services-hero">
-        <div className="services-hero-inner">
-          <div className="services-hero-top">
-            <p className="services-tag">
-              <span />
-              NOS SERVICES
-            </p>
+      {/* Ambient background */}
+      <div className="services-bg" aria-hidden="true">
+        <div className="services-glow services-glow-one" />
+        <div className="services-glow services-glow-two" />
+        <div className="services-grid" />
+        <div className="services-noise" />
+      </div>
 
-            <span className="services-hero-index">
-              NOVA / SERVICES
-            </span>
+      {/* HERO */}
+      <section className="services-hero">
+        <div className="services-hero-orbit orbit-one" />
+        <div className="services-hero-orbit orbit-two" />
+        <div className="services-hero-orbit orbit-three" />
+
+        <div className="services-hero-top">
+          <div className="services-tag">
+            <span className="services-tag-dot" />
+            NOS SERVICES
           </div>
 
-          <h1>
-            Des solutions digitales
-            <br />
-            <span>pensées pour votre activité.</span>
-          </h1>
+          <div className="services-hero-index">
+            <span>NOVA</span>
+            <span>/</span>
+            <span>SERVICES</span>
+          </div>
+        </div>
 
-          <div className="services-hero-bottom">
-            <p className="services-intro">
-              NOVA conçoit des expériences digitales modernes,
-              personnalisées et pensées pour donner à votre entreprise
-              une présence en ligne professionnelle.
+        <div className="services-hero-main">
+          <div className="services-hero-copy">
+            <div className="services-hero-eyebrow">
+              <span>01</span>
+              <i />
+              DIGITAL EXPERIENCE
+            </div>
+
+            <h1>
+              Des solutions
+              <br />
+              <span>digitales</span> pensées
+              <br />
+              pour votre activité.
+            </h1>
+
+            <p>
+              Nous créons des expériences digitales qui associent design,
+              technologie et stratégie pour donner à votre entreprise une
+              présence en ligne à la hauteur de son ambition.
             </p>
 
-            <Link
-              href="/devis"
-              className="services-hero-link"
-            >
-              <span>DEMANDER UN DEVIS</span>
-              <strong aria-hidden="true">→</strong>
+            <Link href="/devis" className="services-hero-link">
+              <span>Parler de votre projet</span>
+
+              {/* SEULEMENT CETTE FLÈCHE EST REMPLACÉE PAR LE SVG */}
+              <b className="services-hero-arrow">
+                <DiagonalArrow />
+              </b>
             </Link>
           </div>
+
+          {/* 3D scene */}
+          <div className="services-scene" aria-hidden="true">
+            <div className="scene-back-grid" />
+
+            <div className="scene-glow-ball ball-one" />
+            <div className="scene-glow-ball ball-two" />
+
+            <div className="scene-platform platform-large">
+              <div className="platform-top" />
+              <div className="platform-side" />
+            </div>
+
+            <div className="scene-platform platform-small">
+              <div className="platform-top" />
+              <div className="platform-side" />
+            </div>
+
+            <div className="scene-panel">
+              <div className="panel-line line-one" />
+              <div className="panel-line line-two" />
+              <div className="panel-line line-three" />
+
+              <div className="panel-content">
+                <span>NOVA</span>
+                <strong>01</strong>
+              </div>
+            </div>
+
+            <div className="scene-ring">
+              <span />
+            </div>
+
+            <div className="scene-cube cube-one" />
+            <div className="scene-cube cube-two" />
+          </div>
         </div>
-      </section>
 
-      <section className="services-introduction">
-        <div className="services-section-label">
-          <span>01</span>
-          <p>CE QUE NOUS FAISONS</p>
-        </div>
-
-        <div className="services-introduction-content">
-          <h2>
-            Plus qu&apos;une présence en ligne.
-            <br />
-            <span>Une image qui vous ressemble.</span>
-          </h2>
-
-          <p>
-            Un site web doit être bien plus qu&apos;une simple vitrine.
-            Il doit présenter votre activité clairement, inspirer
-            confiance et offrir une expérience cohérente à vos visiteurs.
-          </p>
-        </div>
-      </section>
-
-      <section className="services-list-section">
-        <div className="services-section-heading">
-          <div className="services-section-label">
-            <span>02</span>
-            <p>NOS EXPERTISES</p>
+        <div className="services-hero-bottom">
+          <div className="hero-scroll">
+            <span>SCROLL</span>
+            <i />
           </div>
 
-          <p>
-            Chaque projet est différent. Nous adaptons notre approche
-            à votre activité, votre identité et vos besoins.
-          </p>
+          <div className="hero-coordinate">
+            <span>43°36&apos; / 1°26&apos;</span>
+            <span>ONLINE</span>
+          </div>
+        </div>
+      </section>
+
+      {/* INTRODUCTION */}
+      <section className="services-introduction">
+        <div className="services-intro-number">01 /</div>
+
+        <div className="services-intro-content">
+          <div className="section-kicker">CE QUE NOUS FAISONS</div>
+
+          <h2>
+            Plus qu&apos;une présence
+            <br />
+            en ligne. <span>Une image</span>
+            <br />
+            qui vous ressemble.
+          </h2>
+
+          <div className="services-intro-bottom">
+            <p>
+              Votre site est souvent le premier contact entre votre entreprise
+              et un potentiel client. Chez NOVA, nous pensons qu&apos;il doit
+              être bien plus qu&apos;une simple vitrine.
+            </p>
+
+            <p>
+              Chaque détail est pensé pour créer une expérience cohérente,
+              mémorable et adaptée à votre activité.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* SERVICES */}
+      <section className="services-list-section">
+        <div className="services-section-heading">
+          <div>
+            <div className="section-kicker">02 / NOS EXPERTISES</div>
+
+            <h2>
+              Ce que nous
+              <br />
+              <span>pouvons créer.</span>
+            </h2>
+          </div>
+
+          <div className="services-heading-meta">
+            <span>05 SERVICES</span>
+            <span>SCROLL TO EXPLORE</span>
+          </div>
         </div>
 
         <div className="services-list">
-          {services.map((service) => (
+          {services.map((service, index) => (
             <article
-              className="service-card"
-              key={service.numero}
+              className={`service-card ${
+                index === 0 ? "service-card-featured" : ""
+              }`}
+              key={service.number}
             >
               <div className="service-card-top">
-                <span className="service-number">
-                  {service.numero}
+                <span className="service-number">{service.number}</span>
+
+                <span className="service-card-status">
+                  <i />
+                  AVAILABLE
                 </span>
               </div>
 
               <div className="service-card-content">
-                <h2>{service.titre}</h2>
+                <div className="service-card-title-wrap">
+                  <h3>{service.title}</h3>
 
-                <p className="service-card-short">
-                  {service.court}
-                </p>
+                  {/* SEULEMENT CETTE FLÈCHE EST REMPLACÉE PAR LE SVG */}
+                  <span className="service-arrow">
+                    <DiagonalArrow />
+                  </span>
+                </div>
 
-                <p className="service-card-text">
-                  {service.texte}
-                </p>
+                <p className="service-card-short">{service.short}</p>
 
-                <ul className="service-points">
-                  {service.points.map((point) => (
-                    <li key={point}>
-                      <span aria-hidden="true">—</span>
-                      {point}
-                    </li>
-                  ))}
-                </ul>
+                <div className="service-card-details">
+                  <p className="service-card-text">{service.text}</p>
+
+                  <div className="service-points">
+                    {service.points.map((point) => (
+                      <div key={point}>
+                        <span>+</span>
+                        {point}
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
+
+              <div className="service-card-glow" />
             </article>
           ))}
         </div>
       </section>
 
+      {/* METHOD */}
       <section className="services-method">
-        <div className="services-section-label">
-          <span>03</span>
-          <p>NOTRE APPROCHE</p>
+        <div className="method-orbit" aria-hidden="true">
+          <div />
+          <div />
+          <div />
         </div>
 
         <div className="services-method-heading">
+          <div className="section-kicker">03 / NOTRE APPROCHE</div>
+
           <h2>
             Une approche simple.
             <br />
@@ -237,62 +374,70 @@ export default function Services() {
           </h2>
 
           <p>
-            Nous cherchons à garder chaque étape claire afin que votre
-            projet avance avec une direction précise, du premier échange
-            jusqu&apos;à la mise en ligne.
+            Pas de solution générique. Nous construisons chaque projet autour
+            de votre entreprise, avec une méthode claire et un niveau
+            d&apos;exigence élevé.
           </p>
         </div>
 
         <div className="principles-grid">
           {principles.map((principle) => (
-            <article
-              className="principle-card"
-              key={principle.numero}
-            >
-              <span>{principle.numero}</span>
+            <article className="principle-card" key={principle.number}>
+              <div className="principle-card-top">
+                <span>{principle.number}</span>
+                <i />
+              </div>
 
-              <h3>{principle.titre}</h3>
+              <div className="principle-icon">
+                <div />
+                <div />
+                <div />
+              </div>
 
-              <p>{principle.texte}</p>
+              <h3>{principle.title}</h3>
+              <p>{principle.text}</p>
             </article>
           ))}
         </div>
 
-        <Link
-          href="/methode"
-          className="services-method-link"
-        >
-          <span>DÉCOUVRIR NOTRE MÉTHODE</span>
-          <strong aria-hidden="true">→</strong>
+        {/* LAISSÉ EXACTEMENT COMME DANS TON FICHIER */}
+        <Link href="/methode" className="services-method-link">
+          <span>Découvrir notre méthode</span>
+          <b>↗</b>
         </Link>
       </section>
 
+      {/* FINAL CTA */}
       <section className="services-final">
-        <div className="services-final-label">
-          <span>04</span>
-          <p>VOTRE PROJET</p>
-        </div>
+        <div className="final-grid" aria-hidden="true" />
+        <div className="final-glow" aria-hidden="true" />
 
-        <div className="services-final-content">
+        <div className="services-final-inner">
+          <div className="services-final-label">
+            <span>04 /</span>
+            VOTRE PROJET
+          </div>
+
           <h2>
             Votre projet mérite
             <br />
-            <span>plus qu&apos;un simple site.</span>
+            plus qu&apos;un <span>simple site.</span>
           </h2>
 
           <p>
-            Présentez-nous votre activité, vos besoins et vos idées.
-            Nous pourrons ensuite définir une solution adaptée à votre
-            projet.
+            Parlons de votre activité, de vos objectifs et de ce que nous
+            pouvons construire ensemble.
           </p>
 
-          <Link
-            href="/devis"
-            className="services-final-button"
-          >
-            <span>PARLONS DE VOTRE PROJET</span>
-            <strong aria-hidden="true">→</strong>
+          {/* LAISSÉ EXACTEMENT COMME DANS TON FICHIER */}
+          <Link href="/devis" className="final-cta">
+            <span>Demander un devis</span>
+            <b>↗</b>
           </Link>
+        </div>
+
+        <div className="final-coordinate" aria-hidden="true">
+          NOVA / DIGITAL STUDIO
         </div>
       </section>
     </main>

@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import Image from "next/image";
-import Link from "next/link";
 import { Analytics } from "@vercel/analytics/next";
+import SiteHeader from "@/components/SiteHeader";
 
 const siteUrl = "https://nova-agency-sigma.vercel.app";
 
@@ -35,12 +34,7 @@ export const metadata: Metadata = {
     "performance web",
   ],
 
-  authors: [
-    {
-      name: "NOVA",
-    },
-  ],
-
+  authors: [{ name: "NOVA" }],
   creator: "NOVA",
   publisher: "NOVA",
 
@@ -78,7 +72,6 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-
     googleBot: {
       index: true,
       follow: true,
@@ -100,59 +93,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body>
-        <header className="navbar">
-
-          <Link
-            href="/"
-            className="logo"
-            aria-label="NOVA — Accueil"
-          >
-            <Image
-              src="/logo-nova.png"
-              alt="NOVA"
-              width={160}
-              height={60}
-              priority
-            />
-          </Link>
-
-          <nav
-            className="main-nav"
-            aria-label="Navigation principale"
-          >
-            <Link href="/">
-              Accueil
-            </Link>
-
-            <Link href="/services">
-              Services
-            </Link>
-
-            <Link href="/realisations">
-              Réalisations
-            </Link>
-
-            <Link href="/methode">
-              Méthode
-            </Link>
-
-            <Link href="/faq">
-              FAQ
-            </Link>
-
-            <Link href="/contact">
-              Contact
-            </Link>
-          </nav>
-
-          <Link
-            href="/devis"
-            className="nav-button"
-          >
-            Demander un devis
-          </Link>
-
-        </header>
+        <SiteHeader />
 
         {children}
 

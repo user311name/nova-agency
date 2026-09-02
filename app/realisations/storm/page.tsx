@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./page.css";
 
 const images = [
@@ -13,28 +13,91 @@ const images = [
 
 const stormUrl = "https://storm-peach.vercel.app/";
 
+function ArrowIcon({
+  direction = "right",
+}: {
+  direction?: "right" | "left";
+}) {
+  return (
+    <svg
+      className={`arrow-icon ${direction === "left" ? "arrow-left" : ""}`}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path d="M4 12h15" />
+      <path d="m13 6 6 6-6 6" />
+    </svg>
+  );
+}
+
+function ExternalArrowIcon() {
+  return (
+    <svg
+      className="external-arrow-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path d="M7 17 17 7" />
+      <path d="M9 7h8v8" />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg
+      className="close-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path d="M6 6l12 12" />
+      <path d="M18 6 6 18" />
+    </svg>
+  );
+}
+
 export default function StormPage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (!selectedImage) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedImage(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedImage]);
+
   return (
     <main className="project-page">
+      <div className="project-background" aria-hidden="true">
+        <span className="background-glow" />
+        <span className="background-grid" />
+      </div>
+
       <header className="project-header">
         <Link href="/realisations" className="project-back">
-          <span
-            className="clean-arrow clean-arrow-left"
-            aria-hidden="true"
-          />
-          RÉALISATIONS
+          <span className="back-icon">
+            <ArrowIcon direction="left" />
+          </span>
+          <span>RÉALISATIONS</span>
         </Link>
 
-        <Image
-          src="/logo.png.png"
-          alt="STORM"
-          width={70}
-          height={70}
-          className="project-logo storm-logo"
-          priority
-        />
+        <div className="project-mark">
+          <span>STORM</span>
+          <small>01 / 03</small>
+        </div>
 
         <a
           href={stormUrl}
@@ -42,94 +105,205 @@ export default function StormPage() {
           rel="noopener noreferrer"
           className="project-live"
         >
-          VOIR LA DÉMO
-          <span className="clean-arrow" aria-hidden="true" />
+          <span>VOIR LA DÉMO</span>
+          <ExternalArrowIcon />
         </a>
       </header>
 
-      <section
-        className="project-intro"
-        aria-labelledby="storm-title"
-      >
-        <p>PROJET CONCEPT • SPORT LIFESTYLE</p>
+      <section className="project-hero" aria-labelledby="storm-title">
+        <div className="project-hero-meta">
+          <span>PROJET CONCEPT</span>
+          <span>SPORT / LIFESTYLE</span>
+          <span>2025</span>
+        </div>
 
-        <h1 id="storm-title">STORM</h1>
+        <div className="project-hero-title">
+          <p className="project-eyebrow">NOVA — DIGITAL EXPERIENCE</p>
 
-        <span>
-          Un concept digital imaginé pour une marque sport lifestyle
-          masculine, forte et immédiatement reconnaissable.
-        </span>
+          <h1 id="storm-title">
+            STORM
+            <span>Move different.</span>
+          </h1>
+
+          <p className="project-description">
+            Un concept digital imaginé pour une marque sport lifestyle
+            masculine, forte et immédiatement reconnaissable.
+          </p>
+        </div>
+
+        <div className="project-hero-footer">
+          <span>01 — IDENTITÉ</span>
+          <span>02 — EXPÉRIENCE</span>
+          <span>03 — PERFORMANCE</span>
+        </div>
       </section>
 
+      {/* IMAGE PRINCIPALE */}
       <section
-        className="project-gallery"
-        aria-label="Galerie du projet STORM"
+        className="project-feature"
+        aria-label="Présentation visuelle du projet STORM"
       >
-        {images.map((image, index) => (
+        <button
+          type="button"
+          className="feature-image"
+          onClick={() => setSelectedImage(images[0])}
+          aria-label="Agrandir la première image du projet STORM"
+        >
+          <Image
+            src={images[0]}
+            alt="STORM — aperçu principal du projet"
+            fill
+            priority
+            sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1200px) calc(100vw - 50px), 1280px"
+          />
+
+          <span className="image-shade" />
+
+          <span className="image-label">APERÇU / 01</span>
+
+          <span className="image-expand" aria-hidden="true">
+            <ExternalArrowIcon />
+          </span>
+        </button>
+      </section>
+
+      {/* INTRO */}
+      <section className="project-intro">
+        <div className="project-intro-index">01</div>
+
+        <div className="project-intro-content">
+          <p className="section-label">L&apos;IDÉE</p>
+
+          <h2>
+            Une identité qui
+            <span>marque.</span>
+          </h2>
+
+          <p>
+            STORM repose sur une direction artistique directe et premium.
+            L’objectif était de créer une présence digitale qui donne
+            immédiatement une sensation d’énergie, de mouvement et de
+            caractère.
+          </p>
+        </div>
+      </section>
+
+      {/* GALERIE */}
+      <section className="project-gallery">
+        <div className="gallery-heading">
+          <div>
+            <p className="section-label">L&apos;EXPÉRIENCE</p>
+            <h2>Chaque écran raconte la même histoire.</h2>
+          </div>
+
+          <span className="gallery-count">02 — 03</span>
+        </div>
+
+        <div className="gallery-grid">
           <button
-            key={image}
             type="button"
-            className="project-image"
-            onClick={() => setSelectedImage(image)}
-            aria-label={`Agrandir l'image STORM ${index + 1}`}
+            className="gallery-image gallery-image-2"
+            onClick={() => setSelectedImage(images[1])}
+            aria-label="Agrandir la deuxième image du projet STORM"
           >
             <Image
-              src={image}
-              alt={`STORM projet ${index + 1}`}
+              src={images[1]}
+              alt="STORM — aperçu deuxième écran"
               fill
-              sizes="(max-width: 900px) 100vw, 33vw"
+              sizes="(max-width: 700px) calc(100vw - 32px), (max-width: 1100px) 100vw, 55vw"
             />
+
+            <span className="image-shade" />
+
+            <span className="gallery-image-number">02</span>
+
+            <span className="gallery-image-expand" aria-hidden="true">
+              <ExternalArrowIcon />
+            </span>
           </button>
-        ))}
+
+          <button
+            type="button"
+            className="gallery-image gallery-image-3"
+            onClick={() => setSelectedImage(images[2])}
+            aria-label="Agrandir la troisième image du projet STORM"
+          >
+            <Image
+              src={images[2]}
+              alt="STORM — aperçu troisième écran"
+              fill
+              sizes="(max-width: 700px) calc(100vw - 32px), (max-width: 1100px) 100vw, 35vw"
+            />
+
+            <span className="image-shade" />
+
+            <span className="gallery-image-number">03</span>
+
+            <span className="gallery-image-expand" aria-hidden="true">
+              <ExternalArrowIcon />
+            </span>
+          </button>
+        </div>
       </section>
 
+      {/* CASE STUDY */}
       <section className="project-case-study">
         <div className="case-study-heading">
-          <span>01</span>
-          <p>CE QUE CE PROJET DÉMONTRE</p>
+          <div>
+            <p className="section-label">CE QUE CE PROJET DÉMONTRE</p>
+            <h2>Une direction claire. Une expérience cohérente.</h2>
+          </div>
+
+          <span className="case-study-number">03</span>
         </div>
 
         <div className="case-study-grid">
           <article>
-            <span>LE CONCEPT</span>
+            <span>01 / LE CONCEPT</span>
 
-            <h2>Une identité qui marque.</h2>
+            <h3>Une identité qui marque.</h3>
 
             <p>
-              Un univers visuel direct et premium, pensé pour
-              donner à une marque sport lifestyle une présence
-              distinctive dès les premières secondes.
+              Un univers visuel direct et premium, pensé pour donner à une
+              marque sport lifestyle une présence distinctive dès les
+              premières secondes.
             </p>
           </article>
 
           <article>
-            <span>L’OBJECTIF</span>
+            <span>02 / L&apos;OBJECTIF</span>
 
-            <h2>Créer de l’envie avant même l’achat.</h2>
+            <h3>Créer de l&apos;envie avant même l&apos;achat.</h3>
 
             <p>
-              Le site met l’accent sur l’image, la collection et
-              l’énergie de la marque pour rendre l’expérience plus
-              mémorable et engager le visiteur.
+              Le site met l’accent sur l’image, la collection et l’énergie
+              de la marque pour rendre l’expérience plus mémorable et
+              engager le visiteur.
             </p>
           </article>
 
           <article>
-            <span>L’APPROCHE NOVA</span>
+            <span>03 / L&apos;APPROCHE NOVA</span>
 
-            <h2>Un univers cohérent sur chaque écran.</h2>
+            <h3>Un univers cohérent sur chaque écran.</h3>
 
             <p>
-              Ce projet montre notre manière de travailler :
-              une direction artistique claire, une navigation fluide
-              et une expérience pensée aussi pour le mobile.
+              Une direction artistique claire, une navigation fluide et
+              une expérience pensée aussi bien pour desktop que pour
+              mobile.
             </p>
           </article>
         </div>
       </section>
 
+      {/* CTA */}
       <section className="project-bottom">
-        <p>STORM • PROJET CONCEPT DIGITAL</p>
+        <p className="project-bottom-label">UN PROJET À VOTRE IMAGE ?</p>
+
+        <h2>
+          Construisons quelque chose
+          <span>qui vous ressemble.</span>
+        </h2>
 
         <div className="project-actions">
           <a
@@ -138,25 +312,29 @@ export default function StormPage() {
             rel="noopener noreferrer"
             className="visit-button"
           >
-            VOIR LA DÉMO
-            <span className="clean-arrow" aria-hidden="true" />
+            <span>VOIR LA DÉMO</span>
+            <ExternalArrowIcon />
           </a>
 
           <Link href="/devis" className="project-devis-link">
-            PARLER DE MON PROJET
-            <span className="clean-arrow" aria-hidden="true" />
+            <span>PARLER DE MON PROJET</span>
+            <ArrowIcon />
           </Link>
         </div>
       </section>
 
       <footer className="project-footer">
-        <span>STORM</span>
+        <span>STORM / NOVA</span>
 
         <Link href="/realisations">
-          RETOUR AUX RÉALISATIONS
+          <ArrowIcon direction="left" />
+          <span>RETOUR AUX RÉALISATIONS</span>
         </Link>
+
+        <span>01 — 2025</span>
       </footer>
 
+      {/* LIGHTBOX */}
       {selectedImage && (
         <div
           className="image-lightbox"
@@ -169,9 +347,9 @@ export default function StormPage() {
             type="button"
             className="lightbox-close"
             onClick={() => setSelectedImage(null)}
-            aria-label="Fermer l'aperçu"
+            aria-label="Fermer l’aperçu"
           >
-            ×
+            <CloseIcon />
           </button>
 
           <div
@@ -180,11 +358,13 @@ export default function StormPage() {
           >
             <Image
               src={selectedImage}
-              alt="STORM aperçu"
+              alt="STORM — aperçu agrandi"
               fill
-              sizes="90vw"
+              sizes="100vw"
             />
           </div>
+
+          <span className="lightbox-label">STORM / PREVIEW</span>
         </div>
       )}
     </main>

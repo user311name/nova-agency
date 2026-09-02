@@ -36,7 +36,7 @@ const steps = [
     label: "CONCEPTION SUR MESURE",
     title: "Créer chaque détail.",
     description:
-      "Chaque élément est conçu avec précision. Nous travaillons l'expérience, le design et les détails pour créer une présence qui inspire confiance.",
+      "Chaque élément est conçu avec précision. Nous travaillons l’expérience, le design et les détails pour créer une présence qui inspire confiance.",
     details: [
       "UX / UI design",
       "Création graphique",
@@ -62,7 +62,7 @@ const steps = [
     label: "VÉRIFICATIONS & AJUSTEMENTS",
     title: "Maîtriser chaque détail.",
     description:
-      "Nous vérifions chaque détail avant la mise en ligne afin que l'expérience finale soit aussi solide techniquement que visuellement.",
+      "Nous vérifions chaque détail avant la mise en ligne afin que l’expérience finale soit aussi solide techniquement que visuellement.",
     details: [
       "Vérification sur les écrans",
       "Tests d'interactions",
@@ -154,6 +154,34 @@ const deliverables = [
   },
 ];
 
+function ArrowIcon() {
+  return (
+    <svg
+      className="method-arrow-svg"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M4 12h15" />
+      <path d="m13 6 6 6-6 6" />
+    </svg>
+  );
+}
+
+function ExternalArrowIcon() {
+  return (
+    <svg
+      className="method-external-arrow-svg"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M7 17 17 7" />
+      <path d="M9 7h8v8" />
+    </svg>
+  );
+}
+
 export default function MethodPage() {
   const [activeStep, setActiveStep] = useState(0);
 
@@ -209,6 +237,7 @@ export default function MethodPage() {
 
         <div className="method-hero-side">
           <span>01 / 08</span>
+
           <p>
             Chez NOVA, nous ne commençons jamais par le design. Nous
             commençons par comprendre ce que votre marque doit devenir.
@@ -216,15 +245,31 @@ export default function MethodPage() {
         </div>
 
         <div className="method-hero-bottom">
-          <span>ÉCOUTE</span>
-          <i>→</i>
-          <span>STRATÉGIE</span>
-          <i>→</i>
-          <span>DESIGN</span>
-          <i>→</i>
-          <span>TECHNOLOGIE</span>
+          <div className="method-hero-flow">
+            <span>ÉCOUTE</span>
 
-          <small>Une approche structurée. Un accompagnement transparent.</small>
+            <i>
+              <ArrowIcon />
+            </i>
+
+            <span>STRATÉGIE</span>
+
+            <i>
+              <ArrowIcon />
+            </i>
+
+            <span>DESIGN</span>
+
+            <i>
+              <ArrowIcon />
+            </i>
+
+            <span>TECHNOLOGIE</span>
+          </div>
+
+          <small>
+            Une approche structurée. Un accompagnement transparent.
+          </small>
         </div>
       </section>
 
@@ -238,7 +283,9 @@ export default function MethodPage() {
 
         <div className="method-intro-grid">
           <div>
-            <span className="method-small-title">PENSER AVANT DE CRÉER</span>
+            <span className="method-small-title">
+              PENSER AVANT DE CRÉER
+            </span>
 
             <h2>
               Un processus
@@ -291,16 +338,22 @@ export default function MethodPage() {
             {steps.map((step, index) => (
               <button
                 key={step.number}
+                type="button"
                 className={`method-phase ${
                   activeStep === index ? "active" : ""
                 }`}
                 onMouseEnter={() => setActiveStep(index)}
                 onFocus={() => setActiveStep(index)}
                 onClick={() => setActiveStep(index)}
+                aria-pressed={activeStep === index}
               >
                 <span>{step.number}</span>
+
                 <strong>{step.label}</strong>
-                <i>↗</i>
+
+                <i aria-hidden="true">
+                  <ExternalArrowIcon />
+                </i>
               </button>
             ))}
           </div>
@@ -355,7 +408,9 @@ export default function MethodPage() {
           {reassurance.map((item) => (
             <article className="method-info-card" key={item.number}>
               <span>{item.number}</span>
+
               <h3>{item.title}</h3>
+
               <p>{item.text}</p>
             </article>
           ))}
@@ -386,6 +441,7 @@ export default function MethodPage() {
 
                 <div>
                   <h3>{item.title}</h3>
+
                   <p>{item.text}</p>
                 </div>
               </article>
@@ -426,7 +482,9 @@ export default function MethodPage() {
               key={item.number}
             >
               <span>{item.number}</span>
+
               <h3>{item.title}</h3>
+
               <p>{item.text}</p>
             </article>
           ))}
@@ -497,7 +555,10 @@ export default function MethodPage() {
 
           <Link href="/contact" className="method-final-button">
             <span>ÉCHANGER SUR MON PROJET</span>
-            <i>→</i>
+
+            <i aria-hidden="true">
+              <ArrowIcon />
+            </i>
           </Link>
         </div>
       </section>

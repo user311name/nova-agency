@@ -156,7 +156,12 @@ function CrosshairIcon() {
 
 function PlusIcon() {
   return (
-    <svg className="plus-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+    <svg
+      className="plus-icon"
+      viewBox="0 0 18 18"
+      fill="none"
+      aria-hidden="true"
+    >
       <path d="M9 2V16" />
       <path d="M2 9H16" />
     </svg>
@@ -204,7 +209,9 @@ function Reveal({
 function ProjectCard({ project }: { project: Project }) {
   const cardRef = useRef<HTMLDivElement | null>(null);
 
-  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+  const handlePointerMove = (
+    event: React.PointerEvent<HTMLDivElement>
+  ) => {
     if (event.pointerType === "touch") return;
 
     const card = cardRef.current;
@@ -216,8 +223,8 @@ function ProjectCard({ project }: { project: Project }) {
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    const rotateY = ((x / rect.width) - 0.5) * 8;
-    const rotateX = ((y / rect.height) - 0.5) * -8;
+    const rotateY = (x / rect.width - 0.5) * 8;
+    const rotateX = (y / rect.height - 0.5) * -8;
 
     card.style.setProperty("--rotate-x", `${rotateX}deg`);
     card.style.setProperty("--rotate-y", `${rotateY}deg`);
@@ -512,9 +519,7 @@ export default function RealisationsPage() {
               <div className="interlude-orbit-ring ring-a" />
               <div className="interlude-orbit-ring ring-b" />
 
-              <div className="interlude-orbit-core">
-                N
-              </div>
+              <div className="interlude-orbit-core">N</div>
             </div>
 
             <p>

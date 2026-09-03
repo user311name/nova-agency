@@ -98,7 +98,11 @@ export default function BoulangeriePage() {
 
       <div className="project-shell">
         <header className="project-header">
-          <Link href="/" className="project-brand" aria-label="Retour à l'accueil NOVA">
+          <Link
+            href="/"
+            className="project-brand"
+            aria-label="Retour à l'accueil NOVA"
+          >
             <span className="project-brand-mark">N</span>
             <span className="project-brand-name">NOVA</span>
           </Link>
@@ -170,6 +174,7 @@ export default function BoulangeriePage() {
                 src="/projets/Boulangerie-1.png"
                 alt="BOULANGERIE — page d’accueil"
               />
+
               <span className="project-image-overlay">
                 <span>AGRANDIR</span>
                 <ArrowIcon />
@@ -212,6 +217,7 @@ export default function BoulangeriePage() {
           <div className="project-gallery-header">
             <div>
               <p className="project-label">LES ÉCRANS</p>
+
               <h2>
                 Trois espaces,
                 <br />
@@ -227,7 +233,10 @@ export default function BoulangeriePage() {
 
           <div className="project-gallery-grid">
             {gallery.slice(1).map((item) => (
-              <article className="project-gallery-item" key={item.number}>
+              <article
+                className="project-gallery-item"
+                key={item.number}
+              >
                 <button
                   type="button"
                   className="project-image-button"
@@ -236,6 +245,7 @@ export default function BoulangeriePage() {
                 >
                   <div className="project-image-frame">
                     <img src={item.image} alt={item.alt} />
+
                     <span className="project-image-overlay">
                       <span>AGRANDIR</span>
                       <ArrowIcon />
@@ -261,6 +271,7 @@ export default function BoulangeriePage() {
         <section className="project-case-study">
           <div className="project-case-study-heading">
             <p className="project-label">LE PROJET</p>
+
             <h2>
               Pensé pour être
               <br />

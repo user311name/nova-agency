@@ -3,7 +3,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import SiteHeader from "@/components/SiteHeader";
 
-const siteUrl = "https://nova-agency-sigma.vercel.app";
+const siteUrl = "https://www.agency-nova.fr";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

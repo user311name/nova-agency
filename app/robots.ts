@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/", "/admin/", "/dashboard/", "/private/"],
     },
-    sitemap: "https://nova-agency-sigma.vercel.app/sitemap.xml",
+    sitemap: "https://www.agency-nova.fr/sitemap.xml",
   };
 }

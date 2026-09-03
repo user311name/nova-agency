@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://nova-agency-sigma.vercel.app";
+const baseUrl = "https://www.agency-nova.fr";
 
+export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: `${baseUrl}/`,
@@ -21,7 +21,47 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
     },
     {
+      url: `${baseUrl}/realisations/storm`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${baseUrl}/realisations/noir-barber`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${baseUrl}/realisations/site-traiteur`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${baseUrl}/realisations/autopilot`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${baseUrl}/realisations/ia-future`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${baseUrl}/realisations/nova-assist`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${baseUrl}/methode`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${baseUrl}/faq`,
+      lastModified: new Date(),
+    },
+    {
       url: `${baseUrl}/contact`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${baseUrl}/devis`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${baseUrl}/mentions-legales`,
       lastModified: new Date(),
     },
   ];

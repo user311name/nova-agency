@@ -30,6 +30,28 @@ const projects = [
   },
   {
     number: "03",
+    title: "SITE TRAITEUR",
+    category: "SITE PREMIUM • RESTAURATION & TRAITEUR",
+    description:
+      "Projet concept pensé pour valoriser une activité de traiteur à travers une identité visuelle élégante, une présentation claire de l’offre et une expérience digitale chaleureuse.",
+    image: "/projets/Site-traiteur.png",
+    href: "/realisations/site-traiteur",
+    year: "2026",
+    tags: ["SITE PREMIUM", "TRAITEUR"],
+  },
+  {
+    number: "04",
+    title: "AUTOPILOT",
+    category: "SITE PREMIUM • AUTOMATISATION",
+    description:
+      "Projet concept imaginé pour présenter des solutions d’automatisation de manière moderne, claire et accessible, avec une expérience orientée vers la prise de contact.",
+    image: "/projets/Site-autopilot.png",
+    href: "/realisations/autopilot",
+    year: "2026",
+    tags: ["SITE PREMIUM", "AUTOMATISATION"],
+  },
+  {
+    number: "05",
     title: "IA FUTURE",
     category: "SITE PREMIUM • IA & TECHNOLOGIE",
     description:
@@ -40,7 +62,7 @@ const projects = [
     tags: ["SITE PREMIUM", "IA & TECHNOLOGIE"],
   },
   {
-    number: "04",
+    number: "06",
     title: "NOVA ASSIST",
     category: "SITE PREMIUM • AGENCE DIGITALE",
     description:
@@ -58,6 +80,8 @@ const categories = [
   "SPORT",
   "BARBER",
   "IA & TECHNOLOGIE",
+  "TRAITEUR",
+  "AUTOMATISATION",
 ];
 
 const benefits = [
@@ -111,7 +135,12 @@ function ExternalArrowIcon() {
 
 function PlusIcon() {
   return (
-    <svg className="plus-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+    <svg
+      className="plus-icon"
+      viewBox="0 0 20 20"
+      fill="none"
+      aria-hidden="true"
+    >
       <path d="M10 2v16M2 10h16" />
     </svg>
   );
@@ -214,7 +243,7 @@ function ProjectCard({
       <div className="project-index">
         <span>{project.number}</span>
         <span className="index-line" />
-        <span>2026</span>
+        <span>{project.year}</span>
       </div>
 
       <div className="project-card-wrap">
@@ -257,6 +286,7 @@ function ProjectCard({
               aria-label={`Voir le projet ${project.title}`}
             >
               <span>VIEW PROJECT</span>
+
               <span className="project-view-icon">
                 <ExternalArrowIcon />
               </span>
@@ -359,7 +389,7 @@ export default function RealisationsPage() {
           </Reveal>
 
           <Reveal className="real-hero-side">
-            <div className="hero-side-number">01 / 04</div>
+            <div className="hero-side-number">01 / 06</div>
 
             <p>
               Nous ne créons pas simplement des sites.
@@ -373,6 +403,7 @@ export default function RealisationsPage() {
 
             <div className="hero-scroll">
               <span>SCROLL TO EXPLORE</span>
+
               <span className="hero-scroll-arrow">
                 <ArrowIcon />
               </span>
@@ -480,6 +511,7 @@ export default function RealisationsPage() {
               <div className="interlude-orbit">
                 <div className="interlude-orbit-ring ring-a" />
                 <div className="interlude-orbit-ring ring-b" />
+
                 <div className="interlude-orbit-core">
                   <span>N</span>
                 </div>
@@ -532,6 +564,7 @@ export default function RealisationsPage() {
 
             <Link href="/contact" className="real-main-button">
               <span>PARLONS DE VOTRE PROJET</span>
+
               <span className="real-button-icon">
                 <ArrowIcon />
               </span>
@@ -543,6 +576,7 @@ export default function RealisationsPage() {
               <div className="benefit-card" key={benefit.number}>
                 <div className="benefit-top">
                   <span>{benefit.number}</span>
+
                   <span className="benefit-plus">
                     <PlusIcon />
                   </span>

@@ -368,11 +368,7 @@
   height: 25px;
 }
 
-.crosshair-icon circle {
-  stroke: currentColor;
-  stroke-width: 1;
-}
-
+.crosshair-icon circle,
 .crosshair-icon path {
   stroke: currentColor;
   stroke-width: 1;

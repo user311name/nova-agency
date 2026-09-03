@@ -25,7 +25,7 @@ function ArrowIcon() {
 
 const gallery = [
   {
-    image: "/projets/Boulangerie-1.png",
+    image: "/projets/boulangerie-1.png",
     number: "01",
     label: "ACCUEIL",
     title: "Page d’accueil",
@@ -34,7 +34,7 @@ const gallery = [
     alt: "BOULANGERIE — page d’accueil",
   },
   {
-    image: "/projets/Boulangerie-2.png",
+    image: "/projets/boulangerie-2.png",
     number: "02",
     label: "CRÉATIONS",
     title: "Cakes & créations",
@@ -43,7 +43,7 @@ const gallery = [
     alt: "BOULANGERIE — page cakes et créations",
   },
   {
-    image: "/projets/Boulangerie-AD.png",
+    image: "/projets/boulangerie-ad.png",
     number: "03",
     label: "ADMINISTRATION",
     title: "Gestion du contenu en temps réel",
@@ -163,7 +163,7 @@ export default function BoulangeriePage() {
             className="project-image-button"
             onClick={() =>
               openLightbox(
-                "/projets/Boulangerie-1.png",
+                "/projets/boulangerie-1.png",
                 "BOULANGERIE — page d’accueil"
               )
             }
@@ -171,7 +171,7 @@ export default function BoulangeriePage() {
           >
             <div className="project-image-frame">
               <img
-                src="/projets/Boulangerie-1.png"
+                src="/projets/boulangerie-1.png"
                 alt="BOULANGERIE — page d’accueil"
               />
 

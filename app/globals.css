@@ -636,4 +636,213 @@ img {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+}/* =========================================================
+   NOVA — COOKIE BANNER
+   ========================================================= */
+
+.cookie-banner {
+  position: fixed;
+  z-index: 9999;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  max-width: 980px;
+  margin: 0 auto;
+
+  padding: 18px 20px;
+
+  background: rgba(8, 8, 10, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.45),
+    0 0 40px rgba(37, 99, 235, 0.08);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  animation: novaCookieAppear 0.45s ease both;
+}
+
+.cookie-content {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+}
+
+.cookie-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+
+  font-size: 19px;
+}
+
+.cookie-text {
+  min-width: 0;
+}
+
+.cookie-title {
+  margin: 0 0 4px;
+
+  color: #fff;
+
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.cookie-description {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.62);
+
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.cookie-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cookie-button {
+  min-height: 40px;
+  padding: 0 16px;
+
+  border-radius: 10px;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.cookie-button:hover {
+  transform: translateY(-1px);
+}
+
+.cookie-button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
+}
+
+.cookie-button-primary {
+  color: #fff;
+  background: #2563eb;
+  border: 1px solid #2563eb;
+}
+
+.cookie-button-primary:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+.cookie-button-secondary {
+  color: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cookie-button-secondary:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@keyframes novaCookieAppear {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 700px) {
+  .cookie-banner {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .cookie-content {
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+  }
+
+  .cookie-actions {
+    grid-column: 1 / -1;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .cookie-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .cookie-banner {
+    padding: 14px;
+  }
+
+  .cookie-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .cookie-title {
+    font-size: 13px;
+  }
+
+  .cookie-description {
+    font-size: 11px;
+  }
+
+  .cookie-actions {
+    gap: 7px;
+  }
+
+  .cookie-button {
+    min-height: 38px;
+    padding: 0 10px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie-banner {
+    animation: none;
+  }
+
+  .cookie-button {
+    transition: none;
+  }
 }

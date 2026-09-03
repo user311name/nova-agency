@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import SiteHeader from "@/components/SiteHeader";
+import CookieBanner from "@/components/CookieBanner";
 
 const siteUrl = "https://www.agency-nova.fr";
 
@@ -60,6 +61,14 @@ export const metadata: Metadata = {
     title: "NOVA — Agence digitale & création de sites web",
     description:
       "NOVA conçoit des sites web modernes, rapides et sur mesure pour donner aux entreprises une présence en ligne professionnelle et performante.",
+    images: [
+      {
+        url: "/LG-Nova.png",
+        width: 1200,
+        height: 630,
+        alt: "NOVA — Agence digitale & création de sites web",
+      },
+    ],
   },
 
   twitter: {
@@ -67,6 +76,7 @@ export const metadata: Metadata = {
     title: "NOVA — Agence digitale & création de sites web",
     description:
       "NOVA conçoit des sites web modernes, rapides et sur mesure pour donner aux entreprises une présence en ligne professionnelle et performante.",
+    images: ["/LG-Nova.png"],
   },
 
   robots: {
@@ -98,6 +108,8 @@ export default function RootLayout({
         {children}
 
         <Analytics />
+
+        <CookieBanner />
       </body>
     </html>
   );

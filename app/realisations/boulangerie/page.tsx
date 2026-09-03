@@ -233,10 +233,7 @@ export default function BoulangeriePage() {
 
           <div className="project-gallery-grid">
             {gallery.slice(1).map((item) => (
-              <article
-                className="project-gallery-item"
-                key={item.number}
-              >
+              <article className="project-gallery-item" key={item.number}>
                 <button
                   type="button"
                   className="project-image-button"

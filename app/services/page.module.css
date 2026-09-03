@@ -6,7 +6,6 @@
 .services-page {
   min-height: 100vh;
   overflow: hidden;
-
   background:
     radial-gradient(
       circle at 78% 7%,
@@ -14,7 +13,6 @@
       transparent 30%
     ),
     #050505;
-
   color: #fff;
 }
 
@@ -24,87 +22,68 @@
 
 .services-hero {
   position: relative;
-
   padding: 150px 8% 125px;
-
   border-bottom: 1px solid #181818;
 }
 
 .services-hero::after {
   content: "";
-
   position: absolute;
-
   right: 8%;
   bottom: 0;
-
   width: 1px;
   height: 190px;
-
   background:
     linear-gradient(
       to top,
       rgba(37, 99, 235, 0.65),
       transparent
     );
+  pointer-events: none;
 }
 
 .services-hero-inner {
   max-width: 1180px;
-
   margin: 0 auto;
 }
 
 .services-kicker {
   display: flex;
   align-items: center;
-
   gap: 14px;
-
   margin-bottom: 40px;
 }
 
 .services-kicker span {
   width: 35px;
   height: 1px;
-
+  flex-shrink: 0;
   background: #2563eb;
 }
 
 .services-kicker p {
   margin: 0;
-
   color: #666;
-
   font-size: 10px;
   font-weight: 600;
-
   letter-spacing: 4px;
 }
 
 .services-hero-grid {
   display: grid;
-
   grid-template-columns:
     minmax(0, 1.35fr)
     minmax(280px, 0.65fr);
-
   gap: 80px;
-
   align-items: end;
 }
 
 .services-hero h1 {
   max-width: 950px;
-
   margin: 0;
-
   font-size: clamp(56px, 7vw, 100px);
-
   line-height: 0.95;
-
   letter-spacing: -5px;
-
   font-weight: 400;
 }
 
@@ -114,13 +93,9 @@
 
 .services-hero-description {
   max-width: 650px;
-
   margin: 35px 0 0;
-
   color: #707070;
-
   font-size: 16px;
-
   line-height: 1.8;
 }
 
@@ -130,26 +105,18 @@
 
 .services-hero-side > span {
   display: block;
-
   margin-bottom: 28px;
-
   color: #3f3f3f;
-
   font-size: 10px;
   font-weight: 600;
-
   letter-spacing: 2px;
 }
 
 .services-hero-side p {
   max-width: 390px;
-
   margin: 0;
-
   color: #707070;
-
   font-size: 14px;
-
   line-height: 1.85;
 }
 
@@ -160,27 +127,21 @@
 .services-section-label {
   display: flex;
   align-items: center;
-
   gap: 15px;
 }
 
 .services-section-label span {
   color: #2563eb;
-
   font-size: 10px;
   font-weight: 600;
-
   letter-spacing: 2px;
 }
 
 .services-section-label p {
   margin: 0;
-
   color: #555;
-
   font-size: 10px;
   font-weight: 600;
-
   letter-spacing: 4px;
 }
 
@@ -190,35 +151,25 @@
 
 .services-main {
   max-width: 1180px;
-
   margin: 0 auto;
-
   padding: 110px 0 130px;
 }
 
 .services-heading-grid {
   display: grid;
-
   grid-template-columns:
     minmax(0, 1fr)
     minmax(280px, 0.65fr);
-
   gap: 90px;
-
   margin-top: 35px;
-
   padding-left: 55px;
 }
 
 .services-heading-grid h2 {
   margin: 0;
-
   font-size: 54px;
-
   line-height: 1.05;
-
   letter-spacing: -2.5px;
-
   font-weight: 400;
 }
 
@@ -228,15 +179,10 @@
 
 .services-heading-grid > p {
   align-self: end;
-
   max-width: 410px;
-
   margin: 0;
-
   color: #707070;
-
   font-size: 14px;
-
   line-height: 1.8;
 }
 
@@ -246,32 +192,22 @@
 
 .services-cards {
   display: grid;
-
-  grid-template-columns:
-    repeat(2, minmax(0, 1fr));
-
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 65px;
-
   border-top: 1px solid #202020;
   border-left: 1px solid #202020;
 }
 
 .service-card {
   position: relative;
-
   display: grid;
-
-  grid-template-columns: 55px 1fr 30px;
-
+  grid-template-columns: 55px minmax(0, 1fr) 30px;
   gap: 20px;
-
+  min-width: 0;
   min-height: 205px;
-
   padding: 32px;
-
   border-right: 1px solid #202020;
   border-bottom: 1px solid #202020;
-
   transition:
     background-color 0.25s ease,
     border-color 0.25s ease;
@@ -279,41 +215,29 @@
 
 .service-card:hover {
   background: rgba(37, 99, 235, 0.035);
-
   border-color: #282828;
 }
 
 .service-card-number {
   padding-top: 3px;
-
   color: #2563eb;
-
   font-size: 10px;
-
   font-weight: 600;
-
   letter-spacing: 2px;
 }
 
 .service-card h3 {
   margin: 0 0 12px;
-
   color: #ededed;
-
   font-size: 21px;
-
   font-weight: 500;
 }
 
 .service-card p {
   max-width: 420px;
-
   margin: 0;
-
   color: #707070;
-
   font-size: 13px;
-
   line-height: 1.75;
 }
 
@@ -324,16 +248,11 @@
 .service-card-arrow,
 .method-arrow {
   align-self: start;
-
+  display: block;
   width: 22px;
   height: 22px;
-
-  display: block;
-
-  color: #444;
-
   flex-shrink: 0;
-
+  color: #444;
   transition:
     color 0.2s ease,
     transform 0.2s ease;
@@ -341,7 +260,6 @@
 
 .service-card:hover .service-card-arrow {
   color: #2563eb;
-
   transform: translate(2px, -2px);
 }
 
@@ -352,7 +270,6 @@
 .method-section {
   border-top: 1px solid #151515;
   border-bottom: 1px solid #151515;
-
   background:
     linear-gradient(
       110deg,
@@ -364,35 +281,25 @@
 
 .method-inner {
   max-width: 1180px;
-
   margin: 0 auto;
-
   padding: 110px 0 125px;
 }
 
 .method-heading {
   display: grid;
-
   grid-template-columns:
     minmax(0, 0.9fr)
     minmax(280px, 0.6fr);
-
   gap: 100px;
-
   margin-top: 35px;
-
   padding-left: 55px;
 }
 
 .method-heading h2 {
   margin: 0;
-
   font-size: 50px;
-
   line-height: 1.08;
-
   letter-spacing: -2px;
-
   font-weight: 400;
 }
 
@@ -402,15 +309,10 @@
 
 .method-heading > p {
   align-self: end;
-
   max-width: 390px;
-
   margin: 0;
-
   color: #707070;
-
   font-size: 14px;
-
   line-height: 1.8;
 }
 
@@ -420,21 +322,16 @@
 
 .method-list {
   margin-top: 70px;
-
   border-top: 1px solid #242424;
 }
 
 .method-item {
   display: grid;
-
-  grid-template-columns: 55px 1fr 35px;
-
+  grid-template-columns: 55px minmax(0, 1fr) 35px;
   gap: 20px;
-
+  min-width: 0;
   padding: 28px 0;
-
   border-bottom: 1px solid #242424;
-
   transition:
     background-color 0.25s ease,
     padding-left 0.25s ease;
@@ -442,41 +339,33 @@
 
 .method-item:hover {
   padding-left: 8px;
-
   background: rgba(37, 99, 235, 0.02);
 }
 
 .method-number {
   padding-top: 3px;
-
   color: #2563eb;
-
   font-size: 10px;
-
   font-weight: 600;
-
   letter-spacing: 2px;
+}
+
+.method-content {
+  min-width: 0;
 }
 
 .method-content h3 {
   margin: 0 0 9px;
-
   color: #ededed;
-
   font-size: 19px;
-
   font-weight: 500;
 }
 
 .method-content p {
   max-width: 650px;
-
   margin: 0;
-
   color: #707070;
-
   font-size: 13px;
-
   line-height: 1.75;
 }
 
@@ -486,7 +375,6 @@
 
 .method-item:hover .method-arrow {
   color: #2563eb;
-
   transform: translate(2px, -2px);
 }
 
@@ -500,23 +388,17 @@
 
 .reassurance-inner {
   max-width: 1180px;
-
   margin: 0 auto;
-
   padding: 115px 0 125px;
 }
 
 .reassurance-heading {
   display: grid;
-
   grid-template-columns:
     minmax(0, 1fr)
     minmax(280px, 0.65fr);
-
   column-gap: 90px;
-
   row-gap: 30px;
-
   padding-left: 55px;
 }
 
@@ -526,13 +408,9 @@
 
 .reassurance-heading h2 {
   margin: 0;
-
   font-size: 50px;
-
   line-height: 1.07;
-
   letter-spacing: -2px;
-
   font-weight: 400;
 }
 
@@ -542,15 +420,10 @@
 
 .reassurance-heading > p {
   align-self: end;
-
   max-width: 400px;
-
   margin: 0;
-
   color: #707070;
-
   font-size: 14px;
-
   line-height: 1.8;
 }
 
@@ -560,62 +433,43 @@
 
 .guarantees-grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(2, minmax(0, 1fr));
-
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 65px;
-
   border-top: 1px solid #202020;
   border-left: 1px solid #202020;
 }
 
 .guarantee-card {
   display: grid;
-
-  grid-template-columns: 55px 1fr;
-
+  grid-template-columns: 55px minmax(0, 1fr);
   gap: 20px;
-
+  min-width: 0;
   min-height: 175px;
-
   padding: 30px;
-
   border-right: 1px solid #202020;
   border-bottom: 1px solid #202020;
 }
 
 .guarantee-card > span {
   padding-top: 3px;
-
   color: #2563eb;
-
   font-size: 10px;
-
   font-weight: 600;
-
   letter-spacing: 2px;
 }
 
 .guarantee-card h3 {
   margin: 0 0 10px;
-
   color: #ededed;
-
   font-size: 19px;
-
   font-weight: 500;
 }
 
 .guarantee-card p {
   max-width: 410px;
-
   margin: 0;
-
   color: #707070;
-
   font-size: 13px;
-
   line-height: 1.7;
 }
 
@@ -625,7 +479,6 @@
 
 .human-section {
   border-top: 1px solid #151515;
-
   background:
     radial-gradient(
       circle at 75% 45%,
@@ -637,62 +490,46 @@
 
 .human-inner {
   max-width: 1180px;
-
   margin: 0 auto;
-
   padding: 110px 0 125px;
 }
 
 .human-number {
   display: flex;
   align-items: center;
-
   gap: 15px;
 }
 
 .human-number span {
   color: #2563eb;
-
   font-size: 10px;
   font-weight: 600;
-
   letter-spacing: 2px;
 }
 
 .human-number p {
   margin: 0;
-
   color: #555;
-
   font-size: 10px;
   font-weight: 600;
-
   letter-spacing: 4px;
 }
 
 .human-grid {
   display: grid;
-
   grid-template-columns:
     minmax(0, 1fr)
     minmax(280px, 0.7fr);
-
   gap: 100px;
-
   margin-top: 38px;
-
   padding-left: 55px;
 }
 
 .human-grid h2 {
   margin: 0;
-
   font-size: 53px;
-
   line-height: 1.06;
-
   letter-spacing: -2.2px;
-
   font-weight: 400;
 }
 
@@ -706,11 +543,8 @@
 
 .human-copy p {
   margin: 0 0 20px;
-
   color: #777;
-
   font-size: 14px;
-
   line-height: 1.8;
 }
 
@@ -725,29 +559,22 @@
 .faq-section {
   border-top: 1px solid #151515;
   border-bottom: 1px solid #151515;
-
   background: #050505;
 }
 
 .faq-inner {
   max-width: 1180px;
-
   margin: 0 auto;
-
   padding: 115px 0 130px;
 }
 
 .faq-heading {
   display: grid;
-
   grid-template-columns:
     minmax(0, 1fr)
     minmax(280px, 0.65fr);
-
   column-gap: 90px;
-
   row-gap: 30px;
-
   padding-left: 55px;
 }
 
@@ -757,13 +584,9 @@
 
 .faq-heading h2 {
   margin: 0;
-
   font-size: 50px;
-
   line-height: 1.06;
-
   letter-spacing: -2px;
-
   font-weight: 400;
 }
 
@@ -773,21 +596,15 @@
 
 .faq-heading > p {
   align-self: end;
-
   max-width: 390px;
-
   margin: 0;
-
   color: #707070;
-
   font-size: 14px;
-
   line-height: 1.8;
 }
 
 .faq-list {
   margin-top: 65px;
-
   border-top: 1px solid #222;
 }
 
@@ -797,27 +614,18 @@
 
 .faq-item summary {
   display: flex;
-
   align-items: center;
   justify-content: space-between;
-
   gap: 30px;
-
   min-height: 75px;
-
   padding: 0;
-
   cursor: pointer;
-
   color: #e8e8e8;
-
   font-size: 15px;
   font-weight: 500;
-
+  line-height: 1.5;
   list-style: none;
-
   outline: none;
-
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -831,22 +639,15 @@
 
 .faq-item summary strong {
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   width: 25px;
   height: 25px;
-
   flex-shrink: 0;
-
   color: #2563eb;
-
   font-size: 23px;
   font-weight: 300;
-
-  transition:
-    transform 0.25s ease;
+  transition: transform 0.25s ease;
 }
 
 .faq-item[open] summary strong {
@@ -855,23 +656,18 @@
 
 .faq-item summary:focus-visible {
   outline: 2px solid #fff;
-
   outline-offset: 5px;
 }
 
 .faq-answer {
   max-width: 720px;
-
-  padding: 0 55px 28px 55px;
+  padding: 0 55px 28px;
 }
 
 .faq-answer p {
   margin: 0;
-
   color: #707070;
-
   font-size: 13px;
-
   line-height: 1.8;
 }
 
@@ -881,21 +677,14 @@
 
 .services-final {
   position: relative;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   gap: 60px;
-
   max-width: 1180px;
-
   margin: 80px auto 100px;
-
   padding: 65px;
-
   overflow: hidden;
-
   background:
     radial-gradient(
       circle at 85% 50%,
@@ -903,111 +692,77 @@
       transparent 38%
     ),
     #07101f;
-
   border: 1px solid rgba(37, 99, 235, 0.35);
-
   border-radius: 14px;
 }
 
 .services-final::before {
   content: "";
-
   position: absolute;
-
   right: -160px;
   top: -220px;
-
   width: 480px;
   height: 480px;
-
   border: 1px solid rgba(37, 99, 235, 0.08);
-
   border-radius: 50%;
-
   pointer-events: none;
 }
 
 .services-final-content {
   position: relative;
-
   z-index: 1;
+  min-width: 0;
 }
 
 .services-final-content > span {
   display: block;
-
   margin-bottom: 17px;
-
   color: #2563eb;
-
   font-size: 10px;
   font-weight: 600;
-
   letter-spacing: 3px;
 }
 
 .services-final h2 {
   margin: 0;
-
   font-size: 45px;
-
   line-height: 1.08;
-
   letter-spacing: -2px;
-
   font-weight: 400;
 }
 
 .services-final h2 strong {
   color: #2563eb;
-
   font-weight: 400;
 }
 
 .services-final-content > p {
   max-width: 570px;
-
   margin: 20px 0 0;
-
   color: #7c8797;
-
   font-size: 13px;
-
   line-height: 1.75;
 }
 
 .services-final-button {
   position: relative;
-
   z-index: 2;
-
   display: inline-flex;
-
   align-items: center;
   justify-content: space-between;
-
   gap: 30px;
-
   min-width: 245px;
   min-height: 54px;
-
   padding: 0 18px 0 22px;
-
   flex-shrink: 0;
-
   border: 1px solid #2563eb;
-
   background: #2563eb;
-
   color: #fff;
-
   text-decoration: none;
-
   font-size: 9px;
   font-weight: 600;
-
   letter-spacing: 3px;
-
+  -webkit-tap-highlight-color: transparent;
   transition:
     background-color 0.2s ease,
     transform 0.2s ease,
@@ -1016,22 +771,18 @@
 
 .services-final-button strong {
   font-size: 18px;
-
   font-weight: 400;
 }
 
 .services-final-button:hover {
   background: #1d4ed8;
-
   transform: translateY(-2px);
-
   box-shadow:
     0 18px 40px rgba(37, 99, 235, 0.18);
 }
 
 .services-final-button:focus-visible {
   outline: 2px solid #fff;
-
   outline-offset: 5px;
 }
 
@@ -1058,7 +809,6 @@
     grid-template-columns:
       minmax(0, 1fr)
       minmax(260px, 0.7fr);
-
     gap: 50px;
   }
 
@@ -1068,7 +818,6 @@
   .human-grid,
   .faq-heading {
     padding-left: 30px;
-
     gap: 60px;
   }
 
@@ -1089,7 +838,6 @@
 
   .services-hero::after {
     right: 20px;
-
     height: 100px;
   }
 
@@ -1099,23 +847,18 @@
 
   .services-hero-grid {
     grid-template-columns: 1fr;
-
     gap: 35px;
   }
 
   .services-hero h1 {
     font-size: 48px;
-
     line-height: 0.99;
-
     letter-spacing: -2.5px;
   }
 
   .services-hero-description {
     margin-top: 25px;
-
     font-size: 14px;
-
     line-height: 1.75;
   }
 
@@ -1129,7 +872,6 @@
 
   .services-hero-side p {
     font-size: 13px;
-
     line-height: 1.7;
   }
 
@@ -1141,41 +883,31 @@
 
   .services-heading-grid {
     grid-template-columns: 1fr;
-
     gap: 25px;
-
     margin-top: 28px;
-
     padding-left: 0;
   }
 
   .services-heading-grid h2 {
     font-size: 35px;
-
     line-height: 1.13;
-
     letter-spacing: -1px;
   }
 
   .services-heading-grid > p {
     font-size: 13px;
-
     line-height: 1.75;
   }
 
   .services-cards {
     grid-template-columns: 1fr;
-
     margin-top: 40px;
   }
 
   .service-card {
-    grid-template-columns: 38px 1fr 25px;
-
+    grid-template-columns: 38px minmax(0, 1fr) 25px;
     gap: 15px;
-
     min-height: auto;
-
     padding: 25px 20px;
   }
 
@@ -1200,25 +932,19 @@
 
   .method-heading {
     grid-template-columns: 1fr;
-
     gap: 25px;
-
     margin-top: 28px;
-
     padding-left: 0;
   }
 
   .method-heading h2 {
     font-size: 35px;
-
     line-height: 1.13;
-
     letter-spacing: -1px;
   }
 
   .method-heading > p {
     font-size: 13px;
-
     line-height: 1.75;
   }
 
@@ -1227,16 +953,13 @@
   }
 
   .method-item {
-    grid-template-columns: 35px 1fr 25px;
-
+    grid-template-columns: 35px minmax(0, 1fr) 25px;
     gap: 15px;
-
     padding: 23px 0;
   }
 
   .method-item:hover {
     padding-left: 0;
-
     background: transparent;
   }
 
@@ -1246,7 +969,6 @@
 
   .method-content p {
     font-size: 12.5px;
-
     line-height: 1.7;
   }
 
@@ -1263,9 +985,7 @@
 
   .reassurance-heading {
     grid-template-columns: 1fr;
-
     gap: 25px;
-
     padding-left: 0;
   }
 
@@ -1275,31 +995,24 @@
 
   .reassurance-heading h2 {
     font-size: 35px;
-
     line-height: 1.13;
-
     letter-spacing: -1px;
   }
 
   .reassurance-heading > p {
     font-size: 13px;
-
     line-height: 1.75;
   }
 
   .guarantees-grid {
     grid-template-columns: 1fr;
-
     margin-top: 40px;
   }
 
   .guarantee-card {
-    grid-template-columns: 38px 1fr;
-
+    grid-template-columns: 38px minmax(0, 1fr);
     gap: 15px;
-
     min-height: auto;
-
     padding: 25px 20px;
   }
 
@@ -1319,19 +1032,14 @@
 
   .human-grid {
     grid-template-columns: 1fr;
-
     gap: 30px;
-
     margin-top: 28px;
-
     padding-left: 0;
   }
 
   .human-grid h2 {
     font-size: 35px;
-
     line-height: 1.13;
-
     letter-spacing: -1px;
   }
 
@@ -1341,7 +1049,6 @@
 
   .human-copy p {
     font-size: 13px;
-
     line-height: 1.75;
   }
 
@@ -1353,9 +1060,7 @@
 
   .faq-heading {
     grid-template-columns: 1fr;
-
     gap: 25px;
-
     padding-left: 0;
   }
 
@@ -1365,15 +1070,12 @@
 
   .faq-heading h2 {
     font-size: 35px;
-
     line-height: 1.13;
-
     letter-spacing: -1px;
   }
 
   .faq-heading > p {
     font-size: 13px;
-
     line-height: 1.75;
   }
 
@@ -1383,28 +1085,23 @@
 
   .faq-item summary {
     min-height: 65px;
-
     gap: 20px;
-
     font-size: 14px;
-
     line-height: 1.4;
   }
 
   .faq-item summary strong {
     width: 23px;
     height: 23px;
-
     font-size: 21px;
   }
 
   .faq-answer {
-    padding: 0 0 23px 0;
+    padding: 0 0 23px;
   }
 
   .faq-answer p {
     font-size: 12.5px;
-
     line-height: 1.75;
   }
 
@@ -1412,35 +1109,27 @@
 
   .services-final {
     display: block;
-
     margin: 55px 20px 45px;
-
     padding: 35px 25px;
-
     border-radius: 11px;
   }
 
   .services-final h2 {
     font-size: 31px;
-
     line-height: 1.16;
-
     letter-spacing: -1px;
   }
 
   .services-final-content > p {
     font-size: 13px;
-
     line-height: 1.7;
   }
 
   .services-final-button {
     width: 100%;
-
     min-width: 0;
-
+    min-height: 54px;
     margin-top: 25px;
-
     box-sizing: border-box;
   }
 }
@@ -1457,7 +1146,6 @@
 
   .services-hero h1 {
     font-size: 40px;
-
     letter-spacing: -1.8px;
   }
 
@@ -1487,7 +1175,6 @@
   .services-final {
     margin-left: 18px;
     margin-right: 18px;
-
     padding: 30px 21px;
   }
 
@@ -1503,7 +1190,6 @@
 .service-card:focus-within,
 .method-item:focus-within {
   outline: 1px solid rgba(37, 99, 235, 0.45);
-
   outline-offset: -1px;
 }
 

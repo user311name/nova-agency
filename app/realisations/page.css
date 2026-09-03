@@ -12,8 +12,16 @@
   min-height: 100vh;
   overflow: hidden;
   background:
-    radial-gradient(circle at 75% 7%, rgba(20, 117, 255, 0.11), transparent 26rem),
-    radial-gradient(circle at 10% 42%, rgba(0, 94, 255, 0.07), transparent 24rem),
+    radial-gradient(
+      circle at 75% 7%,
+      rgba(20, 117, 255, 0.11),
+      transparent 26rem
+    ),
+    radial-gradient(
+      circle at 10% 42%,
+      rgba(0, 94, 255, 0.07),
+      transparent 24rem
+    ),
     var(--real-bg);
   color: var(--real-text);
 }
@@ -57,7 +65,10 @@
   pointer-events: none;
   opacity: 0.28;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    ),
     linear-gradient(
       90deg,
       rgba(255, 255, 255, 0.035) 1px,
@@ -117,22 +128,23 @@
   min-height: calc(100vh - 80px);
   display: flex;
   align-items: center;
-  padding: 100px 0 50px;
+  padding: 90px 0 50px;
   overflow: hidden;
   border-bottom: 1px solid var(--real-border);
 }
 
 .real-hero-grid {
-  min-height: 720px;
+  min-height: 680px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 310px;
+  grid-template-columns: minmax(0, 1fr) 280px;
   align-items: center;
-  gap: 80px;
+  gap: 70px;
 }
 
 .real-hero-main {
   position: relative;
   z-index: 4;
+  min-width: 0;
 }
 
 .real-eyebrow {
@@ -152,17 +164,18 @@
 .eyebrow-line {
   width: 54px;
   height: 1px;
+  flex: 0 0 auto;
   background: rgba(255, 255, 255, 0.3);
 }
 
 .hero-title-wrap {
   position: relative;
-  margin-top: 34px;
+  margin-top: 30px;
 }
 
 .hero-small-label {
   display: block;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   color: var(--real-muted);
   font-size: 10px;
   letter-spacing: 0.16em;
@@ -170,10 +183,10 @@
 
 .real-hero h1 {
   margin: 0;
-  max-width: 950px;
-  font-size: clamp(58px, 7.4vw, 118px);
-  line-height: 0.9;
-  letter-spacing: -0.065em;
+  max-width: 900px;
+  font-size: clamp(54px, 7vw, 100px);
+  line-height: 0.91;
+  letter-spacing: -0.06em;
   font-weight: 650;
 }
 
@@ -189,7 +202,7 @@
 .hero-title-decoration {
   position: absolute;
   right: 4%;
-  bottom: -28px;
+  bottom: -24px;
   display: flex;
   gap: 5px;
 }
@@ -212,11 +225,12 @@
 
 .real-hero-side {
   align-self: end;
-  padding-bottom: 85px;
+  padding-bottom: 70px;
+  min-width: 0;
 }
 
 .hero-side-number {
-  margin-bottom: 28px;
+  margin-bottom: 24px;
   color: var(--real-blue-bright);
   font-family: monospace;
   font-size: 11px;
@@ -227,14 +241,14 @@
   margin: 0;
   color: #8f99a7;
   font-size: 13px;
-  line-height: 1.9;
+  line-height: 1.85;
 }
 
 .hero-scroll {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-top: 50px;
+  margin-top: 42px;
   color: #dbe2eb;
   font-size: 9px;
   letter-spacing: 0.16em;
@@ -246,6 +260,7 @@
   height: 34px;
   align-items: center;
   justify-content: center;
+  flex: 0 0 34px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 50%;
   color: var(--real-blue);
@@ -260,7 +275,7 @@
 .hero-bottom {
   position: absolute;
   right: 0;
-  bottom: 22px;
+  bottom: 20px;
   left: 0;
   display: flex;
   align-items: center;
@@ -274,6 +289,7 @@
 .hero-bottom-line {
   width: 70px;
   height: 1px;
+  flex: 0 0 auto;
   background: rgba(255, 255, 255, 0.16);
 }
 
@@ -390,20 +406,20 @@
 
 .real-projects-section {
   position: relative;
-  padding: 150px 0 180px;
+  padding: 130px 0 160px;
 }
 
 .projects-heading {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
+  grid-template-columns: minmax(0, 1fr) 280px;
   align-items: end;
-  gap: 80px;
+  gap: 70px;
 }
 
 .projects-heading h2 {
-  margin: 30px 0 0;
-  font-size: clamp(52px, 6.5vw, 94px);
-  line-height: 0.92;
+  margin: 28px 0 0;
+  font-size: clamp(50px, 6.2vw, 88px);
+  line-height: 0.93;
   letter-spacing: -0.06em;
 }
 
@@ -417,7 +433,7 @@
 
 .project-count {
   display: block;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   color: var(--real-blue-bright);
   font-family: monospace;
   font-size: 12px;
@@ -437,8 +453,8 @@
 .real-filters {
   display: flex;
   align-items: center;
-  gap: 35px;
-  margin-top: 95px;
+  gap: 30px;
+  margin-top: 80px;
   padding: 18px 0;
   border-top: 1px solid var(--real-border);
   border-bottom: 1px solid var(--real-border);
@@ -465,6 +481,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  min-width: 0;
 }
 
 .filter-button {
@@ -472,7 +489,8 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 9px 12px;
+  min-height: 34px;
+  padding: 8px 12px;
   border: 1px solid transparent;
   border-radius: 100px;
   background: transparent;
@@ -503,6 +521,7 @@
 .filter-dot {
   width: 4px;
   height: 4px;
+  flex: 0 0 4px;
   border-radius: 50%;
   background: currentColor;
   opacity: 0.5;
@@ -519,20 +538,20 @@
 ========================================================= */
 
 .projects-list {
-  margin-top: 95px;
+  margin-top: 85px;
 }
 
 .real-project {
   position: relative;
   display: grid;
-  grid-template-columns: 70px minmax(0, 1fr) 80px;
-  gap: 25px;
+  grid-template-columns: 65px minmax(0, 1fr) 70px;
+  gap: 22px;
   align-items: start;
-  margin-bottom: 150px;
+  margin-bottom: 130px;
 }
 
 .real-project:nth-child(even) {
-  grid-template-columns: 80px minmax(0, 0.82fr) 70px;
+  grid-template-columns: 70px minmax(0, 0.82fr) 65px;
   justify-content: end;
 }
 
@@ -569,6 +588,7 @@
 
 .project-card-wrap {
   perspective: 1400px;
+  min-width: 0;
 }
 
 .project-card {
@@ -651,7 +671,11 @@
       transparent 40%,
       rgba(0, 0, 0, 0.7)
     ),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.3), transparent 50%);
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.3),
+      transparent 50%
+    );
 }
 
 .project-image-grid {
@@ -660,14 +684,21 @@
   z-index: 2;
   opacity: 0.22;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(
+      rgba(255, 255, 255, 0.06) 1px,
+      transparent 1px
+    ),
     linear-gradient(
       90deg,
       rgba(255, 255, 255, 0.06) 1px,
       transparent 1px
     );
   background-size: 45px 45px;
-  mask-image: linear-gradient(to bottom, black, transparent 75%);
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    transparent 75%
+  );
 }
 
 .project-scanline {
@@ -724,6 +755,7 @@
 .status-dot {
   width: 5px;
   height: 5px;
+  flex: 0 0 5px;
   border-radius: 50%;
   background: var(--real-blue-bright);
   box-shadow: 0 0 10px rgba(22, 136, 255, 0.9);
@@ -808,14 +840,15 @@
 }
 
 .project-title-link {
+  min-width: 0;
   color: inherit;
   text-decoration: none;
 }
 
 .project-title-link h2 {
   margin: 0;
-  font-size: clamp(36px, 4.3vw, 64px);
-  line-height: 0.95;
+  font-size: clamp(34px, 4vw, 60px);
+  line-height: 0.96;
   letter-spacing: -0.055em;
   transition: color 0.3s ease;
 }
@@ -974,7 +1007,7 @@
 .real-interlude {
   position: relative;
   overflow: hidden;
-  padding: 150px 0;
+  padding: 130px 0;
   border-top: 1px solid var(--real-border);
   border-bottom: 1px solid var(--real-border);
   background:
@@ -991,7 +1024,10 @@
   inset: 0;
   opacity: 0.35;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px
+    ),
     linear-gradient(
       90deg,
       rgba(255, 255, 255, 0.04) 1px,
@@ -1003,8 +1039,8 @@
 .interlude-content {
   position: relative;
   display: grid;
-  grid-template-columns: 80px minmax(0, 1fr) 270px;
-  gap: 60px;
+  grid-template-columns: 70px minmax(0, 1fr) 250px;
+  gap: 50px;
   align-items: center;
 }
 
@@ -1023,9 +1059,9 @@
 }
 
 .interlude-main h2 {
-  margin: 25px 0 0;
-  font-size: clamp(50px, 6.5vw, 94px);
-  line-height: 0.91;
+  margin: 22px 0 0;
+  font-size: clamp(48px, 6.2vw, 88px);
+  line-height: 0.93;
   letter-spacing: -0.065em;
 }
 
@@ -1041,7 +1077,7 @@
 }
 
 .interlude-side p {
-  margin: 25px 0 0;
+  margin: 22px 0 0;
 }
 
 .interlude-orbit {
@@ -1091,7 +1127,7 @@
 
 .real-commercial {
   position: relative;
-  padding: 150px 0 100px;
+  padding: 130px 0 90px;
 }
 
 .commercial-top {
@@ -1113,13 +1149,13 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 50px;
-  margin-top: 55px;
+  margin-top: 50px;
 }
 
 .commercial-heading h2 {
   margin: 0;
-  font-size: clamp(52px, 7vw, 100px);
-  line-height: 0.9;
+  font-size: clamp(50px, 6.7vw, 94px);
+  line-height: 0.92;
   letter-spacing: -0.065em;
 }
 
@@ -1152,9 +1188,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 70px;
-  margin-top: 65px;
-  padding-left: 12%;
+  gap: 60px;
+  margin-top: 60px;
+  padding-left: 10%;
 }
 
 .commercial-content p {
@@ -1167,7 +1203,8 @@
 
 .real-main-button {
   display: inline-flex;
-  min-width: 260px;
+  min-width: 250px;
+  min-height: 54px;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
@@ -1195,6 +1232,7 @@
   display: flex;
   width: 42px;
   height: 42px;
+  flex: 0 0 42px;
   align-items: center;
   justify-content: center;
   background: var(--real-blue);
@@ -1220,16 +1258,16 @@
 
 .benefits-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
-  margin-top: 130px;
+  margin-top: 110px;
   border: 1px solid var(--real-border);
   background: var(--real-border);
 }
 
 .benefit-card {
   position: relative;
-  min-height: 300px;
+  min-height: 280px;
   padding: 25px;
   overflow: hidden;
   background: #080b0f;
@@ -1267,8 +1305,8 @@
 }
 
 .benefit-card h3 {
-  margin: 65px 0 20px;
-  font-size: 28px;
+  margin: 60px 0 20px;
+  font-size: 27px;
   letter-spacing: -0.04em;
 }
 
@@ -1310,9 +1348,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 50px;
-  margin-top: 90px;
-  padding: 40px;
+  gap: 45px;
+  margin-top: 80px;
+  padding: 36px;
   overflow: hidden;
   border: 1px solid rgba(22, 136, 255, 0.2);
   background:
@@ -1350,6 +1388,10 @@
   opacity: 0.9;
 }
 
+.final-cta-copy {
+  min-width: 0;
+}
+
 .final-cta-copy > span {
   color: var(--real-blue);
   font-family: monospace;
@@ -1359,15 +1401,16 @@
 
 .final-cta-copy h3 {
   margin: 12px 0 0;
-  font-size: clamp(24px, 3vw, 42px);
+  font-size: clamp(24px, 2.8vw, 40px);
   letter-spacing: -0.04em;
 }
 
 .final-cta-button {
   display: inline-flex;
+  min-height: 52px;
   align-items: center;
   gap: 30px;
-  padding: 17px 20px 17px 23px;
+  padding: 16px 20px 16px 23px;
   background: white;
   color: #050608;
   font-family: monospace;
@@ -1403,8 +1446,10 @@
   justify-content: center;
   gap: 20px;
   min-height: 240px;
+  padding: 30px;
   border: 1px solid var(--real-border);
   color: #737d89;
+  text-align: center;
 }
 
 .projects-empty span {
@@ -1442,17 +1487,23 @@
     width: min(100% - 44px, 1380px);
   }
 
+  .real-hero {
+    min-height: calc(100vh - 76px);
+  }
+
   .real-hero-grid {
-    grid-template-columns: minmax(0, 1fr) 250px;
+    min-height: 630px;
+    grid-template-columns: minmax(0, 1fr) 230px;
     gap: 40px;
   }
 
   .real-hero h1 {
-    font-size: clamp(55px, 8vw, 90px);
+    font-size: clamp(52px, 8vw, 86px);
   }
 
   .real-project {
     grid-template-columns: 50px minmax(0, 1fr) 40px;
+    gap: 18px;
   }
 
   .real-project:nth-child(even) {
@@ -1460,12 +1511,16 @@
   }
 
   .interlude-content {
-    grid-template-columns: 50px minmax(0, 1fr) 220px;
+    grid-template-columns: 50px minmax(0, 1fr) 210px;
     gap: 30px;
   }
 
   .commercial-content {
     padding-left: 5%;
+  }
+
+  .benefits-grid {
+    margin-top: 90px;
   }
 }
 
@@ -1480,24 +1535,26 @@
 
   .real-hero {
     min-height: calc(100svh - 70px);
-    padding: 70px 0 35px;
+    padding: 65px 0 35px;
   }
 
   .real-hero-grid {
-    min-height: 670px;
+    min-height: 620px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: center;
-    gap: 50px;
+    gap: 42px;
   }
 
   .real-hero h1 {
-    font-size: clamp(48px, 15vw, 78px);
-    line-height: 0.91;
+    max-width: 700px;
+    font-size: clamp(46px, 14vw, 72px);
+    line-height: 0.93;
   }
 
   .hero-small-label {
+    margin-bottom: 13px;
     font-size: 8px;
   }
 
@@ -1507,12 +1564,13 @@
   }
 
   .real-hero-side p {
+    max-width: 540px;
     font-size: 11px;
     line-height: 1.8;
   }
 
   .hero-scroll {
-    margin-top: 28px;
+    margin-top: 25px;
   }
 
   .hero-bottom {
@@ -1558,7 +1616,7 @@
   }
 
   .real-projects-section {
-    padding: 100px 0 100px;
+    padding: 90px 0 100px;
   }
 
   .projects-heading {
@@ -1566,21 +1624,22 @@
   }
 
   .projects-heading h2 {
-    margin-top: 22px;
-    font-size: clamp(48px, 14vw, 72px);
+    margin-top: 20px;
+    font-size: clamp(46px, 13.5vw, 68px);
   }
 
   .projects-heading-side {
-    margin-top: 35px;
+    margin-top: 30px;
   }
 
   .real-filters {
     display: block;
-    margin-top: 60px;
+    margin-top: 55px;
+    padding: 16px 0;
   }
 
   .filters-label {
-    margin-bottom: 15px;
+    margin-bottom: 13px;
   }
 
   .filters-list {
@@ -1588,6 +1647,7 @@
     flex-wrap: nowrap;
     padding-bottom: 3px;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
   }
 
   .filters-list::-webkit-scrollbar {
@@ -1596,16 +1656,17 @@
 
   .filter-button {
     flex: 0 0 auto;
+    min-height: 36px;
   }
 
   .projects-list {
-    margin-top: 65px;
+    margin-top: 60px;
   }
 
   .real-project,
   .real-project:nth-child(even) {
     display: block;
-    margin-bottom: 90px;
+    margin-bottom: 80px;
   }
 
   .project-index {
@@ -1614,7 +1675,7 @@
     flex-direction: row;
     justify-content: flex-start;
     gap: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 14px;
   }
 
   .index-line {
@@ -1631,7 +1692,7 @@
   }
 
   .project-image {
-    aspect-ratio: 1 / 1.05;
+    aspect-ratio: 1 / 0.78;
   }
 
   .project-image img {
@@ -1656,11 +1717,16 @@
   }
 
   .project-card-meta {
+    flex-wrap: wrap;
     font-size: 7px;
   }
 
+  .project-card-title-row {
+    gap: 18px;
+  }
+
   .project-title-link h2 {
-    font-size: clamp(35px, 12vw, 56px);
+    font-size: clamp(34px, 11.5vw, 54px);
   }
 
   .project-circle-arrow {
@@ -1672,10 +1738,12 @@
   .project-card-description {
     grid-template-columns: 20px minmax(0, 1fr);
     gap: 10px;
+    margin-top: 18px;
   }
 
   .project-card-description p {
     font-size: 11px;
+    line-height: 1.75;
   }
 
   .project-technical-corner {
@@ -1683,7 +1751,7 @@
   }
 
   .real-interlude {
-    padding: 100px 0;
+    padding: 90px 0;
   }
 
   .interlude-content {
@@ -1691,36 +1759,37 @@
   }
 
   .interlude-number {
-    margin-bottom: 40px;
+    margin-bottom: 32px;
   }
 
   .interlude-main h2 {
-    font-size: clamp(48px, 14vw, 72px);
+    font-size: clamp(46px, 13.5vw, 70px);
   }
 
   .interlude-side {
-    margin-top: 55px;
+    margin-top: 45px;
+    max-width: 520px;
   }
 
   .real-commercial {
-    padding: 100px 0 70px;
+    padding: 90px 0 70px;
   }
 
   .commercial-top {
     align-items: flex-start;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
   }
 
   .commercial-heading {
     align-items: flex-start;
     flex-direction: column;
-    gap: 25px;
-    margin-top: 40px;
+    gap: 22px;
+    margin-top: 36px;
   }
 
   .commercial-heading h2 {
-    font-size: clamp(48px, 14vw, 76px);
+    font-size: clamp(46px, 13.5vw, 72px);
   }
 
   .commercial-heading-detail {
@@ -1730,26 +1799,27 @@
 
   .commercial-content {
     display: block;
-    margin-top: 45px;
+    margin-top: 40px;
     padding-left: 0;
   }
 
   .commercial-content p {
     font-size: 12px;
+    line-height: 1.8;
   }
 
   .real-main-button {
     width: 100%;
-    margin-top: 30px;
+    margin-top: 28px;
   }
 
   .benefits-grid {
     display: block;
-    margin-top: 80px;
+    margin-top: 70px;
   }
 
   .benefit-card {
-    min-height: 250px;
+    min-height: 235px;
     border-bottom: 1px solid var(--real-border);
   }
 
@@ -1758,15 +1828,15 @@
   }
 
   .benefit-card h3 {
-    margin-top: 45px;
+    margin-top: 42px;
   }
 
   .real-final-cta {
     align-items: flex-start;
     flex-direction: column;
-    gap: 28px;
-    margin-top: 60px;
-    padding: 27px 22px;
+    gap: 25px;
+    margin-top: 55px;
+    padding: 26px 21px;
   }
 
   .final-cta-button {
@@ -1785,6 +1855,7 @@
   }
 
   .real-eyebrow {
+    gap: 9px;
     font-size: 8px;
   }
 
@@ -1793,36 +1864,50 @@
   }
 
   .real-hero {
-    padding-top: 50px;
+    padding-top: 48px;
   }
 
   .real-hero-grid {
-    min-height: 650px;
+    min-height: 610px;
+    gap: 36px;
   }
 
   .real-hero h1 {
-    font-size: clamp(45px, 14.5vw, 65px);
+    font-size: clamp(43px, 14vw, 62px);
+    letter-spacing: -0.055em;
   }
 
   .hero-title-wrap {
-    margin-top: 25px;
+    margin-top: 23px;
   }
 
   .hero-title-decoration {
     right: 2%;
-    bottom: -20px;
+    bottom: -19px;
   }
 
   .real-projects-section {
-    padding-top: 80px;
+    padding-top: 75px;
   }
 
   .projects-heading h2 {
-    font-size: clamp(44px, 14vw, 62px);
+    font-size: clamp(42px, 13.5vw, 60px);
+  }
+
+  .projects-heading-side {
+    margin-top: 25px;
+  }
+
+  .real-filters {
+    margin-top: 45px;
+  }
+
+  .projects-list {
+    margin-top: 50px;
   }
 
   .project-card-meta {
-    gap: 10px;
+    gap: 8px;
   }
 
   .project-card-meta span:first-child {
@@ -1830,7 +1915,7 @@
   }
 
   .project-title-link h2 {
-    font-size: clamp(34px, 13vw, 52px);
+    font-size: clamp(32px, 12.5vw, 50px);
   }
 
   .project-circle-arrow {
@@ -1839,8 +1924,26 @@
     flex-basis: 36px;
   }
 
+  .project-card-description {
+    grid-template-columns: 17px minmax(0, 1fr);
+    gap: 9px;
+  }
+
+  .project-description-line {
+    width: 16px;
+  }
+
   .real-interlude {
-    padding: 80px 0;
+    padding: 75px 0;
+  }
+
+  .interlude-main h2 {
+    font-size: clamp(43px, 13.5vw, 62px);
+  }
+
+  .interlude-side {
+    margin-top: 38px;
+    font-size: 11px;
   }
 
   .interlude-orbit {
@@ -1848,20 +1951,91 @@
     height: 120px;
   }
 
+  .interlude-orbit-core {
+    width: 50px;
+    height: 50px;
+  }
+
   .real-commercial {
-    padding-top: 80px;
+    padding-top: 75px;
   }
 
   .commercial-heading h2 {
-    font-size: clamp(43px, 14vw, 65px);
+    font-size: clamp(41px, 13.5vw, 62px);
+  }
+
+  .commercial-content {
+    margin-top: 35px;
+  }
+
+  .benefits-grid {
+    margin-top: 60px;
+  }
+
+  .benefit-card {
+    min-height: 225px;
+    padding: 22px;
+  }
+
+  .benefit-card h3 {
+    margin-top: 38px;
+    font-size: 25px;
+  }
+
+  .benefit-bottom-line {
+    right: 22px;
+    bottom: 22px;
+    left: 22px;
   }
 
   .real-final-cta {
-    padding: 23px 18px;
+    padding: 22px 17px;
   }
 
   .final-cta-copy h3 {
-    font-size: 24px;
+    font-size: 23px;
+    line-height: 1.15;
+  }
+
+  .final-cta-button {
+    min-height: 50px;
+    padding-left: 18px;
+    gap: 18px;
+  }
+}
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+  .filter-button:hover,
+  .project-card:hover,
+  .project-circle-arrow:hover,
+  .real-main-button:hover,
+  .benefit-card:hover,
+  .final-cta-button:hover {
+    transform: none;
+  }
+
+  .project-card:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow:
+      0 40px 100px rgba(0, 0, 0, 0.45),
+      0 0 0 1px rgba(255, 255, 255, 0.015);
+  }
+
+  .project-card:hover .project-glow {
+    opacity: 0;
+  }
+
+  .project-card:hover .project-scanline {
+    opacity: 0;
+    animation: none;
+  }
+
+  .project-card:hover .project-image img {
+    transform: scale(1.01);
   }
 }
 
@@ -1870,7 +2044,7 @@
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-  .realisation-page *,
+  .realisations-page *,
   .realisations-page *::before,
   .realisations-page *::after {
     scroll-behavior: auto !important;

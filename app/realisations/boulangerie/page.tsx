@@ -112,11 +112,6 @@ export default function BoulangeriePage() {
             <span className="project-header-line" />
             <span>03 / 06</span>
           </div>
-
-          <Link href="/devis" className="project-live">
-            <span>PARLER DU PROJET</span>
-            <ArrowIcon />
-          </Link>
         </header>
 
         <section className="project-hero">
@@ -337,10 +332,22 @@ export default function BoulangeriePage() {
               qui vous <span>ressemble.</span>
             </h2>
 
-            <Link href="/devis" className="project-cta-button">
-              <span>PARLER DE MON PROJET</span>
-              <ArrowIcon />
-            </Link>
+            <div className="project-cta-actions">
+              <a
+                href="https://maison-gaillardo.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="project-cta-button"
+              >
+                <span>VOIR LA DÉMO</span>
+                <ArrowIcon />
+              </a>
+
+              <Link href="/devis" className="project-cta-button">
+                <span>PARLER DE MON PROJET</span>
+                <ArrowIcon />
+              </Link>
+            </div>
           </div>
         </section>
 

@@ -124,6 +124,13 @@
   background: var(--project-line);
 }
 
+.project-header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+}
+
 .project-live {
   display: inline-flex;
   align-items: center;
@@ -764,6 +771,10 @@
 
   .project-brand-name {
     font-size: 12px;
+  }
+
+  .project-header-actions {
+    gap: 14px;
   }
 
   .project-live {

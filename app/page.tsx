@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import "./page.css";
 
 /* =========================================================
@@ -105,7 +106,7 @@ function ArrowLink({
   variant = "primary",
 }: {
   href: string;
-  children: React.ReactNode;
+  children: ReactNode;
   variant?: "primary" | "secondary";
 }) {
   return (
@@ -126,16 +127,13 @@ function ArrowLink({
 export default function Home() {
   return (
     <main className="home">
-
       {/* =====================================================
           HERO
       ====================================================== */}
 
       <section className="hero page-section">
         <div className="hero-grid container">
-
           <div className="hero-copy">
-
             <div className="eyebrow">
               <span className="eyebrow-dot" />
               Agence digitale indépendante
@@ -154,9 +152,7 @@ export default function Home() {
             </p>
 
             <div className="hero-actions">
-              <ArrowLink href="/devis">
-                Démarrer un projet
-              </ArrowLink>
+              <ArrowLink href="/devis">Démarrer un projet</ArrowLink>
 
               <ArrowLink href="/realisations" variant="secondary">
                 Voir nos réalisations
@@ -164,7 +160,6 @@ export default function Home() {
             </div>
 
             <div className="hero-meta">
-
               <div>
                 <span className="icon-blue">
                   <ComputerIcon />
@@ -185,12 +180,10 @@ export default function Home() {
                 </span>
                 <span>MOBILE FIRST</span>
               </div>
-
             </div>
           </div>
 
           <div className="hero-visual" aria-hidden="true">
-
             <div className="visual-grid" />
 
             <div className="orbit orbit-one" />
@@ -239,7 +232,6 @@ export default function Home() {
               <span>CRAFTED FOR DIGITAL</span>
               <span>2026</span>
             </div>
-
           </div>
         </div>
 
@@ -255,7 +247,6 @@ export default function Home() {
 
       <section className="intro page-section">
         <div className="container intro-grid">
-
           <div className="section-index">
             <span>01</span>
             <span className="blue-line" />
@@ -263,10 +254,7 @@ export default function Home() {
           </div>
 
           <div className="intro-content">
-
-            <p className="micro-label">
-              Plus qu'un site web
-            </p>
+            <p className="micro-label">Plus qu'un site web</p>
 
             <h2>
               Une présence digitale
@@ -281,7 +269,6 @@ export default function Home() {
             </p>
 
             <div className="intro-points">
-
               <div>
                 <span className="point-number">01</span>
 
@@ -314,7 +301,6 @@ export default function Home() {
                   </span>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -326,13 +312,9 @@ export default function Home() {
 
       <section className="services page-section">
         <div className="container">
-
           <div className="section-heading">
-
             <div>
-              <p className="micro-label">
-                Ce que nous faisons
-              </p>
+              <p className="micro-label">Ce que nous faisons</p>
 
               <h2 className="section-title">
                 Le digital,
@@ -345,15 +327,12 @@ export default function Home() {
               Design, développement et stratégie réunis dans une même
               direction artistique.
             </p>
-
           </div>
 
           <div className="services-grid">
-
             {/* SERVICE 01 */}
 
             <article className="service-card">
-
               <div className="card-top">
                 <span className="card-number">01</span>
 
@@ -363,14 +342,9 @@ export default function Home() {
               </div>
 
               <div className="card-content">
+                <p className="card-category">CRÉATION DIGITALE</p>
 
-                <p className="card-category">
-                  CRÉATION DIGITALE
-                </p>
-
-                <h3>
-                  Création de site
-                </h3>
+                <h3>Création de site</h3>
 
                 <p>
                   Des sites vitrines modernes et rapides, conçus pour
@@ -382,7 +356,6 @@ export default function Home() {
                   <span>Responsive</span>
                   <span>SEO</span>
                 </div>
-
               </div>
 
               <Link
@@ -398,13 +371,11 @@ export default function Home() {
                 <span />
                 <span />
               </div>
-
             </article>
 
             {/* SERVICE 02 */}
 
             <article className="service-card service-card-featured">
-
               <div className="card-top">
                 <span className="card-number">02</span>
 
@@ -414,14 +385,9 @@ export default function Home() {
               </div>
 
               <div className="card-content">
+                <p className="card-category">REFONTE DIGITALE</p>
 
-                <p className="card-category">
-                  REFONTE DIGITALE
-                </p>
-
-                <h3>
-                  Refonte de site
-                </h3>
+                <h3>Refonte de site</h3>
 
                 <p>
                   Nous transformons une présence vieillissante en une
@@ -433,7 +399,6 @@ export default function Home() {
                   <span>UX</span>
                   <span>Performance</span>
                 </div>
-
               </div>
 
               <Link
@@ -449,13 +414,11 @@ export default function Home() {
                 <span />
                 <span />
               </div>
-
             </article>
 
             {/* SERVICE 03 */}
 
             <article className="service-card">
-
               <div className="card-top">
                 <span className="card-number">03</span>
 
@@ -465,14 +428,9 @@ export default function Home() {
               </div>
 
               <div className="card-content">
+                <p className="card-category">DÉVELOPPEMENT</p>
 
-                <p className="card-category">
-                  DÉVELOPPEMENT
-                </p>
-
-                <h3>
-                  Sur mesure
-                </h3>
+                <h3>Sur mesure</h3>
 
                 <p>
                   Une architecture propre et évolutive pour les projets qui
@@ -484,7 +442,6 @@ export default function Home() {
                   <span>React</span>
                   <span>Performance</span>
                 </div>
-
               </div>
 
               <Link
@@ -500,9 +457,7 @@ export default function Home() {
                 <span />
                 <span />
               </div>
-
             </article>
-
           </div>
         </div>
       </section>
@@ -513,13 +468,9 @@ export default function Home() {
 
       <section className="portfolio page-section">
         <div className="container">
-
           <div className="section-heading portfolio-heading">
-
             <div>
-              <p className="micro-label">
-                Sélection de projets
-              </p>
+              <p className="micro-label">Sélection de projets</p>
 
               <h2 className="section-title">
                 Quelques projets.
@@ -531,20 +482,16 @@ export default function Home() {
             <ArrowLink href="/realisations" variant="secondary">
               Tout voir
             </ArrowLink>
-
           </div>
 
           <div className="portfolio-grid">
-
             {/* PROJET 01 */}
 
             <Link
               href="/realisations/noir-barber"
               className="portfolio-card portfolio-card-large"
             >
-
               <div className="portfolio-image">
-
                 <Image
                   src="/projets/barber-home.png"
                   alt="Projet Noir Barber"
@@ -559,11 +506,9 @@ export default function Home() {
                     <ExternalArrowIcon />
                   </strong>
                 </div>
-
               </div>
 
               <div className="portfolio-info">
-
                 <div>
                   <span>01 / SITE VITRINE</span>
                   <h3>Noir Barber</h3>
@@ -572,23 +517,19 @@ export default function Home() {
                 <span className="portfolio-arrow">
                   <ExternalArrowIcon />
                 </span>
-
               </div>
-
             </Link>
 
-            {/* PROJET 02 */}
+            {/* PROJET 02 — BOULANGERIE */}
 
             <Link
-              href="/realisations/storm"
+              href="/realisations/boulangerie"
               className="portfolio-card"
             >
-
               <div className="portfolio-image">
-
                 <Image
-                  src="/projets/storm-1.png"
-                  alt="Projet Storm"
+                  src="/projets/boulangerie-1.png"
+                  alt="Projet Boulangerie"
                   fill
                   sizes="(max-width: 700px) 100vw, 33vw"
                 />
@@ -600,22 +541,18 @@ export default function Home() {
                     <ExternalArrowIcon />
                   </strong>
                 </div>
-
               </div>
 
               <div className="portfolio-info">
-
                 <div>
-                  <span>02 / DIGITAL</span>
-                  <h3>Storm</h3>
+                  <span>02 / BOULANGERIE</span>
+                  <h3>Boulangerie</h3>
                 </div>
 
                 <span className="portfolio-arrow">
                   <ExternalArrowIcon />
                 </span>
-
               </div>
-
             </Link>
 
             {/* PROJET 03 */}
@@ -624,9 +561,7 @@ export default function Home() {
               href="/realisations/ia-future"
               className="portfolio-card"
             >
-
               <div className="portfolio-image">
-
                 <Image
                   src="/projets/site-ia.png"
                   alt="Projet IA Future"
@@ -641,11 +576,9 @@ export default function Home() {
                     <ExternalArrowIcon />
                   </strong>
                 </div>
-
               </div>
 
               <div className="portfolio-info">
-
                 <div>
                   <span>03 / TECHNOLOGIE</span>
                   <h3>IA Future</h3>
@@ -654,11 +587,8 @@ export default function Home() {
                 <span className="portfolio-arrow">
                   <ExternalArrowIcon />
                 </span>
-
               </div>
-
             </Link>
-
           </div>
         </div>
       </section>
@@ -669,13 +599,9 @@ export default function Home() {
 
       <section className="offers page-section">
         <div className="container">
-
           <div className="section-heading">
-
             <div>
-              <p className="micro-label">
-                Des formats adaptés
-              </p>
+              <p className="micro-label">Des formats adaptés</p>
 
               <h2 className="section-title">
                 Choisissez votre
@@ -688,26 +614,17 @@ export default function Home() {
               Chaque projet est différent. Nous construisons une solution
               adaptée à vos objectifs et à votre activité.
             </p>
-
           </div>
 
           <div className="offers-grid">
-
             {/* OFFRE 01 */}
 
             <article className="offer-card">
+              <div className="offer-number">01</div>
 
-              <div className="offer-number">
-                01
-              </div>
+              <p className="offer-label">PRÉSENCE</p>
 
-              <p className="offer-label">
-                PRÉSENCE
-              </p>
-
-              <h3>
-                Essentiel
-              </h3>
+              <h3>Essentiel</h3>
 
               <p className="offer-description">
                 Pour lancer ou moderniser votre présence en ligne avec
@@ -721,10 +638,7 @@ export default function Home() {
                 <li>SEO de base</li>
               </ul>
 
-              <Link
-                href="/devis"
-                className="offer-link"
-              >
+              <Link href="/devis" className="offer-link">
                 <span>Parler du projet</span>
 
                 <span
@@ -734,28 +648,18 @@ export default function Home() {
                   <ArrowIcon />
                 </span>
               </Link>
-
             </article>
 
             {/* OFFRE 02 */}
 
             <article className="offer-card offer-card-main">
+              <div className="offer-badge">LE PLUS CHOISI</div>
 
-              <div className="offer-badge">
-                LE PLUS CHOISI
-              </div>
+              <div className="offer-number">02</div>
 
-              <div className="offer-number">
-                02
-              </div>
+              <p className="offer-label">SIGNATURE</p>
 
-              <p className="offer-label">
-                SIGNATURE
-              </p>
-
-              <h3>
-                Premium
-              </h3>
+              <h3>Premium</h3>
 
               <p className="offer-description">
                 Une expérience plus poussée, avec davantage de travail sur
@@ -769,10 +673,7 @@ export default function Home() {
                 <li>SEO & performance</li>
               </ul>
 
-              <Link
-                href="/devis"
-                className="offer-link"
-              >
+              <Link href="/devis" className="offer-link">
                 <span>Parler du projet</span>
 
                 <span
@@ -782,24 +683,16 @@ export default function Home() {
                   <ArrowIcon />
                 </span>
               </Link>
-
             </article>
 
             {/* OFFRE 03 */}
 
             <article className="offer-card">
+              <div className="offer-number">03</div>
 
-              <div className="offer-number">
-                03
-              </div>
+              <p className="offer-label">IMPACT</p>
 
-              <p className="offer-label">
-                IMPACT
-              </p>
-
-              <h3>
-                Sur mesure
-              </h3>
+              <h3>Sur mesure</h3>
 
               <p className="offer-description">
                 Pour les projets qui nécessitent des fonctionnalités,
@@ -813,10 +706,7 @@ export default function Home() {
                 <li>Accompagnement</li>
               </ul>
 
-              <Link
-                href="/devis"
-                className="offer-link"
-              >
+              <Link href="/devis" className="offer-link">
                 <span>Parler du projet</span>
 
                 <span
@@ -826,9 +716,7 @@ export default function Home() {
                   <ArrowIcon />
                 </span>
               </Link>
-
             </article>
-
           </div>
         </div>
       </section>
@@ -839,12 +727,8 @@ export default function Home() {
 
       <section className="method page-section">
         <div className="container method-grid">
-
           <div className="method-intro">
-
-            <p className="micro-label">
-              Notre méthode
-            </p>
+            <p className="micro-label">Notre méthode</p>
 
             <h2 className="section-title">
               Simple dans
@@ -860,18 +744,13 @@ export default function Home() {
             <ArrowLink href="/methode" variant="secondary">
               Découvrir notre méthode
             </ArrowLink>
-
           </div>
 
           <div className="method-list">
-
             {/* ETAPE 01 */}
 
             <div className="method-step">
-
-              <div className="method-step-number">
-                01
-              </div>
+              <div className="method-step-number">01</div>
 
               <div className="method-step-icon">
                 <PhoneIcon />
@@ -880,9 +759,7 @@ export default function Home() {
               <div>
                 <p>ON ÉCHANGE</p>
 
-                <h3>
-                  Comprendre votre projet
-                </h3>
+                <h3>Comprendre votre projet</h3>
 
                 <span>
                   Vos objectifs, votre activité, vos clients et votre vision.
@@ -895,16 +772,12 @@ export default function Home() {
               >
                 <ArrowIcon />
               </span>
-
             </div>
 
             {/* ETAPE 02 */}
 
             <div className="method-step">
-
-              <div className="method-step-number">
-                02
-              </div>
+              <div className="method-step-number">02</div>
 
               <div className="method-step-icon">
                 <LayersIcon />
@@ -913,9 +786,7 @@ export default function Home() {
               <div>
                 <p>ON IMAGINE</p>
 
-                <h3>
-                  Construire votre univers
-                </h3>
+                <h3>Construire votre univers</h3>
 
                 <span>
                   Structure, direction artistique et expérience utilisateur.
@@ -928,16 +799,12 @@ export default function Home() {
               >
                 <ArrowIcon />
               </span>
-
             </div>
 
             {/* ETAPE 03 */}
 
             <div className="method-step">
-
-              <div className="method-step-number">
-                03
-              </div>
+              <div className="method-step-number">03</div>
 
               <div className="method-step-icon">
                 <CodeIcon />
@@ -946,9 +813,7 @@ export default function Home() {
               <div>
                 <p>ON DÉVELOPPE</p>
 
-                <h3>
-                  Donner vie au design
-                </h3>
+                <h3>Donner vie au design</h3>
 
                 <span>
                   Un développement propre, responsive et pensé pour durer.
@@ -961,16 +826,12 @@ export default function Home() {
               >
                 <ArrowIcon />
               </span>
-
             </div>
 
             {/* ETAPE 04 */}
 
             <div className="method-step">
-
-              <div className="method-step-number">
-                04
-              </div>
+              <div className="method-step-number">04</div>
 
               <div className="method-step-icon">
                 <ChartIcon />
@@ -979,9 +840,7 @@ export default function Home() {
               <div>
                 <p>ON OPTIMISE</p>
 
-                <h3>
-                  Aller plus loin
-                </h3>
+                <h3>Aller plus loin</h3>
 
                 <span>
                   Performance, référencement et derniers détails avant la
@@ -995,9 +854,7 @@ export default function Home() {
               >
                 <ArrowIcon />
               </span>
-
             </div>
-
           </div>
         </div>
       </section>
@@ -1008,9 +865,7 @@ export default function Home() {
 
       <section className="about page-section">
         <div className="container about-grid">
-
           <div className="about-visual">
-
             <div className="about-circle">
               <span>N</span>
             </div>
@@ -1027,14 +882,10 @@ export default function Home() {
               <span />
               DISPONIBLE POUR DE NOUVEAUX PROJETS
             </div>
-
           </div>
 
           <div className="about-content">
-
-            <p className="micro-label">
-              À propos de NOVA
-            </p>
+            <p className="micro-label">À propos de NOVA</p>
 
             <h2 className="section-title">
               Petit studio.
@@ -1053,7 +904,6 @@ export default function Home() {
             </p>
 
             <div className="about-stats">
-
               <div>
                 <strong>100%</strong>
                 <span>SUR MESURE</span>
@@ -1068,13 +918,11 @@ export default function Home() {
                 <strong>24/7</strong>
                 <span>VOTRE PROJET EN LIGNE</span>
               </div>
-
             </div>
 
             <ArrowLink href="/a-propos" variant="secondary">
               Découvrir NOVA
             </ArrowLink>
-
           </div>
         </div>
       </section>
@@ -1085,12 +933,8 @@ export default function Home() {
 
       <section className="faq page-section">
         <div className="container faq-grid">
-
           <div>
-
-            <p className="micro-label">
-              Questions fréquentes
-            </p>
+            <p className="micro-label">Questions fréquentes</p>
 
             <h2 className="section-title">
               Vous avez une
@@ -1105,11 +949,9 @@ export default function Home() {
             <ArrowLink href="/faq" variant="secondary">
               Voir toute la FAQ
             </ArrowLink>
-
           </div>
 
           <div className="faq-list">
-
             <details>
               <summary>
                 <span>Combien coûte un site web ?</span>
@@ -1183,7 +1025,6 @@ export default function Home() {
                 la plus pertinente.
               </p>
             </details>
-
           </div>
         </div>
       </section>
@@ -1194,15 +1035,11 @@ export default function Home() {
 
       <section className="final-cta page-section">
         <div className="container">
-
           <div className="final-cta-inner">
-
             <div className="cta-decoration cta-decoration-one" />
             <div className="cta-decoration cta-decoration-two" />
 
-            <p className="micro-label">
-              Votre prochain projet
-            </p>
+            <p className="micro-label">Votre prochain projet</p>
 
             <h2>
               Faisons quelque chose
@@ -1215,10 +1052,7 @@ export default function Home() {
               évoluer votre présence en ligne ?
             </p>
 
-            <ArrowLink href="/devis">
-              Demander un devis
-            </ArrowLink>
-
+            <ArrowLink href="/devis">Demander un devis</ArrowLink>
           </div>
         </div>
       </section>
@@ -1228,11 +1062,8 @@ export default function Home() {
       ====================================================== */}
 
       <footer className="home-footer">
-
         <div className="container home-footer-inner">
-
           <div>
-
             <Link
               href="/"
               className="footer-logo"
@@ -1251,66 +1082,43 @@ export default function Home() {
               <br />
               Design, développement & performance.
             </p>
-
           </div>
 
           <div className="footer-links">
-
             <div>
               <span>EXPLORER</span>
 
-              <Link href="/services">
-                Services
-              </Link>
+              <Link href="/services">Services</Link>
 
-              <Link href="/realisations">
-                Réalisations
-              </Link>
+              <Link href="/realisations">Réalisations</Link>
 
-              <Link href="/methode">
-                Méthode
-              </Link>
+              <Link href="/methode">Méthode</Link>
             </div>
 
             <div>
               <span>CONTACT</span>
 
-              <Link href="/contact">
-                Nous contacter
-              </Link>
+              <Link href="/contact">Nous contacter</Link>
 
-              <Link href="/devis">
-                Demander un devis
-              </Link>
+              <Link href="/devis">Demander un devis</Link>
 
-              <Link href="/faq">
-                FAQ
-              </Link>
+              <Link href="/faq">FAQ</Link>
             </div>
-
           </div>
         </div>
 
         <div className="container footer-bottom">
-
           <span>
             © {new Date().getFullYear()} NOVA. Tous droits réservés.
           </span>
 
           <div>
-            <Link href="/mentions-legales">
-              Mentions légales
-            </Link>
+            <Link href="/mentions-legales">Mentions légales</Link>
 
-            <Link href="/contact">
-              Contact
-            </Link>
+            <Link href="/contact">Contact</Link>
           </div>
-
         </div>
-
       </footer>
-
     </main>
   );
 }

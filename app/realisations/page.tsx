@@ -223,8 +223,8 @@ function ProjectCard({ project }: { project: Project }) {
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    const rotateY = ((x / rect.width) - 0.5) * 8;
-    const rotateX = ((y / rect.height) - 0.5) * -8;
+    const rotateY = (x / rect.width - 0.5) * 8;
+    const rotateX = (y / rect.height - 0.5) * -8;
 
     card.style.setProperty("--rotate-x", `${rotateX}deg`);
     card.style.setProperty("--rotate-y", `${rotateY}deg`);

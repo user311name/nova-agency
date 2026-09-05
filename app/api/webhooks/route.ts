@@ -115,23 +115,41 @@ async function processDomainOrder(
     );
   }
 
-  const [firstName, ...lastNameParts] =
-    name.split(" ");
+  const parts =
+    name.trim().split(/\s+/);
+
+  const firstName =
+    parts.shift() || "Client";
 
   const lastName =
-    lastNameParts.join(" ") || firstName;
+    parts.join(" ") || firstName;
+
+  const line1 =
+    address.line1 || "";
+
+  const addressMatch =
+    line1.match(
+      /^(\d+[A-Za-z]?)\s+(.+)$/,
+    );
+
+  const number =
+    addressMatch?.[1] || "1";
+
+  const street =
+    addressMatch?.[2] ||
+    line1;
 
   const contact = {
     firstName,
     lastName,
-
     email,
 
     phone:
-      phone || "",
+      phone || "+33000000000",
 
-    street:
-      address.line1 || "",
+    street,
+
+    number,
 
     city:
       address.city || "",

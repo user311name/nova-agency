@@ -1,0 +1,241 @@
+.client-page {
+  min-height: 100vh;
+  background: #050505;
+  color: #fff;
+  padding-bottom: 100px;
+}
+
+.client-hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+}
+
+.client-badge,
+.section-label,
+.card-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #888;
+}
+
+.client-hero h1 {
+  margin: 22px 0;
+  font-size: clamp(52px, 8vw, 100px);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+
+.client-hero h1 span {
+  color: #888;
+}
+
+.client-hero p {
+  max-width: 560px;
+  color: #999;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.client-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.client-header {
+  margin-bottom: 32px;
+}
+
+.client-header h2 {
+  margin: 12px 0 8px;
+  font-size: 32px;
+  letter-spacing: -0.03em;
+}
+
+.client-header p {
+  margin: 0;
+  color: #888;
+}
+
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.client-card {
+  min-height: 280px;
+  padding: 30px;
+  border: 1px solid #202020;
+  border-radius: 24px;
+  background: #0a0a0a;
+}
+
+.client-card-large {
+  grid-column: span 2;
+  min-height: 360px;
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.card-top h3 {
+  margin: 10px 0 0;
+  font-size: 25px;
+  letter-spacing: -0.03em;
+}
+
+.card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #292929;
+  border-radius: 50%;
+  color: #aaa;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+  text-align: center;
+}
+
+.empty-icon {
+  margin-bottom: 18px;
+  color: #666;
+  font-size: 42px;
+}
+
+.empty-state h4 {
+  margin: 0 0 8px;
+  font-size: 19px;
+}
+
+.empty-state p {
+  max-width: 440px;
+  margin: 0 0 22px;
+  color: #777;
+  line-height: 1.6;
+}
+
+.client-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 20px;
+  border-radius: 999px;
+  background: #fff;
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.client-button:hover {
+  transform: translateY(-2px);
+}
+
+.mini-empty {
+  margin-top: 60px;
+}
+
+.mini-empty strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.mini-empty p {
+  margin: 0;
+  color: #777;
+  line-height: 1.6;
+}
+
+.service-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 42px;
+}
+
+.service-list div {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.service-list span {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #222;
+  border-radius: 12px;
+  background: #111;
+}
+
+.service-list p {
+  margin: 0;
+  color: #bbb;
+}
+
+.domain-list {
+  margin-top: 35px;
+}
+
+.domain-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0;
+  border-top: 1px solid #202020;
+}
+
+.domain-item strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.domain-item span {
+  color: #777;
+  font-size: 13px;
+}
+
+.domain-item button {
+  border: 1px solid #333;
+  border-radius: 999px;
+  padding: 9px 16px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .client-hero {
+    padding-top: 80px;
+  }
+
+  .client-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .client-card-large {
+    grid-column: span 1;
+  }
+
+  .client-card {
+    padding: 24px;
+  }
+}

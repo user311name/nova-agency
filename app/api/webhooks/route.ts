@@ -20,10 +20,7 @@ export async function POST(
 
   if (!signature) {
     return NextResponse.json(
-      {
-        error:
-          "Signature Stripe manquante",
-      },
+      { error: "Signature Stripe manquante" },
       { status: 400 },
     );
   }
@@ -31,12 +28,11 @@ export async function POST(
   let event: Stripe.Event;
 
   try {
-    event =
-      stripe.webhooks.constructEvent(
-        body,
-        signature,
-        process.env.STRIPE_WEBHOOK_SECRET!,
-      );
+    event = stripe.webhooks.constructEvent(
+      body,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET!,
+    );
   } catch (error) {
     console.error(
       "STRIPE WEBHOOK SIGNATURE ERROR:",
@@ -44,9 +40,7 @@ export async function POST(
     );
 
     return NextResponse.json(
-      {
-        error: "Signature invalide",
-      },
+      { error: "Signature invalide" },
       { status: 400 },
     );
   }
@@ -111,7 +105,7 @@ async function processDomainOrder(
     );
   }
 
-  // Vérification finale de disponibilité.
+  // On revérifie immédiatement la disponibilité.
   const availability =
     await checkDomain(domain);
 
@@ -121,31 +115,11 @@ async function processDomainOrder(
     );
   }
 
-  const parts =
-    name.trim().split(/\s+/);
-
-  const firstName =
-    parts.shift() || "Client";
+  const [firstName, ...lastNameParts] =
+    name.split(" ");
 
   const lastName =
-    parts.join(" ") || firstName;
-
-  const line1 =
-    address.line1 || "";
-
-  // Stripe nous fournit actuellement
-  // l'adresse complète sur line1.
-  const addressMatch =
-    line1.match(
-      /^(\d+[A-Za-z]?)\s+(.+)$/,
-    );
-
-  const number =
-    addressMatch?.[1] || "1";
-
-  const street =
-    addressMatch?.[2] ||
-    line1;
+    lastNameParts.join(" ") || firstName;
 
   const contact = {
     firstName,
@@ -154,11 +128,10 @@ async function processDomainOrder(
     email,
 
     phone:
-      phone || "+33000000000",
+      phone || "",
 
-    street,
-
-    number,
+    street:
+      address.line1 || "",
 
     city:
       address.city || "",
@@ -177,7 +150,7 @@ async function processDomainOrder(
   const handle =
     await createCustomer(contact);
 
-  // Enregistrement réel du domaine.
+  // Achat réel du domaine.
   const registration =
     await registerDomain(
       domain,
@@ -191,8 +164,7 @@ async function processDomainOrder(
       domain,
       handle,
       registration,
-      stripeSession:
-        session.id,
+      stripeSession: session.id,
     },
   );
 }

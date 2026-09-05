@@ -1,5 +1,36 @@
 import Link from "next/link";
+import Stripe from "stripe";
 import "./page.css";
+
+function getStripe() {
+  const key = process.env.STRIPE_SECRET_KEY;
+
+  if (!key) {
+    throw new Error("STRIPE_SECRET_KEY manquante.");
+  }
+
+  return new Stripe(key);
+}
+
+function CheckIcon() {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M5 12.5L9.5 17L19 7.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 function ArrowRight() {
   return (
@@ -30,8 +61,8 @@ function ArrowRight() {
 function ArrowLeft() {
   return (
     <svg
-      width="20"
-      height="20"
+      width="19"
+      height="19"
       viewBox="0 0 24 24"
       fill="none"
       aria-hidden="true"
@@ -53,85 +84,31 @@ function ArrowLeft() {
   );
 }
 
-function CheckIcon() {
+function GlobeIcon() {
   return (
     <svg
-      width="24"
-      height="24"
+      width="30"
+      height="30"
       viewBox="0 0 24 24"
       fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       aria-hidden="true"
     >
-      <path
-        d="M5 12.5L9.5 17L19 7.5"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M3.5 12H20.5" />
+      <path d="M12 3.5C14.3 5.8 15.4 8.6 15.4 12S14.3 18.2 12 20.5C9.7 18.2 8.6 15.4 8.6 12S9.7 5.8 12 3.5Z" />
     </svg>
   );
 }
 
-function Icon({
-  type,
-}: {
-  type:
-    | "user"
-    | "cube"
-    | "mail"
-    | "shield"
-    | "headset"
-    | "bolt";
-}) {
-  const paths = {
-    user: (
-      <>
-        <circle cx="12" cy="8" r="3.2" />
-        <path d="M5.5 19c.7-3.2 2.9-5 6.5-5s5.8 1.8 6.5 5" />
-      </>
-    ),
-
-    cube: (
-      <>
-        <path d="M12 3L20 7.5V16.5L12 21L4 16.5V7.5L12 3Z" />
-        <path d="M4 7.5L12 12L20 7.5" />
-        <path d="M12 12V21" />
-      </>
-    ),
-
-    mail: (
-      <>
-        <rect x="3.5" y="5.5" width="17" height="13" rx="2" />
-        <path d="M4.5 7L12 13L19.5 7" />
-      </>
-    ),
-
-    shield: (
-      <>
-        <path d="M12 3L19 6V11C19 16 16 19.5 12 21C8 19.5 5 16 5 11V6L12 3Z" />
-        <path d="M9 12L11.2 14.2L15.5 9.8" />
-      </>
-    ),
-
-    headset: (
-      <>
-        <path d="M4 13V11C4 6.6 7.4 4 12 4S20 6.6 20 11V13" />
-        <path d="M4 13H7V18H5.5C4.7 18 4 17.3 4 16.5V13Z" />
-        <path d="M20 13H17V18H18.5C19.3 18 20 17.3 20 16.5V13Z" />
-        <path d="M17 18C16.2 20 14.7 21 12 21" />
-      </>
-    ),
-
-    bolt: (
-      <path d="M13.5 2L5 13H11L10.5 22L19 10.5H13L13.5 2Z" />
-    ),
-  };
-
+function ShieldIcon() {
   return (
     <svg
-      width="25"
-      height="25"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -140,392 +117,700 @@ function Icon({
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      {paths[type]}
+      <path d="M12 3L19 6V11C19 16 16 19.5 12 21C8 19.5 5 16 5 11V6L12 3Z" />
+      <path d="M9 12L11.2 14.2L15.5 9.8" />
     </svg>
   );
 }
 
-function Success3D() {
+function UserIcon() {
   return (
-    <div className="successVisual">
-      <div className="successGlow" />
-
-      <div className="successVisualCard">
-        <div className="successCheck">
-          <div className="successCheckInner">
-            <CheckIcon />
-          </div>
-        </div>
-      </div>
-
-      <div className="successPlatform" />
-
-      <div className="absolute right-[8%] top-[16%] h-12 w-12 rounded-full bg-gradient-to-br from-white via-violet-300 to-indigo-500 shadow-[0_12px_30px_rgba(95,67,190,0.3)]" />
-
-      <div className="absolute left-[9%] top-[19%] h-8 w-8 rotate-45 rounded-lg border border-violet-200 bg-gradient-to-br from-white to-violet-300 shadow-[0_12px_30px_rgba(95,67,190,0.2)]" />
-
-      <div className="absolute bottom-[25%] left-[7%] grid grid-cols-3 gap-2 opacity-50">
-        {Array.from({ length: 9 }).map((_, index) => (
-          <span
-            key={index}
-            className="h-1.5 w-1.5 rounded-full bg-violet-400"
-          />
-        ))}
-      </div>
-    </div>
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="8" r="3.2" />
+      <path d="M5.5 19C6.2 15.8 8.4 14 12 14C15.6 14 17.8 15.8 18.5 19" />
+    </svg>
   );
 }
 
-function ActionCard({
-  icon,
-  title,
-  description,
-  link,
+function MailIcon() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="3.5" y="5.5" width="17" height="13" rx="2" />
+      <path d="M4.5 7L12 13L19.5 7" />
+    </svg>
+  );
+}
+
+function DnsIcon() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="4" y="4" width="16" height="5" rx="1.5" />
+      <rect x="4" y="15" width="16" height="5" rx="1.5" />
+      <path d="M8 9V15" />
+      <path d="M16 9V15" />
+    </svg>
+  );
+}
+
+function SiteIcon() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="3.5" y="4" width="17" height="16" rx="2" />
+      <path d="M3.5 8.5H20.5" />
+      <circle cx="7" cy="6.25" r=".6" fill="currentColor" />
+      <circle cx="10" cy="6.25" r=".6" fill="currentColor" />
+      <circle cx="13" cy="6.25" r=".6" fill="currentColor" />
+    </svg>
+  );
+}
+
+async function getOrder(sessionId: string) {
+  const stripe = getStripe();
+
+  const session = await stripe.checkout.sessions.retrieve(
+    sessionId,
+  );
+
+  const domain = session.metadata?.domain || null;
+
+  const amount =
+    typeof session.amount_total === "number"
+      ? session.amount_total / 100
+      : null;
+
+  const currency =
+    session.currency?.toUpperCase() || "EUR";
+
+  const email =
+    session.customer_details?.email || null;
+
+  return {
+    domain,
+    amount,
+    currency,
+    email,
+    paymentStatus: session.payment_status,
+  };
+}
+
+export default async function DomainSuccessPage({
+  searchParams,
 }: {
-  icon: "user" | "cube" | "mail" | "shield";
-  title: string;
-  description: string;
-  link: string;
+  searchParams: Promise<{
+    session_id?: string;
+  }>;
 }) {
-  return (
-    <Link href={link} className="actionCard group">
-      <div className="actionIcon">
-        <div className="actionIconInner">
-          <Icon type={icon} />
-        </div>
-      </div>
+  const params = await searchParams;
+  const sessionId = params.session_id;
 
-      <h3 className="actionTitle">{title}</h3>
+  if (!sessionId) {
+    return (
+      <main className="successPage">
+        <section className="emptySuccess">
+          <div className="emptyCard">
+            <div className="emptyIcon">
+              <ShieldIcon />
+            </div>
 
-      <p className="actionDescription">{description}</p>
+            <p className="eyebrow">
+              NOVA
+            </p>
 
-      <div className="actionLink">
-        <span>Découvrir</span>
+            <h1>
+              Commande introuvable
+            </h1>
 
-        <span className="transition-transform duration-300 group-hover:translate-x-1">
-          <ArrowRight />
-        </span>
-      </div>
-    </Link>
-  );
-}
+            <p>
+              Impossible de retrouver les informations de cette commande.
+            </p>
 
-export default function DomainSuccessPage() {
+            <Link
+              href="/domaines"
+              className="primaryButton"
+            >
+              Retour aux domaines
+              <ArrowRight />
+            </Link>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  let order;
+
+  try {
+    order = await getOrder(sessionId);
+  } catch {
+    return (
+      <main className="successPage">
+        <section className="emptySuccess">
+          <div className="emptyCard">
+            <div className="emptyIcon">
+              <ShieldIcon />
+            </div>
+
+            <p className="eyebrow">
+              NOVA
+            </p>
+
+            <h1>
+              Impossible de charger la commande
+            </h1>
+
+            <p>
+              Votre paiement peut avoir été effectué. Les informations de
+              commande sont temporairement indisponibles.
+            </p>
+
+            <Link
+              href="/domaines"
+              className="primaryButton"
+            >
+              Retour aux domaines
+              <ArrowRight />
+            </Link>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  const domain =
+    order.domain || "Domaine commandé";
+
+  const isPaid =
+    order.paymentStatus === "paid";
+
   return (
     <main className="successPage">
       {/* HERO */}
 
       <section className="successHero">
+        <div className="heroGlow" />
+
         <div className="successContainer">
           <div className="successHeroGrid">
-            <div>
+            <div className="heroContent">
               <div className="successBadge">
                 <span className="successBadgeIcon">
                   <CheckIcon />
                 </span>
 
-                Paiement réussi
+                {isPaid
+                  ? "Paiement confirmé"
+                  : "Commande reçue"}
               </div>
 
+              <p className="eyebrow">
+                NOVA
+              </p>
+
               <h1 className="successTitle">
-                Votre commande
+                Votre domaine
                 <br />
-                est confirmée
+                est presque prêt.
               </h1>
 
               <p className="successDescription">
-                Merci pour votre confiance. Votre domaine est en cours
-                d’enregistrement et sera bientôt actif.
+                Votre commande pour{" "}
+                <strong>{domain}</strong>{" "}
+                a bien été reçue. Nous finalisons maintenant son
+                enregistrement et sa configuration.
               </p>
 
-              <div className="successSecurity">
-                <div className="securityItem">
-                  <span className="securityIcon">
-                    <Icon type="shield" />
-                  </span>
+              <div className="heroActions">
+                <Link
+                  href="/espace-client"
+                  className="primaryButton"
+                >
+                  Accéder à mon espace client
+                  <ArrowRight />
+                </Link>
 
-                  <span>Paiement sécurisé par Stripe</span>
+                <Link
+                  href="/domaines"
+                  className="secondaryButton"
+                >
+                  Acheter un autre domaine
+                </Link>
+              </div>
+
+              <div className="trustRow">
+                <div className="trustItem">
+                  <span>
+                    <ShieldIcon />
+                  </span>
+                  Paiement sécurisé
                 </div>
 
-                <div className="securityItem">
-                  <span className="securityIcon">
-                    <Icon type="shield" />
+                <div className="trustItem">
+                  <span>
+                    <CheckIcon />
                   </span>
-
-                  <span>Transaction 100 % sécurisée</span>
+                  Commande enregistrée
                 </div>
               </div>
             </div>
 
-            <Success3D />
+            <div className="successVisual">
+              <div className="floatingShape shapeOne" />
+              <div className="floatingShape shapeTwo" />
+              <div className="floatingShape shapeThree" />
+
+              <div className="visualCard">
+                <div className="visualCardTop">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+
+                <div className="visualGlobe">
+                  <GlobeIcon />
+
+                  <div className="visualCheck">
+                    <CheckIcon />
+                  </div>
+                </div>
+
+                <div className="visualDomain">
+                  {domain}
+                </div>
+
+                <div className="visualStatus">
+                  <span />
+                  Activation en cours
+                </div>
+              </div>
+
+              <div className="visualShadow" />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* COMMANDE */}
+      {/* ORDER */}
 
       <section className="orderSection">
         <div className="successContainer">
           <div className="orderCard">
-            <div className="orderTop">
-              <div className="domainInfo">
+            <div className="orderHeader">
+              <div className="orderDomain">
                 <div className="domainIcon">
-                  <svg
-                    width="31"
-                    height="31"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    aria-hidden="true"
-                  >
-                    <circle cx="12" cy="12" r="8.5" />
-                    <path d="M3.5 12H20.5" />
-                    <path d="M12 3.5C14.3 5.8 15.4 8.6 15.4 12S14.3 18.2 12 20.5C9.7 18.2 8.6 15.4 8.6 12S9.7 5.8 12 3.5Z" />
-                  </svg>
+                  <GlobeIcon />
                 </div>
 
                 <div>
-                  <p className="domainLabel">
-                    Domaine commandé
+                  <p className="smallLabel">
+                    Votre domaine
                   </p>
 
-                  <h2 className="domainName">
-                    Votre domaine
+                  <h2>
+                    {domain}
                   </h2>
 
-                  <div className="domainStatus">
-                    <span className="domainStatusDot" />
+                  <span className="statusPill">
+                    <span />
                     Enregistrement en cours
-                  </div>
+                  </span>
                 </div>
               </div>
 
-              <div className="summary">
-                <p className="summaryTitle">
-                  Récapitulatif
+              <div className="orderPrice">
+                <p>
+                  Montant payé
                 </p>
 
-                <div className="summaryRow">
-                  <span>Domaine</span>
-                  <span>Votre domaine</span>
-                </div>
+                <strong>
+                  {order.amount !== null
+                    ? `${order.amount.toFixed(2)} ${order.currency}`
+                    : "Confirmé"}
+                </strong>
+              </div>
+            </div>
 
-                <div className="summaryRow">
-                  <span>Durée</span>
-                  <span>1 an</span>
-                </div>
+            <div className="orderDetails">
+              <div>
+                <span>
+                  Commande
+                </span>
 
-                <div className="summaryTotal">
-                  <span>Commande</span>
-                  <span>Confirmée</span>
-                </div>
+                <strong>
+                  Paiement confirmé
+                </strong>
+              </div>
+
+              <div>
+                <span>
+                  Durée
+                </span>
+
+                <strong>
+                  1 an
+                </strong>
+              </div>
+
+              <div>
+                <span>
+                  E-mail
+                </span>
+
+                <strong>
+                  {order.email || "Votre adresse e-mail"}
+                </strong>
               </div>
             </div>
 
             {/* PROGRESSION */}
 
             <div className="progress">
-              {[
-                {
-                  number: "1",
-                  title: "Commande confirmée",
-                  text: "Paiement reçu",
-                  active: true,
-                },
-                {
-                  number: "2",
-                  title: "Enregistrement",
-                  text: "En cours",
-                  active: false,
-                },
-                {
-                  number: "3",
-                  title: "Configuration",
-                  text: "En préparation",
-                  active: false,
-                },
-                {
-                  number: "4",
-                  title: "Actif",
-                  text: "Bientôt disponible",
-                  active: false,
-                },
-              ].map((step) => (
-                <div
-                  key={step.number}
-                  className={`progressItem ${
-                    step.active ? "active" : ""
-                  }`}
-                >
-                  <div className="progressNumber">
-                    {step.number}
-                  </div>
-
-                  <p className="progressTitle">
-                    {step.title}
-                  </p>
-
-                  <p className="progressText">
-                    {step.text}
-                  </p>
+              <div className="progressItem active">
+                <div className="progressNumber">
+                  <CheckIcon />
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ACTIONS */}
+                <div>
+                  <strong>
+                    Paiement
+                  </strong>
 
-      <section className="actionsSection">
-        <div className="successContainer">
-          <h2 className="sectionTitle">
-            Que pouvez-vous faire maintenant ?
-          </h2>
+                  <span>
+                    Confirmé
+                  </span>
+                </div>
+              </div>
 
-          <div className="actionsGrid">
-            <ActionCard
-              icon="user"
-              title="Accéder à votre espace client"
-              description="Gérez vos domaines, vos DNS, vos e-mails et vos futurs services."
-              link="/espace-client"
-            />
+              <div className="progressLine" />
 
-            <ActionCard
-              icon="cube"
-              title="Consulter vos commandes"
-              description="Retrouvez l’historique de vos achats et vos factures."
-              link="/espace-client"
-            />
+              <div className="progressItem active">
+                <div className="progressNumber">
+                  2
+                </div>
 
-            <ActionCard
-              icon="mail"
-              title="Configurer vos e-mails"
-              description="Créez et gérez vos adresses e-mail professionnelles."
-              link="/espace-client"
-            />
+                <div>
+                  <strong>
+                    Enregistrement
+                  </strong>
 
-            <ActionCard
-              icon="shield"
-              title="Sécuriser votre site"
-              description="Activez les services de sécurité et les certificats SSL."
-              link="/espace-client"
-            />
-          </div>
-        </div>
-      </section>
+                  <span>
+                    En cours
+                  </span>
+                </div>
+              </div>
 
-      {/* CTA */}
+              <div className="progressLine" />
 
-      <section>
-        <div className="successContainer">
-          <div className="darkCta">
-            <div className="darkCtaContent">
-              <p className="darkCtaEyebrow">
-                Nova
-              </p>
+              <div className="progressItem">
+                <div className="progressNumber">
+                  3
+                </div>
 
-              <h2 className="darkCtaTitle">
-                Tout est réuni pour réussir en ligne
-              </h2>
+                <div>
+                  <strong>
+                    Configuration
+                  </strong>
 
-              <p className="darkCtaText">
-                Hébergement rapide, sécurité renforcée et services
-                professionnels. Nova vous accompagne à chaque étape.
-              </p>
+                  <span>
+                    À venir
+                  </span>
+                </div>
+              </div>
 
-              <Link
-                href="/"
-                className="darkCtaButton"
-              >
-                Découvrir nos services
-                <ArrowRight />
-              </Link>
-            </div>
+              <div className="progressLine" />
 
-            <div className="novaCube">
-              <div className="novaCubeInner">
-                N
+              <div className="progressItem">
+                <div className="progressNumber">
+                  4
+                </div>
+
+                <div>
+                  <strong>
+                    Domaine actif
+                  </strong>
+
+                  <span>
+                    À venir
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* GARANTIES */}
+      {/* WHAT NEXT */}
 
-      <section className="successContainer">
-        <div className="benefits">
-          <div className="benefit">
-            <div className="benefitIcon">
-              <Icon type="headset" />
-            </div>
+      <section className="actionsSection">
+        <div className="successContainer">
+          <div className="sectionHeading">
+            <p className="eyebrow">
+              APRÈS L’ACTIVATION
+            </p>
 
-            <div>
-              <p className="benefitTitle">
-                Support 7j/7
-              </p>
+            <h2>
+              Tout ce dont vous avez besoin,
+              <br />
+              au même endroit.
+            </h2>
 
-              <p className="benefitText">
-                Notre équipe est là pour vous aider
-              </p>
-            </div>
+            <p>
+              Une fois votre domaine actif, vous pourrez gérer tous vos
+              services directement depuis votre espace client Nova.
+            </p>
           </div>
 
-          <div className="benefit">
-            <div className="benefitIcon">
-              <Icon type="shield" />
+          <div className="actionsGrid">
+            <Link
+              href="/espace-client"
+              className="actionCard"
+            >
+              <div className="actionIcon">
+                <UserIcon />
+              </div>
+
+              <h3>
+                Gérer mon domaine
+              </h3>
+
+              <p>
+                Retrouvez votre domaine, son statut, sa date d’expiration,
+                son renouvellement et ses paramètres.
+              </p>
+
+              <span>
+                Accéder à mon espace
+                <ArrowRight />
+              </span>
+            </Link>
+
+            <Link
+              href="/espace-client"
+              className="actionCard"
+            >
+              <div className="actionIcon">
+                <SiteIcon />
+              </div>
+
+              <h3>
+                Créer mon site
+              </h3>
+
+              <p>
+                Créez un site Nova et connectez automatiquement votre domaine
+                lorsqu’il sera actif.
+              </p>
+
+              <span>
+                Créer mon site
+                <ArrowRight />
+              </span>
+            </Link>
+
+            <Link
+              href="/espace-client"
+              className="actionCard"
+            >
+              <div className="actionIcon">
+                <MailIcon />
+              </div>
+
+              <h3>
+                Créer mes e-mails
+              </h3>
+
+              <p>
+                Préparez vos adresses professionnelles comme
+                contact@votredomaine.fr.
+              </p>
+
+              <span>
+                Gérer mes e-mails
+                <ArrowRight />
+              </span>
+            </Link>
+
+            <Link
+              href="/espace-client"
+              className="actionCard"
+            >
+              <div className="actionIcon">
+                <DnsIcon />
+              </div>
+
+              <h3>
+                Gérer mon DNS
+              </h3>
+
+              <p>
+                Gérez les enregistrements DNS de votre domaine depuis votre
+                espace Nova.
+              </p>
+
+              <span>
+                Gérer le DNS
+                <ArrowRight />
+              </span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* CLIENT AREA */}
+
+      <section className="clientSection">
+        <div className="successContainer">
+          <div className="clientPanel">
+            <div className="clientPanelContent">
+              <p className="eyebrow light">
+                ESPACE CLIENT NOVA
+              </p>
+
+              <h2>
+                Votre activité en ligne,
+                <br />
+                depuis un seul endroit.
+              </h2>
+
+              <p>
+                Domaines, sites, e-mails, DNS, sécurité, commandes et
+                renouvellements seront accessibles depuis votre espace
+                client.
+              </p>
+
+              <Link
+                href="/espace-client"
+                className="lightButton"
+              >
+                Ouvrir mon espace client
+                <ArrowRight />
+              </Link>
             </div>
 
-            <div>
-              <p className="benefitTitle">
-                Sécurité maximale
-              </p>
+            <div className="clientVisual">
+              <div className="cubeBack" />
 
-              <p className="benefitText">
-                Vos données sont protégées
-              </p>
+              <div className="novaCube">
+                <span>
+                  N
+                </span>
+              </div>
+
+              <div className="cubeGlow" />
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="benefit">
-            <div className="benefitIcon">
-              <Icon type="bolt" />
+      {/* REASSURANCE */}
+
+      <section className="reassuranceSection">
+        <div className="successContainer">
+          <div className="reassuranceGrid">
+            <div>
+              <div className="reassuranceIcon">
+                <ShieldIcon />
+              </div>
+
+              <h3>
+                Sécurité
+              </h3>
+
+              <p>
+                Vos paiements et vos services sont protégés.
+              </p>
             </div>
 
             <div>
-              <p className="benefitTitle">
-                Activation rapide
-              </p>
+              <div className="reassuranceIcon">
+                <CheckIcon />
+              </div>
 
-              <p className="benefitText">
-                Votre domaine sera actif très bientôt
+              <h3>
+                Gestion simplifiée
+              </h3>
+
+              <p>
+                Retrouvez tous vos services au même endroit.
+              </p>
+            </div>
+
+            <div>
+              <div className="reassuranceIcon">
+                <UserIcon />
+              </div>
+
+              <h3>
+                Support Nova
+              </h3>
+
+              <p>
+                Notre équipe vous accompagne lorsque vous en avez besoin.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ACTIONS FINALES */}
+      {/* FOOTER */}
 
-      <section className="successContainer">
-        <div className="bottomActions">
-          <Link
-            href="/domaines"
-            className="backButton"
-          >
-            <ArrowLeft />
-            Retour aux domaines
-          </Link>
+      <section className="bottomSection">
+        <div className="successContainer">
+          <div className="bottomActions">
+            <Link
+              href="/domaines"
+              className="backButton"
+            >
+              <ArrowLeft />
+              Retour aux domaines
+            </Link>
 
-          <Link
-            href="/espace-client"
-            className="clientButton"
-          >
-            <span>Accéder à mon espace client</span>
-            <ArrowRight />
-          </Link>
+            <Link
+              href="/espace-client"
+              className="primaryButton"
+            >
+              Accéder à mon espace client
+              <ArrowRight />
+            </Link>
+          </div>
         </div>
       </section>
     </main>

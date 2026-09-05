@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkDomain } from "@/lib/openprovider";
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const domain =
-      request.nextUrl.searchParams.get("domain");
+    const body = await request.json();
+
+    const domain = String(body.domain || "")
+      .trim()
+      .toLowerCase();
 
     if (!domain) {
       return NextResponse.json(
@@ -22,6 +25,9 @@ export async function GET(request: NextRequest) {
         success: true,
         available: false,
         domain: result.domain,
+        resellerPrice: result.resellerPrice,
+        currency: result.currency,
+        premium: result.premium,
         status: result.status,
       });
     }
@@ -35,7 +41,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Marge fixe Nova sur les domaines : +5 €
     const novaPrice =
       result.resellerPrice + 5;
 
@@ -43,11 +48,13 @@ export async function GET(request: NextRequest) {
       success: true,
       available: true,
       domain: result.domain,
+      resellerPrice: result.resellerPrice,
       currency: result.currency,
       price: Number(
         novaPrice.toFixed(2),
       ),
       premium: result.premium,
+      status: result.status,
     });
   } catch (error) {
     console.error(
@@ -57,6 +64,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(
       {
+        success: false,
         error:
           error instanceof Error
             ? error.message

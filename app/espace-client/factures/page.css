@@ -1,0 +1,675 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import "./page.css";
+
+type Invoice = {
+  id: string;
+  domain: string;
+  amount: number;
+  currency: string;
+  status: "paid" | "pending" | "failed" | "refunded";
+  email: string;
+  stripe_session_id?: string | null;
+  created_at: string;
+};
+
+function FileIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 3h7l4 4v14H7V3Z" />
+      <path d="M14 3v5h4" />
+      <path d="M10 13h5" />
+      <path d="M10 17h5" />
+    </svg>
+  );
+}
+
+function DownloadIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 4v10" />
+      <path d="m8 10 4 4 4-4" />
+      <path d="M5 19h14" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="m5 12 4 4L19 6" />
+    </svg>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 12h13" />
+      <path d="m13 6 6 6-6 6" />
+    </svg>
+  );
+}
+
+function formatDate(date: string) {
+  return new Intl.DateTimeFormat("fr-FR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(date));
+}
+
+function formatPrice(amount: number, currency: string) {
+  return new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: currency || "EUR",
+  }).format(amount);
+}
+
+function statusLabel(status: Invoice["status"]) {
+  switch (status) {
+    case "paid":
+      return "Payée";
+    case "pending":
+      return "En attente";
+    case "failed":
+      return "Échec";
+    case "refunded":
+      return "Remboursée";
+    default:
+      return status;
+  }
+}
+
+export default function ClientInvoicesPage() {
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const storedEmail = window.localStorage.getItem("nova_client_email");
+
+    if (!storedEmail) {
+      setLoading(false);
+      return;
+    }
+
+    setEmail(storedEmail);
+
+    async function loadInvoices() {
+      try {
+        const response = await fetch(
+          `/api/client/invoices?email=${encodeURIComponent(storedEmail)}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            data?.error || "Impossible de récupérer les factures."
+          );
+        }
+
+        setInvoices(
+          Array.isArray(data.invoices) ? data.invoices : []
+        );
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Une erreur est survenue."
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadInvoices();
+  }, []);
+
+  const totalPaid = useMemo(() => {
+    return invoices
+      .filter((invoice) => invoice.status === "paid")
+      .reduce(
+        (total, invoice) => total + Number(invoice.amount || 0),
+        0
+      );
+  }, [invoices]);
+
+  const paidCount = invoices.filter(
+    (invoice) => invoice.status === "paid"
+  ).length;
+
+  return (
+    <main className="clientInvoicesPage">
+
+      {/* =====================================================
+          HEADER
+          ===================================================== */}
+
+      <header className="clientInvoicesHeader">
+
+        <Link href="/" className="clientInvoicesLogo">
+          NOV<span>A</span>
+        </Link>
+
+        <nav className="clientInvoicesNav">
+          <Link href="/domaines">Domaines</Link>
+          <Link href="/hebergement">Hébergement</Link>
+          <Link href="/emails">Emails</Link>
+          <Link href="/securite">Sécurité</Link>
+          <Link href="/a-propos">À propos</Link>
+        </nav>
+
+        <div className="clientInvoicesHeaderRight">
+
+          <Link href="/contact" className="invoiceSupport">
+            Support
+          </Link>
+
+          <Link
+            href="/espace-client"
+            className="invoiceAvatar"
+            aria-label="Espace client"
+          >
+            {email ? email.charAt(0).toUpperCase() : "N"}
+          </Link>
+
+        </div>
+
+      </header>
+
+
+      {/* =====================================================
+          CONTENT
+          ===================================================== */}
+
+      <section className="invoicesContainer">
+
+        {/* BREADCRUMB */}
+
+        <div className="invoicesBreadcrumb">
+          <Link href="/espace-client">
+            Espace client
+          </Link>
+
+          <span>/</span>
+
+          <span>
+            Mes factures
+          </span>
+        </div>
+
+
+        {/* HERO */}
+
+        <div className="invoicesHero">
+
+          <div className="invoicesHeroContent">
+
+            <div className="invoicesBadge">
+              <span />
+              ESPACE CLIENT
+            </div>
+
+            <h1>
+              Mes
+              <br />
+              <span>factures.</span>
+            </h1>
+
+            <p>
+              Retrouvez toutes vos factures NOVA,
+              vos paiements et l'historique de vos achats
+              au même endroit.
+            </p>
+
+          </div>
+
+
+          <div className="invoicesHeroVisual">
+
+            <div className="invoiceGlow" />
+
+            <div className="invoiceDocument">
+
+              <div className="invoiceDocumentTop">
+                <span>NOVA</span>
+
+                <div className="invoiceDocumentDot" />
+              </div>
+
+              <div className="invoiceDocumentLines">
+                <i />
+                <i />
+                <i />
+                <i />
+              </div>
+
+              <div className="invoiceDocumentTotal">
+                <small>TOTAL</small>
+                <strong>€</strong>
+              </div>
+
+              <div className="invoiceDocumentCheck">
+                <CheckIcon />
+              </div>
+
+            </div>
+
+            <div className="invoiceVerticalText">
+              NOVA · DIGITAL SERVICES
+            </div>
+
+          </div>
+
+        </div>
+
+
+        {/* STATS */}
+
+        <div className="invoiceStats">
+
+          <div className="invoiceStatCard">
+
+            <div className="invoiceStatIcon">
+              <FileIcon />
+            </div>
+
+            <div>
+              <span>
+                Total factures
+              </span>
+
+              <strong>
+                {invoices.length}
+              </strong>
+            </div>
+
+          </div>
+
+
+          <div className="invoiceStatCard">
+
+            <div className="invoiceStatIcon">
+              <CheckIcon />
+            </div>
+
+            <div>
+              <span>
+                Factures payées
+              </span>
+
+              <strong>
+                {paidCount}
+              </strong>
+            </div>
+
+          </div>
+
+
+          <div className="invoiceStatCard">
+
+            <div className="invoiceStatIcon">
+              <span className="euroSymbol">
+                €
+              </span>
+            </div>
+
+            <div>
+              <span>
+                Total payé
+              </span>
+
+              <strong>
+                {formatPrice(totalPaid, "EUR")}
+              </strong>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        {/* FACTURES */}
+
+        <section className="invoicesSection">
+
+          <div className="invoicesSectionHeading">
+
+            <div>
+
+              <span className="invoiceEyebrow">
+                DOCUMENTS
+              </span>
+
+              <h2>
+                Toutes vos factures
+              </h2>
+
+            </div>
+
+            <span className="invoiceCount">
+              {invoices.length} facture
+              {invoices.length > 1 ? "s" : ""}
+            </span>
+
+          </div>
+
+
+          {/* LOADING */}
+
+          {loading && (
+            <div className="invoiceState">
+
+              <div className="invoiceLoader" />
+
+              <h3>
+                Chargement de vos factures...
+              </h3>
+
+              <p>
+                Nous récupérons vos documents.
+              </p>
+
+            </div>
+          )}
+
+
+          {/* ERROR */}
+
+          {!loading && error && (
+            <div className="invoiceState invoiceStateError">
+
+              <div className="invoiceStateIcon">
+                !
+              </div>
+
+              <h3>
+                Impossible de charger vos factures
+              </h3>
+
+              <p>
+                {error}
+              </p>
+
+              <button
+                type="button"
+                onClick={() => window.location.reload()}
+              >
+                Réessayer
+              </button>
+
+            </div>
+          )}
+
+
+          {/* NO EMAIL */}
+
+          {!loading && !error && !email && (
+            <div className="invoiceState">
+
+              <div className="invoiceStateIcon">
+                <FileIcon />
+              </div>
+
+              <h3>
+                Connectez-vous à votre espace client
+              </h3>
+
+              <p>
+                Vos factures seront automatiquement
+                disponibles une fois votre compte configuré.
+              </p>
+
+              <Link href="/espace-client">
+                Retour à l'espace client
+                <ArrowIcon />
+              </Link>
+
+            </div>
+          )}
+
+
+          {/* EMPTY */}
+
+          {!loading &&
+            !error &&
+            email &&
+            invoices.length === 0 && (
+              <div className="invoiceState">
+
+                <div className="invoiceStateIcon">
+                  <FileIcon />
+                </div>
+
+                <h3>
+                  Aucune facture pour le moment
+                </h3>
+
+                <p>
+                  Vos factures apparaîtront automatiquement
+                  après vos prochains achats.
+                </p>
+
+                <Link href="/domaines">
+                  Rechercher un domaine
+                  <ArrowIcon />
+                </Link>
+
+              </div>
+            )}
+
+
+          {/* LIST */}
+
+          {!loading &&
+            !error &&
+            invoices.length > 0 && (
+
+              <div className="invoiceList">
+
+                {invoices.map((invoice) => (
+
+                  <article
+                    className="invoiceRow"
+                    key={invoice.id}
+                  >
+
+                    <div className="invoiceMain">
+
+                      <div className="invoiceFileIcon">
+                        <FileIcon />
+                      </div>
+
+                      <div className="invoiceInfo">
+
+                        <div className="invoiceTitle">
+                          Facture — {invoice.domain}
+                        </div>
+
+                        <div className="invoiceMeta">
+                          INV-{invoice.id.slice(0, 8).toUpperCase()}
+                          <span>•</span>
+                          {formatDate(invoice.created_at)}
+                        </div>
+
+                      </div>
+
+                    </div>
+
+
+                    <div className="invoiceStatus">
+
+                      <span
+                        className={`invoiceStatusPill ${invoice.status}`}
+                      >
+                        {invoice.status === "paid" && (
+                          <CheckIcon />
+                        )}
+
+                        {statusLabel(invoice.status)}
+                      </span>
+
+                    </div>
+
+
+                    <div className="invoiceAmount">
+
+                      {formatPrice(
+                        Number(invoice.amount || 0),
+                        invoice.currency || "EUR"
+                      )}
+
+                    </div>
+
+
+                    {invoice.status === "paid" ? (
+                      <button
+                        type="button"
+                        className="invoiceDownload"
+                        title="Télécharger la facture"
+                        onClick={() => {
+                          alert(
+                            "La génération PDF des factures sera activée prochainement."
+                          );
+                        }}
+                      >
+                        <DownloadIcon />
+                      </button>
+                    ) : (
+                      <div className="invoiceDownloadDisabled">
+                        <DownloadIcon />
+                      </div>
+                    )}
+
+                  </article>
+
+                ))}
+
+              </div>
+
+            )}
+
+        </section>
+
+
+        {/* INFO */}
+
+        <section className="invoiceInfoPanel">
+
+          <div className="invoiceInfoPanelIcon">
+            <FileIcon />
+          </div>
+
+          <div>
+
+            <span className="invoiceEyebrow">
+              VOS DOCUMENTS
+            </span>
+
+            <h2>
+              Vos factures, toujours accessibles.
+            </h2>
+
+            <p>
+              Chaque paiement effectué auprès de NOVA
+              sera associé à une facture dans votre espace client.
+              La génération PDF sera disponible prochainement.
+            </p>
+
+          </div>
+
+        </section>
+
+
+        {/* CTA */}
+
+        <section className="invoiceCTA">
+
+          <div>
+
+            <span className="invoiceEyebrow">
+              BESOIN D'UN SERVICE ?
+            </span>
+
+            <h2>
+              Développez votre
+              <br />
+              <span>présence digitale.</span>
+            </h2>
+
+            <p>
+              Domaines, hébergement, emails et sécurité :
+              tout votre environnement digital au même endroit.
+            </p>
+
+          </div>
+
+
+          <div className="invoiceCTAActions">
+
+            <Link
+              href="/domaines"
+              className="invoicePrimaryButton"
+            >
+              Trouver un domaine
+              <ArrowIcon />
+            </Link>
+
+            <Link
+              href="/espace-client"
+              className="invoiceSecondaryButton"
+            >
+              Espace client
+            </Link>
+
+          </div>
+
+        </section>
+
+      </section>
+
+
+      {/* =====================================================
+          FOOTER
+          ===================================================== */}
+
+      <footer className="clientInvoicesFooter">
+
+        <Link
+          href="/"
+          className="invoiceFooterLogo"
+        >
+          NOV<span>A</span>
+        </Link>
+
+        <p>
+          © {new Date().getFullYear()} NOVA.
+          Tous droits réservés.
+        </p>
+
+        <div>
+
+          <Link href="/mentions-legales">
+            Mentions légales
+          </Link>
+
+          <Link href="/confidentialite">
+            Confidentialité
+          </Link>
+
+          <Link href="/contact">
+            Support
+          </Link>
+
+        </div>
+
+      </footer>
+
+    </main>
+  );
+}

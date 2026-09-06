@@ -1,26 +1,28 @@
 /* =========================================================
-   NOVA — ESPACE CLIENT / FACTURES
+   NOVA — ESPACE CLIENT / COMMANDES
    ========================================================= */
 
-/* Supprime le header global du layout sur cette page */
+/* =========================================================
+   SUPPRIMER LE HEADER GLOBAL DU LAYOUT SUR CETTE PAGE
+   ========================================================= */
 
-body:has(.clientInvoicesPage) .navbar,
-body:has(.clientInvoicesPage) header.navbar,
-body:has(.clientInvoicesPage) .nova-header,
-body:has(.clientInvoicesPage) header.nova-header {
+body:has(.clientOrdersPage) .navbar,
+body:has(.clientOrdersPage) header.navbar,
+body:has(.clientOrdersPage) .nova-header,
+body:has(.clientOrdersPage) header.nova-header {
   display: none !important;
 }
 
-body:has(.clientInvoicesPage) > header {
+body:has(.clientOrdersPage) > header {
   display: none !important;
 }
 
-body:has(.clientInvoicesPage) {
+body:has(.clientOrdersPage) {
   padding-top: 0 !important;
   margin-top: 0 !important;
 }
 
-body:has(.clientInvoicesPage) main.clientInvoicesPage {
+body:has(.clientOrdersPage) main.clientOrdersPage {
   margin-top: 0 !important;
 }
 
@@ -29,7 +31,16 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
    PAGE
    ========================================================= */
 
-.clientInvoicesPage {
+.clientOrdersPage {
+  --bg: #050506;
+  --bg-soft: #09090c;
+  --card: rgba(255, 255, 255, 0.045);
+  --card-hover: rgba(255, 255, 255, 0.065);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --text: #f7f7fa;
+  --muted: #9696a3;
+  --muted-light: #b9b9c4;
   --purple: #8b5cf6;
   --purple-light: #a78bfa;
   --purple-dark: #6d28d9;
@@ -50,17 +61,19 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
     ),
     #050506;
 
-  color: #f7f7fa;
+  color: var(--text);
 
   overflow-x: hidden;
+
+  position: relative;
 }
 
 
 /* =========================================================
-   HEADER
+   HEADER CLIENT
    ========================================================= */
 
-.clientInvoicesHeader {
+.clientOrdersHeader {
   width: 100%;
   height: 82px;
 
@@ -81,8 +94,9 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   z-index: 20;
 }
 
-.clientInvoicesLogo {
-  color: #fff;
+.clientOrdersLogo {
+  color: #ffffff;
+
   text-decoration: none;
 
   font-size: 23px;
@@ -91,18 +105,20 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   letter-spacing: -0.06em;
 }
 
-.clientInvoicesLogo span {
+.clientOrdersLogo span {
   color: var(--purple-light);
 }
 
-.clientInvoicesNav {
+.clientOrdersNav {
   display: flex;
   align-items: center;
 
   gap: 34px;
+
+  margin-left: 60px;
 }
 
-.clientInvoicesNav a {
+.clientOrdersNav a {
   color: #8f8f9b;
 
   text-decoration: none;
@@ -110,32 +126,39 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   font-size: 13px;
   font-weight: 500;
 
-  transition: color 0.25s ease;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
 }
 
-.clientInvoicesNav a:hover {
-  color: #fff;
+.clientOrdersNav a:hover {
+  color: #ffffff;
+
+  transform: translateY(-1px);
 }
 
-.clientInvoicesHeaderRight {
+.clientOrdersHeaderRight {
   display: flex;
   align-items: center;
+
   gap: 20px;
 }
 
-.invoiceSupport {
+.supportLink {
   color: #aaaab5;
 
   text-decoration: none;
 
   font-size: 13px;
+
+  transition: color 0.2s ease;
 }
 
-.invoiceSupport:hover {
-  color: #fff;
+.supportLink:hover {
+  color: #ffffff;
 }
 
-.invoiceAvatar {
+.clientAvatar {
   width: 38px;
   height: 38px;
 
@@ -145,9 +168,9 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   align-items: center;
   justify-content: center;
 
-  color: #fff;
-
   text-decoration: none;
+
+  color: #ffffff;
 
   font-size: 13px;
   font-weight: 700;
@@ -155,20 +178,27 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   background:
     linear-gradient(
       135deg,
-      #8b5cf6,
-      #6d28d9
+      rgba(139, 92, 246, 0.95),
+      rgba(109, 40, 217, 0.8)
     );
 
   border: 1px solid rgba(255, 255, 255, 0.15);
 
   box-shadow:
-    0 0 25px rgba(124, 58, 237, 0.28);
+    0 0 24px rgba(124, 58, 237, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 
-  transition: transform 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.invoiceAvatar:hover {
+.clientAvatar:hover {
   transform: translateY(-2px);
+
+  box-shadow:
+    0 0 32px rgba(124, 58, 237, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 
@@ -176,7 +206,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
    CONTAINER
    ========================================================= */
 
-.invoicesContainer {
+.ordersContainer {
   width: min(1320px, calc(100% - 10vw));
 
   margin: 0 auto;
@@ -189,7 +219,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
    BREADCRUMB
    ========================================================= */
 
-.invoicesBreadcrumb {
+.ordersBreadcrumb {
   display: flex;
   align-items: center;
 
@@ -202,17 +232,19 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   margin-bottom: 52px;
 }
 
-.invoicesBreadcrumb a {
+.ordersBreadcrumb a {
   color: #9999a5;
 
   text-decoration: none;
+
+  transition: color 0.2s ease;
 }
 
-.invoicesBreadcrumb a:hover {
-  color: #fff;
+.ordersBreadcrumb a:hover {
+  color: #ffffff;
 }
 
-.invoicesBreadcrumb span:last-child {
+.ordersBreadcrumb span:last-child {
   color: #d1d1d8;
 }
 
@@ -221,7 +253,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
    HERO
    ========================================================= */
 
-.invoicesHero {
+.ordersHero {
   min-height: 430px;
 
   display: grid;
@@ -231,9 +263,11 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   align-items: center;
 
   gap: 80px;
+
+  position: relative;
 }
 
-.invoicesBadge {
+.ordersBadge {
   width: fit-content;
 
   display: inline-flex;
@@ -259,7 +293,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   margin-bottom: 26px;
 }
 
-.invoicesBadge span {
+.ordersBadgeDot {
   width: 6px;
   height: 6px;
 
@@ -268,12 +302,12 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   background: #a78bfa;
 
   box-shadow:
-    0 0 9px #a78bfa;
+    0 0 8px rgba(167, 139, 250, 0.9);
 
-  animation: invoicePulse 2s ease-in-out infinite;
+  animation: ordersPulse 2s ease-in-out infinite;
 }
 
-@keyframes invoicePulse {
+@keyframes ordersPulse {
   0%,
   100% {
     opacity: 0.5;
@@ -286,7 +320,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   }
 }
 
-.invoicesHero h1 {
+.ordersHero h1 {
   margin: 0;
 
   font-size: clamp(55px, 7vw, 104px);
@@ -298,13 +332,13 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   font-weight: 750;
 }
 
-.invoicesHero h1 span {
+.ordersHero h1 span {
   color: transparent;
 
   background:
     linear-gradient(
       100deg,
-      #fff 5%,
+      #ffffff 5%,
       #a78bfa 48%,
       #6d28d9 100%
     );
@@ -313,7 +347,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   background-clip: text;
 }
 
-.invoicesHero p {
+.ordersHero p {
   max-width: 570px;
 
   margin: 34px 0 0;
@@ -327,10 +361,10 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
 
 
 /* =========================================================
-   HERO DOCUMENT
+   HERO VISUAL
    ========================================================= */
 
-.invoicesHeroVisual {
+.ordersHeroVisual {
   min-height: 390px;
 
   position: relative;
@@ -341,76 +375,65 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   justify-content: center;
 }
 
-.invoiceGlow {
+.ordersGlow {
+  width: 320px;
+  height: 320px;
+
   position: absolute;
-
-  width: 330px;
-  height: 330px;
-
-  border-radius: 50%;
 
   background:
     radial-gradient(
       circle,
-      rgba(124, 58, 237, 0.32),
-      transparent 68%
+      rgba(124, 58, 237, 0.36),
+      rgba(124, 58, 237, 0.08) 42%,
+      transparent 72%
     );
 
   filter: blur(12px);
 
-  animation: invoiceGlow 6s ease-in-out infinite;
+  animation: glowFloat 6s ease-in-out infinite;
 }
 
-@keyframes invoiceGlow {
+@keyframes glowFloat {
   0%,
   100% {
-    transform: scale(1) translateY(0);
+    transform: translateY(0) scale(1);
   }
 
   50% {
-    transform: scale(1.06) translateY(-12px);
+    transform: translateY(-14px) scale(1.05);
   }
 }
 
-.invoiceDocument {
-  width: 235px;
-  height: 300px;
-
-  padding: 25px;
+.ordersCube {
+  width: 210px;
+  height: 210px;
 
   position: relative;
 
-  border-radius: 5px;
-
-  border: 1px solid rgba(255, 255, 255, 0.18);
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.025)
-    );
-
-  box-shadow:
-    0 35px 80px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transform-style: preserve-3d;
 
   transform:
     perspective(900px)
-    rotateY(-18deg)
-    rotateX(8deg)
+    rotateX(-18deg)
+    rotateY(28deg)
     rotateZ(-4deg);
 
-  animation: invoiceFloat 7s ease-in-out infinite;
+  animation: cubeFloat 7s ease-in-out infinite;
+
+  filter:
+    drop-shadow(
+      0 30px 60px rgba(0, 0, 0, 0.7)
+    );
 }
 
-@keyframes invoiceFloat {
+@keyframes cubeFloat {
   0%,
   100% {
     transform:
       perspective(900px)
-      rotateY(-18deg)
-      rotateX(8deg)
+      rotateX(-18deg)
+      rotateY(28deg)
       rotateZ(-4deg)
       translateY(0);
   }
@@ -418,150 +441,109 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   50% {
     transform:
       perspective(900px)
-      rotateY(-14deg)
-      rotateX(10deg)
+      rotateX(-15deg)
+      rotateY(35deg)
       rotateZ(-3deg)
       translateY(-15px);
   }
 }
 
-.invoiceDocumentTop {
-  display: flex;
+.cubeFace {
+  position: absolute;
 
-  align-items: center;
+  width: 210px;
+  height: 210px;
 
-  justify-content: space-between;
+  border: 1px solid rgba(255, 255, 255, 0.18);
 
-  color: #fff;
-
-  font-size: 15px;
-
-  font-weight: 800;
-
-  letter-spacing: -0.05em;
-}
-
-.invoiceDocumentTop span {
-  color: #a78bfa;
-}
-
-.invoiceDocumentDot {
-  width: 7px;
-  height: 7px;
-
-  border-radius: 50%;
-
-  background: #8b5cf6;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.11),
+      rgba(255, 255, 255, 0.025)
+    );
 
   box-shadow:
-    0 0 14px #8b5cf6;
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 0 40px rgba(139, 92, 246, 0.05);
 }
 
-.invoiceDocumentLines {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 13px;
-
-  margin-top: 50px;
-}
-
-.invoiceDocumentLines i {
-  display: block;
-
-  height: 4px;
-
-  border-radius: 5px;
-
-  background: rgba(255, 255, 255, 0.13);
-}
-
-.invoiceDocumentLines i:nth-child(1) {
-  width: 80%;
-}
-
-.invoiceDocumentLines i:nth-child(2) {
-  width: 60%;
-}
-
-.invoiceDocumentLines i:nth-child(3) {
-  width: 72%;
-}
-
-.invoiceDocumentLines i:nth-child(4) {
-  width: 45%;
-}
-
-.invoiceDocumentTotal {
-  position: absolute;
-
-  bottom: 27px;
-  left: 25px;
-
-  display: flex;
-
-  flex-direction: column;
-}
-
-.invoiceDocumentTotal small {
-  color: #777783;
-
-  font-size: 7px;
-
-  letter-spacing: 0.18em;
-}
-
-.invoiceDocumentTotal strong {
-  margin-top: 5px;
-
-  color: #fff;
-
-  font-size: 27px;
-}
-
-.invoiceDocumentCheck {
-  position: absolute;
-
-  right: 22px;
-  bottom: 25px;
-
-  width: 38px;
-  height: 38px;
-
+.cubeFront {
   display: flex;
 
   align-items: center;
   justify-content: center;
 
-  border-radius: 50%;
+  transform: translateZ(105px);
 
-  background: rgba(57, 217, 138, 0.08);
-
-  border: 1px solid rgba(57, 217, 138, 0.2);
-
-  color: #61e5a1;
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      rgba(167, 139, 250, 0.28),
+      transparent 34%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.025)
+    );
 }
 
-.invoiceDocumentCheck svg {
-  width: 18px;
-  height: 18px;
+.cubeFront span {
+  font-size: 100px;
 
-  fill: none;
+  font-weight: 800;
 
-  stroke: currentColor;
+  letter-spacing: -0.1em;
 
-  stroke-width: 2;
+  color: transparent;
 
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #a78bfa 50%,
+      #6d28d9
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  text-shadow:
+    0 0 45px rgba(139, 92, 246, 0.2);
 }
 
-.invoiceVerticalText {
+.cubeTop {
+  transform:
+    rotateX(90deg)
+    translateZ(105px);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(167, 139, 250, 0.16),
+      rgba(255, 255, 255, 0.02)
+    );
+}
+
+.cubeSide {
+  transform:
+    rotateY(90deg)
+    translateZ(105px);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(109, 40, 217, 0.18),
+      rgba(255, 255, 255, 0.015)
+    );
+}
+
+.ordersVerticalText {
   position: absolute;
 
   right: -5px;
-  bottom: 45px;
+  bottom: 50px;
 
   writing-mode: vertical-rl;
 
@@ -579,7 +561,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
    STATS
    ========================================================= */
 
-.invoiceStats {
+.ordersStats {
   display: grid;
 
   grid-template-columns: repeat(3, 1fr);
@@ -589,7 +571,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   margin-top: 20px;
 }
 
-.invoiceStatCard {
+.ordersStatCard {
   min-height: 120px;
 
   padding: 26px;
@@ -600,9 +582,9 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
 
   gap: 18px;
 
-  border-radius: 18px;
+  border: 1px solid var(--border);
 
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 18px;
 
   background:
     linear-gradient(
@@ -611,18 +593,30 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
       rgba(255, 255, 255, 0.018)
     );
 
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
   transition:
     transform 0.25s ease,
-    border-color 0.25s ease;
+    border-color 0.25s ease,
+    background 0.25s ease;
 }
 
-.invoiceStatCard:hover {
+.ordersStatCard:hover {
   transform: translateY(-4px);
 
-  border-color: rgba(139, 92, 246, 0.28);
+  border-color: rgba(139, 92, 246, 0.25);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(139, 92, 246, 0.09),
+      rgba(255, 255, 255, 0.025)
+    );
 }
 
-.invoiceStatIcon {
+.ordersStatIcon {
   width: 48px;
   height: 48px;
 
@@ -638,17 +632,15 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   background: rgba(139, 92, 246, 0.1);
 
   border: 1px solid rgba(139, 92, 246, 0.16);
-
-  color: #b49aff;
 }
 
-.invoiceStatIcon svg {
+.ordersStatIcon svg {
   width: 21px;
   height: 21px;
 
   fill: none;
 
-  stroke: currentColor;
+  stroke: #b49aff;
 
   stroke-width: 1.6;
 
@@ -656,13 +648,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   stroke-linejoin: round;
 }
 
-.euroSymbol {
-  font-size: 20px;
-
-  font-weight: 700;
-}
-
-.invoiceStatCard span:not(.euroSymbol) {
+.ordersStatCard span {
   display: block;
 
   color: #858590;
@@ -672,8 +658,10 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   margin-bottom: 7px;
 }
 
-.invoiceStatCard strong {
-  color: #fff;
+.ordersStatCard strong {
+  display: block;
+
+  color: #ffffff;
 
   font-size: 22px;
 
@@ -682,14 +670,14 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
 
 
 /* =========================================================
-   SECTION
+   ORDERS SECTION
    ========================================================= */
 
-.invoicesSection {
+.ordersSection {
   margin-top: 105px;
 }
 
-.invoicesSectionHeading {
+.ordersSectionHeading {
   display: flex;
 
   align-items: flex-end;
@@ -699,7 +687,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   margin-bottom: 24px;
 }
 
-.invoiceEyebrow {
+.ordersEyebrow {
   display: block;
 
   color: #817f91;
@@ -713,7 +701,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   margin-bottom: 10px;
 }
 
-.invoicesSectionHeading h2 {
+.ordersSectionHeading h2 {
   margin: 0;
 
   font-size: 32px;
@@ -721,18 +709,20 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   letter-spacing: -0.05em;
 }
 
-.invoiceCount {
+.ordersCount {
   color: #81818c;
 
   font-size: 12px;
+
+  padding-bottom: 4px;
 }
 
 
 /* =========================================================
-   STATES
+   EMPTY / LOADING
    ========================================================= */
 
-.invoiceState {
+.ordersState {
   min-height: 330px;
 
   display: flex;
@@ -760,7 +750,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
     rgba(255, 255, 255, 0.018);
 }
 
-.invoiceStateIcon {
+.ordersStateIcon {
   width: 58px;
   height: 58px;
 
@@ -769,9 +759,9 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   align-items: center;
   justify-content: center;
 
-  margin-bottom: 20px;
-
   border-radius: 18px;
+
+  margin-bottom: 20px;
 
   color: #a78bfa;
 
@@ -780,7 +770,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   border: 1px solid rgba(139, 92, 246, 0.17);
 }
 
-.invoiceStateIcon svg {
+.ordersStateIcon svg {
   width: 25px;
   height: 25px;
 
@@ -789,16 +779,21 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   stroke: currentColor;
 
   stroke-width: 1.5;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.invoiceState h3 {
+.ordersState h3 {
   margin: 0;
 
   font-size: 20px;
+
+  letter-spacing: -0.03em;
 }
 
-.invoiceState p {
-  max-width: 450px;
+.ordersState p {
+  max-width: 430px;
 
   margin: 10px 0 25px;
 
@@ -809,8 +804,8 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   line-height: 1.7;
 }
 
-.invoiceState a,
-.invoiceState button {
+.ordersState a,
+.ordersState button {
   min-height: 44px;
 
   display: inline-flex;
@@ -828,7 +823,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
 
   background: rgba(255, 255, 255, 0.045);
 
-  color: #fff;
+  color: #ffffff;
 
   font-family: inherit;
 
@@ -839,16 +834,23 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   text-decoration: none;
 
   cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
-.invoiceState a:hover,
-.invoiceState button:hover {
+.ordersState a:hover,
+.ordersState button:hover {
+  transform: translateY(-2px);
+
   background: rgba(139, 92, 246, 0.12);
 
   border-color: rgba(139, 92, 246, 0.3);
 }
 
-.invoiceState a svg {
+.ordersState a svg {
   width: 16px;
   height: 16px;
 
@@ -862,7 +864,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   stroke-linejoin: round;
 }
 
-.invoiceStateError .invoiceStateIcon {
+.ordersStateError .ordersStateIcon {
   color: #ff8585;
 
   background: rgba(255, 80, 80, 0.08);
@@ -870,7 +872,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   border-color: rgba(255, 80, 80, 0.16);
 }
 
-.invoiceLoader {
+.ordersLoader {
   width: 34px;
   height: 34px;
 
@@ -880,12 +882,12 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
 
   border-top-color: #a78bfa;
 
-  animation: invoiceSpin 0.8s linear infinite;
+  animation: ordersSpin 0.8s linear infinite;
 
   margin-bottom: 22px;
 }
 
-@keyframes invoiceSpin {
+@keyframes ordersSpin {
   to {
     transform: rotate(360deg);
   }
@@ -893,10 +895,10 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
 
 
 /* =========================================================
-   LIST
+   ORDER LIST
    ========================================================= */
 
-.invoiceList {
+.ordersList {
   display: flex;
 
   flex-direction: column;
@@ -904,16 +906,16 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   gap: 10px;
 }
 
-.invoiceRow {
+.orderRow {
   min-height: 90px;
 
   display: grid;
 
   grid-template-columns:
-    minmax(280px, 1fr)
+    minmax(250px, 1fr)
     150px
-    140px
-    45px;
+    150px
+    42px;
 
   align-items: center;
 
@@ -934,16 +936,24 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
 
   transition:
     transform 0.25s ease,
-    border-color 0.25s ease;
+    border-color 0.25s ease,
+    background 0.25s ease;
 }
 
-.invoiceRow:hover {
+.orderRow:hover {
   transform: translateX(4px);
 
   border-color: rgba(139, 92, 246, 0.25);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(139, 92, 246, 0.075),
+      rgba(255, 255, 255, 0.022)
+    );
 }
 
-.invoiceMain {
+.orderMain {
   min-width: 0;
 
   display: flex;
@@ -953,7 +963,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   gap: 15px;
 }
 
-.invoiceFileIcon {
+.orderIcon {
   width: 48px;
   height: 48px;
 
@@ -974,26 +984,27 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
     );
 
   border: 1px solid rgba(139, 92, 246, 0.17);
-
-  color: #b49aff;
 }
 
-.invoiceFileIcon svg {
+.orderIcon svg {
   width: 21px;
   height: 21px;
 
   fill: none;
 
-  stroke: currentColor;
+  stroke: #b49aff;
 
   stroke-width: 1.5;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.invoiceInfo {
+.orderInfo {
   min-width: 0;
 }
 
-.invoiceTitle {
+.orderDomain {
   color: #f7f7fa;
 
   font-size: 14px;
@@ -1007,7 +1018,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   text-overflow: ellipsis;
 }
 
-.invoiceMeta {
+.orderMeta {
   display: flex;
 
   align-items: center;
@@ -1021,7 +1032,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   font-size: 10px;
 }
 
-.invoiceMeta span {
+.orderMeta span {
   color: #484850;
 }
 
@@ -1030,7 +1041,13 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
    STATUS
    ========================================================= */
 
-.invoiceStatusPill {
+.orderStatus {
+  display: flex;
+
+  justify-content: flex-start;
+}
+
+.status {
   min-height: 30px;
 
   display: inline-flex;
@@ -1048,7 +1065,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   font-weight: 600;
 }
 
-.invoiceStatusPill svg {
+.status svg {
   width: 13px;
   height: 13px;
 
@@ -1062,7 +1079,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   stroke-linejoin: round;
 }
 
-.invoiceStatusPill.paid {
+.status.paid {
   color: #61e5a1;
 
   background: rgba(57, 217, 138, 0.08);
@@ -1070,7 +1087,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   border: 1px solid rgba(57, 217, 138, 0.14);
 }
 
-.invoiceStatusPill.pending {
+.status.pending {
   color: #b49aff;
 
   background: rgba(139, 92, 246, 0.09);
@@ -1078,7 +1095,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   border: 1px solid rgba(139, 92, 246, 0.16);
 }
 
-.invoiceStatusPill.failed {
+.status.failed {
   color: #ff8d8d;
 
   background: rgba(255, 80, 80, 0.08);
@@ -1086,7 +1103,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   border: 1px solid rgba(255, 80, 80, 0.14);
 }
 
-.invoiceStatusPill.refunded {
+.status.refunded {
   color: #aaaab4;
 
   background: rgba(255, 255, 255, 0.05);
@@ -1096,10 +1113,10 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
 
 
 /* =========================================================
-   AMOUNT
+   PRICE
    ========================================================= */
 
-.invoiceAmount {
+.orderPrice {
   color: #f2f2f5;
 
   font-size: 14px;
@@ -1111,11 +1128,10 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
 
 
 /* =========================================================
-   DOWNLOAD
+   ARROW
    ========================================================= */
 
-.invoiceDownload,
-.invoiceDownloadDisabled {
+.orderArrow {
   width: 38px;
   height: 38px;
 
@@ -1126,36 +1142,32 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
 
   border-radius: 11px;
 
-  color: #858590;
+  border: 1px solid rgba(255, 255, 255, 0.07);
 
   background: rgba(255, 255, 255, 0.025);
 
-  border: 1px solid rgba(255, 255, 255, 0.07);
-}
+  color: #858590;
 
-.invoiceDownload {
   cursor: pointer;
 
   transition:
     color 0.2s ease,
     background 0.2s ease,
-    border-color 0.2s ease;
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
-.invoiceDownload:hover {
-  color: #fff;
+.orderArrow:hover {
+  color: #ffffff;
 
   background: rgba(139, 92, 246, 0.12);
 
   border-color: rgba(139, 92, 246, 0.25);
+
+  transform: translateX(3px);
 }
 
-.invoiceDownloadDisabled {
-  opacity: 0.35;
-}
-
-.invoiceDownload svg,
-.invoiceDownloadDisabled svg {
+.orderArrow svg {
   width: 16px;
   height: 16px;
 
@@ -1171,89 +1183,10 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
 
 
 /* =========================================================
-   INFO PANEL
-   ========================================================= */
-
-.invoiceInfoPanel {
-  margin-top: 70px;
-
-  padding: 32px;
-
-  display: flex;
-
-  align-items: flex-start;
-
-  gap: 20px;
-
-  border-radius: 20px;
-
-  border: 1px solid rgba(139, 92, 246, 0.14);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(139, 92, 246, 0.08),
-      rgba(255, 255, 255, 0.018)
-    );
-}
-
-.invoiceInfoPanelIcon {
-  width: 48px;
-  height: 48px;
-
-  flex: 0 0 48px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 14px;
-
-  color: #b49aff;
-
-  background: rgba(139, 92, 246, 0.1);
-
-  border: 1px solid rgba(139, 92, 246, 0.16);
-}
-
-.invoiceInfoPanelIcon svg {
-  width: 21px;
-  height: 21px;
-
-  fill: none;
-
-  stroke: currentColor;
-
-  stroke-width: 1.5;
-}
-
-.invoiceInfoPanel h2 {
-  margin: 0;
-
-  font-size: 21px;
-
-  letter-spacing: -0.04em;
-}
-
-.invoiceInfoPanel p {
-  max-width: 700px;
-
-  margin: 9px 0 0;
-
-  color: #858590;
-
-  font-size: 13px;
-
-  line-height: 1.7;
-}
-
-
-/* =========================================================
    CTA
    ========================================================= */
 
-.invoiceCTA {
+.ordersCTA {
   margin-top: 105px;
 
   min-height: 330px;
@@ -1287,9 +1220,36 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
       rgba(255, 255, 255, 0.055),
       rgba(255, 255, 255, 0.018)
     );
+
+  box-shadow:
+    0 30px 100px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-.invoiceCTA h2 {
+.ordersCTA::before {
+  content: "";
+
+  position: absolute;
+
+  width: 380px;
+  height: 380px;
+
+  right: -120px;
+  top: -180px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(167, 139, 250, 0.12);
+
+  box-shadow:
+    0 0 0 40px rgba(167, 139, 250, 0.025),
+    0 0 0 80px rgba(167, 139, 250, 0.018),
+    0 0 0 120px rgba(167, 139, 250, 0.012);
+
+  pointer-events: none;
+}
+
+.ordersCTA h2 {
   margin: 0;
 
   font-size: clamp(36px, 4vw, 58px);
@@ -1299,7 +1259,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   letter-spacing: -0.065em;
 }
 
-.invoiceCTA h2 span {
+.ordersCTA h2 span {
   color: transparent;
 
   background:
@@ -1313,7 +1273,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   background-clip: text;
 }
 
-.invoiceCTA p {
+.ordersCTA p {
   max-width: 500px;
 
   margin: 22px 0 0;
@@ -1325,22 +1285,22 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   line-height: 1.7;
 }
 
-.invoiceCTAActions {
-  min-width: 220px;
-
+.ordersCTAActions {
   display: flex;
 
   flex-direction: column;
 
   gap: 11px;
 
+  min-width: 220px;
+
   position: relative;
 
   z-index: 2;
 }
 
-.invoicePrimaryButton,
-.invoiceSecondaryButton {
+.primaryButton,
+.secondaryButton {
   min-height: 52px;
 
   display: flex;
@@ -1360,10 +1320,15 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   font-size: 12px;
 
   font-weight: 650;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
 }
 
-.invoicePrimaryButton {
-  color: #fff;
+.primaryButton {
+  color: #ffffff;
 
   background:
     linear-gradient(
@@ -1376,7 +1341,14 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
     0 14px 35px rgba(109, 40, 217, 0.28);
 }
 
-.invoiceSecondaryButton {
+.primaryButton:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 18px 45px rgba(109, 40, 217, 0.4);
+}
+
+.secondaryButton {
   color: #d0d0d7;
 
   border: 1px solid rgba(255, 255, 255, 0.09);
@@ -1384,12 +1356,13 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   background: rgba(255, 255, 255, 0.035);
 }
 
-.invoicePrimaryButton:hover,
-.invoiceSecondaryButton:hover {
-  transform: translateY(-2px);
+.secondaryButton:hover {
+  transform: translateY(-3px);
+
+  background: rgba(255, 255, 255, 0.06);
 }
 
-.invoicePrimaryButton svg {
+.primaryButton svg {
   width: 17px;
   height: 17px;
 
@@ -1408,7 +1381,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
    FOOTER
    ========================================================= */
 
-.clientInvoicesFooter {
+.clientOrdersFooter {
   min-height: 100px;
 
   width: min(1320px, calc(100% - 10vw));
@@ -1430,8 +1403,8 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   font-size: 10px;
 }
 
-.invoiceFooterLogo {
-  color: #fff;
+.footerLogo {
+  color: #ffffff;
 
   text-decoration: none;
 
@@ -1442,15 +1415,15 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   letter-spacing: -0.06em;
 }
 
-.invoiceFooterLogo span {
+.footerLogo span {
   color: #a78bfa;
 }
 
-.clientInvoicesFooter p {
+.clientOrdersFooter p {
   margin: 0;
 }
 
-.clientInvoicesFooter > div {
+.clientOrdersFooter > div {
   display: flex;
 
   align-items: center;
@@ -1458,14 +1431,16 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   gap: 24px;
 }
 
-.clientInvoicesFooter a {
+.clientOrdersFooter a {
   color: #70707b;
 
   text-decoration: none;
+
+  transition: color 0.2s ease;
 }
 
-.clientInvoicesFooter a:hover {
-  color: #fff;
+.clientOrdersFooter a:hover {
+  color: #ffffff;
 }
 
 
@@ -1474,22 +1449,32 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
    ========================================================= */
 
 @media (max-width: 1050px) {
-  .clientInvoicesNav {
+  .clientOrdersNav {
     gap: 20px;
+
+    margin-left: 20px;
   }
 
-  .invoicesHero {
+  .ordersHero {
     grid-template-columns: 1fr 0.65fr;
 
     gap: 30px;
   }
 
-  .invoiceRow {
+  .ordersHeroVisual {
+    transform: scale(0.85);
+  }
+
+  .orderRow {
     grid-template-columns:
       minmax(220px, 1fr)
       130px
       120px
-      45px;
+      42px;
+  }
+
+  .ordersCTA {
+    padding: 45px;
   }
 }
 
@@ -1499,21 +1484,21 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
    ========================================================= */
 
 @media (max-width: 800px) {
-  .clientInvoicesHeader {
+  .clientOrdersHeader {
     height: 72px;
 
     padding: 0 22px;
   }
 
-  .clientInvoicesNav {
+  .clientOrdersNav {
     display: none;
   }
 
-  .invoiceSupport {
+  .supportLink {
     display: none;
   }
 
-  .invoicesContainer {
+  .ordersContainer {
     width: calc(100% - 40px);
 
     padding-top: 25px;
@@ -1521,51 +1506,59 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
     padding-bottom: 70px;
   }
 
-  .invoicesBreadcrumb {
+  .ordersBreadcrumb {
     margin-bottom: 35px;
   }
 
-  .invoicesHero {
+  .ordersHero {
     min-height: auto;
 
     grid-template-columns: 1fr;
 
-    gap: 20px;
+    gap: 30px;
   }
 
-  .invoicesHero h1 {
+  .ordersHero h1 {
     font-size: clamp(56px, 18vw, 85px);
   }
 
-  .invoicesHero p {
+  .ordersHero p {
     margin-top: 25px;
 
     font-size: 14px;
   }
 
-  .invoicesHeroVisual {
-    min-height: 320px;
+  .ordersHeroVisual {
+    min-height: 300px;
 
-    margin-bottom: -15px;
+    transform: scale(0.78);
+
+    margin-top: -20px;
+
+    margin-bottom: -25px;
   }
 
-  .invoiceStats {
+  .ordersVerticalText {
+    right: 8px;
+  }
+
+  .ordersStats {
     grid-template-columns: 1fr;
 
     gap: 10px;
   }
 
-  .invoiceStatCard {
+  .ordersStatCard {
     min-height: 95px;
 
     padding: 20px;
   }
 
-  .invoicesSection {
+  .ordersSection {
     margin-top: 75px;
   }
 
-  .invoicesSectionHeading {
+  .ordersSectionHeading {
     align-items: flex-start;
 
     flex-direction: column;
@@ -1573,11 +1566,15 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
     gap: 12px;
   }
 
-  .invoicesSectionHeading h2 {
+  .ordersSectionHeading h2 {
     font-size: 27px;
   }
 
-  .invoiceRow {
+  .ordersCount {
+    padding: 0;
+  }
+
+  .orderRow {
     grid-template-columns: 1fr auto;
 
     gap: 15px;
@@ -1585,26 +1582,13 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
     padding: 17px;
   }
 
-  .invoiceMain {
-    grid-column: 1;
-
-    grid-row: 1;
-  }
-
-  .invoiceDownload,
-  .invoiceDownloadDisabled {
-    grid-column: 2;
-
-    grid-row: 1;
-  }
-
-  .invoiceStatus {
+  .orderStatus {
     grid-column: 1;
 
     grid-row: 2;
   }
 
-  .invoiceAmount {
+  .orderPrice {
     grid-column: 2;
 
     grid-row: 2;
@@ -1612,13 +1596,21 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
     text-align: right;
   }
 
-  .invoiceInfoPanel {
-    padding: 25px;
+  .orderArrow {
+    grid-column: 2;
 
-    margin-top: 50px;
+    grid-row: 1;
   }
 
-  .invoiceCTA {
+  .orderMain {
+    grid-column: 1;
+
+    grid-row: 1;
+  }
+
+  .ordersCTA {
+    min-height: auto;
+
     margin-top: 75px;
 
     padding: 35px 25px;
@@ -1630,15 +1622,15 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
     gap: 35px;
   }
 
-  .invoiceCTA h2 {
+  .ordersCTA h2 {
     font-size: 39px;
   }
 
-  .invoiceCTAActions {
+  .ordersCTAActions {
     width: 100%;
   }
 
-  .clientInvoicesFooter {
+  .clientOrdersFooter {
     width: calc(100% - 40px);
 
     padding: 30px 0;
@@ -1650,7 +1642,7 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
     gap: 20px;
   }
 
-  .clientInvoicesFooter > div {
+  .clientOrdersFooter > div {
     flex-wrap: wrap;
 
     gap: 15px;
@@ -1663,44 +1655,62 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
    ========================================================= */
 
 @media (max-width: 480px) {
-  .clientInvoicesLogo {
+  .clientOrdersLogo {
     font-size: 20px;
   }
 
-  .invoiceAvatar {
+  .clientAvatar {
     width: 35px;
     height: 35px;
   }
 
-  .invoicesHero h1 {
+  .ordersBadge {
+    font-size: 9px;
+  }
+
+  .ordersHero h1 {
     font-size: 54px;
   }
 
-  .invoiceDocument {
-    transform:
-      perspective(900px)
-      rotateY(-14deg)
-      rotateX(7deg)
-      rotateZ(-3deg)
-      scale(0.86);
+  .ordersHeroVisual {
+    transform: scale(0.66);
   }
 
-  .invoiceState {
+  .ordersState {
     min-height: 290px;
 
     padding: 30px 20px;
   }
 
-  .invoiceTitle {
+  .ordersState h3 {
+    font-size: 17px;
+  }
+
+  .orderRow {
+    border-radius: 15px;
+  }
+
+  .orderIcon {
+    width: 42px;
+    height: 42px;
+
+    flex-basis: 42px;
+  }
+
+  .orderDomain {
     font-size: 13px;
   }
 
-  .invoiceMeta {
+  .orderMeta {
     font-size: 9px;
   }
 
-  .invoiceCTA h2 {
+  .ordersCTA h2 {
     font-size: 34px;
+  }
+
+  .clientOrdersFooter {
+    font-size: 9px;
   }
 }
 
@@ -1710,10 +1720,17 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-  .invoicesBadge span,
-  .invoiceGlow,
-  .invoiceDocument,
-  .invoiceLoader {
+  .ordersBadgeDot,
+  .ordersGlow,
+  .ordersCube,
+  .ordersStatCard,
+  .orderRow,
+  .orderArrow,
+  .primaryButton,
+  .secondaryButton,
+  .clientAvatar {
     animation: none !important;
+
+    transition: none !important;
   }
 }

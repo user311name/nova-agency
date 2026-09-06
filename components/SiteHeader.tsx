@@ -65,10 +65,30 @@ export default function SiteHeader() {
    * sur /espace-client ni sur ses sous-pages.
    */
 
-  const isClientArea = pathname === "/espace-client" ||
+  const isClientArea =
+    pathname === "/espace-client" ||
     pathname.startsWith("/espace-client/");
 
-  if (isSuccessPage || isClientArea) {
+  /*
+   * =========================================================
+   * AUTHENTIFICATION
+   * =========================================================
+   *
+   * Les pages d'authentification ont leur propre interface.
+   * Aucun header global ne doit apparaître dessus.
+   */
+
+  const isAuthPage =
+    pathname === "/connexion" ||
+    pathname === "/inscription" ||
+    pathname === "/mot-de-passe-oublie" ||
+    pathname.startsWith("/auth/");
+
+  if (
+    isSuccessPage ||
+    isClientArea ||
+    isAuthPage
+  ) {
     return null;
   }
 
@@ -141,11 +161,7 @@ export default function SiteHeader() {
 
             <Link
               href="/espace-client"
-              className={`premium-client-button ${
-                pathname.startsWith("/espace-client")
-                  ? "active"
-                  : ""
-              }`}
+              className="premium-client-button"
             >
               <span>Espace client</span>
 
@@ -234,7 +250,10 @@ export default function SiteHeader() {
             className="premium-mobile-client"
             onClick={() => setOpen(false)}
           >
-            <span>Accéder à mon espace client</span>
+            <span>
+              Accéder à mon espace client
+            </span>
+
             <span>↗</span>
           </Link>
         </div>
@@ -383,19 +402,14 @@ export default function SiteHeader() {
             color: #ffffff;
           }
 
-          .premium-client-button.active {
-            border-color: rgba(150, 100, 255, 0.4);
-            background: rgba(126, 71, 230, 0.16);
-            color: #ffffff;
-          }
-
           .premium-client-arrow {
             color: #a473ff;
             font-size: 12px;
             transition: transform 180ms ease;
           }
 
-          .premium-client-button:hover .premium-client-arrow {
+          .premium-client-button:hover
+            .premium-client-arrow {
             transform: translateX(2px);
           }
 

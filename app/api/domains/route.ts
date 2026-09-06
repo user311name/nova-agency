@@ -1,45 +1,63 @@
 import { NextRequest, NextResponse } from "next/server";
-
+import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
 ) {
   try {
-    const email =
-      request.nextUrl.searchParams.get(
-        "email",
-      )?.trim().toLowerCase();
+    /*
+     * ========================================================
+     * AUTHENTIFICATION
+     * ========================================================
+     */
 
-    if (!email) {
+    const supabase =
+      await createSupabaseServerClient();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError || !user) {
       return NextResponse.json(
         {
-          error:
-            "Adresse email manquante.",
+          error: "Vous devez être connecté.",
+          code: "AUTH_REQUIRED",
         },
-        {
-          status: 400,
-        },
+        { status: 401 },
       );
     }
+
+    /*
+     * ========================================================
+     * DOMAINES DU COMPTE
+     * ========================================================
+     */
 
     const {
       data,
       error,
     } = await supabaseAdmin
       .from("domains")
-      .select(
-        `
-          id,
-          domain,
-          status,
-          email,
-          expires_at,
-          openprovider_id,
-          created_at
-        `,
-      )
-      .eq("email", email)
+      .select(`
+        id,
+        domain,
+        status,
+        email,
+        expires_at,
+        openprovider_id,
+        stripe_session_id,
+        amount,
+        currency,
+        user_id,
+        created_at
+      `)
+      .eq("user_id", user.id)
       .order(
         "created_at",
         {
@@ -58,9 +76,7 @@ export async function GET(
           error:
             "Impossible de récupérer les domaines.",
         },
-        {
-          status: 500,
-        },
+        { status: 500 },
       );
     }
 
@@ -80,9 +96,7 @@ export async function GET(
             ? error.message
             : "Erreur serveur.",
       },
-      {
-        status: 500,
-      },
+      { status: 500 },
     );
   }
 }

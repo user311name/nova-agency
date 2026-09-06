@@ -1,21 +1,74 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
-export async function GET(request: NextRequest) {
-  try {
-    const email = request.nextUrl.searchParams
-      .get("email")
-      ?.trim()
-      .toLowerCase();
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
-    if (!email) {
+type DatabaseStatus =
+  | "active"
+  | "failed"
+  | "pending"
+  | "processing"
+  | "unavailable"
+  | string;
+
+function mapStatus(
+  status: DatabaseStatus,
+) {
+  switch (status) {
+    case "active":
+      return "paid";
+
+    case "pending":
+      return "pending";
+
+    case "failed":
+      return "failed";
+
+    default:
+      return "pending";
+  }
+}
+
+export async function GET(
+  _request: NextRequest,
+) {
+  try {
+    /*
+     * ========================================================
+     * AUTH
+     * ========================================================
+     */
+
+    const supabase =
+      await createSupabaseServerClient();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError || !user) {
       return NextResponse.json(
-        { error: "Adresse email manquante." },
-        { status: 400 }
+        {
+          error: "Vous devez être connecté.",
+          code: "AUTH_REQUIRED",
+        },
+        { status: 401 },
       );
     }
 
-    const { data, error } = await supabaseAdmin
+    /*
+     * ========================================================
+     * COMMANDES DU CLIENT
+     * ========================================================
+     */
+
+    const {
+      data,
+      error,
+    } = await supabaseAdmin
       .from("domains")
       .select(`
         id,
@@ -25,43 +78,67 @@ export async function GET(request: NextRequest) {
         status,
         email,
         stripe_session_id,
+        user_id,
         created_at
       `)
-      .eq("email", email)
-      .order("created_at", { ascending: false });
+      .eq("user_id", user.id)
+      .order(
+        "created_at",
+        {
+          ascending: false,
+        },
+      );
 
     if (error) {
-      console.error("SUPABASE ORDERS ERROR:", error);
+      console.error(
+        "SUPABASE ORDERS ERROR:",
+        error,
+      );
 
       return NextResponse.json(
         {
-          error: "Impossible de récupérer les commandes.",
+          error:
+            "Impossible de récupérer vos commandes.",
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
-    const orders = (data || []).map((order) => ({
-      id: order.id,
-      domain: order.domain,
-      amount: Number(order.amount || 0),
-      currency: order.currency || "EUR",
-      status:
-        order.status === "active"
-          ? "paid"
-          : order.status === "pending"
-            ? "pending"
-            : order.status === "failed"
-              ? "failed"
-              : "paid",
-      email: order.email,
-      stripe_session_id: order.stripe_session_id,
-      created_at: order.created_at,
-    }));
+    const orders = (data || []).map(
+      (order) => ({
+        id: order.id,
 
-    return NextResponse.json({ orders });
+        domain: order.domain,
+
+        amount: Number(
+          order.amount || 0,
+        ),
+
+        currency:
+          order.currency || "EUR",
+
+        status: mapStatus(
+          order.status,
+        ),
+
+        email: order.email,
+
+        stripe_session_id:
+          order.stripe_session_id,
+
+        created_at:
+          order.created_at,
+      }),
+    );
+
+    return NextResponse.json({
+      orders,
+    });
   } catch (error) {
-    console.error("CLIENT ORDERS API ERROR:", error);
+    console.error(
+      "CLIENT ORDERS API ERROR:",
+      error,
+    );
 
     return NextResponse.json(
       {
@@ -70,7 +147,7 @@ export async function GET(request: NextRequest) {
             ? error.message
             : "Erreur serveur.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

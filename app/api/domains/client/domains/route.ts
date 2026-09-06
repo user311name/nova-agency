@@ -5,24 +5,6 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function mapStatus(
-  status: string,
-) {
-  switch (status) {
-    case "active":
-      return "paid";
-
-    case "pending":
-      return "pending";
-
-    case "failed":
-      return "failed";
-
-    default:
-      return "pending";
-  }
-}
-
 export async function GET(
   _request: NextRequest,
 ) {
@@ -53,11 +35,12 @@ export async function GET(
 
     /*
      * ========================================================
-     * RECUPERATION DES FACTURES
+     * RECUPERATION DES DOMAINES
      * ========================================================
      *
-     * On récupère uniquement les commandes appartenant
-     * au compte actuellement connecté.
+     * IMPORTANT :
+     * On utilise user_id.
+     * Le client ne peut plus choisir l'email à consulter.
      */
 
     const {
@@ -68,11 +51,13 @@ export async function GET(
       .select(`
         id,
         domain,
-        amount,
-        currency,
         status,
         email,
+        expires_at,
+        openprovider_id,
         stripe_session_id,
+        amount,
+        currency,
         user_id,
         created_at
       `)
@@ -86,55 +71,25 @@ export async function GET(
 
     if (error) {
       console.error(
-        "SUPABASE INVOICES ERROR:",
+        "SUPABASE CLIENT DOMAINS ERROR:",
         error,
       );
 
       return NextResponse.json(
         {
           error:
-            "Impossible de récupérer vos factures.",
+            "Impossible de récupérer vos domaines.",
         },
         { status: 500 },
       );
     }
 
-    const invoices =
-      (data || []).map(
-        (invoice) => ({
-          id: invoice.id,
-
-          domain:
-            invoice.domain,
-
-          amount: Number(
-            invoice.amount || 0,
-          ),
-
-          currency:
-            invoice.currency || "EUR",
-
-          status: mapStatus(
-            invoice.status,
-          ),
-
-          email:
-            invoice.email,
-
-          stripe_session_id:
-            invoice.stripe_session_id,
-
-          created_at:
-            invoice.created_at,
-        }),
-      );
-
     return NextResponse.json({
-      invoices,
+      domains: data || [],
     });
   } catch (error) {
     console.error(
-      "CLIENT INVOICES API ERROR:",
+      "CLIENT DOMAINS API ERROR:",
       error,
     );
 

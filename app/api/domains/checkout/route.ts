@@ -1,13 +1,52 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { checkDomain } from "@/lib/openprovider";
+import { createSupabaseServerClient } from "@/lib/supabase-server";
 
-const stripe = new Stripe(
-  process.env.STRIPE_SECRET_KEY!
-);
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+function getStripe() {
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+
+  if (!secretKey) {
+    throw new Error("STRIPE_SECRET_KEY manquante.");
+  }
+
+  return new Stripe(secretKey);
+}
 
 export async function POST(request: NextRequest) {
   try {
+    /*
+     * ========================================================
+     * AUTHENTIFICATION
+     * ========================================================
+     */
+
+    const supabase = await createSupabaseServerClient();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json(
+        {
+          error: "Vous devez être connecté pour acheter un domaine.",
+          code: "AUTH_REQUIRED",
+        },
+        { status: 401 },
+      );
+    }
+
+    /*
+     * ========================================================
+     * DOMAIN
+     * ========================================================
+     */
+
     const body = await request.json();
 
     const domain = String(body.domain || "")
@@ -19,9 +58,15 @@ export async function POST(request: NextRequest) {
         {
           error: "Nom de domaine obligatoire.",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
+
+    /*
+     * ========================================================
+     * VERIFICATION OPENPROVIDER
+     * ========================================================
+     */
 
     const result = await checkDomain(domain);
 
@@ -30,7 +75,7 @@ export async function POST(request: NextRequest) {
         {
           error: "Ce domaine n'est plus disponible.",
         },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -39,20 +84,39 @@ export async function POST(request: NextRequest) {
         {
           error: "Prix fournisseur indisponible.",
         },
-        { status: 502 }
+        { status: 502 },
       );
     }
 
-    // Prix NOVA = prix fournisseur + 5 €
-    const novaPrice = result.resellerPrice + 5;
+    /*
+     * ========================================================
+     * PRIX NOVA
+     * ========================================================
+     */
 
-    const amount = Math.round(
-      novaPrice * 100
+    const novaPrice = Number(
+      (result.resellerPrice + 5).toFixed(2),
     );
+
+    const amount = Math.round(novaPrice * 100);
+
+    /*
+     * ========================================================
+     * SITE
+     * ========================================================
+     */
 
     const site =
       process.env.NEXT_PUBLIC_SITE_URL ||
       "http://localhost:3000";
+
+    /*
+     * ========================================================
+     * STRIPE
+     * ========================================================
+     */
+
+    const stripe = getStripe();
 
     const session =
       await stripe.checkout.sessions.create({
@@ -70,6 +134,7 @@ export async function POST(request: NextRequest) {
 
               product_data: {
                 name: `Domaine ${domain}`,
+
                 description:
                   "Enregistrement de domaine NOVA",
               },
@@ -84,10 +149,27 @@ export async function POST(request: NextRequest) {
           enabled: true,
         },
 
+        /*
+         * ====================================================
+         * IMPORTANT
+         * L'utilisateur Supabase est maintenant attaché
+         * à la session Stripe.
+         * ====================================================
+         */
+
         metadata: {
           product: "domain_registration",
           domain,
+          user_id: user.id,
         },
+
+        /*
+         * L'email du compte est également conservé
+         * comme référence secondaire.
+         */
+
+        customer_email:
+          user.email || undefined,
 
         success_url:
           `${site}/domaines/succes?session_id={CHECKOUT_SESSION_ID}`,
@@ -96,6 +178,12 @@ export async function POST(request: NextRequest) {
           `${site}/domaines`,
       });
 
+    /*
+     * ========================================================
+     * REPONSE
+     * ========================================================
+     */
+
     return NextResponse.json({
       success: true,
       url: session.url,
@@ -103,7 +191,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error(
       "DOMAIN_CHECKOUT_ERROR:",
-      error
+      error,
     );
 
     return NextResponse.json(
@@ -113,7 +201,7 @@ export async function POST(request: NextRequest) {
             ? error.message
             : "Impossible de créer le paiement.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

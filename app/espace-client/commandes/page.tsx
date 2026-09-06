@@ -4,11 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import "./page.css";
 
-type OrderStatus =
-  | "paid"
-  | "pending"
-  | "failed"
-  | "refunded";
+type OrderStatus = "paid" | "pending" | "failed" | "refunded";
 
 type Order = {
   id: string;
@@ -84,7 +80,7 @@ function formatPrice(
 ) {
   const safeCurrency =
     typeof currency === "string" &&
-    currency.trim().length > 0
+    currency.trim() !== ""
       ? currency.toUpperCase()
       : "EUR";
 
@@ -120,21 +116,18 @@ export default function ClientOrdersPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const storedEmail =
-      window.localStorage.getItem(
-        "nova_client_email"
-      );
+    const rawEmail = window.localStorage.getItem(
+      "nova_client_email"
+    );
 
-    if (
-      typeof storedEmail !== "string" ||
-      storedEmail.trim().length === 0
-    ) {
+    const clientEmail = String(rawEmail || "")
+      .trim()
+      .toLowerCase();
+
+    if (clientEmail === "") {
       setLoading(false);
       return;
     }
-
-    const clientEmail: string =
-      storedEmail.trim().toLowerCase();
 
     setEmail(clientEmail);
 
@@ -144,31 +137,33 @@ export default function ClientOrdersPage() {
         setError("");
 
         const encodedEmail =
-          encodeURIComponent(clientEmail);
+          encodeURIComponent(String(clientEmail));
 
-        const response = await fetch(
-          `/api/client/orders?email=${encodedEmail}`,
-          {
-            method: "GET",
-            cache: "no-store",
-          }
-        );
+        const apiUrl =
+          "/api/client/orders?email=" +
+          encodedEmail;
+
+        const response = await fetch(apiUrl, {
+          method: "GET",
+          cache: "no-store",
+        });
 
         const data = await response.json();
 
         if (!response.ok) {
           throw new Error(
-            typeof data?.error === "string"
-              ? data.error
-              : "Impossible de récupérer les commandes."
+            String(
+              data?.error ||
+                "Impossible de récupérer les commandes."
+            )
           );
         }
 
-        setOrders(
-          Array.isArray(data?.orders)
-            ? data.orders
-            : []
-        );
+        if (Array.isArray(data?.orders)) {
+          setOrders(data.orders);
+        } else {
+          setOrders([]);
+        }
       } catch (err) {
         setError(
           err instanceof Error
@@ -203,8 +198,6 @@ export default function ClientOrdersPage() {
 
   return (
     <main className="clientOrdersPage">
-      {/* HEADER */}
-
       <header className="clientOrdersHeader">
         <Link
           href="/"
@@ -255,11 +248,7 @@ export default function ClientOrdersPage() {
         </div>
       </header>
 
-      {/* CONTENT */}
-
       <section className="ordersContainer">
-        {/* BREADCRUMB */}
-
         <div className="ordersBreadcrumb">
           <Link href="/espace-client">
             Espace client
@@ -269,8 +258,6 @@ export default function ClientOrdersPage() {
 
           <span>Mes commandes</span>
         </div>
-
-        {/* HERO */}
 
         <div className="ordersHero">
           <div>
@@ -310,8 +297,6 @@ export default function ClientOrdersPage() {
             </div>
           </div>
         </div>
-
-        {/* STATS */}
 
         <div className="ordersStats">
           <div className="ordersStatCard">
@@ -354,8 +339,6 @@ export default function ClientOrdersPage() {
           </div>
         </div>
 
-        {/* COMMANDES */}
-
         <section className="ordersSection">
           <div className="ordersSectionHeading">
             <div>
@@ -374,8 +357,6 @@ export default function ClientOrdersPage() {
             </span>
           </div>
 
-          {/* LOADING */}
-
           {loading && (
             <div className="ordersState">
               <div className="ordersLoader" />
@@ -389,8 +370,6 @@ export default function ClientOrdersPage() {
               </p>
             </div>
           )}
-
-          {/* ERROR */}
 
           {!loading && error && (
             <div className="ordersState ordersStateError">
@@ -416,8 +395,6 @@ export default function ClientOrdersPage() {
             </div>
           )}
 
-          {/* NO EMAIL */}
-
           {!loading && !error && !email && (
             <div className="ordersState">
               <div className="ordersStateIcon">
@@ -441,8 +418,6 @@ export default function ClientOrdersPage() {
               </Link>
             </div>
           )}
-
-          {/* EMPTY */}
 
           {!loading &&
             !error &&
@@ -470,8 +445,6 @@ export default function ClientOrdersPage() {
                 </Link>
               </div>
             )}
-
-          {/* LIST */}
 
           {!loading &&
             !error &&
@@ -561,8 +534,6 @@ export default function ClientOrdersPage() {
             )}
         </section>
 
-        {/* BOTTOM CTA */}
-
         <section className="ordersCTA">
           <div>
             <span className="ordersEyebrow">
@@ -601,8 +572,6 @@ export default function ClientOrdersPage() {
           </div>
         </section>
       </section>
-
-      {/* FOOTER */}
 
       <footer className="clientOrdersFooter">
         <Link

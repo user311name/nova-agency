@@ -129,7 +129,33 @@ function cleanDomain(value: string) {
     .toLowerCase()
     .replace(/^https?:\/\//, "")
     .replace(/^www\./, "")
-    .replace(/\/.*$/, "");
+    .split("/")[0]
+    .replace(/\.$/, "");
+}
+
+function isValidDomain(value: string) {
+  if (!value || value.length > 253) {
+    return false;
+  }
+
+  const labels = value.split(".");
+
+  if (labels.length < 2) {
+    return false;
+  }
+
+  return labels.every((label) => {
+    if (
+      !label ||
+      label.length > 63 ||
+      label.startsWith("-") ||
+      label.endsWith("-")
+    ) {
+      return false;
+    }
+
+    return /^[a-z0-9-]+$/i.test(label);
+  });
 }
 
 async function readJsonResponse(response: Response) {
@@ -154,18 +180,14 @@ async function readJsonResponse(response: Response) {
 
 export default function DomainesPage() {
   const [domain, setDomain] = useState("");
-  const [result, setResult] =
-    useState<SearchResult | null>(null);
+  const [result, setResult] = useState<SearchResult | null>(null);
 
   const [loading, setLoading] = useState(false);
-  const [checkoutLoading, setCheckoutLoading] =
-    useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   const [error, setError] = useState("");
 
-  async function handleSearch(
-    event: React.FormEvent<HTMLFormElement>,
-  ) {
+  async function handleSearch(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const clean = cleanDomain(domain);
@@ -178,50 +200,37 @@ export default function DomainesPage() {
       return;
     }
 
-    if (
-      !/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/i.test(
-        clean,
-      )
-    ) {
-      setError(
-        "Le nom de domaine n'est pas valide.",
-      );
+    if (!isValidDomain(clean)) {
+      setError("Le nom de domaine n'est pas valide.");
       return;
     }
 
+    setDomain(clean);
     setLoading(true);
 
     try {
-      const response = await fetch(
-        "/api/domains/search",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            domain: clean,
-          }),
+      const response = await fetch("/api/domains/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-      );
+        body: JSON.stringify({
+          domain: clean,
+        }),
+      });
 
-      const data =
-        await readJsonResponse(response);
+      const data = await readJsonResponse(response);
 
       if (!response.ok) {
         throw new Error(
-          data?.error ||
-            "Impossible de vérifier ce domaine.",
+          data?.error || "Impossible de vérifier ce domaine.",
         );
       }
 
       setResult(data);
     } catch (err) {
-      console.error(
-        "DOMAIN SEARCH ERROR:",
-        err,
-      );
+      console.error("DOMAIN SEARCH ERROR:", err);
 
       setError(
         err instanceof Error
@@ -246,14 +255,9 @@ export default function DomainesPage() {
       return;
     }
 
-    const cleanEmail =
-      email.trim().toLowerCase();
+    const cleanEmail = email.trim().toLowerCase();
 
-    if (
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-        cleanEmail,
-      )
-    ) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
       setError("Adresse e-mail invalide.");
       return;
     }
@@ -262,28 +266,23 @@ export default function DomainesPage() {
     setError("");
 
     try {
-      const response = await fetch(
-        "/api/domains/checkout",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            domain: result.domain,
-            email: cleanEmail,
-          }),
+      const response = await fetch("/api/domains/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
-      );
+        body: JSON.stringify({
+          domain: result.domain,
+          email: cleanEmail,
+        }),
+      });
 
-      const data =
-        await readJsonResponse(response);
+      const data = await readJsonResponse(response);
 
       if (!response.ok) {
         throw new Error(
-          data?.error ||
-            "Impossible de créer le paiement.",
+          data?.error || "Impossible de créer le paiement.",
         );
       }
 
@@ -295,17 +294,14 @@ export default function DomainesPage() {
 
       window.location.href = data.url;
     } catch (err) {
-      console.error(
-        "DOMAIN CHECKOUT ERROR:",
-        err,
-      );
+      console.error("DOMAIN CHECKOUT ERROR:", err);
 
       setError(
         err instanceof Error
           ? err.message
           : "Impossible de continuer le paiement.",
       );
-    } finally {
+
       setCheckoutLoading(false);
     }
   }
@@ -342,8 +338,8 @@ export default function DomainesPage() {
             </h1>
 
             <p className="domainsDescription">
-              Recherchez votre domaine, vérifiez
-              sa disponibilité en temps réel et
+              Recherchez votre domaine, vérifiez sa
+              disponibilité en temps réel et
               réservez-le directement avec Nova.
             </p>
 
@@ -359,9 +355,12 @@ export default function DomainesPage() {
                 <input
                   type="text"
                   value={domain}
-                  onChange={(event) =>
-                    setDomain(event.target.value)
-                  }
+                  onChange={(event) => {
+                    setDomain(event.target.value);
+                    if (error) {
+                      setError("");
+                    }
+                  }}
                   placeholder="votreentreprise.fr"
                   aria-label="Nom de domaine"
                   autoComplete="off"
@@ -374,9 +373,7 @@ export default function DomainesPage() {
                   disabled={loading}
                   className="domainSearchButton"
                 >
-                  {loading
-                    ? "Recherche..."
-                    : "Rechercher"}
+                  {loading ? "Recherche..." : "Rechercher"}
 
                   {!loading && <ArrowRight />}
                 </button>
@@ -384,13 +381,20 @@ export default function DomainesPage() {
             </form>
 
             {loading && (
-              <div className="domainStatus">
+              <div
+                className="domainStatus"
+                role="status"
+                aria-live="polite"
+              >
                 Vérification en temps réel...
               </div>
             )}
 
             {error && (
-              <div className="domainError">
+              <div
+                className="domainError"
+                role="alert"
+              >
                 {error}
               </div>
             )}
@@ -431,6 +435,7 @@ export default function DomainesPage() {
 
               <div className="domainGlobeText">
                 <span>Nova Domain</span>
+
                 <strong>
                   .fr .com .net
                 </strong>
@@ -455,7 +460,10 @@ export default function DomainesPage() {
       <section className="searchResultSection">
         <div className="domainsContainer">
           {result && (
-            <div className="domainResultCard">
+            <div
+              className="domainResultCard"
+              aria-live="polite"
+            >
               <div className="domainResultMain">
                 <div className="domainResultIcon">
                   <GlobeIcon />
@@ -466,9 +474,7 @@ export default function DomainesPage() {
                     Résultat de la recherche
                   </p>
 
-                  <h2>
-                    {result.domain}
-                  </h2>
+                  <h2>{result.domain}</h2>
 
                   {result.available ? (
                     <div className="domainAvailable">

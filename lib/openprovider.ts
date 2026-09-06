@@ -310,8 +310,8 @@ function parsePhone(
 
     return {
       country_code: "+33",
-      area_code: "",
-      subscriber_number: nationalNumber,
+      area_code: nationalNumber.slice(0, 1),
+      subscriber_number: nationalNumber.slice(1),
     };
   }
 

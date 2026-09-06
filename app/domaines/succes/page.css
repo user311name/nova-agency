@@ -1,6 +1,6 @@
 /* =========================================================
    SUCCESS PAGE — NOVA
-========================================================= */
+   ========================================================= */
 
 .successPage {
   position: relative;
@@ -32,19 +32,20 @@
   margin: 0 auto;
 }
 
-/* =========================================================
-   IMPORTANT :
-   LE LAYOUT GLOBAL A DÉJÀ UN SITEHEADER.
-   ON LE CACHE UNIQUEMENT SUR CETTE PAGE.
-========================================================= */
 
-body:has(.successPage) > header.nova-header {
+/* =========================================================
+   HEADER GLOBAL DU SITE
+   Masqué uniquement lorsque la page success est affichée.
+   ========================================================= */
+
+body:has(.successPage) .nova-header {
   display: none !important;
 }
 
+
 /* =========================================================
    BACKGROUND
-========================================================= */
+   ========================================================= */
 
 .successAmbient {
   position: absolute;
@@ -73,14 +74,15 @@ body:has(.successPage) > header.nova-header {
 .successAmbientThree {
   width: 500px;
   height: 500px;
-  bottom: 400px;
   right: 15%;
+  bottom: 400px;
   background: rgba(109, 68, 245, 0.06);
 }
 
+
 /* =========================================================
-   HEADER
-========================================================= */
+   HEADER SUCCESS
+   ========================================================= */
 
 .successHeader {
   position: relative;
@@ -158,8 +160,7 @@ body:has(.successPage) > header.nova-header {
 
   white-space: nowrap;
 
-  transition:
-    color 0.25s ease;
+  transition: color 0.25s ease;
 }
 
 .successNav a::after {
@@ -225,6 +226,7 @@ body:has(.successPage) > header.nova-header {
 
 .successClientButton:hover {
   transform: translateY(-2px);
+
   border-color: rgba(164, 128, 255, 0.5);
 
   background:
@@ -235,9 +237,10 @@ body:has(.successPage) > header.nova-header {
     );
 }
 
+
 /* =========================================================
    HERO
-========================================================= */
+   ========================================================= */
 
 .successHero {
   position: relative;
@@ -362,9 +365,10 @@ body:has(.successPage) > header.nova-header {
   margin-top: 32px;
 }
 
+
 /* =========================================================
    BUTTONS
-========================================================= */
+   ========================================================= */
 
 .primaryButton,
 .secondaryButton,
@@ -444,9 +448,10 @@ body:has(.successPage) > header.nova-header {
   background: rgba(255, 255, 255, 0.065);
 }
 
+
 /* =========================================================
    TRUST
-========================================================= */
+   ========================================================= */
 
 .trustRow {
   display: flex;
@@ -502,9 +507,10 @@ body:has(.successPage) > header.nova-header {
   font-size: 9px;
 }
 
+
 /* =========================================================
    HERO VISUAL
-========================================================= */
+   ========================================================= */
 
 .successVisual {
   position: relative;
@@ -518,6 +524,7 @@ body:has(.successPage) > header.nova-header {
 
 .visualGlow {
   position: absolute;
+
   width: 420px;
   height: 420px;
 
@@ -870,9 +877,10 @@ body:has(.successPage) > header.nova-header {
   transform: rotate(12deg);
 }
 
+
 /* =========================================================
    ORDER
-========================================================= */
+   ========================================================= */
 
 .orderSection {
   position: relative;
@@ -1044,9 +1052,10 @@ body:has(.successPage) > header.nova-header {
   font-size: 8px;
 }
 
+
 /* =========================================================
    DETAILS
-========================================================= */
+   ========================================================= */
 
 .orderDetails {
   display: grid;
@@ -1101,9 +1110,10 @@ body:has(.successPage) > header.nova-header {
   color: #b69aff !important;
 }
 
+
 /* =========================================================
    PROGRESS
-========================================================= */
+   ========================================================= */
 
 .progress {
   position: relative;
@@ -1238,9 +1248,10 @@ body:has(.successPage) > header.nova-header {
   line-height: 1.55;
 }
 
+
 /* =========================================================
    ACTIONS
-========================================================= */
+   ========================================================= */
 
 .actionsSection {
   position: relative;
@@ -1404,9 +1415,10 @@ body:has(.successPage) > header.nova-header {
   height: 14px;
 }
 
+
 /* =========================================================
    CLIENT SECTION
-========================================================= */
+   ========================================================= */
 
 .clientSection {
   position: relative;
@@ -1589,8 +1601,7 @@ body:has(.successPage) > header.nova-header {
     0 35px 70px rgba(0, 0, 0, 0.35),
     inset 15px 15px 30px rgba(255, 255, 255, 0.08);
 
-  transform:
-    rotate(-9deg);
+  transform: rotate(-9deg);
 
   transition:
     transform 0.45s ease;
@@ -1632,9 +1643,10 @@ body:has(.successPage) > header.nova-header {
   filter: blur(45px);
 }
 
+
 /* =========================================================
    REASSURANCE
-========================================================= */
+   ========================================================= */
 
 .reassuranceSection {
   position: relative;
@@ -1706,9 +1718,10 @@ body:has(.successPage) > header.nova-header {
   line-height: 1.6;
 }
 
+
 /* =========================================================
    BOTTOM
-========================================================= */
+   ========================================================= */
 
 .bottomSection {
   position: relative;
@@ -1780,6 +1793,11 @@ body:has(.successPage) > header.nova-header {
   color: #ffffff;
 }
 
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
 .successFooter {
   display: flex;
   align-items: flex-end;
@@ -1824,17 +1842,17 @@ body:has(.successPage) > header.nova-header {
 
   font-size: 10px;
 
-  transition:
-    color 0.25s ease;
+  transition: color 0.25s ease;
 }
 
 .footerLinks a:hover {
   color: #ffffff;
 }
 
+
 /* =========================================================
    EMPTY / ERROR
-========================================================= */
+   ========================================================= */
 
 .successStandalone {
   min-height: 100vh;
@@ -1915,9 +1933,10 @@ body:has(.successPage) > header.nova-header {
   line-height: 1.7;
 }
 
+
 /* =========================================================
    TABLET
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 1050px) {
   .successHeaderInner {
@@ -1966,9 +1985,10 @@ body:has(.successPage) > header.nova-header {
   }
 }
 
+
 /* =========================================================
    MOBILE
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 760px) {
   .successContainer {
@@ -2280,9 +2300,10 @@ body:has(.successPage) > header.nova-header {
   }
 }
 
+
 /* =========================================================
    SMALL MOBILE
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 480px) {
   .successContainer {
@@ -2410,9 +2431,10 @@ body:has(.successPage) > header.nova-header {
   }
 }
 
+
 /* =========================================================
    REDUCE MOTION
-========================================================= */
+   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
   .successPage *,

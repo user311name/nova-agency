@@ -1,369 +1,161 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import {
-  checkDomain,
-  createCustomer,
-  registerDomain,
-} from "@/lib/openprovider";
+import { checkDomain, createCustomer, findDomainByName, registerDomain } from "@/lib/openprovider";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
-const stripe = new Stripe(
-  process.env.STRIPE_SECRET_KEY!,
-);
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
-export async function POST(
-  request: NextRequest,
-) {
+type DomainOrderStatus = "active" | "failed" | "pending" | "processing" | "unavailable";
+type SavedOrder = { status: DomainOrderStatus };
+
+function getStripe() {
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+  if (!secretKey) throw new Error("STRIPE_SECRET_KEY manquante.");
+  return new Stripe(secretKey);
+}
+
+export async function POST(request: NextRequest) {
   const body = await request.text();
+  const signature = request.headers.get("stripe-signature");
+  if (!signature) return NextResponse.json({ error: "Signature Stripe manquante." }, { status: 400 });
 
-  const signature =
-    request.headers.get("stripe-signature");
-
-  if (!signature) {
-    return NextResponse.json(
-      { error: "Signature Stripe manquante." },
-      { status: 400 },
-    );
-  }
-
-  const webhookSecret =
-    process.env.STRIPE_WEBHOOK_SECRET;
-
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!webhookSecret) {
-    console.error(
-      "STRIPE_WEBHOOK_SECRET manquante.",
-    );
-
-    return NextResponse.json(
-      { error: "Configuration Stripe manquante." },
-      { status: 500 },
-    );
+    console.error("STRIPE_WEBHOOK_SECRET manquante.");
+    return NextResponse.json({ error: "Configuration Stripe manquante." }, { status: 500 });
   }
 
   let event: Stripe.Event;
-
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      webhookSecret,
-    );
+    event = getStripe().webhooks.constructEvent(body, signature, webhookSecret);
   } catch (error) {
-    console.error(
-      "STRIPE WEBHOOK SIGNATURE ERROR:",
-      error,
-    );
+    console.error("STRIPE WEBHOOK SIGNATURE ERROR:", error);
+    return NextResponse.json({ error: "Signature Stripe invalide." }, { status: 400 });
+  }
 
-    return NextResponse.json(
-      { error: "Signature invalide." },
-      { status: 400 },
-    );
+  if (event.type !== "checkout.session.completed") {
+    return NextResponse.json({ received: true });
   }
 
   try {
-    if (
-      event.type ===
-      "checkout.session.completed"
-    ) {
-      const session =
-        event.data.object as Stripe.Checkout.Session;
-
-      await processDomainOrder(session);
-    }
-
-    return NextResponse.json({
-      received: true,
-    });
+    await processDomainOrder(event.data.object as Stripe.Checkout.Session);
+    return NextResponse.json({ received: true });
   } catch (error) {
-    console.error(
-      "DOMAIN PROVISIONING ERROR:",
-      error,
-    );
-
-    return NextResponse.json(
-      {
-        error:
-          "Le paiement est confirmé mais l'enregistrement du domaine doit être traité.",
-      },
-      { status: 500 },
-    );
+    const message = getErrorMessage(error);
+    console.error("DOMAIN PROVISIONING ERROR:", { eventId: event.id, message });
+    // Stripe doit recevoir un échec pour pouvoir relancer le webhook.
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
-async function processDomainOrder(
-  session: Stripe.Checkout.Session,
-) {
-  const domain =
-    session.metadata?.domain
-      ?.trim()
-      .toLowerCase();
+async function processDomainOrder(session: Stripe.Checkout.Session) {
+  if (session.payment_status !== "paid") {
+    throw new Error("Le paiement Stripe n'est pas confirmé.");
+  }
+  if (session.metadata?.product !== "domain_registration") return;
 
-  if (!domain) {
-    throw new Error(
-      "Domaine absent des metadata Stripe.",
-    );
+  const domain = session.metadata.domain?.trim().toLowerCase();
+  const email = session.customer_details?.email?.trim().toLowerCase();
+  const name = session.customer_details?.name?.trim();
+  const phone = session.customer_details?.phone?.trim();
+  const address = session.customer_details?.address;
+
+  if (!domain) throw new Error("Domaine absent des metadata Stripe.");
+  if (!email || !name || !phone || !address) {
+    throw new Error("Informations client Stripe insuffisantes pour enregistrer le domaine.");
   }
 
-  /*
-   * Vérification anti-double traitement.
-   */
-  const { data: existingOrder, error: lookupError } =
-    await supabaseAdmin
-      .from("domains")
-      .select("*")
-      .eq("stripe_session_id", session.id)
-      .maybeSingle();
-
-  if (lookupError) {
-    throw new Error(
-      `Erreur Supabase : ${lookupError.message}`,
-    );
-  }
-
-  if (existingOrder?.status === "active") {
-    console.log(
-      "COMMANDE DEJA TRAITEE:",
-      session.id,
-    );
-
+  const existingOrder = await getOrder(session.id);
+  if (["active", "pending", "unavailable"].includes(existingOrder?.status || "")) {
+    console.log("DOMAIN ORDER ALREADY FINALIZED:", session.id);
     return;
   }
 
-  /*
-   * Informations client Stripe.
-   */
-  const email =
-    session.customer_details?.email;
+  await saveOrder({ domain, email, status: "processing", stripeSessionId: session.id });
 
-  const name =
-    session.customer_details?.name;
+  try {
+    // Si Stripe relance après une inscription réussie mais avant Supabase,
+    // le domaine existant est synchronisé au lieu d'être inscrit une seconde fois.
+    const ownedDomain = await findDomainByName(domain);
+    if (ownedDomain) {
+      await saveRegisteredOrder({ domain, email, registration: ownedDomain, stripeSessionId: session.id });
+      return;
+    }
 
-  const phone =
-    session.customer_details?.phone;
+    const availability = await checkDomain(domain);
+    if (!availability.available) throw new Error(`Le domaine ${domain} n'est plus disponible.`);
 
-  const address =
-    session.customer_details?.address;
-
-  if (!email || !name || !address) {
-    throw new Error(
-      "Informations client insuffisantes pour enregistrer le domaine.",
-    );
+    const handle = await createCustomer(makeContact({ address, email, name, phone }));
+    const registration = await registerDomain(domain, handle, 1);
+    console.log("DOMAIN REGISTERED:", { domain, handle, registrationId: extractOpenproviderId(registration), stripeSessionId: session.id });
+    await saveRegisteredOrder({ domain, email, registration, stripeSessionId: session.id });
+  } catch (error) {
+    await saveOrder({ domain, email, status: "failed", stripeSessionId: session.id });
+    throw error;
   }
+}
 
-  /*
-   * Dernière vérification de disponibilité.
-   */
-  const availability =
-    await checkDomain(domain);
-
-  if (!availability.available) {
-    await saveOrder({
-      domain,
-      status: "unavailable",
-      stripeSessionId: session.id,
-      email,
-    });
-
-    throw new Error(
-      `Le domaine ${domain} n'est plus disponible.`,
-    );
+function makeContact({ address, email, name, phone }: { address: Stripe.Address; email: string; name: string; phone: string }) {
+  const parts = name.split(/\s+/);
+  const firstName = parts.shift() || "Client";
+  const lastName = parts.join(" ") || firstName;
+  const line1 = address.line1?.trim();
+  const city = address.city?.trim();
+  const postalCode = address.postal_code?.trim();
+  if (!line1 || !city || !postalCode || !address.country) {
+    throw new Error("Adresse de facturation Stripe incomplète.");
   }
-
-  /*
-   * Séparation prénom / nom.
-   */
-  const parts =
-    name.trim().split(/\s+/);
-
-  const firstName =
-    parts.shift() || "Client";
-
-  const lastName =
-    parts.join(" ") || firstName;
-
-  /*
-   * Adresse.
-   */
-  const line1 =
-    address.line1 || "";
-
-  const addressMatch =
-    line1.match(
-      /^(\d+[A-Za-z]?)\s+(.+)$/,
-    );
-
-  const number =
-    addressMatch?.[1] || "1";
-
-  const street =
-    addressMatch?.[2] || line1;
-
-  const contact = {
-    firstName,
-    lastName,
-    email,
-    phone:
-      phone || "+33000000000",
-    street,
-    number,
-    city:
-      address.city || "",
-    postalCode:
-      address.postal_code || "",
-    state:
-      address.state || "",
-    country:
-      address.country || "FR",
+  const addressMatch = line1.match(/^(\d+[A-Za-z]?)\s+(.+)$/);
+  return {
+    firstName, lastName, email, phone,
+    street: addressMatch?.[2] || line1,
+    number: addressMatch?.[1] || "1",
+    city, postalCode, state: address.state || "", country: address.country,
   };
+}
 
-  /*
-   * Création du client Openprovider.
-   */
-  const handle =
-    await createCustomer(contact);
+async function getOrder(stripeSessionId: string): Promise<SavedOrder | null> {
+  const { data, error } = await supabaseAdmin.from("domains").select("status").eq("stripe_session_id", stripeSessionId).maybeSingle();
+  if (error) throw new Error(`Erreur Supabase : ${error.message}`);
+  return data as SavedOrder | null;
+}
 
-  console.log(
-    "OPENPROVIDER CUSTOMER CREATED:",
-    {
-      domain,
-      handle,
-    },
-  );
-
-  /*
-   * Enregistrement du domaine.
-   */
-  const registration =
-    await registerDomain(
-      domain,
-      handle,
-      1,
-    );
-
-  console.log(
-    "DOMAIN REGISTERED:",
-    {
-      domain,
-      handle,
-      registration,
-      stripeSession: session.id,
-    },
-  );
-
-  /*
-   * Récupération de l'identifiant Openprovider.
-   */
-  const openproviderId =
-    extractOpenproviderId(
-      registration,
-    );
-
-  /*
-   * Récupération de la date d'expiration.
-   */
-  const expiresAt =
-    extractExpirationDate(
-      registration,
-    );
-
-  /*
-   * Enregistrement dans Supabase.
-   */
+async function saveRegisteredOrder({ domain, email, registration, stripeSessionId }: { domain: string; email: string; registration: Record<string, unknown>; stripeSessionId: string }) {
   await saveOrder({
-    domain,
-    status: "active",
-    stripeSessionId: session.id,
-    openproviderId,
-    email,
-    expiresAt,
+    domain, email, expiresAt: extractExpirationDate(registration),
+    openproviderId: extractOpenproviderId(registration),
+    status: getProviderStatus(registration) === "ACT" ? "active" : "pending", stripeSessionId,
   });
 }
 
-async function saveOrder({
-  domain,
-  status,
-  stripeSessionId,
-  openproviderId,
-  email,
-  expiresAt,
-}: {
-  domain: string;
-  status: string;
-  stripeSessionId: string;
-  openproviderId?: string | null;
-  email: string;
-  expiresAt?: string | null;
-}) {
-  const { error } =
-    await supabaseAdmin
-      .from("domains")
-      .upsert(
-        {
-          domain,
-          status,
-          stripe_session_id:
-            stripeSessionId,
-          openprovider_id:
-            openproviderId || null,
-          email,
-          expires_at:
-            expiresAt || null,
-        },
-        {
-          onConflict:
-            "stripe_session_id",
-        },
-      );
-
-  if (error) {
-    throw new Error(
-      `Erreur Supabase : ${error.message}`,
-    );
-  }
+async function saveOrder({ domain, email, expiresAt, openproviderId, status, stripeSessionId }: { domain: string; email: string; expiresAt?: string | null; openproviderId?: string | null; status: DomainOrderStatus; stripeSessionId: string }) {
+  const values = { domain, email, expires_at: expiresAt || null, openprovider_id: openproviderId || null, status, stripe_session_id: stripeSessionId };
+  const existingOrder = await getOrder(stripeSessionId);
+  const query = existingOrder
+    ? supabaseAdmin.from("domains").update(values).eq("stripe_session_id", stripeSessionId)
+    : supabaseAdmin.from("domains").insert(values);
+  const { error } = await query;
+  if (error) throw new Error(`Erreur Supabase : ${error.message}`);
 }
 
-function extractOpenproviderId(
-  registration: any,
-): string | null {
-  const id =
-    registration?.id ??
-    registration?.domain?.id ??
-    registration?.domain?.domain_id ??
-    registration?.id_domain;
-
-  if (
-    id === undefined ||
-    id === null
-  ) {
-    return null;
-  }
-
-  return String(id);
+function getProviderStatus(registration: Record<string, unknown>) {
+  const status = registration.status;
+  return typeof status === "string" ? status.toUpperCase() : "REQ";
 }
 
-function extractExpirationDate(
-  registration: any,
-): string | null {
-  const date =
-    registration?.expiration_date ??
-    registration?.domain?.expiration_date ??
-    registration?.domain?.expire_date ??
-    registration?.expire_date;
+function extractOpenproviderId(registration: Record<string, unknown>) {
+  const id = registration.id;
+  return id === undefined || id === null ? null : String(id);
+}
 
-  if (!date) {
-    return null;
-  }
+function extractExpirationDate(registration: Record<string, unknown>) {
+  const date = registration.expiration_date;
+  if (typeof date !== "string" || !date) return null;
+  const parsed = new Date(date);
+  return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString();
+}
 
-  const parsed =
-    new Date(date);
-
-  if (
-    Number.isNaN(
-      parsed.getTime(),
-    )
-  ) {
-    return null;
-  }
-
-  return parsed.toISOString();
+function getErrorMessage(error: unknown) {
+  return error instanceof Error ? error.message : "Erreur inconnue lors de l'enregistrement du domaine.";
 }

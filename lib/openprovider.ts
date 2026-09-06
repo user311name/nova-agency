@@ -208,6 +208,7 @@ async function api<T>(
 function parsePrice(item: any): number | null {
   const price =
     item?.price?.reseller?.price ??
+    item?.price?.reseller ??
     item?.price?.product?.price ??
     item?.reseller_price ??
     item?.price?.price;
@@ -395,6 +396,70 @@ export async function registerDomain(
       autorenew: "on",
     }),
   });
+}
+
+export async function findDomainByName(
+  domain: string,
+) {
+  const {
+    clean,
+    name,
+    extension,
+  } = splitDomain(domain);
+
+  const result = await listDomains(name);
+  const domains =
+    result?.results ??
+    result?.domains ??
+    result ??
+    [];
+
+  if (!Array.isArray(domains)) {
+    return null;
+  }
+
+  return (
+    domains.find((item: unknown) => {
+      if (
+        !item ||
+        typeof item !== "object"
+      ) {
+        return false;
+      }
+
+      const domainItem = item as {
+        domain?:
+          | string
+          | {
+              name?: string;
+              extension?: string;
+            };
+        domain_name?: string;
+        extension?: string;
+        name?: string;
+      };
+      const itemName =
+        typeof domainItem.domain === "object"
+          ? domainItem.domain?.name
+          : domainItem.name;
+      const itemExtension =
+        typeof domainItem.domain === "object"
+          ? domainItem.domain?.extension
+          : domainItem.extension;
+      const fullDomain =
+        domainItem.domain_name ??
+        domainItem.domain;
+
+      return (
+        (String(itemName || "").toLowerCase() ===
+          name &&
+          String(itemExtension || "").toLowerCase() ===
+            extension) ||
+        String(fullDomain || "").toLowerCase() ===
+          clean
+      );
+    }) ?? null
+  );
 }
 
 export async function renewDomain(

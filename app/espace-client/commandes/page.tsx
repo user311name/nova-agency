@@ -4,13 +4,17 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import "./page.css";
 
-type OrderStatus = "paid" | "pending" | "failed" | "refunded";
+type OrderStatus =
+  | "paid"
+  | "pending"
+  | "failed"
+  | "refunded";
 
 type Order = {
   id: string;
   domain: string;
   amount: number;
-  currency: string | null;
+  currency?: string | null;
   status: OrderStatus;
   email: string;
   stripe_session_id?: string | null;
@@ -74,10 +78,19 @@ function formatDate(date: string) {
   }).format(parsedDate);
 }
 
-function formatPrice(amount: number, currency: string | null) {
+function formatPrice(
+  amount: number,
+  currency?: string | null
+) {
+  const safeCurrency =
+    typeof currency === "string" &&
+    currency.trim().length > 0
+      ? currency.toUpperCase()
+      : "EUR";
+
   return new Intl.NumberFormat("fr-FR", {
     style: "currency",
-    currency: currency || "EUR",
+    currency: safeCurrency,
   }).format(amount);
 }
 
@@ -107,25 +120,34 @@ export default function ClientOrdersPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const storedEmail = window.localStorage
-      .getItem("nova_client_email")
-      ?.trim()
-      .toLowerCase();
+    const storedEmail =
+      window.localStorage.getItem(
+        "nova_client_email"
+      );
 
-    if (!storedEmail) {
+    if (
+      typeof storedEmail !== "string" ||
+      storedEmail.trim().length === 0
+    ) {
       setLoading(false);
       return;
     }
 
-    setEmail(storedEmail);
+    const clientEmail: string =
+      storedEmail.trim().toLowerCase();
+
+    setEmail(clientEmail);
 
     async function loadOrders() {
       try {
         setLoading(true);
         setError("");
 
+        const encodedEmail =
+          encodeURIComponent(clientEmail);
+
         const response = await fetch(
-          `/api/client/orders?email=${encodeURIComponent(storedEmail)}`,
+          `/api/client/orders?email=${encodedEmail}`,
           {
             method: "GET",
             cache: "no-store",
@@ -136,8 +158,9 @@ export default function ClientOrdersPage() {
 
         if (!response.ok) {
           throw new Error(
-            data?.error ||
-              "Impossible de récupérer les commandes."
+            typeof data?.error === "string"
+              ? data.error
+              : "Impossible de récupérer les commandes."
           );
         }
 
@@ -162,7 +185,9 @@ export default function ClientOrdersPage() {
 
   const totalSpent = useMemo(() => {
     return orders
-      .filter((order) => order.status === "paid")
+      .filter(
+        (order) => order.status === "paid"
+      )
       .reduce(
         (total, order) =>
           total + Number(order.amount || 0),
@@ -518,10 +543,8 @@ export default function ClientOrdersPage() {
 
                     <div className="orderPrice">
                       {formatPrice(
-                        Number(
-                          order.amount || 0
-                        ),
-                        order.currency || "EUR"
+                        Number(order.amount || 0),
+                        order.currency
                       )}
                     </div>
 

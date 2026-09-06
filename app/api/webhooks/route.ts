@@ -1,21 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+
 import {
   checkDomain,
   createCustomer,
   registerDomain,
 } from "@/lib/openprovider";
+
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
-const stripe = new Stripe(
-  process.env.STRIPE_SECRET_KEY!,
-);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
-
-  const signature =
-    request.headers.get("stripe-signature");
+  const signature = request.headers.get("stripe-signature");
 
   if (!signature) {
     return NextResponse.json(
@@ -24,13 +22,10 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const webhookSecret =
-    process.env.STRIPE_WEBHOOK_SECRET;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
   if (!webhookSecret) {
-    console.error(
-      "STRIPE_WEBHOOK_SECRET manquante.",
-    );
+    console.error("STRIPE_WEBHOOK_SECRET manquante.");
 
     return NextResponse.json(
       { error: "Configuration Stripe manquante." },
@@ -59,10 +54,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    if (
-      event.type ===
-      "checkout.session.completed"
-    ) {
+    if (event.type === "checkout.session.completed") {
       const session =
         event.data.object as Stripe.Checkout.Session;
 
@@ -93,10 +85,18 @@ export async function POST(request: NextRequest) {
 async function processDomainOrder(
   session: Stripe.Checkout.Session,
 ) {
-  const domain =
-    session.metadata?.domain
-      ?.trim()
-      .toLowerCase();
+  if (session.payment_status !== "paid") {
+    console.log(
+      "PAIEMENT NON CONFIRME:",
+      session.id,
+    );
+
+    return;
+  }
+
+  const domain = session.metadata?.domain
+    ?.trim()
+    .toLowerCase();
 
   if (!domain) {
     throw new Error(
@@ -104,7 +104,27 @@ async function processDomainOrder(
     );
   }
 
-  // Vérification anti-double traitement.
+  /*
+   * Vérification du produit.
+   */
+  const productType =
+    session.metadata?.product_type;
+
+  if (
+    productType &&
+    productType !== "domain_registration"
+  ) {
+    console.log(
+      "SESSION NON DOMAINE:",
+      session.id,
+    );
+
+    return;
+  }
+
+  /*
+   * Anti-double traitement.
+   */
   const {
     data: existingOrder,
     error: lookupError,
@@ -129,7 +149,9 @@ async function processDomainOrder(
     return;
   }
 
-  // Informations client Stripe.
+  /*
+   * Informations client Stripe.
+   */
   const email =
     session.customer_details?.email;
 
@@ -148,7 +170,9 @@ async function processDomainOrder(
     );
   }
 
-  // Dernière vérification de disponibilité.
+  /*
+   * Dernière vérification de disponibilité.
+   */
   const availability =
     await checkDomain(domain);
 
@@ -165,9 +189,12 @@ async function processDomainOrder(
     );
   }
 
-  // Séparation prénom / nom.
-  const parts =
-    name.trim().split(/\s+/);
+  /*
+   * Séparation prénom / nom.
+   */
+  const parts = name
+    .trim()
+    .split(/\s+/);
 
   const firstName =
     parts.shift() || "Client";
@@ -175,7 +202,9 @@ async function processDomainOrder(
   const lastName =
     parts.join(" ") || firstName;
 
-  // Adresse.
+  /*
+   * Adresse.
+   */
   const line1 =
     address.line1 || "";
 
@@ -194,21 +223,30 @@ async function processDomainOrder(
     firstName,
     lastName,
     email,
+
     phone:
       phone || "+33000000000",
+
     street,
+
     number,
+
     city:
       address.city || "",
+
     postalCode:
       address.postal_code || "",
+
     state:
       address.state || "",
+
     country:
       address.country || "FR",
   };
 
-  // Création du client Openprovider.
+  /*
+   * Création du client Openprovider.
+   */
   const handle =
     await createCustomer(contact);
 
@@ -220,7 +258,9 @@ async function processDomainOrder(
     },
   );
 
-  // Enregistrement du domaine.
+  /*
+   * Enregistrement du domaine.
+   */
   const registration =
     await registerDomain(
       domain,
@@ -238,19 +278,25 @@ async function processDomainOrder(
     },
   );
 
-  // Récupération de l'identifiant Openprovider.
+  /*
+   * Identifiant Openprovider.
+   */
   const openproviderId =
     extractOpenproviderId(
       registration,
     );
 
-  // Récupération de la date d'expiration.
+  /*
+   * Date expiration.
+   */
   const expiresAt =
     extractExpirationDate(
       registration,
     );
 
-  // Enregistrement dans Supabase.
+  /*
+   * Enregistrement final.
+   */
   await saveOrder({
     domain,
     status: "active",
@@ -282,12 +328,17 @@ async function saveOrder({
       .upsert(
         {
           domain,
+
           status,
+
           stripe_session_id:
             stripeSessionId,
+
           openprovider_id:
             openproviderId || null,
+
           email,
+
           expires_at:
             expiresAt || null,
         },

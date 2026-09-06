@@ -1,0 +1,2047 @@
+/* ============================================================
+   NOVA — ESPACE CLIENT / DOMAINES
+   Premium dark domain management
+   ============================================================ */
+
+/* ============================================================
+   HEADER GLOBAL DU SITE
+   On garde uniquement le header de l'espace client
+   ============================================================ */
+
+body:has(.client-domains-page) .navbar,
+body:has(.client-domains-page) .nova-header {
+  display: none !important;
+}
+
+body:has(.client-domains-page) header:not(.domains-client-header) {
+  display: none !important;
+}
+
+/* ============================================================
+   PAGE
+   ============================================================ */
+
+.client-domains-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 78% 7%,
+      rgba(103, 77, 255, 0.15),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 8% 38%,
+      rgba(79, 57, 180, 0.08),
+      transparent 26%
+    ),
+    #050505;
+  color: #ffffff;
+  isolation: isolate;
+}
+
+/* ============================================================
+   BACKGROUND
+   ============================================================ */
+
+.domains-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.domains-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.35;
+  animation: domainOrbFloat 13s ease-in-out infinite;
+}
+
+.domains-orb-one {
+  width: 460px;
+  height: 460px;
+  top: 4%;
+  right: -12%;
+  background: rgba(103, 78, 255, 0.15);
+}
+
+.domains-orb-two {
+  width: 400px;
+  height: 400px;
+  bottom: 20%;
+  left: -14%;
+  background: rgba(75, 54, 180, 0.1);
+  animation-delay: -5s;
+}
+
+.domains-grid-lines {
+  position: absolute;
+  inset: 0;
+  opacity: 0.065;
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.07) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.07) 1px,
+      transparent 1px
+    );
+  background-size: 90px 90px;
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    rgba(0, 0, 0, 0.55) 50%,
+    transparent 90%
+  );
+}
+
+@keyframes domainOrbFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, 25px, 0) scale(1.05);
+  }
+}
+
+/* ============================================================
+   SVG
+   ============================================================ */
+
+.domains-client-svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ============================================================
+   HEADER ESPACE CLIENT
+   ============================================================ */
+
+.domains-client-header {
+  position: relative;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+  background: rgba(5, 5, 5, 0.78);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.domains-header-inner {
+  width: min(1400px, calc(100% - 48px));
+  min-height: 78px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+/* ============================================================
+   LOGO
+   ============================================================ */
+
+.domains-client-logo {
+  display: inline-flex;
+  align-items: center;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.domains-client-logo span {
+  color: #7d68ff;
+}
+
+.domains-client-logo:hover {
+  opacity: 0.82;
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+
+.domains-client-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.domains-client-navigation a {
+  position: relative;
+  color: #85858e;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 600;
+  transition: color 0.25s ease;
+}
+
+.domains-client-navigation a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -11px;
+  width: 0;
+  height: 1px;
+  background: #8c78ff;
+  transform: translateX(-50%);
+  transition: width 0.25s ease;
+}
+
+.domains-client-navigation a:hover,
+.domains-client-navigation a.active {
+  color: #ffffff;
+}
+
+.domains-client-navigation a.active::after,
+.domains-client-navigation a:hover::after {
+  width: 100%;
+}
+
+/* ============================================================
+   HEADER ACTIONS
+   ============================================================ */
+
+.domains-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.domains-support-link {
+  color: #7e7e87;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 600;
+  transition: color 0.25s ease;
+}
+
+.domains-support-link:hover {
+  color: #ffffff;
+}
+
+.domains-account-button {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 700;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.domains-account-button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(132, 110, 255, 0.4);
+  background: rgba(119, 95, 255, 0.08);
+}
+
+/* ============================================================
+   SHELL
+   ============================================================ */
+
+.domains-client-shell {
+  position: relative;
+  z-index: 1;
+  width: min(1240px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+/* ============================================================
+   BREADCRUMB
+   ============================================================ */
+
+.domains-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-top: 27px;
+  color: #51515a;
+  font-size: 10px;
+}
+
+.domains-breadcrumb a {
+  color: #777781;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.domains-breadcrumb a:hover {
+  color: #ffffff;
+}
+
+.domains-breadcrumb span {
+  color: #393940;
+}
+
+.domains-breadcrumb strong {
+  color: #a0a0a8;
+  font-weight: 600;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.domains-client-hero {
+  min-height: 570px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 0.9fr);
+  align-items: center;
+  gap: 50px;
+  padding: 65px 0 80px;
+}
+
+.domains-hero-copy {
+  position: relative;
+  z-index: 5;
+}
+
+.domains-client-badge {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #777781;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+}
+
+.domains-client-badge span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8975ff;
+  box-shadow:
+    0 0 0 4px rgba(137, 117, 255, 0.08),
+    0 0 17px rgba(137, 117, 255, 0.75);
+  animation: domainBadgePulse 2.5s ease-in-out infinite;
+}
+
+@keyframes domainBadgePulse {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.domains-client-hero h1 {
+  margin: 24px 0;
+  font-size: clamp(58px, 7vw, 98px);
+  line-height: 0.92;
+  font-weight: 600;
+  letter-spacing: -0.065em;
+}
+
+.domains-client-hero h1 span {
+  color: #77777f;
+}
+
+.domains-hero-copy > p {
+  max-width: 540px;
+  margin: 0;
+  color: #888890;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.domains-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: 31px;
+}
+
+.domains-primary-button,
+.domains-secondary-button {
+  min-height: 47px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 700;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.domains-primary-button {
+  background: #ffffff;
+  color: #050505;
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.06);
+}
+
+.domains-primary-button:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 15px 40px rgba(255, 255, 255, 0.1),
+    0 0 30px rgba(112, 88, 255, 0.1);
+}
+
+.domains-primary-button .domains-client-svg {
+  width: 13px;
+  height: 13px;
+}
+
+.domains-secondary-button {
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.025);
+  color: #8d8d95;
+}
+
+.domains-secondary-button:hover {
+  transform: translateY(-3px);
+  border-color: rgba(133, 112, 255, 0.32);
+  background: rgba(117, 93, 255, 0.05);
+  color: #ffffff;
+}
+
+/* ============================================================
+   HERO VISUAL
+   ============================================================ */
+
+.domains-hero-visual {
+  position: relative;
+  width: min(100%, 540px);
+  aspect-ratio: 1 / 1;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.domains-hero-glow {
+  position: absolute;
+  width: 58%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(104, 78, 255, 0.14);
+  filter: blur(75px);
+}
+
+.domains-planet {
+  position: relative;
+  z-index: 4;
+  width: 210px;
+  height: 210px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      rgba(255, 255, 255, 0.12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 50% 55%,
+      rgba(106, 82, 245, 0.13),
+      rgba(7, 7, 9, 0.9) 68%
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    inset 0 -35px 50px rgba(0, 0, 0, 0.5),
+    0 0 100px rgba(101, 77, 255, 0.11);
+  animation: planetFloat 6s ease-in-out infinite;
+}
+
+.domains-planet-grid {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  opacity: 0.3;
+  background-image:
+    linear-gradient(
+      rgba(150, 137, 255, 0.12) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(150, 137, 255, 0.12) 1px,
+      transparent 1px
+    );
+  background-size: 24px 24px;
+  mask-image: radial-gradient(
+    circle,
+    black 20%,
+    transparent 72%
+  );
+  transform: rotate(-15deg);
+}
+
+.domains-planet-core {
+  position: relative;
+  z-index: 2;
+  width: 88px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.025);
+  color: #a79cff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 45px rgba(115, 91, 255, 0.12);
+}
+
+.domains-planet-core .domains-client-svg {
+  width: 39px;
+  height: 39px;
+  stroke-width: 1;
+}
+
+@keyframes planetFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+/* ============================================================
+   ORBITS
+   ============================================================ */
+
+.domains-planet-orbit {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 50%;
+}
+
+.orbit-one {
+  width: 82%;
+  height: 34%;
+  transform: rotate(-26deg);
+  animation: domainOrbitOne 10s linear infinite;
+}
+
+.orbit-two {
+  width: 88%;
+  height: 53%;
+  transform: rotate(48deg);
+  animation: domainOrbitTwo 13s linear infinite;
+}
+
+.orbit-three {
+  width: 61%;
+  height: 93%;
+  transform: rotate(30deg);
+  border-color: rgba(128, 106, 255, 0.11);
+  animation: domainOrbitThree 17s linear infinite;
+}
+
+@keyframes domainOrbitOne {
+  from {
+    transform: rotate(-26deg);
+  }
+
+  to {
+    transform: rotate(334deg);
+  }
+}
+
+@keyframes domainOrbitTwo {
+  from {
+    transform: rotate(48deg);
+  }
+
+  to {
+    transform: rotate(-312deg);
+  }
+}
+
+@keyframes domainOrbitThree {
+  from {
+    transform: rotate(30deg);
+  }
+
+  to {
+    transform: rotate(390deg);
+  }
+}
+
+/* ============================================================
+   FLOATING CARDS
+   ============================================================ */
+
+.domains-floating-card {
+  position: absolute;
+  z-index: 8;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.065),
+      rgba(255, 255, 255, 0.02)
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 25px 60px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  animation: domainFloatingCard 6s ease-in-out infinite;
+}
+
+.floating-card-one {
+  top: 15%;
+  right: 0;
+  width: 130px;
+  padding: 16px;
+  animation-delay: -2s;
+}
+
+.floating-card-two {
+  bottom: 13%;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 205px;
+  padding: 14px 16px;
+}
+
+.domains-floating-card > span {
+  display: block;
+  margin-bottom: 7px;
+  color: #66666f;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.floating-card-one strong {
+  display: block;
+  color: #ffffff;
+  font-size: 27px;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.floating-card-one small {
+  color: #696970;
+  font-size: 9px;
+}
+
+.floating-check {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(111, 219, 159, 0.17);
+  border-radius: 10px;
+  background: rgba(111, 219, 159, 0.05);
+  color: #79dca6;
+}
+
+.floating-check .domains-client-svg {
+  width: 16px;
+  height: 16px;
+}
+
+.floating-card-two strong {
+  display: block;
+  margin-bottom: 3px;
+  color: #d6d6da;
+  font-size: 10px;
+}
+
+.floating-card-two small {
+  color: #62626a;
+  font-size: 8px;
+}
+
+@keyframes domainFloatingCard {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+
+.domains-dashboard {
+  padding-bottom: 110px;
+}
+
+.domains-dashboard-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 25px;
+}
+
+.domains-dashboard-heading.small {
+  margin-top: 75px;
+}
+
+.domains-section-label {
+  display: block;
+  color: #66666f;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.domains-dashboard-heading h2 {
+  margin: 10px 0 7px;
+  color: #ffffff;
+  font-size: 35px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+}
+
+.domains-dashboard-heading p {
+  margin: 0;
+  color: #6e6e76;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.domains-count {
+  min-width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 11px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.domains-count span {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.domains-count small {
+  margin-top: 5px;
+  color: #616169;
+  font-size: 8px;
+}
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+
+.domains-search-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 13px;
+}
+
+.domains-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5f5f68;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.domains-search-icon .domains-client-svg {
+  width: 18px;
+  height: 18px;
+}
+
+.domains-search-wrapper input {
+  width: 100%;
+  height: 54px;
+  box-sizing: border-box;
+  padding: 0 52px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  outline: none;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.018)
+    );
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 12px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.domains-search-wrapper input::placeholder {
+  color: #57575f;
+}
+
+.domains-search-wrapper input:focus {
+  border-color: rgba(129, 107, 255, 0.35);
+  background: rgba(116, 91, 255, 0.025);
+  box-shadow:
+    0 0 0 3px rgba(116, 91, 255, 0.045);
+}
+
+.domains-search-clear {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  color: #85858d;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.domains-search-clear:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================================
+   DOMAIN LIST
+   ============================================================ */
+
+.domains-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.client-domain-card {
+  display: grid;
+  grid-template-columns:
+    minmax(260px, 1.25fr)
+    minmax(280px, 1fr)
+    auto;
+  align-items: center;
+  gap: 25px;
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 19px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.014)
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.035),
+    0 20px 50px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.client-domain-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(133, 111, 255, 0.2);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(112, 88, 255, 0.025)
+    );
+}
+
+.client-domain-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.client-domain-icon {
+  width: 53px;
+  height: 53px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(133, 112, 255, 0.15);
+  border-radius: 15px;
+  background:
+    radial-gradient(
+      circle,
+      rgba(113, 88, 255, 0.1),
+      rgba(255, 255, 255, 0.02)
+    );
+  color: #a297ff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 0 25px rgba(108, 83, 255, 0.05);
+}
+
+.client-domain-icon .domains-client-svg {
+  width: 24px;
+  height: 24px;
+}
+
+.domain-extension-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #5f5f67;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.client-domain-information h3 {
+  margin: 0 0 8px;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.client-domain-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.client-domain-status > span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.client-domain-status.active {
+  color: #72dba0;
+}
+
+.client-domain-status.active > span {
+  background: #72dba0;
+  box-shadow:
+    0 0 11px rgba(114, 219, 160, 0.7);
+}
+
+.client-domain-status.pending {
+  color: #a394ff;
+}
+
+.client-domain-status.pending > span {
+  background: #9c87ff;
+  box-shadow:
+    0 0 11px rgba(156, 135, 255, 0.7);
+}
+
+/* ============================================================
+   DOMAIN DETAILS
+   ============================================================ */
+
+.client-domain-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.domain-detail {
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.055);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.domain-detail > span {
+  display: block;
+  margin-bottom: 6px;
+  color: #5c5c65;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.domain-detail strong {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #bdbdc3;
+  font-size: 9px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.domain-detail strong .domains-client-svg {
+  width: 11px;
+  height: 11px;
+  color: #6fd9a0;
+}
+
+/* ============================================================
+   MANAGE
+   ============================================================ */
+
+.client-domain-manage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.025);
+  color: #b3b3bb;
+  text-decoration: none;
+  font-size: 9px;
+  font-weight: 700;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.client-domain-manage .domains-client-svg {
+  width: 12px;
+  height: 12px;
+}
+
+.client-domain-manage:hover {
+  transform: translateY(-2px);
+  color: #ffffff;
+  border-color: rgba(132, 111, 255, 0.35);
+  background: rgba(119, 95, 255, 0.07);
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.domains-empty-panel {
+  min-height: 390px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 70px;
+  padding: 45px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 22px;
+  background:
+    radial-gradient(
+      circle at 35% 50%,
+      rgba(111, 86, 255, 0.065),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.014)
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 25px 70px rgba(0, 0, 0, 0.2);
+}
+
+.domains-empty-visual {
+  position: relative;
+  width: 205px;
+  height: 205px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-orbit {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 50%;
+}
+
+.empty-orbit-one {
+  width: 175px;
+  height: 175px;
+  animation: emptyDomainOrbit 14s linear infinite;
+}
+
+.empty-orbit-two {
+  width: 138px;
+  height: 138px;
+  border-color: rgba(130, 108, 255, 0.13);
+  animation: emptyDomainOrbitReverse 11s linear infinite;
+}
+
+.empty-orbit-three {
+  width: 95px;
+  height: 95px;
+  border-color: rgba(255, 255, 255, 0.045);
+}
+
+.empty-orbit-one::before,
+.empty-orbit-two::before {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #8874ff;
+  box-shadow:
+    0 0 14px rgba(136, 116, 255, 0.8);
+}
+
+.empty-orbit-one::before {
+  top: 15px;
+  left: 34px;
+}
+
+.empty-orbit-two::before {
+  right: 6px;
+  bottom: 27px;
+}
+
+.empty-center {
+  position: relative;
+  z-index: 3;
+  width: 76px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      rgba(255, 255, 255, 0.1),
+      rgba(91, 70, 220, 0.08) 50%,
+      rgba(0, 0, 0, 0.4)
+    );
+  color: #a297ff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 55px rgba(107, 82, 255, 0.11);
+}
+
+.empty-center .domains-client-svg {
+  width: 32px;
+  height: 32px;
+  stroke-width: 1;
+}
+
+@keyframes emptyDomainOrbit {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes emptyDomainOrbitReverse {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0);
+  }
+}
+
+.domains-empty-content {
+  max-width: 450px;
+}
+
+.domains-empty-content > span {
+  display: block;
+  margin-bottom: 10px;
+  color: #686870;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.domains-empty-content h3 {
+  margin: 0 0 9px;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+.domains-empty-content p {
+  max-width: 410px;
+  margin: 0;
+  color: #707078;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.domains-empty-button {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 23px;
+  min-height: 43px;
+  padding: 0 17px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #050505;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 700;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.domains-empty-button .domains-client-svg {
+  width: 13px;
+  height: 13px;
+}
+
+.domains-empty-button:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 30px rgba(255, 255, 255, 0.08),
+    0 0 30px rgba(110, 86, 255, 0.08);
+}
+
+/* ============================================================
+   SERVICES
+   ============================================================ */
+
+.domain-services-section {
+  margin-top: 10px;
+}
+
+.domain-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.domain-tool-card {
+  position: relative;
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  padding: 23px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 20px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.042),
+      rgba(255, 255, 255, 0.014)
+    );
+  color: #ffffff;
+  text-decoration: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.035),
+    0 20px 55px rgba(0, 0, 0, 0.17);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.domain-tool-card::before {
+  content: "";
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  top: -100px;
+  right: -90px;
+  border-radius: 50%;
+  background: rgba(111, 86, 255, 0.1);
+  filter: blur(45px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.domain-tool-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(133, 112, 255, 0.22);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(111, 87, 255, 0.025)
+    );
+}
+
+.domain-tool-card:hover::before {
+  opacity: 1;
+}
+
+.domain-tool-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(132, 111, 255, 0.14);
+  border-radius: 13px;
+  background: rgba(119, 95, 255, 0.045);
+  color: #a397ff;
+}
+
+.domain-tool-icon .domains-client-svg {
+  width: 20px;
+  height: 20px;
+}
+
+.domain-tool-content {
+  margin-top: auto;
+}
+
+.domain-tool-content > span {
+  display: block;
+  margin-bottom: 7px;
+  color: #62626b;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.domain-tool-content h3 {
+  margin: 0 0 7px;
+  color: #e5e5e8;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.domain-tool-content p {
+  max-width: 250px;
+  margin: 0;
+  color: #686870;
+  font-size: 9px;
+  line-height: 1.6;
+}
+
+.domain-tool-arrow {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 31px;
+  height: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 50%;
+  color: #64646c;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.domain-tool-arrow .domains-client-svg {
+  width: 12px;
+  height: 12px;
+}
+
+.domain-tool-card:hover .domain-tool-arrow {
+  color: #ffffff;
+  transform: translate(2px, -2px);
+}
+
+/* ============================================================
+   BOTTOM CTA
+   ============================================================ */
+
+.domains-bottom-cta {
+  position: relative;
+  min-height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  margin-top: 75px;
+  padding: 50px 55px;
+  overflow: hidden;
+  border: 1px solid rgba(130, 108, 255, 0.15);
+  border-radius: 25px;
+  background:
+    radial-gradient(
+      circle at 20% 50%,
+      rgba(108, 83, 255, 0.11),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.012)
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.045),
+    0 30px 80px rgba(0, 0, 0, 0.23);
+}
+
+.domains-cta-glow {
+  position: absolute;
+  left: 5%;
+  bottom: -140px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(102, 77, 255, 0.1);
+  filter: blur(80px);
+}
+
+.domains-cta-content {
+  position: relative;
+  z-index: 3;
+}
+
+.domains-cta-content h2 {
+  margin: 13px 0 12px;
+  color: #ffffff;
+  font-size: clamp(35px, 4.2vw, 58px);
+  line-height: 0.95;
+  font-weight: 600;
+  letter-spacing: -0.055em;
+}
+
+.domains-cta-content p {
+  max-width: 470px;
+  margin: 0;
+  color: #73737c;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.domains-cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 23px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #050505;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 700;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.domains-cta-button .domains-client-svg {
+  width: 13px;
+  height: 13px;
+}
+
+.domains-cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 35px rgba(255, 255, 255, 0.09),
+    0 0 30px rgba(111, 86, 255, 0.1);
+}
+
+/* ============================================================
+   CTA VISUAL
+   ============================================================ */
+
+.domains-cta-visual {
+  position: relative;
+  width: 270px;
+  height: 270px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-ring {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 50%;
+}
+
+.cta-ring-one {
+  width: 250px;
+  height: 250px;
+  animation: ctaRotate 18s linear infinite;
+}
+
+.cta-ring-two {
+  width: 185px;
+  height: 185px;
+  border-color: rgba(128, 106, 255, 0.15);
+  animation: ctaRotateReverse 14s linear infinite;
+}
+
+.cta-ring-three {
+  width: 120px;
+  height: 120px;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.cta-letter {
+  position: relative;
+  z-index: 4;
+  width: 82px;
+  height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      rgba(255, 255, 255, 0.11),
+      rgba(100, 76, 240, 0.09) 45%,
+      rgba(0, 0, 0, 0.45)
+    );
+  color: #ffffff;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-shadow:
+    0 0 30px rgba(146, 127, 255, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 60px rgba(105, 81, 255, 0.12);
+  animation: ctaLetterFloat 5s ease-in-out infinite;
+}
+
+@keyframes ctaRotate {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ctaRotateReverse {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0);
+  }
+}
+
+@keyframes ctaLetterFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.domains-client-footer {
+  position: relative;
+  z-index: 5;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.domains-footer-inner {
+  width: min(1240px, calc(100% - 48px));
+  min-height: 105px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.domains-footer-logo {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.domains-footer-logo span {
+  color: #7c67ff;
+}
+
+.domains-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.domains-footer-links a {
+  color: #5e5e67;
+  text-decoration: none;
+  font-size: 9px;
+  font-weight: 600;
+  transition: color 0.25s ease;
+}
+
+.domains-footer-links a:hover {
+  color: #ffffff;
+}
+
+.domains-footer-copy {
+  color: #45454d;
+  font-size: 9px;
+}
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 1050px) {
+  .domains-client-navigation {
+    gap: 20px;
+  }
+
+  .domains-client-hero {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(350px, 0.8fr);
+    gap: 25px;
+  }
+
+  .domains-hero-visual {
+    transform: scale(0.9);
+  }
+
+  .client-domain-card {
+    grid-template-columns:
+      minmax(230px, 1fr)
+      minmax(250px, 1fr);
+  }
+
+  .client-domain-manage {
+    justify-self: start;
+    grid-column: 2;
+    margin-top: -12px;
+  }
+
+  .domain-tools-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   TABLET SMALL
+   ============================================================ */
+
+@media (max-width: 850px) {
+  .domains-header-inner {
+    width: calc(100% - 32px);
+  }
+
+  .domains-client-navigation {
+    display: none;
+  }
+
+  .domains-client-shell {
+    width: calc(100% - 32px);
+  }
+
+  .domains-client-hero {
+    grid-template-columns: 1fr;
+    padding: 75px 0 65px;
+  }
+
+  .domains-hero-visual {
+    width: min(100%, 500px);
+    justify-self: center;
+    transform: scale(0.88);
+  }
+
+  .domains-empty-panel {
+    gap: 40px;
+  }
+
+  .domains-bottom-cta {
+    padding: 42px;
+  }
+
+  .domains-cta-visual {
+    width: 220px;
+    height: 220px;
+  }
+
+  .cta-ring-one {
+    width: 205px;
+    height: 205px;
+  }
+
+  .cta-ring-two {
+    width: 150px;
+    height: 150px;
+  }
+
+  .cta-ring-three {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 620px) {
+  .domains-header-inner {
+    width: calc(100% - 28px);
+    min-height: 68px;
+  }
+
+  .domains-client-logo {
+    font-size: 21px;
+  }
+
+  .domains-support-link {
+    display: none;
+  }
+
+  .domains-account-button {
+    min-height: 36px;
+    padding: 0 12px;
+    font-size: 9px;
+  }
+
+  .domains-client-shell {
+    width: calc(100% - 28px);
+  }
+
+  .domains-breadcrumb {
+    padding-top: 21px;
+    font-size: 9px;
+  }
+
+  .domains-client-hero {
+    padding: 58px 0 40px;
+  }
+
+  .domains-client-badge {
+    font-size: 8px;
+  }
+
+  .domains-client-hero h1 {
+    margin: 20px 0;
+    font-size: clamp(51px, 15vw, 74px);
+    letter-spacing: -0.07em;
+  }
+
+  .domains-hero-copy > p {
+    font-size: 13px;
+  }
+
+  .domains-hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .domains-primary-button,
+  .domains-secondary-button {
+    width: 100%;
+  }
+
+  .domains-hero-visual {
+    width: 100%;
+    max-width: 390px;
+    margin-top: -5px;
+    transform: scale(0.78);
+  }
+
+  .floating-card-one {
+    right: -2%;
+  }
+
+  .floating-card-two {
+    left: -3%;
+  }
+
+  .domains-dashboard-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .domains-dashboard-heading h2 {
+    font-size: 29px;
+  }
+
+  .domains-count {
+    align-items: flex-start;
+  }
+
+  .domains-search-wrapper input {
+    height: 50px;
+    font-size: 11px;
+  }
+
+  .client-domain-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    padding: 19px;
+  }
+
+  .client-domain-main {
+    align-items: flex-start;
+  }
+
+  .client-domain-details {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .client-domain-manage {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .domains-empty-panel {
+    min-height: 450px;
+    flex-direction: column;
+    gap: 22px;
+    padding: 35px 22px;
+    text-align: center;
+  }
+
+  .domains-empty-visual {
+    width: 175px;
+    height: 175px;
+  }
+
+  .empty-orbit-one {
+    width: 150px;
+    height: 150px;
+  }
+
+  .empty-orbit-two {
+    width: 118px;
+    height: 118px;
+  }
+
+  .empty-orbit-three {
+    width: 82px;
+    height: 82px;
+  }
+
+  .domains-empty-content p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .domains-empty-button {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .domain-services-section {
+    margin-top: 0;
+  }
+
+  .domain-tools-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .domain-tool-card {
+    min-height: 205px;
+  }
+
+  .domains-bottom-cta {
+    min-height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 32px 25px;
+  }
+
+  .domains-cta-content h2 {
+    font-size: 39px;
+  }
+
+  .domains-cta-visual {
+    width: 220px;
+    height: 220px;
+    align-self: center;
+  }
+
+  .domains-client-footer {
+    margin-top: 0;
+  }
+
+  .domains-footer-inner {
+    width: calc(100% - 28px);
+    min-height: 145px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 17px;
+  }
+
+  .domains-footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 11px 18px;
+  }
+}
+
+/* ============================================================
+   SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 390px) {
+  .domains-client-hero h1 {
+    font-size: 50px;
+  }
+
+  .domains-hero-visual {
+    transform: scale(0.69);
+    margin-top: -30px;
+    margin-bottom: -25px;
+  }
+
+  .domains-dashboard-heading h2 {
+    font-size: 27px;
+  }
+
+  .client-domain-details {
+    gap: 5px;
+  }
+
+  .domain-detail {
+    padding: 9px 7px;
+  }
+
+  .domain-detail strong {
+    font-size: 8px;
+  }
+
+  .domains-bottom-cta {
+    padding: 27px 20px;
+  }
+
+  .domains-cta-content h2 {
+    font-size: 35px;
+  }
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   FOCUS
+   ============================================================ */
+
+.client-domains-page a:focus-visible,
+.client-domains-page button:focus-visible,
+.client-domains-page input:focus-visible {
+  outline: 2px solid #8d79ff;
+  outline-offset: 4px;
+}
+
+/* ============================================================
+   SELECTION
+   ============================================================ */
+
+.client-domains-page ::selection {
+  background: rgba(126, 104, 255, 0.35);
+  color: #ffffff;
+}

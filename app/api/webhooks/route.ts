@@ -11,9 +11,7 @@ const stripe = new Stripe(
   process.env.STRIPE_SECRET_KEY!,
 );
 
-export async function POST(
-  request: NextRequest,
-) {
+export async function POST(request: NextRequest) {
   const body = await request.text();
 
   const signature =
@@ -83,7 +81,9 @@ export async function POST(
     return NextResponse.json(
       {
         error:
-          "Le paiement est confirmé mais l'enregistrement du domaine doit être traité.",
+          error instanceof Error
+            ? error.message
+            : "Erreur inconnue lors de l'enregistrement du domaine.",
       },
       { status: 500 },
     );
@@ -104,15 +104,15 @@ async function processDomainOrder(
     );
   }
 
-  /*
-   * Vérification anti-double traitement.
-   */
-  const { data: existingOrder, error: lookupError } =
-    await supabaseAdmin
-      .from("domains")
-      .select("*")
-      .eq("stripe_session_id", session.id)
-      .maybeSingle();
+  // Vérification anti-double traitement.
+  const {
+    data: existingOrder,
+    error: lookupError,
+  } = await supabaseAdmin
+    .from("domains")
+    .select("*")
+    .eq("stripe_session_id", session.id)
+    .maybeSingle();
 
   if (lookupError) {
     throw new Error(
@@ -129,9 +129,7 @@ async function processDomainOrder(
     return;
   }
 
-  /*
-   * Informations client Stripe.
-   */
+  // Informations client Stripe.
   const email =
     session.customer_details?.email;
 
@@ -150,9 +148,7 @@ async function processDomainOrder(
     );
   }
 
-  /*
-   * Dernière vérification de disponibilité.
-   */
+  // Dernière vérification de disponibilité.
   const availability =
     await checkDomain(domain);
 
@@ -169,9 +165,7 @@ async function processDomainOrder(
     );
   }
 
-  /*
-   * Séparation prénom / nom.
-   */
+  // Séparation prénom / nom.
   const parts =
     name.trim().split(/\s+/);
 
@@ -181,9 +175,7 @@ async function processDomainOrder(
   const lastName =
     parts.join(" ") || firstName;
 
-  /*
-   * Adresse.
-   */
+  // Adresse.
   const line1 =
     address.line1 || "";
 
@@ -216,9 +208,7 @@ async function processDomainOrder(
       address.country || "FR",
   };
 
-  /*
-   * Création du client Openprovider.
-   */
+  // Création du client Openprovider.
   const handle =
     await createCustomer(contact);
 
@@ -230,9 +220,7 @@ async function processDomainOrder(
     },
   );
 
-  /*
-   * Enregistrement du domaine.
-   */
+  // Enregistrement du domaine.
   const registration =
     await registerDomain(
       domain,
@@ -250,25 +238,19 @@ async function processDomainOrder(
     },
   );
 
-  /*
-   * Récupération de l'identifiant Openprovider.
-   */
+  // Récupération de l'identifiant Openprovider.
   const openproviderId =
     extractOpenproviderId(
       registration,
     );
 
-  /*
-   * Récupération de la date d'expiration.
-   */
+  // Récupération de la date d'expiration.
   const expiresAt =
     extractExpirationDate(
       registration,
     );
 
-  /*
-   * Enregistrement dans Supabase.
-   */
+  // Enregistrement dans Supabase.
   await saveOrder({
     domain,
     status: "active",

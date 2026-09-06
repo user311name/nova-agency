@@ -34,6 +34,21 @@ export default function SiteHeader() {
     };
   }, [open]);
 
+  /*
+   * =========================================================
+   * PAGE SUCCESS
+   * =========================================================
+   *
+   * La page /success possède son propre header.
+   * On ne rend donc PAS le SiteHeader global ici.
+   *
+   * Cela évite définitivement d'avoir deux barres de navigation.
+   */
+
+  if (pathname === "/success") {
+    return null;
+  }
+
   return (
     <header className="navbar">
       <div className="navbar-inner">
@@ -66,6 +81,7 @@ export default function SiteHeader() {
                 className={active ? "active" : ""}
               >
                 <span>{link.label}</span>
+
                 <span className="nav-link-arrow" aria-hidden="true">
                   ↗
                 </span>

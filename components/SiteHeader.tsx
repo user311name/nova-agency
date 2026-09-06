@@ -36,16 +36,22 @@ export default function SiteHeader() {
 
   /*
    * =========================================================
-   * PAGE SUCCESS
+   * PAGES QUI ONT LEUR PROPRE HEADER
    * =========================================================
    *
-   * La page /success possède son propre header.
-   * On ne rend donc PAS le SiteHeader global ici.
+   * La page de confirmation possède son propre header NOVA.
+   * Le header global ne doit donc jamais apparaître dessus.
    *
-   * Cela évite définitivement d'avoir deux barres de navigation.
+   * On utilise includes() plutôt qu'une égalité stricte afin
+   * de couvrir /success et d'éventuelles variantes de route.
    */
 
-  if (pathname === "/success") {
+  const isSuccessPage =
+    pathname === "/success" ||
+    pathname.startsWith("/success/") ||
+    pathname.includes("/success");
+
+  if (isSuccessPage) {
     return null;
   }
 

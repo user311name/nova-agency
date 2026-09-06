@@ -187,7 +187,9 @@ export default function DomainesPage() {
 
   const [error, setError] = useState("");
 
-  async function handleSearch(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSearch(
+    event: React.FormEvent<HTMLFormElement>,
+  ) {
     event.preventDefault();
 
     const clean = cleanDomain(domain);
@@ -224,7 +226,8 @@ export default function DomainesPage() {
 
       if (!response.ok) {
         throw new Error(
-          data?.error || "Impossible de vérifier ce domaine.",
+          data?.error ||
+            "Impossible de vérifier ce domaine.",
         );
       }
 
@@ -266,23 +269,27 @@ export default function DomainesPage() {
     setError("");
 
     try {
-      const response = await fetch("/api/domains/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+      const response = await fetch(
+        "/api/domains/checkout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            domain: result.domain,
+            email: cleanEmail,
+          }),
         },
-        body: JSON.stringify({
-          domain: result.domain,
-          email: cleanEmail,
-        }),
-      });
+      );
 
       const data = await readJsonResponse(response);
 
       if (!response.ok) {
         throw new Error(
-          data?.error || "Impossible de créer le paiement.",
+          data?.error ||
+            "Impossible de créer le paiement.",
         );
       }
 
@@ -357,6 +364,7 @@ export default function DomainesPage() {
                   value={domain}
                   onChange={(event) => {
                     setDomain(event.target.value);
+
                     if (error) {
                       setError("");
                     }
@@ -373,7 +381,9 @@ export default function DomainesPage() {
                   disabled={loading}
                   className="domainSearchButton"
                 >
-                  {loading ? "Recherche..." : "Rechercher"}
+                  {loading
+                    ? "Recherche..."
+                    : "Rechercher"}
 
                   {!loading && <ArrowRight />}
                 </button>

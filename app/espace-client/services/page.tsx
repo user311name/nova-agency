@@ -84,18 +84,26 @@ function SettingsIcon() {
 function formatDate(date: string | null) {
   if (!date) return "—";
 
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return "—";
+  }
+
   return new Intl.DateTimeFormat("fr-FR", {
     day: "2-digit",
     month: "short",
     year: "numeric",
-  }).format(new Date(date));
+  }).format(parsedDate);
 }
 
 function getDomainStatus(status: string) {
+  const normalizedStatus = status.toLowerCase();
+
   if (
-    status === "active" ||
-    status === "ACT" ||
-    status === "registered"
+    normalizedStatus === "active" ||
+    normalizedStatus === "act" ||
+    normalizedStatus === "registered"
   ) {
     return {
       label: "Actif",
@@ -104,9 +112,9 @@ function getDomainStatus(status: string) {
   }
 
   if (
-    status === "pending" ||
-    status === "REQ" ||
-    status === "processing"
+    normalizedStatus === "pending" ||
+    normalizedStatus === "req" ||
+    normalizedStatus === "processing"
   ) {
     return {
       label: "En cours",
@@ -127,9 +135,8 @@ export default function ClientServicesPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const storedEmail = window.localStorage.getItem(
-      "nova_client_email"
-    );
+    const storedEmail =
+      window.localStorage.getItem("nova_client_email")?.trim() || "";
 
     if (!storedEmail) {
       setLoading(false);
@@ -140,26 +147,39 @@ export default function ClientServicesPage() {
 
     async function loadDomains() {
       try {
+        setError("");
+
         const response = await fetch(
-          `/api/client/domains?email=${encodeURIComponent(
-            storedEmail
-          )}`
+          `/api/client/domains?email=${encodeURIComponent(storedEmail)}`,
+          {
+            method: "GET",
+            cache: "no-store",
+          }
         );
 
-        const data = await response.json();
+        const data: unknown = await response.json();
 
         if (!response.ok) {
-          throw new Error(
-            data?.error ||
-              "Impossible de récupérer vos services."
-          );
+          const message =
+            typeof data === "object" &&
+            data !== null &&
+            "error" in data &&
+            typeof data.error === "string"
+              ? data.error
+              : "Impossible de récupérer vos services.";
+
+          throw new Error(message);
         }
 
-        setDomains(
+        const receivedDomains =
+          typeof data === "object" &&
+          data !== null &&
+          "domains" in data &&
           Array.isArray(data.domains)
             ? data.domains
-            : []
-        );
+            : [];
+
+        setDomains(receivedDomains as Domain[]);
       } catch (err) {
         setError(
           err instanceof Error
@@ -171,27 +191,28 @@ export default function ClientServicesPage() {
       }
     }
 
-    loadDomains();
+    void loadDomains();
   }, []);
 
   const activeDomains = useMemo(() => {
-    return domains.filter(
-      (domain) =>
-        domain.status === "active" ||
-        domain.status === "ACT" ||
-        domain.status === "registered"
-    ).length;
+    return domains.filter((domain) => {
+      const status = domain.status.toLowerCase();
+
+      return (
+        status === "active" ||
+        status === "act" ||
+        status === "registered"
+      );
+    }).length;
   }, [domains]);
 
   return (
     <main className="clientServicesPage">
-
       {/* =====================================================
           HEADER
           ===================================================== */}
 
       <header className="clientServicesHeader">
-
         <Link
           href="/"
           className="clientServicesLogo"
@@ -222,7 +243,6 @@ export default function ClientServicesPage() {
         </nav>
 
         <div className="clientServicesHeaderRight">
-
           <Link
             href="/contact"
             className="serviceSupport"
@@ -233,27 +253,23 @@ export default function ClientServicesPage() {
           <Link
             href="/espace-client"
             className="serviceAvatar"
+            aria-label="Espace client"
           >
             {email
               ? email.charAt(0).toUpperCase()
               : "N"}
           </Link>
-
         </div>
-
       </header>
-
 
       {/* =====================================================
           CONTENT
           ===================================================== */}
 
       <div className="servicesContainer">
-
         {/* BREADCRUMB */}
 
         <div className="servicesBreadcrumb">
-
           <Link href="/espace-client">
             Espace client
           </Link>
@@ -263,16 +279,12 @@ export default function ClientServicesPage() {
           <span>
             Mes services
           </span>
-
         </div>
-
 
         {/* HERO */}
 
         <section className="servicesHero">
-
           <div className="servicesHeroContent">
-
             <div className="servicesBadge">
               <span />
               ESPACE CLIENT
@@ -289,16 +301,12 @@ export default function ClientServicesPage() {
               depuis un seul espace. Domaines, emails,
               hébergement et sécurité.
             </p>
-
           </div>
 
-
           <div className="servicesHeroVisual">
-
             <div className="servicesGlow" />
 
             <div className="servicesOrb">
-
               <div className="orbRing orbRingOne" />
               <div className="orbRing orbRingTwo" />
               <div className="orbRing orbRingThree" />
@@ -306,24 +314,18 @@ export default function ClientServicesPage() {
               <div className="orbCore">
                 N
               </div>
-
             </div>
 
             <div className="servicesVerticalText">
               NOVA · DIGITAL INFRASTRUCTURE
             </div>
-
           </div>
-
         </section>
-
 
         {/* STATS */}
 
         <section className="servicesStats">
-
           <div className="serviceStat">
-
             <div className="serviceStatIcon">
               <GlobeIcon />
             </div>
@@ -337,12 +339,9 @@ export default function ClientServicesPage() {
                 {loading ? "—" : domains.length}
               </strong>
             </div>
-
           </div>
 
-
           <div className="serviceStat">
-
             <div className="serviceStatIcon">
               <CheckIcon />
             </div>
@@ -356,12 +355,9 @@ export default function ClientServicesPage() {
                 {loading ? "—" : activeDomains}
               </strong>
             </div>
-
           </div>
 
-
           <div className="serviceStat">
-
             <div className="serviceStatIcon">
               <ShieldIcon />
             </div>
@@ -375,20 +371,14 @@ export default function ClientServicesPage() {
                 NOVA
               </strong>
             </div>
-
           </div>
-
         </section>
-
 
         {/* SERVICES */}
 
         <section className="servicesSection">
-
           <div className="servicesSectionHeading">
-
             <div>
-
               <span className="servicesEyebrow">
                 VOTRE INFRASTRUCTURE
               </span>
@@ -396,23 +386,17 @@ export default function ClientServicesPage() {
               <h2>
                 Tous vos services
               </h2>
-
             </div>
-
           </div>
 
-
           <div className="servicesGrid">
-
             {/* DOMAINES */}
 
             <Link
               href="/espace-client/domaines"
               className="serviceCard serviceCardFeatured"
             >
-
               <div className="serviceCardTop">
-
                 <div className="serviceIcon">
                   <GlobeIcon />
                 </div>
@@ -420,11 +404,9 @@ export default function ClientServicesPage() {
                 <span className="serviceArrow">
                   <ArrowIcon />
                 </span>
-
               </div>
 
               <div className="serviceCardContent">
-
                 <span className="serviceCardLabel">
                   DOMAINE
                 </span>
@@ -437,11 +419,9 @@ export default function ClientServicesPage() {
                   Gérez vos noms de domaine,
                   leur statut et leurs informations.
                 </p>
-
               </div>
 
               <div className="serviceCardFooter">
-
                 <span>
                   {loading
                     ? "Chargement..."
@@ -456,11 +436,8 @@ export default function ClientServicesPage() {
                   <i />
                   Disponible
                 </span>
-
               </div>
-
             </Link>
-
 
             {/* EMAILS */}
 
@@ -468,9 +445,7 @@ export default function ClientServicesPage() {
               href="/espace-client/emails"
               className="serviceCard"
             >
-
               <div className="serviceCardTop">
-
                 <div className="serviceIcon">
                   <MailIcon />
                 </div>
@@ -478,11 +453,9 @@ export default function ClientServicesPage() {
                 <span className="serviceArrow">
                   <ArrowIcon />
                 </span>
-
               </div>
 
               <div className="serviceCardContent">
-
                 <span className="serviceCardLabel">
                   COMMUNICATION
                 </span>
@@ -495,11 +468,9 @@ export default function ClientServicesPage() {
                   Créez et gérez vos adresses
                   email professionnelles.
                 </p>
-
               </div>
 
               <div className="serviceCardFooter">
-
                 <span>
                   À configurer
                 </span>
@@ -507,11 +478,8 @@ export default function ClientServicesPage() {
                 <span className="serviceComing">
                   Bientôt disponible
                 </span>
-
               </div>
-
             </Link>
-
 
             {/* HÉBERGEMENT */}
 
@@ -519,9 +487,7 @@ export default function ClientServicesPage() {
               href="/espace-client/hebergement"
               className="serviceCard"
             >
-
               <div className="serviceCardTop">
-
                 <div className="serviceIcon">
                   <ServerIcon />
                 </div>
@@ -529,11 +495,9 @@ export default function ClientServicesPage() {
                 <span className="serviceArrow">
                   <ArrowIcon />
                 </span>
-
               </div>
 
               <div className="serviceCardContent">
-
                 <span className="serviceCardLabel">
                   INFRASTRUCTURE
                 </span>
@@ -546,11 +510,9 @@ export default function ClientServicesPage() {
                   Hébergez votre site sur une
                   infrastructure performante.
                 </p>
-
               </div>
 
               <div className="serviceCardFooter">
-
                 <span>
                   Aucun hébergement
                 </span>
@@ -558,11 +520,8 @@ export default function ClientServicesPage() {
                 <span className="serviceComing">
                   Disponible bientôt
                 </span>
-
               </div>
-
             </Link>
-
 
             {/* SÉCURITÉ */}
 
@@ -570,9 +529,7 @@ export default function ClientServicesPage() {
               href="/espace-client/securite"
               className="serviceCard"
             >
-
               <div className="serviceCardTop">
-
                 <div className="serviceIcon">
                   <ShieldIcon />
                 </div>
@@ -580,11 +537,9 @@ export default function ClientServicesPage() {
                 <span className="serviceArrow">
                   <ArrowIcon />
                 </span>
-
               </div>
 
               <div className="serviceCardContent">
-
                 <span className="serviceCardLabel">
                   PROTECTION
                 </span>
@@ -597,11 +552,9 @@ export default function ClientServicesPage() {
                   Protégez votre infrastructure
                   et vos services numériques.
                 </p>
-
               </div>
 
               <div className="serviceCardFooter">
-
                 <span>
                   Protection NOVA
                 </span>
@@ -610,24 +563,16 @@ export default function ClientServicesPage() {
                   <i />
                   Active
                 </span>
-
               </div>
-
             </Link>
-
           </div>
-
         </section>
-
 
         {/* DOMAIN LIST */}
 
         <section className="serviceDomainsSection">
-
           <div className="servicesSectionHeading">
-
             <div>
-
               <span className="servicesEyebrow">
                 SERVICES CONNECTÉS
               </span>
@@ -635,7 +580,6 @@ export default function ClientServicesPage() {
               <h2>
                 Vos domaines
               </h2>
-
             </div>
 
             <Link
@@ -645,26 +589,24 @@ export default function ClientServicesPage() {
               Voir tous
               <ArrowIcon />
             </Link>
-
           </div>
 
+          {/* LOADING */}
 
           {loading && (
             <div className="servicesLoading">
-
               <div className="servicesLoader" />
 
               <span>
                 Chargement de vos services...
               </span>
-
             </div>
           )}
 
+          {/* ERROR */}
 
           {!loading && error && (
             <div className="servicesError">
-
               <div className="servicesErrorIcon">
                 !
               </div>
@@ -681,22 +623,21 @@ export default function ClientServicesPage() {
 
               <button
                 type="button"
-                onClick={() =>
-                  window.location.reload()
-                }
+                onClick={() => {
+                  window.location.reload();
+                }}
               >
                 Réessayer
               </button>
-
             </div>
           )}
 
+          {/* NO EMAIL */}
 
           {!loading &&
             !error &&
             !email && (
               <div className="servicesEmpty">
-
                 <div className="servicesEmptyIcon">
                   <GlobeIcon />
                 </div>
@@ -714,17 +655,16 @@ export default function ClientServicesPage() {
                   Retour à l'espace client
                   <ArrowIcon />
                 </Link>
-
               </div>
             )}
 
+          {/* EMPTY */}
 
           {!loading &&
             !error &&
             email &&
             domains.length === 0 && (
               <div className="servicesEmpty">
-
                 <div className="servicesEmptyIcon">
                   <GlobeIcon />
                 </div>
@@ -743,23 +683,19 @@ export default function ClientServicesPage() {
                   Rechercher un domaine
                   <ArrowIcon />
                 </Link>
-
               </div>
             )}
 
+          {/* DOMAIN LIST */}
 
           {!loading &&
             !error &&
             domains.length > 0 && (
-
               <div className="serviceDomainList">
-
                 {domains.map((domain) => {
-
-                  const status =
-                    getDomainStatus(
-                      domain.status
-                    );
+                  const status = getDomainStatus(
+                    domain.status
+                  );
 
                   return (
                     <Link
@@ -767,15 +703,12 @@ export default function ClientServicesPage() {
                       className="serviceDomainRow"
                       key={domain.id}
                     >
-
                       <div className="serviceDomainMain">
-
                         <div className="serviceDomainIcon">
                           <GlobeIcon />
                         </div>
 
                         <div>
-
                           <strong>
                             {domain.domain}
                           </strong>
@@ -786,11 +719,8 @@ export default function ClientServicesPage() {
                               domain.created_at
                             )}
                           </span>
-
                         </div>
-
                       </div>
-
 
                       <div
                         className={`serviceDomainStatus ${status.className}`}
@@ -799,9 +729,7 @@ export default function ClientServicesPage() {
                         {status.label}
                       </div>
 
-
                       <div className="serviceDomainExpiry">
-
                         <span>
                           Expiration
                         </span>
@@ -811,33 +739,24 @@ export default function ClientServicesPage() {
                             domain.expires_at
                           )}
                         </strong>
-
                       </div>
-
 
                       <span className="serviceDomainArrow">
                         <ArrowIcon />
                       </span>
-
                     </Link>
                   );
                 })}
-
               </div>
-
             )}
-
         </section>
-
 
         {/* CTA */}
 
         <section className="servicesCTA">
-
           <div className="servicesCTAGlow" />
 
           <div className="servicesCTAContent">
-
             <span className="servicesEyebrow">
               BESOIN D'ALLER PLUS LOIN ?
             </span>
@@ -845,18 +764,18 @@ export default function ClientServicesPage() {
             <h2>
               Construisez votre
               <br />
-              <span>infrastructure digitale.</span>
+              <span>
+                infrastructure digitale.
+              </span>
             </h2>
 
             <p>
               Développez votre présence en ligne
               avec l'écosystème NOVA.
             </p>
-
           </div>
 
           <div className="servicesCTAActions">
-
             <Link
               href="/domaines"
               className="servicesPrimaryButton"
@@ -871,18 +790,13 @@ export default function ClientServicesPage() {
             >
               Contacter NOVA
             </Link>
-
           </div>
-
         </section>
-
       </div>
-
 
       {/* FOOTER */}
 
       <footer className="clientServicesFooter">
-
         <Link
           href="/"
           className="servicesFooterLogo"
@@ -896,7 +810,6 @@ export default function ClientServicesPage() {
         </p>
 
         <div>
-
           <Link href="/mentions-legales">
             Mentions légales
           </Link>
@@ -908,11 +821,8 @@ export default function ClientServicesPage() {
           <Link href="/contact">
             Support
           </Link>
-
         </div>
-
       </footer>
-
     </main>
   );
 }

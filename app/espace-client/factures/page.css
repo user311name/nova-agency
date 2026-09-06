@@ -54,11 +54,17 @@ function ArrowIcon() {
 }
 
 function formatDate(date: string) {
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return "Date inconnue";
+  }
+
   return new Intl.DateTimeFormat("fr-FR", {
     day: "2-digit",
     month: "long",
     year: "numeric",
-  }).format(new Date(date));
+  }).format(parsedDate);
 }
 
 function formatPrice(amount: number, currency: string) {
@@ -72,12 +78,16 @@ function statusLabel(status: Invoice["status"]) {
   switch (status) {
     case "paid":
       return "Payée";
+
     case "pending":
       return "En attente";
+
     case "failed":
       return "Échec";
+
     case "refunded":
       return "Remboursée";
+
     default:
       return status;
   }
@@ -90,7 +100,10 @@ export default function ClientInvoicesPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const storedEmail = window.localStorage.getItem("nova_client_email");
+    const storedEmail = window.localStorage
+      .getItem("nova_client_email")
+      ?.trim()
+      .toLowerCase();
 
     if (!storedEmail) {
       setLoading(false);
@@ -101,8 +114,15 @@ export default function ClientInvoicesPage() {
 
     async function loadInvoices() {
       try {
+        setLoading(true);
+        setError("");
+
         const response = await fetch(
-          `/api/client/invoices?email=${encodeURIComponent(storedEmail)}`
+          `/api/client/invoices?email=${encodeURIComponent(storedEmail)}`,
+          {
+            method: "GET",
+            cache: "no-store",
+          }
         );
 
         const data = await response.json();
@@ -114,7 +134,7 @@ export default function ClientInvoicesPage() {
         }
 
         setInvoices(
-          Array.isArray(data.invoices) ? data.invoices : []
+          Array.isArray(data?.invoices) ? data.invoices : []
         );
       } catch (err) {
         setError(
@@ -139,9 +159,11 @@ export default function ClientInvoicesPage() {
       );
   }, [invoices]);
 
-  const paidCount = invoices.filter(
-    (invoice) => invoice.status === "paid"
-  ).length;
+  const paidCount = useMemo(() => {
+    return invoices.filter(
+      (invoice) => invoice.status === "paid"
+    ).length;
+  }, [invoices]);
 
   return (
     <main className="clientInvoicesPage">
@@ -152,21 +174,41 @@ export default function ClientInvoicesPage() {
 
       <header className="clientInvoicesHeader">
 
-        <Link href="/" className="clientInvoicesLogo">
+        <Link
+          href="/"
+          className="clientInvoicesLogo"
+        >
           NOV<span>A</span>
         </Link>
 
         <nav className="clientInvoicesNav">
-          <Link href="/domaines">Domaines</Link>
-          <Link href="/hebergement">Hébergement</Link>
-          <Link href="/emails">Emails</Link>
-          <Link href="/securite">Sécurité</Link>
-          <Link href="/a-propos">À propos</Link>
+          <Link href="/domaines">
+            Domaines
+          </Link>
+
+          <Link href="/hebergement">
+            Hébergement
+          </Link>
+
+          <Link href="/emails">
+            Emails
+          </Link>
+
+          <Link href="/securite">
+            Sécurité
+          </Link>
+
+          <Link href="/a-propos">
+            À propos
+          </Link>
         </nav>
 
         <div className="clientInvoicesHeaderRight">
 
-          <Link href="/contact" className="invoiceSupport">
+          <Link
+            href="/contact"
+            className="invoiceSupport"
+          >
             Support
           </Link>
 
@@ -175,7 +217,9 @@ export default function ClientInvoicesPage() {
             className="invoiceAvatar"
             aria-label="Espace client"
           >
-            {email ? email.charAt(0).toUpperCase() : "N"}
+            {email
+              ? email.charAt(0).toUpperCase()
+              : "N"}
           </Link>
 
         </div>
@@ -192,6 +236,7 @@ export default function ClientInvoicesPage() {
         {/* BREADCRUMB */}
 
         <div className="invoicesBreadcrumb">
+
           <Link href="/espace-client">
             Espace client
           </Link>
@@ -201,6 +246,7 @@ export default function ClientInvoicesPage() {
           <span>
             Mes factures
           </span>
+
         </div>
 
 
@@ -223,7 +269,7 @@ export default function ClientInvoicesPage() {
 
             <p>
               Retrouvez toutes vos factures NOVA,
-              vos paiements et l'historique de vos achats
+              vos paiements et l&apos;historique de vos achats
               au même endroit.
             </p>
 
@@ -237,9 +283,13 @@ export default function ClientInvoicesPage() {
             <div className="invoiceDocument">
 
               <div className="invoiceDocumentTop">
-                <span>NOVA</span>
+
+                <span>
+                  NOVA
+                </span>
 
                 <div className="invoiceDocumentDot" />
+
               </div>
 
               <div className="invoiceDocumentLines">
@@ -250,8 +300,15 @@ export default function ClientInvoicesPage() {
               </div>
 
               <div className="invoiceDocumentTotal">
-                <small>TOTAL</small>
-                <strong>€</strong>
+
+                <small>
+                  TOTAL
+                </small>
+
+                <strong>
+                  €
+                </strong>
+
               </div>
 
               <div className="invoiceDocumentCheck">
@@ -426,7 +483,7 @@ export default function ClientInvoicesPage() {
               </p>
 
               <Link href="/espace-client">
-                Retour à l'espace client
+                Retour à l&apos;espace client
                 <ArrowIcon />
               </Link>
 
@@ -492,9 +549,20 @@ export default function ClientInvoicesPage() {
                         </div>
 
                         <div className="invoiceMeta">
-                          INV-{invoice.id.slice(0, 8).toUpperCase()}
-                          <span>•</span>
-                          {formatDate(invoice.created_at)}
+
+                          INV-
+                          {invoice.id
+                            .slice(0, 8)
+                            .toUpperCase()}
+
+                          <span>
+                            •
+                          </span>
+
+                          {formatDate(
+                            invoice.created_at
+                          )}
+
                         </div>
 
                       </div>
@@ -507,11 +575,15 @@ export default function ClientInvoicesPage() {
                       <span
                         className={`invoiceStatusPill ${invoice.status}`}
                       >
+
                         {invoice.status === "paid" && (
                           <CheckIcon />
                         )}
 
-                        {statusLabel(invoice.status)}
+                        {statusLabel(
+                          invoice.status
+                        )}
+
                       </span>
 
                     </div>
@@ -528,22 +600,26 @@ export default function ClientInvoicesPage() {
 
 
                     {invoice.status === "paid" ? (
+
                       <button
                         type="button"
                         className="invoiceDownload"
                         title="Télécharger la facture"
                         onClick={() => {
-                          alert(
+                          window.alert(
                             "La génération PDF des factures sera activée prochainement."
                           );
                         }}
                       >
                         <DownloadIcon />
                       </button>
+
                     ) : (
+
                       <div className="invoiceDownloadDisabled">
                         <DownloadIcon />
                       </div>
+
                     )}
 
                   </article>
@@ -593,7 +669,7 @@ export default function ClientInvoicesPage() {
           <div>
 
             <span className="invoiceEyebrow">
-              BESOIN D'UN SERVICE ?
+              BESOIN D&apos;UN SERVICE ?
             </span>
 
             <h2>

@@ -12,6 +12,10 @@ function getStripe() {
   return new Stripe(key);
 }
 
+/* =========================
+   ICONS
+========================= */
+
 function CheckIcon() {
   return (
     <svg
@@ -203,12 +207,14 @@ function SiteIcon() {
   );
 }
 
+/* =========================
+   STRIPE
+========================= */
+
 async function getOrder(sessionId: string) {
   const stripe = getStripe();
 
-  const session = await stripe.checkout.sessions.retrieve(
-    sessionId,
-  );
+  const session = await stripe.checkout.sessions.retrieve(sessionId);
 
   const domain = session.metadata?.domain || null;
 
@@ -232,6 +238,10 @@ async function getOrder(sessionId: string) {
   };
 }
 
+/* =========================
+   PAGE
+========================= */
+
 export default async function DomainSuccessPage({
   searchParams,
 }: {
@@ -242,6 +252,10 @@ export default async function DomainSuccessPage({
   const params = await searchParams;
   const sessionId = params.session_id;
 
+  /* =========================
+     NO SESSION
+  ========================= */
+
   if (!sessionId) {
     return (
       <main className="successPage">
@@ -251,13 +265,9 @@ export default async function DomainSuccessPage({
               <ShieldIcon />
             </div>
 
-            <p className="eyebrow">
-              NOVA
-            </p>
+            <p className="eyebrow">NOVA</p>
 
-            <h1>
-              Commande introuvable
-            </h1>
+            <h1>Commande introuvable</h1>
 
             <p>
               Impossible de retrouver les informations de cette commande.
@@ -276,6 +286,10 @@ export default async function DomainSuccessPage({
     );
   }
 
+  /* =========================
+     LOAD ORDER
+  ========================= */
+
   let order;
 
   try {
@@ -289,13 +303,9 @@ export default async function DomainSuccessPage({
               <ShieldIcon />
             </div>
 
-            <p className="eyebrow">
-              NOVA
-            </p>
+            <p className="eyebrow">NOVA</p>
 
-            <h1>
-              Impossible de charger la commande
-            </h1>
+            <h1>Impossible de charger la commande</h1>
 
             <p>
               Votre paiement peut avoir été effectué. Les informations de
@@ -321,16 +331,82 @@ export default async function DomainSuccessPage({
   const isPaid =
     order.paymentStatus === "paid";
 
+  const extension =
+    domain.includes(".")
+      ? `.${domain.split(".").pop()}`
+      : ".fr";
+
   return (
     <main className="successPage">
-      {/* HERO */}
+
+      {/* =========================
+          BACKGROUND
+      ========================= */}
+
+      <div className="ambient ambientOne" />
+      <div className="ambient ambientTwo" />
+      <div className="ambient ambientThree" />
+
+      {/* =========================
+          HEADER
+      ========================= */}
+
+      <header className="successHeader">
+        <div className="headerInner">
+
+          <Link
+            href="/"
+            className="novaLogo"
+          >
+            NOVA
+          </Link>
+
+          <nav className="successNav">
+            <Link href="/domaines">
+              Domaines
+            </Link>
+
+            <Link href="/hebergement">
+              Hébergement
+            </Link>
+
+            <Link href="/emails">
+              Emails
+            </Link>
+
+            <Link href="/securite">
+              Sécurité
+            </Link>
+
+            <Link href="/a-propos">
+              À propos
+            </Link>
+          </nav>
+
+          <Link
+            href="/espace-client"
+            className="headerClientButton"
+          >
+            Espace client
+          </Link>
+
+        </div>
+      </header>
+
+      {/* =========================
+          HERO
+      ========================= */}
 
       <section className="successHero">
-        <div className="heroGlow" />
 
         <div className="successContainer">
+
           <div className="successHeroGrid">
+
+            {/* LEFT */}
+
             <div className="heroContent">
+
               <div className="successBadge">
                 <span className="successBadgeIcon">
                   <CheckIcon />
@@ -342,23 +418,25 @@ export default async function DomainSuccessPage({
               </div>
 
               <p className="eyebrow">
-                NOVA
+                COMMANDE CONFIRMÉE
               </p>
 
               <h1 className="successTitle">
                 Votre domaine
                 <br />
-                est presque prêt.
+                est{" "}
+                <span>presque prêt.</span>
               </h1>
 
               <p className="successDescription">
                 Votre commande pour{" "}
                 <strong>{domain}</strong>{" "}
-                a bien été reçue. Nous finalisons maintenant son
-                enregistrement et sa configuration.
+                a bien été reçue. Nous finalisons maintenant
+                son enregistrement et sa configuration.
               </p>
 
               <div className="heroActions">
+
                 <Link
                   href="/espace-client"
                   className="primaryButton"
@@ -373,43 +451,92 @@ export default async function DomainSuccessPage({
                 >
                   Acheter un autre domaine
                 </Link>
+
               </div>
 
               <div className="trustRow">
+
                 <div className="trustItem">
                   <span>
                     <ShieldIcon />
                   </span>
-                  Paiement sécurisé
+
+                  <div>
+                    <strong>
+                      Paiement sécurisé
+                    </strong>
+
+                    <small>
+                      Par Stripe
+                    </small>
+                  </div>
                 </div>
 
                 <div className="trustItem">
                   <span>
                     <CheckIcon />
                   </span>
-                  Commande enregistrée
+
+                  <div>
+                    <strong>
+                      Traitement automatique
+                    </strong>
+
+                    <small>
+                      En temps réel
+                    </small>
+                  </div>
                 </div>
+
+                <div className="trustItem">
+                  <span>
+                    <MailIcon />
+                  </span>
+
+                  <div>
+                    <strong>
+                      Suivi par e-mail
+                    </strong>
+
+                    <small>
+                      À chaque étape
+                    </small>
+                  </div>
+                </div>
+
               </div>
+
             </div>
 
+            {/* RIGHT — 3D */}
+
             <div className="successVisual">
+
+              <div className="visualOrbit orbitOne" />
+              <div className="visualOrbit orbitTwo" />
+
               <div className="floatingShape shapeOne" />
               <div className="floatingShape shapeTwo" />
               <div className="floatingShape shapeThree" />
 
+              <div className="visualGlow" />
+
               <div className="visualCard">
+
                 <div className="visualCardTop">
                   <span />
                   <span />
                   <span />
                 </div>
 
-                <div className="visualGlobe">
-                  <GlobeIcon />
+                <div className="visualGlass" />
 
-                  <div className="visualCheck">
-                    <CheckIcon />
-                  </div>
+                <div className="visualDomainIcon">
+                  <GlobeIcon />
+                </div>
+
+                <div className="visualExtension">
+                  {extension}
                 </div>
 
                 <div className="visualDomain">
@@ -420,26 +547,41 @@ export default async function DomainSuccessPage({
                   <span />
                   Activation en cours
                 </div>
+
+                <div className="visualReflection" />
+
               </div>
 
               <div className="visualShadow" />
+
             </div>
+
           </div>
+
         </div>
+
       </section>
 
-      {/* ORDER */}
+      {/* =========================
+          ORDER CARD
+      ========================= */}
 
       <section className="orderSection">
+
         <div className="successContainer">
+
           <div className="orderCard">
+
             <div className="orderHeader">
+
               <div className="orderDomain">
+
                 <div className="domainIcon">
                   <GlobeIcon />
                 </div>
 
                 <div>
+
                   <p className="smallLabel">
                     Votre domaine
                   </p>
@@ -452,10 +594,13 @@ export default async function DomainSuccessPage({
                     <span />
                     Enregistrement en cours
                   </span>
+
                 </div>
+
               </div>
 
               <div className="orderPrice">
+
                 <p>
                   Montant payé
                 </p>
@@ -465,10 +610,17 @@ export default async function DomainSuccessPage({
                     ? `${order.amount.toFixed(2)} ${order.currency}`
                     : "Confirmé"}
                 </strong>
+
+                <small>
+                  Abonnement annuel
+                </small>
+
               </div>
+
             </div>
 
             <div className="orderDetails">
+
               <div>
                 <span>
                   Commande
@@ -494,34 +646,53 @@ export default async function DomainSuccessPage({
                   E-mail
                 </span>
 
-                <strong>
+                <strong className="emailValue">
                   {order.email || "Votre adresse e-mail"}
                 </strong>
               </div>
+
+              <div>
+                <span>
+                  Fournisseur
+                </span>
+
+                <strong>
+                  Openprovider
+                </strong>
+              </div>
+
             </div>
 
-            {/* PROGRESSION */}
+            {/* =========================
+                PROGRESS
+            ========================= */}
 
             <div className="progress">
+
+              <div className="progressTrack">
+                <span className="progressTrackActive" />
+              </div>
+
               <div className="progressItem active">
+
                 <div className="progressNumber">
                   <CheckIcon />
                 </div>
 
                 <div>
                   <strong>
-                    Paiement
+                    Paiement confirmé
                   </strong>
 
                   <span>
-                    Confirmé
+                    Votre paiement a été reçu.
                   </span>
                 </div>
+
               </div>
 
-              <div className="progressLine" />
+              <div className="progressItem active current">
 
-              <div className="progressItem active">
                 <div className="progressNumber">
                   2
                 </div>
@@ -532,14 +703,14 @@ export default async function DomainSuccessPage({
                   </strong>
 
                   <span>
-                    En cours
+                    Votre domaine est enregistré.
                   </span>
                 </div>
+
               </div>
 
-              <div className="progressLine" />
-
               <div className="progressItem">
+
                 <div className="progressNumber">
                   3
                 </div>
@@ -553,11 +724,11 @@ export default async function DomainSuccessPage({
                     À venir
                   </span>
                 </div>
+
               </div>
 
-              <div className="progressLine" />
-
               <div className="progressItem">
+
                 <div className="progressNumber">
                   4
                 </div>
@@ -571,17 +742,27 @@ export default async function DomainSuccessPage({
                     À venir
                   </span>
                 </div>
+
               </div>
+
             </div>
+
           </div>
+
         </div>
+
       </section>
 
-      {/* WHAT NEXT */}
+      {/* =========================
+          AFTER ACTIVATION
+      ========================= */}
 
       <section className="actionsSection">
+
         <div className="successContainer">
+
           <div className="sectionHeading">
+
             <p className="eyebrow">
               APRÈS L’ACTIVATION
             </p>
@@ -593,12 +774,15 @@ export default async function DomainSuccessPage({
             </h2>
 
             <p>
-              Une fois votre domaine actif, vous pourrez gérer tous vos
-              services directement depuis votre espace client Nova.
+              Une fois votre domaine actif, vous pourrez gérer
+              tous vos services directement depuis votre espace
+              client Nova.
             </p>
+
           </div>
 
           <div className="actionsGrid">
+
             <Link
               href="/espace-client"
               className="actionCard"
@@ -612,8 +796,9 @@ export default async function DomainSuccessPage({
               </h3>
 
               <p>
-                Retrouvez votre domaine, son statut, sa date d’expiration,
-                son renouvellement et ses paramètres.
+                Retrouvez votre domaine, son statut,
+                sa date d’expiration, son renouvellement
+                et ses paramètres.
               </p>
 
               <span>
@@ -635,8 +820,8 @@ export default async function DomainSuccessPage({
               </h3>
 
               <p>
-                Créez un site Nova et connectez automatiquement votre domaine
-                lorsqu’il sera actif.
+                Créez un site Nova et connectez automatiquement
+                votre domaine lorsqu’il sera actif.
               </p>
 
               <span>
@@ -681,8 +866,8 @@ export default async function DomainSuccessPage({
               </h3>
 
               <p>
-                Gérez les enregistrements DNS de votre domaine depuis votre
-                espace Nova.
+                Gérez les enregistrements DNS de votre domaine
+                depuis votre espace Nova.
               </p>
 
               <span>
@@ -690,16 +875,25 @@ export default async function DomainSuccessPage({
                 <ArrowRight />
               </span>
             </Link>
+
           </div>
+
         </div>
+
       </section>
 
-      {/* CLIENT AREA */}
+      {/* =========================
+          DARK CTA
+      ========================= */}
 
       <section className="clientSection">
+
         <div className="successContainer">
+
           <div className="clientPanel">
+
             <div className="clientPanelContent">
+
               <p className="eyebrow light">
                 ESPACE CLIENT NOVA
               </p>
@@ -711,9 +905,9 @@ export default async function DomainSuccessPage({
               </h2>
 
               <p>
-                Domaines, sites, e-mails, DNS, sécurité, commandes et
-                renouvellements seront accessibles depuis votre espace
-                client.
+                Domaines, sites, e-mails, DNS, sécurité,
+                commandes et renouvellements seront accessibles
+                depuis votre espace client.
               </p>
 
               <Link
@@ -723,9 +917,11 @@ export default async function DomainSuccessPage({
                 Ouvrir mon espace client
                 <ArrowRight />
               </Link>
+
             </div>
 
             <div className="clientVisual">
+
               <div className="cubeBack" />
 
               <div className="novaCube">
@@ -735,16 +931,25 @@ export default async function DomainSuccessPage({
               </div>
 
               <div className="cubeGlow" />
+
             </div>
+
           </div>
+
         </div>
+
       </section>
 
-      {/* REASSURANCE */}
+      {/* =========================
+          REASSURANCE
+      ========================= */}
 
       <section className="reassuranceSection">
+
         <div className="successContainer">
+
           <div className="reassuranceGrid">
+
             <div>
               <div className="reassuranceIcon">
                 <ShieldIcon />
@@ -786,15 +991,23 @@ export default async function DomainSuccessPage({
                 Notre équipe vous accompagne lorsque vous en avez besoin.
               </p>
             </div>
+
           </div>
+
         </div>
+
       </section>
 
-      {/* FOOTER */}
+      {/* =========================
+          BOTTOM
+      ========================= */}
 
       <section className="bottomSection">
+
         <div className="successContainer">
+
           <div className="bottomActions">
+
             <Link
               href="/domaines"
               className="backButton"
@@ -805,14 +1018,18 @@ export default async function DomainSuccessPage({
 
             <Link
               href="/espace-client"
-              className="primaryButton"
+              className="clientButton"
             >
               Accéder à mon espace client
               <ArrowRight />
             </Link>
+
           </div>
+
         </div>
+
       </section>
+
     </main>
   );
 }

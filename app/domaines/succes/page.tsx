@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Stripe from "stripe";
+import SuccessClientSync from "./SuccessClientSync";
 import "./page.css";
 
 function getStripe() {
@@ -158,7 +159,13 @@ function MailIcon() {
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      <rect x="3.5" y="5.5" width="17" height="13" rx="2" />
+      <rect
+        x="3.5"
+        y="5.5"
+        width="17"
+        height="13"
+        rx="2"
+      />
       <path d="M4.5 7L12 13L19.5 7" />
     </svg>
   );
@@ -177,8 +184,20 @@ function DnsIcon() {
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      <rect x="4" y="4" width="16" height="5" rx="1.5" />
-      <rect x="4" y="15" width="16" height="5" rx="1.5" />
+      <rect
+        x="4"
+        y="4"
+        width="16"
+        height="5"
+        rx="1.5"
+      />
+      <rect
+        x="4"
+        y="15"
+        width="16"
+        height="5"
+        rx="1.5"
+      />
       <path d="M8 9V15" />
       <path d="M16 9V15" />
     </svg>
@@ -198,11 +217,32 @@ function SiteIcon() {
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      <rect x="3.5" y="4" width="17" height="16" rx="2" />
+      <rect
+        x="3.5"
+        y="4"
+        width="17"
+        height="16"
+        rx="2"
+      />
       <path d="M3.5 8.5H20.5" />
-      <circle cx="7" cy="6.25" r=".6" fill="currentColor" />
-      <circle cx="10" cy="6.25" r=".6" fill="currentColor" />
-      <circle cx="13" cy="6.25" r=".6" fill="currentColor" />
+      <circle
+        cx="7"
+        cy="6.25"
+        r=".6"
+        fill="currentColor"
+      />
+      <circle
+        cx="10"
+        cy="6.25"
+        r=".6"
+        fill="currentColor"
+      />
+      <circle
+        cx="13"
+        cy="6.25"
+        r=".6"
+        fill="currentColor"
+      />
     </svg>
   );
 }
@@ -214,18 +254,24 @@ function SiteIcon() {
 async function getOrder(sessionId: string) {
   const stripe = getStripe();
 
-  const session = await stripe.checkout.sessions.retrieve(sessionId);
+  const session =
+    await stripe.checkout.sessions.retrieve(
+      sessionId
+    );
 
-  const domain = session.metadata?.domain || null;
+  const domain =
+    session.metadata?.domain || null;
 
   const amount =
     typeof session.amount_total === "number"
       ? session.amount_total / 100
       : null;
 
-  const currency = session.currency?.toUpperCase() || "EUR";
+  const currency =
+    session.currency?.toUpperCase() || "EUR";
 
-  const email = session.customer_details?.email || null;
+  const email =
+    session.customer_details?.email || null;
 
   return {
     domain,
@@ -262,16 +308,33 @@ export default async function DomainSuccessPage({
 
         <header className="successHeader">
           <div className="successHeaderInner">
-            <Link href="/" className="successLogo">
+            <Link
+              href="/"
+              className="successLogo"
+            >
               NOVA
             </Link>
 
             <nav className="successNav">
-              <Link href="/domaines">Domaines</Link>
-              <Link href="/hebergement">Hébergement</Link>
-              <Link href="/emails">Emails</Link>
-              <Link href="/securite">Sécurité</Link>
-              <Link href="/a-propos">À propos</Link>
+              <Link href="/domaines">
+                Domaines
+              </Link>
+
+              <Link href="/hebergement">
+                Hébergement
+              </Link>
+
+              <Link href="/emails">
+                Emails
+              </Link>
+
+              <Link href="/securite">
+                Sécurité
+              </Link>
+
+              <Link href="/a-propos">
+                À propos
+              </Link>
             </nav>
 
             <Link
@@ -289,13 +352,17 @@ export default async function DomainSuccessPage({
               <ShieldIcon />
             </div>
 
-            <p className="eyebrow">NOVA</p>
+            <p className="eyebrow">
+              NOVA
+            </p>
 
-            <h1>Commande introuvable</h1>
+            <h1>
+              Commande introuvable
+            </h1>
 
             <p>
-              Impossible de retrouver les informations de cette
-              commande.
+              Impossible de retrouver les
+              informations de cette commande.
             </p>
 
             <Link
@@ -327,16 +394,33 @@ export default async function DomainSuccessPage({
 
         <header className="successHeader">
           <div className="successHeaderInner">
-            <Link href="/" className="successLogo">
+            <Link
+              href="/"
+              className="successLogo"
+            >
               NOVA
             </Link>
 
             <nav className="successNav">
-              <Link href="/domaines">Domaines</Link>
-              <Link href="/hebergement">Hébergement</Link>
-              <Link href="/emails">Emails</Link>
-              <Link href="/securite">Sécurité</Link>
-              <Link href="/a-propos">À propos</Link>
+              <Link href="/domaines">
+                Domaines
+              </Link>
+
+              <Link href="/hebergement">
+                Hébergement
+              </Link>
+
+              <Link href="/emails">
+                Emails
+              </Link>
+
+              <Link href="/securite">
+                Sécurité
+              </Link>
+
+              <Link href="/a-propos">
+                À propos
+              </Link>
             </nav>
 
             <Link
@@ -354,15 +438,18 @@ export default async function DomainSuccessPage({
               <ShieldIcon />
             </div>
 
-            <p className="eyebrow">NOVA</p>
+            <p className="eyebrow">
+              NOVA
+            </p>
 
             <h1>
               Impossible de charger la commande
             </h1>
 
             <p>
-              Votre paiement peut avoir été effectué. Les
-              informations de commande sont temporairement
+              Votre paiement peut avoir été
+              effectué. Les informations de
+              commande sont temporairement
               indisponibles.
             </p>
 
@@ -379,9 +466,11 @@ export default async function DomainSuccessPage({
     );
   }
 
-  const domain = order.domain || "Domaine commandé";
+  const domain =
+    order.domain || "Domaine commandé";
 
-  const isPaid = order.paymentStatus === "paid";
+  const isPaid =
+    order.paymentStatus === "paid";
 
   const extension = domain.includes(".")
     ? `.${domain.split(".").pop()}`
@@ -389,6 +478,11 @@ export default async function DomainSuccessPage({
 
   return (
     <main className="successPage">
+      <SuccessClientSync
+        email={order.email}
+        domain={order.domain}
+      />
+
       <div className="successAmbient successAmbientOne" />
       <div className="successAmbient successAmbientTwo" />
       <div className="successAmbient successAmbientThree" />
@@ -408,11 +502,25 @@ export default async function DomainSuccessPage({
           </Link>
 
           <nav className="successNav">
-            <Link href="/domaines">Domaines</Link>
-            <Link href="/hebergement">Hébergement</Link>
-            <Link href="/emails">Emails</Link>
-            <Link href="/securite">Sécurité</Link>
-            <Link href="/a-propos">À propos</Link>
+            <Link href="/domaines">
+              Domaines
+            </Link>
+
+            <Link href="/hebergement">
+              Hébergement
+            </Link>
+
+            <Link href="/emails">
+              Emails
+            </Link>
+
+            <Link href="/securite">
+              Sécurité
+            </Link>
+
+            <Link href="/a-propos">
+              À propos
+            </Link>
           </nav>
 
           <Link
@@ -431,6 +539,7 @@ export default async function DomainSuccessPage({
       <section className="successHero">
         <div className="successContainer">
           <div className="successHeroGrid">
+
             {/* LEFT */}
 
             <div className="heroContent">
@@ -452,14 +561,17 @@ export default async function DomainSuccessPage({
                 Votre domaine
                 <br />
                 est{" "}
-                <span>presque prêt.</span>
+                <span>
+                  presque prêt.
+                </span>
               </h1>
 
               <p className="successDescription">
                 Votre commande pour{" "}
-                <strong>{domain}</strong> a bien été
-                reçue. Nous finalisons maintenant son
-                enregistrement et sa configuration.
+                <strong>{domain}</strong> a bien
+                été reçue. Nous finalisons
+                maintenant son enregistrement et
+                sa configuration.
               </p>
 
               <div className="heroActions">
@@ -584,6 +696,7 @@ export default async function DomainSuccessPage({
       <section className="orderSection">
         <div className="successContainer">
           <div className="orderCard">
+
             <div className="orderHeader">
               <div className="orderDomain">
                 <div className="domainIcon">
@@ -609,7 +722,9 @@ export default async function DomainSuccessPage({
 
                 <strong>
                   {order.amount !== null
-                    ? `${order.amount.toFixed(2)} ${order.currency}`
+                    ? `${order.amount.toFixed(
+                        2
+                      )} ${order.currency}`
                     : "Confirmé"}
                 </strong>
 
@@ -622,6 +737,7 @@ export default async function DomainSuccessPage({
             <div className="orderDetails">
               <div>
                 <span>Commande</span>
+
                 <strong>
                   Paiement confirmé
                 </strong>
@@ -629,11 +745,15 @@ export default async function DomainSuccessPage({
 
               <div>
                 <span>Durée</span>
-                <strong>1 an</strong>
+
+                <strong>
+                  1 an
+                </strong>
               </div>
 
               <div>
                 <span>E-mail</span>
+
                 <strong className="emailValue">
                   {order.email ||
                     "Votre adresse e-mail"}
@@ -642,7 +762,10 @@ export default async function DomainSuccessPage({
 
               <div>
                 <span>Fournisseur</span>
-                <strong>Openprovider</strong>
+
+                <strong>
+                  Openprovider
+                </strong>
               </div>
             </div>
 
@@ -740,9 +863,10 @@ export default async function DomainSuccessPage({
             </h2>
 
             <p>
-              Une fois votre domaine actif, vous pourrez
-              gérer tous vos services directement depuis
-              votre espace client Nova.
+              Une fois votre domaine actif, vous
+              pourrez gérer tous vos services
+              directement depuis votre espace
+              client Nova.
             </p>
           </div>
 
@@ -760,9 +884,9 @@ export default async function DomainSuccessPage({
               </h3>
 
               <p>
-                Retrouvez votre domaine, son statut,
-                sa date d’expiration, son renouvellement
-                et ses paramètres.
+                Retrouvez votre domaine, son
+                statut, sa date d’expiration, son
+                renouvellement et ses paramètres.
               </p>
 
               <span>
@@ -808,8 +932,9 @@ export default async function DomainSuccessPage({
               </h3>
 
               <p>
-                Préparez vos adresses professionnelles
-                comme contact@votredomaine.fr.
+                Préparez vos adresses
+                professionnelles comme
+                contact@votredomaine.fr.
               </p>
 
               <span>
@@ -831,8 +956,9 @@ export default async function DomainSuccessPage({
               </h3>
 
               <p>
-                Gérez les enregistrements DNS de votre
-                domaine depuis votre espace Nova.
+                Gérez les enregistrements DNS de
+                votre domaine depuis votre espace
+                Nova.
               </p>
 
               <span>
@@ -863,9 +989,10 @@ export default async function DomainSuccessPage({
               </h2>
 
               <p>
-                Domaines, sites, e-mails, DNS, sécurité,
-                commandes et renouvellements seront
-                accessibles depuis votre espace client.
+                Domaines, sites, e-mails, DNS,
+                sécurité, commandes et
+                renouvellements seront accessibles
+                depuis votre espace client.
               </p>
 
               <Link
@@ -897,12 +1024,15 @@ export default async function DomainSuccessPage({
       <section className="reassuranceSection">
         <div className="successContainer">
           <div className="reassuranceGrid">
+
             <div>
               <div className="reassuranceIcon">
                 <ShieldIcon />
               </div>
 
-              <h3>Sécurité</h3>
+              <h3>
+                Sécurité
+              </h3>
 
               <p>
                 Vos paiements et vos services sont
@@ -920,8 +1050,8 @@ export default async function DomainSuccessPage({
               </h3>
 
               <p>
-                Retrouvez tous vos services au même
-                endroit.
+                Retrouvez tous vos services au
+                même endroit.
               </p>
             </div>
 
@@ -935,10 +1065,11 @@ export default async function DomainSuccessPage({
               </h3>
 
               <p>
-                Notre équipe vous accompagne lorsque
-                vous en avez besoin.
+                Notre équipe vous accompagne
+                lorsque vous en avez besoin.
               </p>
             </div>
+
           </div>
         </div>
       </section>
@@ -949,6 +1080,7 @@ export default async function DomainSuccessPage({
 
       <section className="bottomSection">
         <div className="successContainer">
+
           <div className="bottomActions">
             <Link
               href="/"
@@ -969,7 +1101,10 @@ export default async function DomainSuccessPage({
 
           <div className="successFooter">
             <div>
-              <Link href="/" className="footerLogo">
+              <Link
+                href="/"
+                className="footerLogo"
+              >
                 NOVA
               </Link>
 
@@ -992,6 +1127,7 @@ export default async function DomainSuccessPage({
               </Link>
             </div>
           </div>
+
         </div>
       </section>
     </main>

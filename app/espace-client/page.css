@@ -1,239 +1,292 @@
 /* =========================================================
-   NOVA — ESPACE CLIENT / FACTURES
-   ========================================================= */
+   NOVA — ESPACE CLIENT
+   Premium Client Dashboard
+========================================================= */
 
-/* Supprime le header global du layout sur cette page */
-
-body:has(.clientInvoicesPage) .navbar,
-body:has(.clientInvoicesPage) header.navbar,
-body:has(.clientInvoicesPage) .nova-header,
-body:has(.clientInvoicesPage) header.nova-header {
-  display: none !important;
-}
-
-body:has(.clientInvoicesPage) > header {
-  display: none !important;
-}
-
-body:has(.clientInvoicesPage) {
-  padding-top: 0 !important;
-  margin-top: 0 !important;
-}
-
-body:has(.clientInvoicesPage) main.clientInvoicesPage {
-  margin-top: 0 !important;
-}
-
-
-/* =========================================================
-   PAGE
-   ========================================================= */
-
-.clientInvoicesPage {
+.client-page {
   --purple: #8b5cf6;
   --purple-light: #a78bfa;
   --purple-dark: #6d28d9;
-  --green: #39d98a;
+  --green: #42e59b;
+  --bg: #050507;
+  --panel: rgba(255, 255, 255, 0.035);
+  --panel-strong: rgba(255, 255, 255, 0.055);
+  --border: rgba(255, 255, 255, 0.09);
+  --text: #f6f6fa;
+  --muted: #8d8d99;
 
+  position: relative;
   min-height: 100vh;
+  overflow: hidden;
 
   background:
     radial-gradient(
-      circle at 75% 5%,
-      rgba(124, 58, 237, 0.16),
-      transparent 28%
+      circle at 75% 8%,
+      rgba(124, 58, 237, 0.18),
+      transparent 27%
     ),
     radial-gradient(
-      circle at 15% 30%,
-      rgba(99, 102, 241, 0.06),
-      transparent 25%
+      circle at 10% 30%,
+      rgba(99, 102, 241, 0.07),
+      transparent 28%
     ),
-    #050506;
+    #050507;
 
-  color: #f7f7fa;
-
-  overflow-x: hidden;
+  color: var(--text);
 }
 
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.client-background {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.client-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.45;
+}
+
+.client-orb-one {
+  width: 520px;
+  height: 520px;
+  top: -220px;
+  right: -100px;
+  background: rgba(109, 40, 217, 0.18);
+}
+
+.client-orb-two {
+  width: 420px;
+  height: 420px;
+  bottom: 15%;
+  left: -250px;
+  background: rgba(79, 70, 229, 0.1);
+}
+
+.client-grid-lines {
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.7) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.7) 1px,
+      transparent 1px
+    );
+
+  background-size: 80px 80px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    transparent 75%
+  );
+}
 
 /* =========================================================
    HEADER
-   ========================================================= */
+========================================================= */
 
-.clientInvoicesHeader {
-  width: 100%;
+.client-header-bar {
+  position: relative;
+  z-index: 30;
+
   height: 82px;
 
-  padding: 0 5vw;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+  background:
+    rgba(5, 5, 7, 0.72);
+
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.client-header-inner {
+  width: min(1320px, calc(100% - 80px));
+  height: 100%;
+  margin: 0 auto;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-
-  background: rgba(5, 5, 6, 0.78);
-
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-
-  position: relative;
-  z-index: 20;
+  gap: 30px;
 }
 
-.clientInvoicesLogo {
-  color: #fff;
+.client-logo {
+  color: #ffffff;
   text-decoration: none;
 
-  font-size: 23px;
-  font-weight: 800;
+  font-size: 24px;
+  font-weight: 850;
 
-  letter-spacing: -0.06em;
+  letter-spacing: -0.07em;
 }
 
-.clientInvoicesLogo span {
+.client-logo span {
   color: var(--purple-light);
 }
 
-.clientInvoicesNav {
+.client-navigation {
   display: flex;
   align-items: center;
-
   gap: 34px;
+
+  margin-left: auto;
+  margin-right: 30px;
 }
 
-.clientInvoicesNav a {
-  color: #8f8f9b;
+.client-navigation a {
+  position: relative;
 
+  color: #9696a3;
   text-decoration: none;
 
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
 
-  transition: color 0.25s ease;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
 }
 
-.clientInvoicesNav a:hover {
-  color: #fff;
+.client-navigation a::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: -9px;
+
+  height: 1px;
+
+  background: var(--purple-light);
+
+  transform: scaleX(0);
+  transform-origin: center;
+
+  transition: transform 0.25s ease;
 }
 
-.clientInvoicesHeaderRight {
+.client-navigation a:hover {
+  color: #ffffff;
+}
+
+.client-navigation a:hover::after {
+  transform: scaleX(1);
+}
+
+.client-header-actions {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
 }
 
-.invoiceSupport {
-  color: #aaaab5;
-
+.client-support-link {
+  color: #9b9ba7;
   text-decoration: none;
 
-  font-size: 13px;
+  font-size: 12px;
+
+  transition: color 0.2s ease;
 }
 
-.invoiceSupport:hover {
-  color: #fff;
+.client-support-link:hover {
+  color: #ffffff;
 }
 
-.invoiceAvatar {
-  width: 38px;
-  height: 38px;
-
-  border-radius: 50%;
+.client-avatar {
+  width: 40px;
+  height: 40px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  color: #fff;
+  border-radius: 50%;
 
-  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
 
-  font-size: 13px;
-  font-weight: 700;
+  color: white;
 
   background:
     linear-gradient(
       135deg,
       #8b5cf6,
-      #6d28d9
+      #5b21b6
     );
 
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 0 28px rgba(124, 58, 237, 0.28);
+
+  font-size: 10px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.client-avatar:hover {
+  transform: translateY(-2px);
 
   box-shadow:
-    0 0 25px rgba(124, 58, 237, 0.28);
-
-  transition: transform 0.25s ease;
+    0 0 38px rgba(124, 58, 237, 0.42);
 }
-
-.invoiceAvatar:hover {
-  transform: translateY(-2px);
-}
-
 
 /* =========================================================
-   CONTAINER
-   ========================================================= */
+   SHELL
+========================================================= */
 
-.invoicesContainer {
-  width: min(1320px, calc(100% - 10vw));
+.client-shell {
+  position: relative;
+  z-index: 2;
+
+  width: min(1320px, calc(100% - 80px));
 
   margin: 0 auto;
-
-  padding: 34px 0 100px;
 }
-
-
-/* =========================================================
-   BREADCRUMB
-   ========================================================= */
-
-.invoicesBreadcrumb {
-  display: flex;
-  align-items: center;
-
-  gap: 10px;
-
-  color: #686873;
-
-  font-size: 12px;
-
-  margin-bottom: 52px;
-}
-
-.invoicesBreadcrumb a {
-  color: #9999a5;
-
-  text-decoration: none;
-}
-
-.invoicesBreadcrumb a:hover {
-  color: #fff;
-}
-
-.invoicesBreadcrumb span:last-child {
-  color: #d1d1d8;
-}
-
 
 /* =========================================================
    HERO
-   ========================================================= */
+========================================================= */
 
-.invoicesHero {
-  min-height: 430px;
+.client-hero {
+  min-height: 650px;
 
   display: grid;
 
-  grid-template-columns: 1fr 0.8fr;
+  grid-template-columns: 1fr 0.9fr;
 
   align-items: center;
 
-  gap: 80px;
+  gap: 50px;
+
+  padding: 70px 0 80px;
 }
 
-.invoicesBadge {
+.hero-copy {
+  position: relative;
+  z-index: 4;
+}
+
+.client-badge {
   width: fit-content;
 
   display: inline-flex;
@@ -245,21 +298,21 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
 
   border-radius: 999px;
 
-  border: 1px solid rgba(139, 92, 246, 0.25);
+  border: 1px solid rgba(139, 92, 246, 0.24);
 
-  background: rgba(139, 92, 246, 0.08);
+  background: rgba(139, 92, 246, 0.07);
 
-  color: #b9a4f8;
+  color: #b8a4f5;
 
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
 
-  letter-spacing: 0.15em;
+  letter-spacing: 0.16em;
 
-  margin-bottom: 26px;
+  margin-bottom: 28px;
 }
 
-.invoicesBadge span {
+.badge-dot {
   width: 6px;
   height: 6px;
 
@@ -268,12 +321,12 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   background: #a78bfa;
 
   box-shadow:
-    0 0 9px #a78bfa;
+    0 0 12px rgba(167, 139, 250, 0.9);
 
-  animation: invoicePulse 2s ease-in-out infinite;
+  animation: badgePulse 2s ease-in-out infinite;
 }
 
-@keyframes invoicePulse {
+@keyframes badgePulse {
   0%,
   100% {
     opacity: 0.5;
@@ -286,1084 +339,82 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
   }
 }
 
-.invoicesHero h1 {
+.client-hero h1 {
   margin: 0;
 
-  font-size: clamp(55px, 7vw, 104px);
+  font-size: clamp(70px, 8vw, 120px);
 
-  line-height: 0.88;
+  line-height: 0.84;
 
-  letter-spacing: -0.075em;
+  letter-spacing: -0.085em;
 
-  font-weight: 750;
+  font-weight: 780;
 }
 
-.invoicesHero h1 span {
+.client-hero h1 span {
   color: transparent;
 
   background:
     linear-gradient(
       100deg,
-      #fff 5%,
-      #a78bfa 48%,
-      #6d28d9 100%
+      #ffffff 0%,
+      #b49aff 45%,
+      #7c3aed 100%
     );
 
   -webkit-background-clip: text;
   background-clip: text;
 }
 
-.invoicesHero p {
-  max-width: 570px;
+.client-hero p {
+  max-width: 600px;
 
-  margin: 34px 0 0;
+  margin: 36px 0 0;
 
-  color: #9898a4;
+  color: #8d8d99;
 
-  font-size: 16px;
+  font-size: 15px;
 
   line-height: 1.8;
 }
 
-
-/* =========================================================
-   HERO DOCUMENT
-   ========================================================= */
-
-.invoicesHeroVisual {
-  min-height: 390px;
-
-  position: relative;
-
+.hero-actions {
   display: flex;
-
-  align-items: center;
-  justify-content: center;
-}
-
-.invoiceGlow {
-  position: absolute;
-
-  width: 330px;
-  height: 330px;
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(124, 58, 237, 0.32),
-      transparent 68%
-    );
-
-  filter: blur(12px);
-
-  animation: invoiceGlow 6s ease-in-out infinite;
-}
-
-@keyframes invoiceGlow {
-  0%,
-  100% {
-    transform: scale(1) translateY(0);
-  }
-
-  50% {
-    transform: scale(1.06) translateY(-12px);
-  }
-}
-
-.invoiceDocument {
-  width: 235px;
-  height: 300px;
-
-  padding: 25px;
-
-  position: relative;
-
-  border-radius: 5px;
-
-  border: 1px solid rgba(255, 255, 255, 0.18);
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.025)
-    );
-
-  box-shadow:
-    0 35px 80px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
-
-  transform:
-    perspective(900px)
-    rotateY(-18deg)
-    rotateX(8deg)
-    rotateZ(-4deg);
-
-  animation: invoiceFloat 7s ease-in-out infinite;
-}
-
-@keyframes invoiceFloat {
-  0%,
-  100% {
-    transform:
-      perspective(900px)
-      rotateY(-18deg)
-      rotateX(8deg)
-      rotateZ(-4deg)
-      translateY(0);
-  }
-
-  50% {
-    transform:
-      perspective(900px)
-      rotateY(-14deg)
-      rotateX(10deg)
-      rotateZ(-3deg)
-      translateY(-15px);
-  }
-}
-
-.invoiceDocumentTop {
-  display: flex;
-
   align-items: center;
 
-  justify-content: space-between;
+  gap: 12px;
 
-  color: #fff;
-
-  font-size: 15px;
-
-  font-weight: 800;
-
-  letter-spacing: -0.05em;
+  margin-top: 32px;
 }
 
-.invoiceDocumentTop span {
-  color: #a78bfa;
-}
-
-.invoiceDocumentDot {
-  width: 7px;
-  height: 7px;
-
-  border-radius: 50%;
-
-  background: #8b5cf6;
-
-  box-shadow:
-    0 0 14px #8b5cf6;
-}
-
-.invoiceDocumentLines {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 13px;
-
-  margin-top: 50px;
-}
-
-.invoiceDocumentLines i {
-  display: block;
-
-  height: 4px;
-
-  border-radius: 5px;
-
-  background: rgba(255, 255, 255, 0.13);
-}
-
-.invoiceDocumentLines i:nth-child(1) {
-  width: 80%;
-}
-
-.invoiceDocumentLines i:nth-child(2) {
-  width: 60%;
-}
-
-.invoiceDocumentLines i:nth-child(3) {
-  width: 72%;
-}
-
-.invoiceDocumentLines i:nth-child(4) {
-  width: 45%;
-}
-
-.invoiceDocumentTotal {
-  position: absolute;
-
-  bottom: 27px;
-  left: 25px;
-
-  display: flex;
-
-  flex-direction: column;
-}
-
-.invoiceDocumentTotal small {
-  color: #777783;
-
-  font-size: 7px;
-
-  letter-spacing: 0.18em;
-}
-
-.invoiceDocumentTotal strong {
-  margin-top: 5px;
-
-  color: #fff;
-
-  font-size: 27px;
-}
-
-.invoiceDocumentCheck {
-  position: absolute;
-
-  right: 22px;
-  bottom: 25px;
-
-  width: 38px;
-  height: 38px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-
-  background: rgba(57, 217, 138, 0.08);
-
-  border: 1px solid rgba(57, 217, 138, 0.2);
-
-  color: #61e5a1;
-}
-
-.invoiceDocumentCheck svg {
-  width: 18px;
-  height: 18px;
-
-  fill: none;
-
-  stroke: currentColor;
-
-  stroke-width: 2;
-
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.invoiceVerticalText {
-  position: absolute;
-
-  right: -5px;
-  bottom: 45px;
-
-  writing-mode: vertical-rl;
-
-  color: rgba(255, 255, 255, 0.24);
-
-  font-size: 8px;
-
-  font-weight: 700;
-
-  letter-spacing: 0.28em;
-}
-
-
-/* =========================================================
-   STATS
-   ========================================================= */
-
-.invoiceStats {
-  display: grid;
-
-  grid-template-columns: repeat(3, 1fr);
-
-  gap: 16px;
-
-  margin-top: 20px;
-}
-
-.invoiceStatCard {
-  min-height: 120px;
-
-  padding: 26px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 18px;
-
-  border-radius: 18px;
-
-  border: 1px solid rgba(255, 255, 255, 0.09);
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.055),
-      rgba(255, 255, 255, 0.018)
-    );
-
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease;
-}
-
-.invoiceStatCard:hover {
-  transform: translateY(-4px);
-
-  border-color: rgba(139, 92, 246, 0.28);
-}
-
-.invoiceStatIcon {
-  width: 48px;
-  height: 48px;
-
-  flex: 0 0 48px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 14px;
-
-  background: rgba(139, 92, 246, 0.1);
-
-  border: 1px solid rgba(139, 92, 246, 0.16);
-
-  color: #b49aff;
-}
-
-.invoiceStatIcon svg {
-  width: 21px;
-  height: 21px;
-
-  fill: none;
-
-  stroke: currentColor;
-
-  stroke-width: 1.6;
-
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.euroSymbol {
-  font-size: 20px;
-
-  font-weight: 700;
-}
-
-.invoiceStatCard span:not(.euroSymbol) {
-  display: block;
-
-  color: #858590;
-
-  font-size: 11px;
-
-  margin-bottom: 7px;
-}
-
-.invoiceStatCard strong {
-  color: #fff;
-
-  font-size: 22px;
-
-  letter-spacing: -0.04em;
-}
-
-
-/* =========================================================
-   SECTION
-   ========================================================= */
-
-.invoicesSection {
-  margin-top: 105px;
-}
-
-.invoicesSectionHeading {
-  display: flex;
-
-  align-items: flex-end;
-
-  justify-content: space-between;
-
-  margin-bottom: 24px;
-}
-
-.invoiceEyebrow {
-  display: block;
-
-  color: #817f91;
-
-  font-size: 10px;
-
-  font-weight: 700;
-
-  letter-spacing: 0.2em;
-
-  margin-bottom: 10px;
-}
-
-.invoicesSectionHeading h2 {
-  margin: 0;
-
-  font-size: 32px;
-
-  letter-spacing: -0.05em;
-}
-
-.invoiceCount {
-  color: #81818c;
-
-  font-size: 12px;
-}
-
-
-/* =========================================================
-   STATES
-   ========================================================= */
-
-.invoiceState {
-  min-height: 330px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
-
-  text-align: center;
-
-  padding: 50px;
-
-  border-radius: 24px;
-
-  border: 1px dashed rgba(255, 255, 255, 0.11);
-
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(124, 58, 237, 0.09),
-      transparent 50%
-    ),
-    rgba(255, 255, 255, 0.018);
-}
-
-.invoiceStateIcon {
-  width: 58px;
-  height: 58px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  margin-bottom: 20px;
-
-  border-radius: 18px;
-
-  color: #a78bfa;
-
-  background: rgba(139, 92, 246, 0.1);
-
-  border: 1px solid rgba(139, 92, 246, 0.17);
-}
-
-.invoiceStateIcon svg {
-  width: 25px;
-  height: 25px;
-
-  fill: none;
-
-  stroke: currentColor;
-
-  stroke-width: 1.5;
-}
-
-.invoiceState h3 {
-  margin: 0;
-
-  font-size: 20px;
-}
-
-.invoiceState p {
-  max-width: 450px;
-
-  margin: 10px 0 25px;
-
-  color: #858590;
-
-  font-size: 13px;
-
-  line-height: 1.7;
-}
-
-.invoiceState a,
-.invoiceState button {
-  min-height: 44px;
+.primary-client-button,
+.secondary-client-button {
+  min-height: 48px;
 
   display: inline-flex;
-
   align-items: center;
-  justify-content: center;
-
-  gap: 10px;
-
-  padding: 0 18px;
-
-  border-radius: 12px;
-
-  border: 1px solid rgba(255, 255, 255, 0.11);
-
-  background: rgba(255, 255, 255, 0.045);
-
-  color: #fff;
-
-  font-family: inherit;
-
-  font-size: 12px;
-
-  font-weight: 600;
-
-  text-decoration: none;
-
-  cursor: pointer;
-}
-
-.invoiceState a:hover,
-.invoiceState button:hover {
-  background: rgba(139, 92, 246, 0.12);
-
-  border-color: rgba(139, 92, 246, 0.3);
-}
-
-.invoiceState a svg {
-  width: 16px;
-  height: 16px;
-
-  fill: none;
-
-  stroke: currentColor;
-
-  stroke-width: 1.7;
-
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.invoiceStateError .invoiceStateIcon {
-  color: #ff8585;
-
-  background: rgba(255, 80, 80, 0.08);
-
-  border-color: rgba(255, 80, 80, 0.16);
-}
-
-.invoiceLoader {
-  width: 34px;
-  height: 34px;
-
-  border-radius: 50%;
-
-  border: 2px solid rgba(255, 255, 255, 0.08);
-
-  border-top-color: #a78bfa;
-
-  animation: invoiceSpin 0.8s linear infinite;
-
-  margin-bottom: 22px;
-}
-
-@keyframes invoiceSpin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
-/* =========================================================
-   LIST
-   ========================================================= */
-
-.invoiceList {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 10px;
-}
-
-.invoiceRow {
-  min-height: 90px;
-
-  display: grid;
-
-  grid-template-columns:
-    minmax(280px, 1fr)
-    150px
-    140px
-    45px;
-
-  align-items: center;
-
-  gap: 20px;
-
-  padding: 16px 20px;
-
-  border-radius: 17px;
-
-  border: 1px solid rgba(255, 255, 255, 0.075);
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.045),
-      rgba(255, 255, 255, 0.018)
-    );
-
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease;
-}
-
-.invoiceRow:hover {
-  transform: translateX(4px);
-
-  border-color: rgba(139, 92, 246, 0.25);
-}
-
-.invoiceMain {
-  min-width: 0;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 15px;
-}
-
-.invoiceFileIcon {
-  width: 48px;
-  height: 48px;
-
-  flex: 0 0 48px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 14px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(139, 92, 246, 0.15),
-      rgba(139, 92, 246, 0.04)
-    );
-
-  border: 1px solid rgba(139, 92, 246, 0.17);
-
-  color: #b49aff;
-}
-
-.invoiceFileIcon svg {
-  width: 21px;
-  height: 21px;
-
-  fill: none;
-
-  stroke: currentColor;
-
-  stroke-width: 1.5;
-}
-
-.invoiceInfo {
-  min-width: 0;
-}
-
-.invoiceTitle {
-  color: #f7f7fa;
-
-  font-size: 14px;
-
-  font-weight: 600;
-
-  white-space: nowrap;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-}
-
-.invoiceMeta {
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-  margin-top: 7px;
-
-  color: #70707b;
-
-  font-size: 10px;
-}
-
-.invoiceMeta span {
-  color: #484850;
-}
-
-
-/* =========================================================
-   STATUS
-   ========================================================= */
-
-.invoiceStatusPill {
-  min-height: 30px;
-
-  display: inline-flex;
-
-  align-items: center;
-
-  gap: 7px;
-
-  padding: 0 10px;
-
-  border-radius: 999px;
-
-  font-size: 10px;
-
-  font-weight: 600;
-}
-
-.invoiceStatusPill svg {
-  width: 13px;
-  height: 13px;
-
-  fill: none;
-
-  stroke: currentColor;
-
-  stroke-width: 2;
-
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.invoiceStatusPill.paid {
-  color: #61e5a1;
-
-  background: rgba(57, 217, 138, 0.08);
-
-  border: 1px solid rgba(57, 217, 138, 0.14);
-}
-
-.invoiceStatusPill.pending {
-  color: #b49aff;
-
-  background: rgba(139, 92, 246, 0.09);
-
-  border: 1px solid rgba(139, 92, 246, 0.16);
-}
-
-.invoiceStatusPill.failed {
-  color: #ff8d8d;
-
-  background: rgba(255, 80, 80, 0.08);
-
-  border: 1px solid rgba(255, 80, 80, 0.14);
-}
-
-.invoiceStatusPill.refunded {
-  color: #aaaab4;
-
-  background: rgba(255, 255, 255, 0.05);
-
-  border: 1px solid rgba(255, 255, 255, 0.09);
-}
-
-
-/* =========================================================
-   AMOUNT
-   ========================================================= */
-
-.invoiceAmount {
-  color: #f2f2f5;
-
-  font-size: 14px;
-
-  font-weight: 600;
-
-  text-align: right;
-}
-
-
-/* =========================================================
-   DOWNLOAD
-   ========================================================= */
-
-.invoiceDownload,
-.invoiceDownloadDisabled {
-  width: 38px;
-  height: 38px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 11px;
-
-  color: #858590;
-
-  background: rgba(255, 255, 255, 0.025);
-
-  border: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.invoiceDownload {
-  cursor: pointer;
-
-  transition:
-    color 0.2s ease,
-    background 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.invoiceDownload:hover {
-  color: #fff;
-
-  background: rgba(139, 92, 246, 0.12);
-
-  border-color: rgba(139, 92, 246, 0.25);
-}
-
-.invoiceDownloadDisabled {
-  opacity: 0.35;
-}
-
-.invoiceDownload svg,
-.invoiceDownloadDisabled svg {
-  width: 16px;
-  height: 16px;
-
-  fill: none;
-
-  stroke: currentColor;
-
-  stroke-width: 1.7;
-
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-
-/* =========================================================
-   INFO PANEL
-   ========================================================= */
-
-.invoiceInfoPanel {
-  margin-top: 70px;
-
-  padding: 32px;
-
-  display: flex;
-
-  align-items: flex-start;
-
-  gap: 20px;
-
-  border-radius: 20px;
-
-  border: 1px solid rgba(139, 92, 246, 0.14);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(139, 92, 246, 0.08),
-      rgba(255, 255, 255, 0.018)
-    );
-}
-
-.invoiceInfoPanelIcon {
-  width: 48px;
-  height: 48px;
-
-  flex: 0 0 48px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 14px;
-
-  color: #b49aff;
-
-  background: rgba(139, 92, 246, 0.1);
-
-  border: 1px solid rgba(139, 92, 246, 0.16);
-}
-
-.invoiceInfoPanelIcon svg {
-  width: 21px;
-  height: 21px;
-
-  fill: none;
-
-  stroke: currentColor;
-
-  stroke-width: 1.5;
-}
-
-.invoiceInfoPanel h2 {
-  margin: 0;
-
-  font-size: 21px;
-
-  letter-spacing: -0.04em;
-}
-
-.invoiceInfoPanel p {
-  max-width: 700px;
-
-  margin: 9px 0 0;
-
-  color: #858590;
-
-  font-size: 13px;
-
-  line-height: 1.7;
-}
-
-
-/* =========================================================
-   CTA
-   ========================================================= */
-
-.invoiceCTA {
-  margin-top: 105px;
-
-  min-height: 330px;
-
-  padding: 55px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 60px;
-
-  position: relative;
-
-  overflow: hidden;
-
-  border-radius: 28px;
-
-  border: 1px solid rgba(139, 92, 246, 0.15);
-
-  background:
-    radial-gradient(
-      circle at 80% 50%,
-      rgba(124, 58, 237, 0.18),
-      transparent 35%
-    ),
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.055),
-      rgba(255, 255, 255, 0.018)
-    );
-}
-
-.invoiceCTA h2 {
-  margin: 0;
-
-  font-size: clamp(36px, 4vw, 58px);
-
-  line-height: 0.95;
-
-  letter-spacing: -0.065em;
-}
-
-.invoiceCTA h2 span {
-  color: transparent;
-
-  background:
-    linear-gradient(
-      90deg,
-      #a78bfa,
-      #6d28d9
-    );
-
-  -webkit-background-clip: text;
-  background-clip: text;
-}
-
-.invoiceCTA p {
-  max-width: 500px;
-
-  margin: 22px 0 0;
-
-  color: #858590;
-
-  font-size: 13px;
-
-  line-height: 1.7;
-}
-
-.invoiceCTAActions {
-  min-width: 220px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 11px;
-
-  position: relative;
-
-  z-index: 2;
-}
-
-.invoicePrimaryButton,
-.invoiceSecondaryButton {
-  min-height: 52px;
-
-  display: flex;
-
-  align-items: center;
-
   justify-content: center;
 
   gap: 12px;
 
-  padding: 0 22px;
+  padding: 0 20px;
 
-  border-radius: 13px;
+  border-radius: 12px;
 
   text-decoration: none;
 
   font-size: 12px;
-
   font-weight: 650;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.invoicePrimaryButton {
-  color: #fff;
+.primary-client-button {
+  color: white;
 
   background:
     linear-gradient(
@@ -1373,347 +424,1898 @@ body:has(.clientInvoicesPage) main.clientInvoicesPage {
     );
 
   box-shadow:
-    0 14px 35px rgba(109, 40, 217, 0.28);
+    0 15px 35px rgba(109, 40, 217, 0.28);
 }
 
-.invoiceSecondaryButton {
-  color: #d0d0d7;
+.primary-client-button:hover {
+  transform: translateY(-3px);
 
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 20px 45px rgba(109, 40, 217, 0.38);
+}
+
+.secondary-client-button {
+  color: #c9c9d1;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
   background: rgba(255, 255, 255, 0.035);
 }
 
-.invoicePrimaryButton:hover,
-.invoiceSecondaryButton:hover {
-  transform: translateY(-2px);
+.secondary-client-button:hover {
+  color: white;
+
+  border-color: rgba(139, 92, 246, 0.3);
+
+  background: rgba(139, 92, 246, 0.08);
 }
 
-.invoicePrimaryButton svg {
-  width: 17px;
-  height: 17px;
+/* =========================================================
+   SVG
+========================================================= */
+
+.client-svg {
+  width: 20px;
+  height: 20px;
 
   fill: none;
 
   stroke: currentColor;
 
-  stroke-width: 1.8;
+  stroke-width: 1.55;
 
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
+/* =========================================================
+   HERO VISUAL
+========================================================= */
+
+.hero-visual {
+  min-height: 480px;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-visual-glow {
+  position: absolute;
+
+  width: 390px;
+  height: 390px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(124, 58, 237, 0.3),
+      transparent 67%
+    );
+
+  filter: blur(12px);
+
+  animation: visualGlow 7s ease-in-out infinite;
+}
+
+@keyframes visualGlow {
+  0%,
+  100% {
+    transform: scale(1) translateY(0);
+  }
+
+  50% {
+    transform: scale(1.08) translateY(-14px);
+  }
+}
+
+.hero-orbit {
+  position: absolute;
+
+  border: 1px solid rgba(167, 139, 250, 0.13);
+
+  border-radius: 50%;
+
+  transform:
+    rotateX(65deg)
+    rotateZ(-18deg);
+
+  animation: orbitFloat 12s linear infinite;
+}
+
+.hero-orbit-one {
+  width: 430px;
+  height: 180px;
+}
+
+.hero-orbit-two {
+  width: 360px;
+  height: 150px;
+
+  transform:
+    rotateX(65deg)
+    rotateZ(35deg);
+
+  animation-duration: 15s;
+}
+
+.hero-orbit-three {
+  width: 500px;
+  height: 210px;
+
+  transform:
+    rotateX(65deg)
+    rotateZ(75deg);
+
+  animation-duration: 19s;
+}
+
+@keyframes orbitFloat {
+  from {
+    transform:
+      rotateX(65deg)
+      rotateZ(0deg);
+  }
+
+  to {
+    transform:
+      rotateX(65deg)
+      rotateZ(360deg);
+  }
+}
+
+.hero-core {
+  width: 235px;
+  height: 235px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  z-index: 3;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      rgba(255, 255, 255, 0.13),
+      rgba(139, 92, 246, 0.08) 45%,
+      rgba(0, 0, 0, 0.4)
+    );
+
+  box-shadow:
+    0 40px 100px rgba(0, 0, 0, 0.65),
+    0 0 70px rgba(124, 58, 237, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+
+  transform:
+    perspective(800px)
+    rotateX(12deg)
+    rotateY(-15deg);
+
+  animation: coreFloat 6s ease-in-out infinite;
+}
+
+@keyframes coreFloat {
+  0%,
+  100% {
+    transform:
+      perspective(800px)
+      rotateX(12deg)
+      rotateY(-15deg)
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      perspective(800px)
+      rotateX(15deg)
+      rotateY(-11deg)
+      translateY(-13px);
+  }
+}
+
+.hero-core::before {
+  content: "";
+
+  position: absolute;
+  inset: 13px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(167, 139, 250, 0.2);
+}
+
+.hero-core::after {
+  content: "";
+
+  position: absolute;
+  width: 70px;
+  height: 70px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(167, 139, 250, 0.2),
+      transparent 70%
+    );
+
+  filter: blur(10px);
+}
+
+.hero-core-inner {
+  width: 105px;
+  height: 105px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 30px;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.025)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 25px 50px rgba(0, 0, 0, 0.4);
+
+  transform: rotate(-5deg);
+}
+
+.hero-core-inner span {
+  color: white;
+
+  font-size: 56px;
+  font-weight: 900;
+
+  letter-spacing: -0.12em;
+
+  text-shadow:
+    0 0 30px rgba(167, 139, 250, 0.55);
+}
+
+.hero-floating-card {
+  position: absolute;
+
+  z-index: 5;
+
+  padding: 16px 18px;
+
+  border-radius: 15px;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.025)
+    );
+
+  backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.45);
+
+  animation: cardFloat 5s ease-in-out infinite;
+}
+
+.hero-floating-card-top {
+  top: 65px;
+  right: 20px;
+}
+
+.hero-floating-card-bottom {
+  bottom: 55px;
+  left: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 200px;
+
+  animation-delay: -2s;
+}
+
+@keyframes cardFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.floating-label {
+  color: #666672;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 0.18em;
+
+  margin-bottom: 7px;
+}
+
+.floating-status {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  color: #6ee7a7;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.floating-status span {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: var(--green);
+
+  box-shadow:
+    0 0 10px rgba(66, 229, 155, 0.8);
+}
+
+.hero-floating-card-bottom strong {
+  font-size: 17px;
+
+  letter-spacing: -0.04em;
+}
+
+.hero-floating-card-bottom small {
+  margin-top: 5px;
+
+  color: #777783;
+
+  font-size: 9px;
+}
 
 /* =========================================================
-   FOOTER
-   ========================================================= */
+   DASHBOARD
+========================================================= */
 
-.clientInvoicesFooter {
-  min-height: 100px;
+.dashboard-section {
+  padding-bottom: 80px;
+}
 
-  width: min(1320px, calc(100% - 10vw));
+.dashboard-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
 
-  margin: 0 auto;
+  gap: 30px;
 
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  margin-bottom: 25px;
+}
 
+.section-label {
+  display: block;
+
+  color: #777783;
+
+  font-size: 9px;
+  font-weight: 750;
+
+  letter-spacing: 0.2em;
+
+  margin-bottom: 9px;
+}
+
+.dashboard-heading h2 {
+  margin: 0;
+
+  font-size: 34px;
+
+  letter-spacing: -0.055em;
+}
+
+.dashboard-heading h2 span {
+  color: var(--purple-light);
+}
+
+.dashboard-heading p {
+  max-width: 620px;
+
+  margin: 10px 0 0;
+
+  color: #777783;
+
+  font-size: 12px;
+
+  line-height: 1.7;
+}
+
+.dashboard-status {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 9px 12px;
+
+  border-radius: 999px;
+
+  border: 1px solid rgba(66, 229, 155, 0.13);
+
+  background: rgba(66, 229, 155, 0.04);
+
+  color: #6ee7a7;
+
+  font-size: 9px;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: var(--green);
+
+  box-shadow:
+    0 0 10px rgba(66, 229, 155, 0.8);
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 13px;
+
+  margin-bottom: 13px;
+}
+
+.stat-card {
+  min-height: 180px;
+
+  padding: 22px;
+
+  display: flex;
+  flex-direction: column;
+
+  border-radius: 19px;
+
+  border: 1px solid var(--border);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.018)
+    );
+
+  color: inherit;
+  text-decoration: none;
+
+  position: relative;
+  overflow: hidden;
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.stat-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  right: -80px;
+  top: -80px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(139, 92, 246, 0.2),
+      transparent 70%
+    );
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+
+  border-color:
+    rgba(139, 92, 246, 0.28);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(139, 92, 246, 0.075),
+      rgba(255, 255, 255, 0.02)
+    );
+}
+
+.stat-card-top {
   display: flex;
 
   align-items: center;
 
   justify-content: space-between;
-
-  gap: 30px;
-
-  color: #666670;
-
-  font-size: 10px;
 }
 
-.invoiceFooterLogo {
-  color: #fff;
+.stat-icon {
+  width: 42px;
+  height: 42px;
 
-  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+
+  color: #b49aff;
+
+  border: 1px solid rgba(139, 92, 246, 0.15);
+
+  background:
+    rgba(139, 92, 246, 0.08);
 
   font-size: 18px;
+}
 
-  font-weight: 800;
+.stat-arrow {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #5e5e69;
+
+  border-radius: 50%;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.stat-arrow .client-svg {
+  width: 16px;
+  height: 16px;
+}
+
+.stat-card:hover .stat-arrow {
+  color: #b49aff;
+
+  transform: translate(2px, -2px);
+}
+
+.stat-value {
+  margin-top: auto;
+
+  font-size: 36px;
+  font-weight: 700;
 
   letter-spacing: -0.06em;
 }
 
-.invoiceFooterLogo span {
-  color: #a78bfa;
+.stat-label {
+  margin-top: 2px;
+
+  color: #b9b9c2;
+
+  font-size: 11px;
+  font-weight: 600;
 }
 
-.clientInvoicesFooter p {
+.stat-card p {
+  margin: 6px 0 0;
+
+  color: #696974;
+
+  font-size: 9px;
+}
+
+/* =========================================================
+   DASHBOARD GRID
+========================================================= */
+
+.dashboard-grid {
+  display: grid;
+
+  grid-template-columns:
+    1.2fr 0.8fr;
+
+  gap: 13px;
+}
+
+.dashboard-card {
+  min-height: 300px;
+
+  padding: 25px;
+
+  border-radius: 20px;
+
+  border: 1px solid var(--border);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.048),
+      rgba(255, 255, 255, 0.015)
+    );
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.18);
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.dashboard-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 220px;
+  height: 220px;
+
+  top: -150px;
+  right: -110px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(139, 92, 246, 0.09),
+      transparent 70%
+    );
+
+  pointer-events: none;
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  margin-bottom: 25px;
+}
+
+.card-label {
+  display: block;
+
+  color: #686873;
+
+  font-size: 8px;
+  font-weight: 750;
+
+  letter-spacing: 0.19em;
+
+  margin-bottom: 7px;
+}
+
+.card-top h3 {
   margin: 0;
+
+  font-size: 20px;
+
+  letter-spacing: -0.045em;
 }
 
-.clientInvoicesFooter > div {
+.card-round-action {
+  width: 35px;
+  height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color: #777783;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  background: rgba(255, 255, 255, 0.025);
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.card-round-action .client-svg {
+  width: 16px;
+  height: 16px;
+}
+
+.card-round-action:hover {
+  color: white;
+
+  transform: translate(2px, -2px);
+
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+/* =========================================================
+   DOMAIN EMPTY
+========================================================= */
+
+.domain-empty {
+  min-height: 190px;
+
   display: flex;
 
+  align-items: center;
+
+  gap: 30px;
+}
+
+.empty-visual {
+  width: 150px;
+  height: 150px;
+
+  flex: 0 0 150px;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-ring {
+  position: absolute;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(139, 92, 246, 0.14);
+}
+
+.empty-ring-one {
+  width: 145px;
+  height: 145px;
+
+  animation: emptySpin 12s linear infinite;
+}
+
+.empty-ring-two {
+  width: 105px;
+  height: 105px;
+
+  border-color: rgba(167, 139, 250, 0.18);
+
+  animation:
+    emptySpin 9s linear infinite reverse;
+}
+
+@keyframes emptySpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.empty-globe {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  color: #a78bfa;
+
+  border: 1px solid rgba(139, 92, 246, 0.2);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(139, 92, 246, 0.15),
+      rgba(139, 92, 246, 0.035)
+    );
+
+  box-shadow:
+    0 0 35px rgba(124, 58, 237, 0.13);
+}
+
+.empty-content {
+  max-width: 390px;
+}
+
+.empty-kicker {
+  color: #6f6f7a;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 0.17em;
+}
+
+.empty-content h4 {
+  margin: 9px 0 0;
+
+  font-size: 18px;
+
+  letter-spacing: -0.04em;
+}
+
+.empty-content p {
+  margin: 8px 0 17px;
+
+  color: #73737e;
+
+  font-size: 10px;
+
+  line-height: 1.65;
+}
+
+.empty-button {
+  min-height: 38px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  padding: 0 14px;
+
+  border-radius: 10px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #8b5cf6,
+      #6d28d9
+    );
+
+  text-decoration: none;
+
+  font-size: 10px;
+  font-weight: 650;
+
+  box-shadow:
+    0 10px 25px rgba(109, 40, 217, 0.2);
+}
+
+.empty-button .client-svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* =========================================================
+   DOMAIN LIST
+========================================================= */
+
+.domain-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.domain-item {
+  min-height: 70px;
+
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 12px 14px;
+
+  border-radius: 13px;
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.domain-item-main {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  min-width: 0;
+}
+
+.domain-globe {
+  width: 38px;
+  height: 38px;
+
+  flex: 0 0 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #a78bfa;
+
+  border-radius: 11px;
+
+  background: rgba(139, 92, 246, 0.08);
+
+  border: 1px solid rgba(139, 92, 246, 0.13);
+}
+
+.domain-globe .client-svg {
+  width: 17px;
+  height: 17px;
+}
+
+.domain-item-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.domain-item-info strong {
+  color: #eeeef3;
+
+  font-size: 12px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.domain-status {
+  width: fit-content;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 3px 7px;
+
+  border-radius: 999px;
+
+  font-size: 8px;
+}
+
+.domain-status span {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+}
+
+.domain-status.active {
+  color: #62e6a0;
+
+  background: rgba(66, 229, 155, 0.07);
+}
+
+.domain-status.active span {
+  background: #42e59b;
+}
+
+.domain-status.pending {
+  color: #b49aff;
+
+  background: rgba(139, 92, 246, 0.08);
+}
+
+.domain-status.pending span {
+  background: #a78bfa;
+}
+
+.domain-manage {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color: #898995;
+
+  text-decoration: none;
+
+  font-size: 9px;
+
+  white-space: nowrap;
+}
+
+.domain-manage:hover {
+  color: white;
+}
+
+.domain-manage .client-svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* =========================================================
+   ORDER / INVOICE
+========================================================= */
+
+.order-empty,
+.invoice-empty {
+  min-height: 135px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 17px;
+
+  padding: 20px;
+
+  border-radius: 15px;
+
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.order-empty-icon,
+.invoice-icon {
+  width: 46px;
+  height: 46px;
+
+  flex: 0 0 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+
+  color: #9d85ea;
+
+  background: rgba(139, 92, 246, 0.08);
+
+  border: 1px solid rgba(139, 92, 246, 0.14);
+}
+
+.order-empty strong,
+.invoice-empty strong {
+  font-size: 12px;
+}
+
+.order-empty p,
+.invoice-empty p {
+  margin: 6px 0 0;
+
+  color: #6e6e79;
+
+  font-size: 9px;
+
+  line-height: 1.6;
+}
+
+.text-action {
+  margin-top: 17px;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: #a78bfa;
+
+  text-decoration: none;
+
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.text-action:hover {
+  color: white;
+}
+
+.text-action .client-svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.service-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.service-item {
+  min-height: 58px;
+
+  display: grid;
+
+  grid-template-columns:
+    40px 1fr 18px;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 9px 11px;
+
+  border-radius: 12px;
+
+  color: inherit;
+
+  text-decoration: none;
+
+  border: 1px solid transparent;
+
+  background: rgba(255, 255, 255, 0.018);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.service-item:hover {
+  background: rgba(139, 92, 246, 0.06);
+
+  border-color: rgba(139, 92, 246, 0.13);
+}
+
+.service-icon {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  color: #a78bfa;
+
+  background: rgba(139, 92, 246, 0.08);
+}
+
+.service-icon .client-svg {
+  width: 17px;
+  height: 17px;
+}
+
+.service-item > div:nth-child(2) {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.service-item strong {
+  color: #e8e8ed;
+
+  font-size: 10px;
+}
+
+.service-item span {
+  color: #676772;
+
+  font-size: 8px;
+}
+
+.service-item > .client-svg {
+  width: 14px;
+  height: 14px;
+
+  color: #5d5d68;
+}
+
+/* =========================================================
+   QUICK ACCESS
+========================================================= */
+
+.quick-section {
+  margin-top: 105px;
+}
+
+.quick-heading {
+  margin-bottom: 23px;
+}
+
+.quick-heading h2 {
+  margin: 0;
+
+  font-size: 30px;
+
+  letter-spacing: -0.05em;
+}
+
+.quick-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 12px;
+}
+
+.quick-card {
+  min-height: 130px;
+
+  padding: 19px;
+
+  display: grid;
+
+  grid-template-columns:
+    42px 1fr 18px;
+
+  align-items: center;
+
+  gap: 13px;
+
+  border-radius: 17px;
+
+  border: 1px solid rgba(255, 255, 255, 0.075);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.015)
+    );
+
+  color: inherit;
+
+  text-decoration: none;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.quick-card:hover {
+  transform: translateY(-4px);
+
+  border-color:
+    rgba(139, 92, 246, 0.24);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(139, 92, 246, 0.07),
+      rgba(255, 255, 255, 0.018)
+    );
+}
+
+.quick-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  color: #a78bfa;
+
+  border: 1px solid rgba(139, 92, 246, 0.14);
+
+  background: rgba(139, 92, 246, 0.08);
+}
+
+.quick-icon .client-svg {
+  width: 18px;
+  height: 18px;
+}
+
+.quick-content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.quick-content span {
+  color: #696974;
+
+  font-size: 8px;
+}
+
+.quick-content strong {
+  color: #e9e9ee;
+
+  font-size: 11px;
+}
+
+.quick-card > .client-svg {
+  width: 15px;
+  height: 15px;
+
+  color: #5e5e69;
+}
+
+/* =========================================================
+   SUPPORT
+========================================================= */
+
+.client-support-card {
+  min-height: 190px;
+
+  margin-top: 80px;
+
+  padding: 32px;
+
+  display: grid;
+
+  grid-template-columns: auto 1fr auto;
+
+  align-items: center;
+
+  gap: 24px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 23px;
+
+  border: 1px solid rgba(139, 92, 246, 0.14);
+
+  background:
+    radial-gradient(
+      circle at 90% 50%,
+      rgba(124, 58, 237, 0.17),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.018)
+    );
+}
+
+.support-decoration {
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: 0.4;
+}
+
+.support-decoration div {
+  position: absolute;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(167, 139, 250, 0.12);
+}
+
+.support-decoration div:nth-child(1) {
+  width: 280px;
+  height: 280px;
+
+  right: -100px;
+  top: -80px;
+}
+
+.support-decoration div:nth-child(2) {
+  width: 190px;
+  height: 190px;
+
+  right: -40px;
+  top: -30px;
+}
+
+.support-decoration div:nth-child(3) {
+  width: 110px;
+  height: 110px;
+
+  right: 10px;
+  top: 10px;
+}
+
+.support-icon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 17px;
+
+  color: #b49aff;
+
+  border: 1px solid rgba(139, 92, 246, 0.18);
+
+  background: rgba(139, 92, 246, 0.09);
+
+  position: relative;
+  z-index: 2;
+}
+
+.support-icon .client-svg {
+  width: 25px;
+  height: 25px;
+}
+
+.support-content {
+  position: relative;
+  z-index: 2;
+}
+
+.support-content h2 {
+  margin: 0;
+
+  font-size: 26px;
+
+  letter-spacing: -0.05em;
+}
+
+.support-content p {
+  max-width: 560px;
+
+  margin: 8px 0 0;
+
+  color: #777783;
+
+  font-size: 10px;
+
+  line-height: 1.7;
+}
+
+.support-button {
+  min-height: 45px;
+
+  padding: 0 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  position: relative;
+  z-index: 2;
+
+  color: white;
+
+  border-radius: 11px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #8b5cf6,
+      #6d28d9
+    );
+
+  text-decoration: none;
+
+  font-size: 10px;
+  font-weight: 650;
+
+  box-shadow:
+    0 12px 30px rgba(109, 40, 217, 0.22);
+}
+
+.support-button:hover {
+  transform: translateY(-2px);
+}
+
+.support-button .client-svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.client-footer {
+  position: relative;
+  z-index: 2;
+
+  margin-top: 80px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.client-footer-inner {
+  width: min(1320px, calc(100% - 80px));
+
+  min-height: 110px;
+
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 25px;
+}
+
+.footer-logo {
+  color: white;
+
+  text-decoration: none;
+
+  font-size: 20px;
+  font-weight: 850;
+
+  letter-spacing: -0.07em;
+}
+
+.footer-logo span {
+  color: var(--purple-light);
+}
+
+.footer-links {
+  display: flex;
   align-items: center;
 
   gap: 24px;
 }
 
-.clientInvoicesFooter a {
-  color: #70707b;
+.footer-links a {
+  color: #65656f;
 
   text-decoration: none;
+
+  font-size: 9px;
+
+  transition: color 0.2s ease;
 }
 
-.clientInvoicesFooter a:hover {
-  color: #fff;
+.footer-links a:hover {
+  color: white;
 }
 
+.footer-copy {
+  color: #55555e;
+
+  font-size: 9px;
+}
 
 /* =========================================================
    TABLET
-   ========================================================= */
+========================================================= */
 
-@media (max-width: 1050px) {
-  .clientInvoicesNav {
+@media (max-width: 1100px) {
+  .client-header-inner,
+  .client-shell,
+  .client-footer-inner {
+    width: min(100% - 50px, 1000px);
+  }
+
+  .client-navigation {
+    gap: 20px;
+    margin-right: 15px;
+  }
+
+  .client-hero {
+    grid-template-columns: 1fr 0.75fr;
+
     gap: 20px;
   }
 
-  .invoicesHero {
-    grid-template-columns: 1fr 0.65fr;
-
-    gap: 30px;
+  .client-hero h1 {
+    font-size: clamp(65px, 8vw, 95px);
   }
 
-  .invoiceRow {
+  .stats-grid {
     grid-template-columns:
-      minmax(220px, 1fr)
-      130px
-      120px
-      45px;
+      repeat(2, 1fr);
+  }
+
+  .quick-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
   }
 }
 
-
 /* =========================================================
    MOBILE
-   ========================================================= */
+========================================================= */
 
 @media (max-width: 800px) {
-  .clientInvoicesHeader {
+  .client-header-bar {
     height: 72px;
-
-    padding: 0 22px;
   }
 
-  .clientInvoicesNav {
+  .client-header-inner,
+  .client-shell,
+  .client-footer-inner {
+    width: calc(100% - 36px);
+  }
+
+  .client-navigation,
+  .client-support-link {
     display: none;
   }
 
-  .invoiceSupport {
-    display: none;
+  .client-header-actions {
+    margin-left: auto;
   }
 
-  .invoicesContainer {
-    width: calc(100% - 40px);
-
-    padding-top: 25px;
-
-    padding-bottom: 70px;
-  }
-
-  .invoicesBreadcrumb {
-    margin-bottom: 35px;
-  }
-
-  .invoicesHero {
+  .client-hero {
     min-height: auto;
 
     grid-template-columns: 1fr;
 
+    padding: 65px 0 70px;
+
     gap: 20px;
   }
 
-  .invoicesHero h1 {
-    font-size: clamp(56px, 18vw, 85px);
+  .client-hero h1 {
+    font-size: clamp(62px, 18vw, 92px);
   }
 
-  .invoicesHero p {
-    margin-top: 25px;
-
-    font-size: 14px;
+  .client-hero p {
+    font-size: 13px;
   }
 
-  .invoicesHeroVisual {
-    min-height: 320px;
-
-    margin-bottom: -15px;
+  .hero-actions {
+    flex-wrap: wrap;
   }
 
-  .invoiceStats {
+  .hero-visual {
+    min-height: 390px;
+
+    margin-top: -10px;
+  }
+
+  .hero-core {
+    width: 190px;
+    height: 190px;
+  }
+
+  .hero-core-inner {
+    width: 88px;
+    height: 88px;
+  }
+
+  .hero-core-inner span {
+    font-size: 45px;
+  }
+
+  .hero-orbit-one {
+    width: 350px;
+    height: 145px;
+  }
+
+  .hero-orbit-two {
+    width: 290px;
+    height: 125px;
+  }
+
+  .hero-orbit-three {
+    width: 390px;
+    height: 165px;
+  }
+
+  .hero-floating-card-top {
+    top: 35px;
+    right: 5px;
+  }
+
+  .hero-floating-card-bottom {
+    bottom: 25px;
+    left: 0;
+  }
+
+  .dashboard-heading {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .dashboard-heading h2 {
+    font-size: 28px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .domain-empty {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 20px;
+  }
+
+  .empty-visual {
+    width: 125px;
+    height: 125px;
+  }
+
+  .empty-ring-one {
+    width: 120px;
+    height: 120px;
+  }
+
+  .empty-ring-two {
+    width: 90px;
+    height: 90px;
+  }
+
+  .quick-section {
+    margin-top: 75px;
+  }
+
+  .quick-heading h2 {
+    font-size: 26px;
+  }
+
+  .quick-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .client-support-card {
     grid-template-columns: 1fr;
 
-    gap: 10px;
-  }
-
-  .invoiceStatCard {
-    min-height: 95px;
-
-    padding: 20px;
-  }
-
-  .invoicesSection {
-    margin-top: 75px;
-  }
-
-  .invoicesSectionHeading {
     align-items: flex-start;
 
-    flex-direction: column;
+    padding: 28px;
 
-    gap: 12px;
+    gap: 18px;
   }
 
-  .invoicesSectionHeading h2 {
-    font-size: 27px;
-  }
-
-  .invoiceRow {
-    grid-template-columns: 1fr auto;
-
-    gap: 15px;
-
-    padding: 17px;
-  }
-
-  .invoiceMain {
-    grid-column: 1;
-
-    grid-row: 1;
-  }
-
-  .invoiceDownload,
-  .invoiceDownloadDisabled {
-    grid-column: 2;
-
-    grid-row: 1;
-  }
-
-  .invoiceStatus {
-    grid-column: 1;
-
-    grid-row: 2;
-  }
-
-  .invoiceAmount {
-    grid-column: 2;
-
-    grid-row: 2;
-
-    text-align: right;
-  }
-
-  .invoiceInfoPanel {
-    padding: 25px;
-
-    margin-top: 50px;
-  }
-
-  .invoiceCTA {
-    margin-top: 75px;
-
-    padding: 35px 25px;
-
-    flex-direction: column;
-
-    align-items: flex-start;
-
-    gap: 35px;
-  }
-
-  .invoiceCTA h2 {
-    font-size: 39px;
-  }
-
-  .invoiceCTAActions {
+  .support-button {
     width: 100%;
   }
 
-  .clientInvoicesFooter {
-    width: calc(100% - 40px);
+  .client-footer-inner {
+    min-height: auto;
 
     padding: 30px 0;
 
     flex-direction: column;
 
     align-items: flex-start;
-
-    gap: 20px;
   }
 
-  .clientInvoicesFooter > div {
+  .footer-links {
     flex-wrap: wrap;
 
     gap: 15px;
   }
 }
 
-
 /* =========================================================
    SMALL MOBILE
-   ========================================================= */
+========================================================= */
 
 @media (max-width: 480px) {
-  .clientInvoicesLogo {
-    font-size: 20px;
+  .client-logo {
+    font-size: 21px;
   }
 
-  .invoiceAvatar {
-    width: 35px;
-    height: 35px;
+  .client-avatar {
+    width: 36px;
+    height: 36px;
   }
 
-  .invoicesHero h1 {
-    font-size: 54px;
+  .client-hero h1 {
+    font-size: 58px;
   }
 
-  .invoiceDocument {
-    transform:
-      perspective(900px)
-      rotateY(-14deg)
-      rotateX(7deg)
-      rotateZ(-3deg)
-      scale(0.86);
+  .hero-actions {
+    flex-direction: column;
+
+    align-items: stretch;
   }
 
-  .invoiceState {
-    min-height: 290px;
-
-    padding: 30px 20px;
+  .primary-client-button,
+  .secondary-client-button {
+    width: 100%;
   }
 
-  .invoiceTitle {
-    font-size: 13px;
+  .hero-visual {
+    min-height: 340px;
   }
 
-  .invoiceMeta {
-    font-size: 9px;
+  .hero-core {
+    width: 165px;
+    height: 165px;
   }
 
-  .invoiceCTA h2 {
-    font-size: 34px;
+  .hero-core-inner {
+    width: 78px;
+    height: 78px;
+
+    border-radius: 22px;
+  }
+
+  .hero-core-inner span {
+    font-size: 39px;
+  }
+
+  .hero-floating-card {
+    transform: scale(0.9);
+  }
+
+  .hero-floating-card-top {
+    right: -8px;
+  }
+
+  .hero-floating-card-bottom {
+    left: -8px;
+  }
+
+  .dashboard-card {
+    padding: 20px;
+  }
+
+  .quick-card {
+    min-height: 115px;
+  }
+
+  .support-content h2 {
+    font-size: 23px;
   }
 }
 
-
 /* =========================================================
    ACCESSIBILITY
-   ========================================================= */
+========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-  .invoicesBadge span,
-  .invoiceGlow,
-  .invoiceDocument,
-  .invoiceLoader {
+  .badge-dot,
+  .hero-visual-glow,
+  .hero-orbit,
+  .hero-core,
+  .hero-floating-card,
+  .empty-ring {
     animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
   }
 }

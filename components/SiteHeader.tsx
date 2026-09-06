@@ -46,9 +46,6 @@ export default function SiteHeader() {
    * =========================================================
    * PAGES QUI ONT LEUR PROPRE HEADER
    * =========================================================
-   *
-   * La page de confirmation possède son propre header.
-   * Le header global ne doit donc pas apparaître dessus.
    */
 
   const isSuccessPage =
@@ -58,7 +55,20 @@ export default function SiteHeader() {
     pathname.startsWith("/domaines/succes/") ||
     pathname.includes("/success");
 
-  if (isSuccessPage) {
+  /*
+   * =========================================================
+   * ESPACE CLIENT
+   * =========================================================
+   *
+   * L'espace client possède son propre header.
+   * Le header global ne doit donc jamais apparaître
+   * sur /espace-client ni sur ses sous-pages.
+   */
+
+  const isClientArea = pathname === "/espace-client" ||
+    pathname.startsWith("/espace-client/");
+
+  if (isSuccessPage || isClientArea) {
     return null;
   }
 
@@ -66,26 +76,16 @@ export default function SiteHeader() {
    * =========================================================
    * ESPACE PREMIUM
    * =========================================================
-   *
-   * Ces pages utilisent une navigation différente :
-   *
-   * Domaines
-   * Hébergement
-   * Emails
-   * Sécurité
-   * À propos
-   *
-   * avec Espace client à droite.
    */
 
   const isPremiumArea =
-    pathname === "/domaines" ||
-    pathname.startsWith("/espace-client");
+    pathname === "/domaines";
 
   if (isPremiumArea) {
     return (
       <header className="navbar premium-navbar">
         <div className="premium-navbar-inner">
+
           {/* ================= LOGO ================= */}
 
           <Link
@@ -129,6 +129,7 @@ export default function SiteHeader() {
           {/* ================= ACTIONS ================= */}
 
           <div className="premium-navbar-actions">
+
             <button
               type="button"
               className="premium-language"
@@ -147,6 +148,7 @@ export default function SiteHeader() {
               }`}
             >
               <span>Espace client</span>
+
               <span className="premium-client-arrow">
                 →
               </span>
@@ -172,6 +174,7 @@ export default function SiteHeader() {
               <span />
               <span />
             </button>
+
           </div>
         </div>
 
@@ -192,6 +195,7 @@ export default function SiteHeader() {
           </div>
 
           <nav aria-label="Navigation mobile premium">
+
             {premiumLinks.map((link, index) => {
               const active =
                 link.href === "/domaines"
@@ -222,6 +226,7 @@ export default function SiteHeader() {
                 </Link>
               );
             })}
+
           </nav>
 
           <Link
@@ -390,8 +395,7 @@ export default function SiteHeader() {
             transition: transform 180ms ease;
           }
 
-          .premium-client-button:hover
-            .premium-client-arrow {
+          .premium-client-button:hover .premium-client-arrow {
             transform: translateX(2px);
           }
 
@@ -627,6 +631,7 @@ export default function SiteHeader() {
   return (
     <header className="navbar">
       <div className="navbar-inner">
+
         {/* ================= LOGO ================= */}
 
         <Link
@@ -678,7 +683,11 @@ export default function SiteHeader() {
         {/* ================= ACTIONS ================= */}
 
         <div className="navbar-actions">
-          <Link href="/devis" className="nav-button">
+
+          <Link
+            href="/devis"
+            className="nav-button"
+          >
             <span>Demander un devis</span>
             <span aria-hidden="true">↗</span>
           </Link>
@@ -703,6 +712,7 @@ export default function SiteHeader() {
             <span />
             <span />
           </button>
+
         </div>
       </div>
 

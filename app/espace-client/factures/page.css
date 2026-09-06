@@ -1,751 +1,1400 @@
-"use client";
+/* =========================================================
+   NOVA — ESPACE CLIENT — FACTURES
+   ========================================================= */
 
-import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import "./page.css";
-
-type Invoice = {
-  id: string;
-  domain: string;
-  amount: number;
-  currency: string;
-  status: "paid" | "pending" | "failed" | "refunded";
-  email: string;
-  stripe_session_id?: string | null;
-  created_at: string;
-};
-
-function FileIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M7 3h7l4 4v14H7V3Z" />
-      <path d="M14 3v5h4" />
-      <path d="M10 13h5" />
-      <path d="M10 17h5" />
-    </svg>
-  );
+.clientInvoicesPage {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 75% 8%, rgba(113, 67, 255, 0.16), transparent 28%),
+    radial-gradient(circle at 10% 45%, rgba(73, 45, 170, 0.08), transparent 25%),
+    #050505;
+  color: #ffffff;
+  overflow: hidden;
 }
 
-function DownloadIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 4v10" />
-      <path d="m8 10 4 4 4-4" />
-      <path d="M5 19h14" />
-    </svg>
-  );
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.clientInvoicesHeader {
+  position: relative;
+  z-index: 20;
+  width: calc(100% - 40px);
+  max-width: 1440px;
+  min-height: 76px;
+  margin: 20px auto 0;
+  padding: 0 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+
+  background: rgba(8, 8, 10, 0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+
+  box-shadow:
+    0 20px 70px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
-function CheckIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="m5 12 4 4L19 6" />
-    </svg>
-  );
+.clientInvoicesLogo {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  white-space: nowrap;
 }
 
-function ArrowIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M5 12h13" />
-      <path d="m13 6 6 6-6 6" />
-    </svg>
-  );
+.clientInvoicesLogo span {
+  color: #8d6cff;
 }
 
-function formatDate(date: string) {
-  const parsedDate = new Date(date);
+.clientInvoicesNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  flex: 1;
+}
 
-  if (Number.isNaN(parsedDate.getTime())) {
-    return "Date inconnue";
+.clientInvoicesNav a {
+  position: relative;
+  color: rgba(255, 255, 255, 0.62);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.clientInvoicesNav a:hover {
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.clientInvoicesHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.invoiceSupport {
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  transition: color 0.25s ease;
+}
+
+.invoiceSupport:hover {
+  color: #ffffff;
+}
+
+.invoiceAvatar {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(145, 112, 255, 0.4);
+  border-radius: 50%;
+
+  background:
+    radial-gradient(circle at 30% 20%, rgba(151, 123, 255, 0.4), transparent 50%),
+    rgba(90, 58, 190, 0.25);
+
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+
+  box-shadow:
+    0 0 30px rgba(116, 78, 255, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.invoiceAvatar:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 35px rgba(116, 78, 255, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+
+.invoicesContainer {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 60px 0 90px;
+}
+
+/* =========================================================
+   BREADCRUMB
+   ========================================================= */
+
+.invoicesBreadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 48px;
+
+  color: rgba(255, 255, 255, 0.36);
+  font-size: 12px;
+}
+
+.invoicesBreadcrumb a {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.invoicesBreadcrumb a:hover {
+  color: #ffffff;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.invoicesHero {
+  position: relative;
+  min-height: 430px;
+
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: 50px;
+
+  margin-bottom: 38px;
+}
+
+.invoicesHeroContent {
+  position: relative;
+  z-index: 2;
+}
+
+.invoicesBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+
+  margin-bottom: 24px;
+  padding: 9px 13px;
+
+  border: 1px solid rgba(140, 106, 255, 0.25);
+  border-radius: 999px;
+
+  background: rgba(107, 73, 230, 0.08);
+
+  color: rgba(205, 193, 255, 0.82);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.invoicesBadge span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9b7cff;
+  box-shadow: 0 0 14px rgba(155, 124, 255, 0.9);
+}
+
+.invoicesHero h1 {
+  margin: 0;
+
+  font-size: clamp(58px, 7vw, 96px);
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+  font-weight: 700;
+}
+
+.invoicesHero h1 span {
+  background: linear-gradient(
+    100deg,
+    #ffffff 5%,
+    #b7a6ff 50%,
+    #7652ff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.invoicesHeroContent p {
+  max-width: 520px;
+  margin: 30px 0 0;
+
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* =========================================================
+   HERO VISUAL
+   ========================================================= */
+
+.invoicesHeroVisual {
+  position: relative;
+  min-height: 430px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.invoiceGlow {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+
+  border-radius: 50%;
+
+  background: rgba(105, 70, 255, 0.24);
+  filter: blur(85px);
+
+  animation: invoiceGlowPulse 5s ease-in-out infinite;
+}
+
+@keyframes invoiceGlowPulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.6;
   }
 
-  return new Intl.DateTimeFormat("fr-FR", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  }).format(parsedDate);
-}
-
-function formatPrice(amount: number, currency: string) {
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: currency || "EUR",
-  }).format(amount);
-}
-
-function statusLabel(status: Invoice["status"]) {
-  switch (status) {
-    case "paid":
-      return "Payée";
-
-    case "pending":
-      return "En attente";
-
-    case "failed":
-      return "Échec";
-
-    case "refunded":
-      return "Remboursée";
-
-    default:
-      return status;
+  50% {
+    transform: scale(1.08);
+    opacity: 0.95;
   }
 }
 
-export default function ClientInvoicesPage() {
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const storedEmail = window.localStorage
-      .getItem("nova_client_email")
-      ?.trim()
-      .toLowerCase();
-
-    if (!storedEmail) {
-      setLoading(false);
-      return;
-    }
-
-    setEmail(storedEmail);
-
-    async function loadInvoices() {
-      try {
-        setLoading(true);
-        setError("");
-
-        const response = await fetch(
-          `/api/client/invoices?email=${encodeURIComponent(storedEmail)}`,
-          {
-            method: "GET",
-            cache: "no-store",
-          }
-        );
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(
-            data?.error || "Impossible de récupérer les factures."
-          );
-        }
-
-        setInvoices(
-          Array.isArray(data?.invoices) ? data.invoices : []
-        );
-      } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Une erreur est survenue."
-        );
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadInvoices();
-  }, []);
-
-  const totalPaid = useMemo(() => {
-    return invoices
-      .filter((invoice) => invoice.status === "paid")
-      .reduce(
-        (total, invoice) => total + Number(invoice.amount || 0),
-        0
-      );
-  }, [invoices]);
-
-  const paidCount = useMemo(() => {
-    return invoices.filter(
-      (invoice) => invoice.status === "paid"
-    ).length;
-  }, [invoices]);
-
-  return (
-    <main className="clientInvoicesPage">
-
-      {/* =====================================================
-          HEADER
-          ===================================================== */}
-
-      <header className="clientInvoicesHeader">
-
-        <Link
-          href="/"
-          className="clientInvoicesLogo"
-        >
-          NOV<span>A</span>
-        </Link>
-
-        <nav className="clientInvoicesNav">
-          <Link href="/domaines">
-            Domaines
-          </Link>
+.invoiceDocument {
+  position: relative;
+  z-index: 2;
+
+  width: 270px;
+  height: 350px;
+
+  padding: 30px;
 
-          <Link href="/hebergement">
-            Hébergement
-          </Link>
-
-          <Link href="/emails">
-            Emails
-          </Link>
-
-          <Link href="/securite">
-            Sécurité
-          </Link>
-
-          <Link href="/a-propos">
-            À propos
-          </Link>
-        </nav>
-
-        <div className="clientInvoicesHeaderRight">
-
-          <Link
-            href="/contact"
-            className="invoiceSupport"
-          >
-            Support
-          </Link>
-
-          <Link
-            href="/espace-client"
-            className="invoiceAvatar"
-            aria-label="Espace client"
-          >
-            {email
-              ? email.charAt(0).toUpperCase()
-              : "N"}
-          </Link>
-
-        </div>
-
-      </header>
-
-
-      {/* =====================================================
-          CONTENT
-          ===================================================== */}
-
-      <section className="invoicesContainer">
-
-        {/* BREADCRUMB */}
-
-        <div className="invoicesBreadcrumb">
-
-          <Link href="/espace-client">
-            Espace client
-          </Link>
-
-          <span>/</span>
-
-          <span>
-            Mes factures
-          </span>
-
-        </div>
-
-
-        {/* HERO */}
-
-        <div className="invoicesHero">
-
-          <div className="invoicesHeroContent">
-
-            <div className="invoicesBadge">
-              <span />
-              ESPACE CLIENT
-            </div>
-
-            <h1>
-              Mes
-              <br />
-              <span>factures.</span>
-            </h1>
-
-            <p>
-              Retrouvez toutes vos factures NOVA,
-              vos paiements et l&apos;historique de vos achats
-              au même endroit.
-            </p>
-
-          </div>
-
-
-          <div className="invoicesHeroVisual">
-
-            <div className="invoiceGlow" />
-
-            <div className="invoiceDocument">
-
-              <div className="invoiceDocumentTop">
-
-                <span>
-                  NOVA
-                </span>
-
-                <div className="invoiceDocumentDot" />
-
-              </div>
-
-              <div className="invoiceDocumentLines">
-                <i />
-                <i />
-                <i />
-                <i />
-              </div>
-
-              <div className="invoiceDocumentTotal">
-
-                <small>
-                  TOTAL
-                </small>
-
-                <strong>
-                  €
-                </strong>
-
-              </div>
-
-              <div className="invoiceDocumentCheck">
-                <CheckIcon />
-              </div>
-
-            </div>
-
-            <div className="invoiceVerticalText">
-              NOVA · DIGITAL SERVICES
-            </div>
-
-          </div>
-
-        </div>
-
-
-        {/* STATS */}
-
-        <div className="invoiceStats">
-
-          <div className="invoiceStatCard">
-
-            <div className="invoiceStatIcon">
-              <FileIcon />
-            </div>
-
-            <div>
-              <span>
-                Total factures
-              </span>
-
-              <strong>
-                {invoices.length}
-              </strong>
-            </div>
-
-          </div>
-
-
-          <div className="invoiceStatCard">
-
-            <div className="invoiceStatIcon">
-              <CheckIcon />
-            </div>
-
-            <div>
-              <span>
-                Factures payées
-              </span>
-
-              <strong>
-                {paidCount}
-              </strong>
-            </div>
-
-          </div>
-
-
-          <div className="invoiceStatCard">
-
-            <div className="invoiceStatIcon">
-              <span className="euroSymbol">
-                €
-              </span>
-            </div>
-
-            <div>
-              <span>
-                Total payé
-              </span>
-
-              <strong>
-                {formatPrice(totalPaid, "EUR")}
-              </strong>
-            </div>
-
-          </div>
-
-        </div>
-
-
-        {/* FACTURES */}
-
-        <section className="invoicesSection">
-
-          <div className="invoicesSectionHeading">
-
-            <div>
-
-              <span className="invoiceEyebrow">
-                DOCUMENTS
-              </span>
-
-              <h2>
-                Toutes vos factures
-              </h2>
-
-            </div>
-
-            <span className="invoiceCount">
-              {invoices.length} facture
-              {invoices.length > 1 ? "s" : ""}
-            </span>
-
-          </div>
-
-
-          {/* LOADING */}
-
-          {loading && (
-            <div className="invoiceState">
-
-              <div className="invoiceLoader" />
-
-              <h3>
-                Chargement de vos factures...
-              </h3>
-
-              <p>
-                Nous récupérons vos documents.
-              </p>
-
-            </div>
-          )}
-
-
-          {/* ERROR */}
-
-          {!loading && error && (
-            <div className="invoiceState invoiceStateError">
-
-              <div className="invoiceStateIcon">
-                !
-              </div>
-
-              <h3>
-                Impossible de charger vos factures
-              </h3>
-
-              <p>
-                {error}
-              </p>
-
-              <button
-                type="button"
-                onClick={() => window.location.reload()}
-              >
-                Réessayer
-              </button>
-
-            </div>
-          )}
-
-
-          {/* NO EMAIL */}
-
-          {!loading && !error && !email && (
-            <div className="invoiceState">
-
-              <div className="invoiceStateIcon">
-                <FileIcon />
-              </div>
-
-              <h3>
-                Connectez-vous à votre espace client
-              </h3>
-
-              <p>
-                Vos factures seront automatiquement
-                disponibles une fois votre compte configuré.
-              </p>
-
-              <Link href="/espace-client">
-                Retour à l&apos;espace client
-                <ArrowIcon />
-              </Link>
-
-            </div>
-          )}
-
-
-          {/* EMPTY */}
-
-          {!loading &&
-            !error &&
-            email &&
-            invoices.length === 0 && (
-              <div className="invoiceState">
-
-                <div className="invoiceStateIcon">
-                  <FileIcon />
-                </div>
-
-                <h3>
-                  Aucune facture pour le moment
-                </h3>
-
-                <p>
-                  Vos factures apparaîtront automatiquement
-                  après vos prochains achats.
-                </p>
-
-                <Link href="/domaines">
-                  Rechercher un domaine
-                  <ArrowIcon />
-                </Link>
-
-              </div>
-            )}
-
-
-          {/* LIST */}
-
-          {!loading &&
-            !error &&
-            invoices.length > 0 && (
-
-              <div className="invoiceList">
-
-                {invoices.map((invoice) => (
-
-                  <article
-                    className="invoiceRow"
-                    key={invoice.id}
-                  >
-
-                    <div className="invoiceMain">
-
-                      <div className="invoiceFileIcon">
-                        <FileIcon />
-                      </div>
-
-                      <div className="invoiceInfo">
-
-                        <div className="invoiceTitle">
-                          Facture — {invoice.domain}
-                        </div>
-
-                        <div className="invoiceMeta">
-
-                          INV-
-                          {invoice.id
-                            .slice(0, 8)
-                            .toUpperCase()}
-
-                          <span>
-                            •
-                          </span>
-
-                          {formatDate(
-                            invoice.created_at
-                          )}
-
-                        </div>
-
-                      </div>
-
-                    </div>
-
-
-                    <div className="invoiceStatus">
-
-                      <span
-                        className={`invoiceStatusPill ${invoice.status}`}
-                      >
-
-                        {invoice.status === "paid" && (
-                          <CheckIcon />
-                        )}
-
-                        {statusLabel(
-                          invoice.status
-                        )}
-
-                      </span>
-
-                    </div>
-
-
-                    <div className="invoiceAmount">
-
-                      {formatPrice(
-                        Number(invoice.amount || 0),
-                        invoice.currency || "EUR"
-                      )}
-
-                    </div>
-
-
-                    {invoice.status === "paid" ? (
-
-                      <button
-                        type="button"
-                        className="invoiceDownload"
-                        title="Télécharger la facture"
-                        onClick={() => {
-                          window.alert(
-                            "La génération PDF des factures sera activée prochainement."
-                          );
-                        }}
-                      >
-                        <DownloadIcon />
-                      </button>
-
-                    ) : (
-
-                      <div className="invoiceDownloadDisabled">
-                        <DownloadIcon />
-                      </div>
-
-                    )}
-
-                  </article>
-
-                ))}
-
-              </div>
-
-            )}
-
-        </section>
-
-
-        {/* INFO */}
-
-        <section className="invoiceInfoPanel">
-
-          <div className="invoiceInfoPanelIcon">
-            <FileIcon />
-          </div>
-
-          <div>
-
-            <span className="invoiceEyebrow">
-              VOS DOCUMENTS
-            </span>
-
-            <h2>
-              Vos factures, toujours accessibles.
-            </h2>
-
-            <p>
-              Chaque paiement effectué auprès de NOVA
-              sera associé à une facture dans votre espace client.
-              La génération PDF sera disponible prochainement.
-            </p>
-
-          </div>
-
-        </section>
-
-
-        {/* CTA */}
-
-        <section className="invoiceCTA">
-
-          <div>
-
-            <span className="invoiceEyebrow">
-              BESOIN D&apos;UN SERVICE ?
-            </span>
-
-            <h2>
-              Développez votre
-              <br />
-              <span>présence digitale.</span>
-            </h2>
-
-            <p>
-              Domaines, hébergement, emails et sécurité :
-              tout votre environnement digital au même endroit.
-            </p>
-
-          </div>
-
-
-          <div className="invoiceCTAActions">
-
-            <Link
-              href="/domaines"
-              className="invoicePrimaryButton"
-            >
-              Trouver un domaine
-              <ArrowIcon />
-            </Link>
-
-            <Link
-              href="/espace-client"
-              className="invoiceSecondaryButton"
-            >
-              Espace client
-            </Link>
-
-          </div>
-
-        </section>
-
-      </section>
-
-
-      {/* =====================================================
-          FOOTER
-          ===================================================== */}
-
-      <footer className="clientInvoicesFooter">
-
-        <Link
-          href="/"
-          className="invoiceFooterLogo"
-        >
-          NOV<span>A</span>
-        </Link>
-
-        <p>
-          © {new Date().getFullYear()} NOVA.
-          Tous droits réservés.
-        </p>
-
-        <div>
-
-          <Link href="/mentions-legales">
-            Mentions légales
-          </Link>
-
-          <Link href="/confidentialite">
-            Confidentialité
-          </Link>
-
-          <Link href="/contact">
-            Support
-          </Link>
-
-        </div>
-
-      </footer>
-
-    </main>
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 28px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.11),
+      rgba(255, 255, 255, 0.025)
+    ),
+    rgba(20, 18, 29, 0.7);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 50px 100px rgba(0, 0, 0, 0.55),
+    0 0 70px rgba(107, 73, 255, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  transform: rotate(5deg);
+  animation: documentFloat 6s ease-in-out infinite;
+}
+
+@keyframes documentFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(5deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(2deg);
+  }
+}
+
+.invoiceDocument::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+
+  border-radius: 27px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08),
+      transparent 30%
+    );
+
+  pointer-events: none;
+}
+
+.invoiceDocumentTop {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+
+.invoiceDocumentDot {
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+  background: #9a7cff;
+
+  box-shadow: 0 0 18px rgba(154, 124, 255, 0.9);
+}
+
+.invoiceDocumentLines {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  margin-top: 55px;
+}
+
+.invoiceDocumentLines i {
+  display: block;
+  height: 7px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.invoiceDocumentLines i:nth-child(1) {
+  width: 72%;
+}
+
+.invoiceDocumentLines i:nth-child(2) {
+  width: 92%;
+}
+
+.invoiceDocumentLines i:nth-child(3) {
+  width: 84%;
+}
+
+.invoiceDocumentLines i:nth-child(4) {
+  width: 57%;
+}
+
+.invoiceDocumentTotal {
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  bottom: 45px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.invoiceDocumentTotal small {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+}
+
+.invoiceDocumentTotal strong {
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.invoiceDocumentCheck {
+  position: absolute;
+  right: -23px;
+  bottom: 42px;
+
+  width: 56px;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(161, 132, 255, 0.4);
+  border-radius: 18px;
+
+  background: rgba(111, 77, 242, 0.8);
+
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.4),
+    0 0 35px rgba(111, 77, 242, 0.35);
+}
+
+.invoiceDocumentCheck svg {
+  width: 24px;
+  height: 24px;
+
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.invoiceVerticalText {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+
+  writing-mode: vertical-rl;
+  transform: translateY(-50%);
+}
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+.invoiceStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+
+  margin-bottom: 80px;
+}
+
+.invoiceStatCard {
+  min-height: 115px;
+
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  padding: 22px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.015)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.035),
+    0 20px 60px rgba(0, 0, 0, 0.2);
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.invoiceStatCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(137, 104, 255, 0.22);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(130, 96, 255, 0.08),
+      rgba(255, 255, 255, 0.02)
+    );
+}
+
+.invoiceStatIcon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(143, 113, 255, 0.2);
+  border-radius: 15px;
+
+  background: rgba(111, 78, 230, 0.1);
+}
+
+.invoiceStatIcon svg {
+  width: 21px;
+  height: 21px;
+
+  fill: none;
+  stroke: #a58bff;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.euroSymbol {
+  color: #a58bff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.invoiceStatCard span {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 11px;
+}
+
+.invoiceStatCard strong {
+  color: #ffffff;
+  font-size: 23px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   INVOICES SECTION
+   ========================================================= */
+
+.invoicesSection {
+  margin-bottom: 50px;
+}
+
+.invoicesSectionHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+
+  margin-bottom: 24px;
+}
+
+.invoiceEyebrow {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: #9275ff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.invoicesSectionHeading h2 {
+  margin: 0;
+
+  color: #ffffff;
+  font-size: 30px;
+  letter-spacing: -0.035em;
+}
+
+.invoiceCount {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 12px;
+}
+
+/* =========================================================
+   STATES
+   ========================================================= */
+
+.invoiceState {
+  min-height: 280px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px;
+
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+
+  background: rgba(255, 255, 255, 0.018);
+
+  text-align: center;
+}
+
+.invoiceState h3 {
+  margin: 18px 0 8px;
+
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.invoiceState p {
+  max-width: 450px;
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.invoiceStateIcon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(141, 108, 255, 0.2);
+  border-radius: 18px;
+
+  background: rgba(114, 79, 235, 0.09);
+
+  color: #9a7cff;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.invoiceStateIcon svg {
+  width: 25px;
+  height: 25px;
+
+  fill: none;
+  stroke: #9a7cff;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.invoiceState a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 22px;
+  padding: 12px 17px;
+
+  border: 1px solid rgba(141, 108, 255, 0.22);
+  border-radius: 12px;
+
+  background: rgba(115, 81, 235, 0.08);
+
+  color: #b8a7ff;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.invoiceState a:hover {
+  transform: translateY(-2px);
+  background: rgba(115, 81, 235, 0.15);
+}
+
+.invoiceState a svg {
+  width: 16px;
+  height: 16px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.invoiceState button {
+  margin-top: 22px;
+  padding: 11px 18px;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 11px;
+
+  background: rgba(255, 255, 255, 0.05);
+
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.invoiceState button:hover {
+  background: rgba(255, 255, 255, 0.09);
+  transform: translateY(-2px);
+}
+
+.invoiceStateError {
+  border-color: rgba(255, 91, 91, 0.18);
+}
+
+.invoiceStateError .invoiceStateIcon {
+  border-color: rgba(255, 91, 91, 0.2);
+  background: rgba(255, 91, 91, 0.06);
+  color: #ff8b8b;
+}
+
+/* LOADER */
+
+.invoiceLoader {
+  width: 34px;
+  height: 34px;
+
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #9878ff;
+  border-radius: 50%;
+
+  animation: invoiceLoaderSpin 0.8s linear infinite;
+}
+
+@keyframes invoiceLoaderSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   LIST
+   ========================================================= */
+
+.invoiceList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.invoiceRow {
+  min-height: 82px;
+
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) auto 130px 48px;
+  align-items: center;
+  gap: 20px;
+
+  padding: 15px 18px;
+
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 17px;
+
+  background: rgba(255, 255, 255, 0.025);
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.invoiceRow:hover {
+  transform: translateX(3px);
+
+  border-color: rgba(137, 104, 255, 0.2);
+
+  background: rgba(118, 82, 238, 0.045);
+}
+
+.invoiceMain {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 0;
+}
+
+.invoiceFileIcon {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 13px;
+
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.invoiceFileIcon svg {
+  width: 20px;
+  height: 20px;
+
+  fill: none;
+  stroke: #a18aff;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.invoiceInfo {
+  min-width: 0;
+}
+
+.invoiceTitle {
+  overflow: hidden;
+
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.invoiceMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-top: 6px;
+
+  color: rgba(255, 255, 255, 0.32);
+  font-size: 10px;
+}
+
+.invoiceStatusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 7px 10px;
+
+  border-radius: 999px;
+
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.invoiceStatusPill svg {
+  width: 12px;
+  height: 12px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.invoiceStatusPill.paid {
+  border: 1px solid rgba(71, 210, 137, 0.16);
+  background: rgba(71, 210, 137, 0.08);
+  color: #75e3a4;
+}
+
+.invoiceStatusPill.pending {
+  border: 1px solid rgba(255, 193, 74, 0.16);
+  background: rgba(255, 193, 74, 0.07);
+  color: #ffd178;
+}
+
+.invoiceStatusPill.failed {
+  border: 1px solid rgba(255, 85, 85, 0.16);
+  background: rgba(255, 85, 85, 0.07);
+  color: #ff8c8c;
+}
+
+.invoiceStatusPill.refunded {
+  border: 1px solid rgba(152, 135, 255, 0.18);
+  background: rgba(152, 135, 255, 0.08);
+  color: #b4a5ff;
+}
+
+.invoiceAmount {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.invoiceDownload,
+.invoiceDownloadDisabled {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+}
+
+.invoiceDownload {
+  border: 1px solid rgba(142, 109, 255, 0.2);
+  background: rgba(119, 83, 239, 0.08);
+
+  color: #a78fff;
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.invoiceDownload:hover {
+  transform: translateY(-2px);
+  background: rgba(119, 83, 239, 0.17);
+}
+
+.invoiceDownload svg,
+.invoiceDownloadDisabled svg {
+  width: 17px;
+  height: 17px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.invoiceDownloadDisabled {
+  color: rgba(255, 255, 255, 0.16);
+}
+
+/* =========================================================
+   INFO PANEL
+   ========================================================= */
+
+.invoiceInfoPanel {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+
+  margin-bottom: 55px;
+  padding: 30px;
+
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(110, 76, 240, 0.075),
+      rgba(255, 255, 255, 0.018)
+    );
+}
+
+.invoiceInfoPanelIcon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(143, 111, 255, 0.2);
+  border-radius: 14px;
+
+  background: rgba(110, 76, 240, 0.1);
+}
+
+.invoiceInfoPanelIcon svg {
+  width: 21px;
+  height: 21px;
+
+  fill: none;
+  stroke: #a18aff;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.invoiceInfoPanel h2 {
+  margin: 0 0 9px;
+
+  font-size: 22px;
+  letter-spacing: -0.025em;
+}
+
+.invoiceInfoPanel p {
+  max-width: 720px;
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+/* =========================================================
+   CTA
+   ========================================================= */
+
+.invoiceCTA {
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+
+  padding: 48px;
+
+  border: 1px solid rgba(139, 104, 255, 0.18);
+  border-radius: 28px;
+
+  background:
+    radial-gradient(
+      circle at 80% 50%,
+      rgba(116, 80, 246, 0.15),
+      transparent 38%
+    ),
+    rgba(255, 255, 255, 0.025);
+}
+
+.invoiceCTA::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.035) 50%,
+      transparent 80%
+    );
+
+  transform: translateX(-100%);
+  animation: invoiceCtaShine 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes invoiceCtaShine {
+  0%,
+  60%,
+  100% {
+    transform: translateX(-100%);
+  }
+
+  75% {
+    transform: translateX(100%);
+  }
+}
+
+.invoiceCTA > div:first-child {
+  position: relative;
+  z-index: 1;
+}
+
+.invoiceCTA h2 {
+  margin: 0;
+
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.invoiceCTA h2 span {
+  color: #a28aff;
+}
+
+.invoiceCTA p {
+  max-width: 520px;
+  margin: 18px 0 0;
+
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.invoiceCTAActions {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  min-width: 190px;
+}
+
+.invoicePrimaryButton,
+.invoiceSecondaryButton {
+  min-height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  border-radius: 12px;
+
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.invoicePrimaryButton {
+  border: 1px solid rgba(153, 123, 255, 0.5);
+  background: linear-gradient(
+    135deg,
+    #7650ef,
+    #6040c9
   );
+
+  color: #ffffff;
+
+  box-shadow:
+    0 12px 35px rgba(92, 61, 202, 0.25);
+}
+
+.invoicePrimaryButton:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(
+    135deg,
+    #8460f5,
+    #6b49d7
+  );
+}
+
+.invoicePrimaryButton svg {
+  width: 16px;
+  height: 16px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.invoiceSecondaryButton {
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.035);
+
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.invoiceSecondaryButton:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.clientInvoicesFooter {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+
+  padding: 30px 0 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.invoiceFooterLogo {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+
+.invoiceFooterLogo span {
+  color: #8f70ff;
+}
+
+.clientInvoicesFooter p {
+  margin: 0;
+  font-size: 11px;
+}
+
+.clientInvoicesFooter > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.clientInvoicesFooter > div a {
+  color: rgba(255, 255, 255, 0.35);
+  text-decoration: none;
+  font-size: 11px;
+  transition: color 0.2s ease;
+}
+
+.clientInvoicesFooter > div a:hover {
+  color: #ffffff;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .clientInvoicesNav {
+    gap: 16px;
+  }
+
+  .clientInvoicesNav a {
+    font-size: 11px;
+  }
+
+  .invoicesHero {
+    grid-template-columns: 1fr;
+  }
+
+  .invoicesHeroVisual {
+    min-height: 360px;
+  }
+
+  .invoiceStats {
+    grid-template-columns: 1fr;
+  }
+
+  .invoiceCTA {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .invoiceCTAActions {
+    width: 100%;
+    flex-direction: row;
+  }
+
+  .invoicePrimaryButton,
+  .invoiceSecondaryButton {
+    flex: 1;
+  }
+}
+
+@media (max-width: 700px) {
+  .clientInvoicesHeader {
+    width: calc(100% - 24px);
+    margin-top: 12px;
+    padding: 0 17px;
+  }
+
+  .clientInvoicesNav {
+    display: none;
+  }
+
+  .invoiceSupport {
+    display: none;
+  }
+
+  .invoicesContainer {
+    width: calc(100% - 28px);
+    padding-top: 35px;
+  }
+
+  .invoicesBreadcrumb {
+    margin-bottom: 35px;
+  }
+
+  .invoicesHero h1 {
+    font-size: 58px;
+  }
+
+  .invoicesHeroContent p {
+    font-size: 14px;
+  }
+
+  .invoiceDocument {
+    width: 225px;
+    height: 295px;
+  }
+
+  .invoiceRow {
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+  }
+
+  .invoiceStatus {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .invoiceAmount {
+    grid-column: 1;
+    grid-row: 2;
+    text-align: left;
+  }
+
+  .invoiceDownload,
+  .invoiceDownloadDisabled {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .invoiceCTA {
+    padding: 30px 24px;
+  }
+
+  .invoiceCTAActions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .clientInvoicesFooter {
+    width: calc(100% - 28px);
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .clientInvoicesFooter > div {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .invoicesHero h1 {
+    font-size: 50px;
+  }
+
+  .invoiceStats {
+    margin-bottom: 55px;
+  }
+
+  .invoiceStatCard {
+    min-height: 95px;
+  }
+
+  .invoiceInfoPanel {
+    padding: 22px;
+  }
+
+  .invoiceInfoPanel h2 {
+    font-size: 19px;
+  }
+
+  .invoiceCTA h2 {
+    font-size: 34px;
+  }
 }

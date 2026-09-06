@@ -286,32 +286,45 @@ export async function checkDomain(
   };
 }
 
-function parsePhone(phone: string) {
-  const clean = phone
-    .trim()
-    .replace(/\s+/g, "");
+function parsePhone(
+  phone: string,
+  country: string,
+) {
+  const clean = phone.replace(/[^\d+]/g, "");
+  const countryCode = country.toUpperCase();
 
   if (!clean) {
+    throw new Error("Numéro de téléphone manquant.");
+  }
+
+  // Stripe fournit le numéro français au format +33 0X… dans certains cas.
+  // Le 0 national ne doit pas être envoyé à Openprovider après +33.
+  if (countryCode === "FR") {
+    const nationalNumber = clean
+      .replace(/^\+?33/, "")
+      .replace(/^0/, "");
+
+    if (!/^\d{9}$/.test(nationalNumber)) {
+      throw new Error("Numéro de téléphone français invalide.");
+    }
+
     return {
       country_code: "+33",
       area_code: "",
-      subscriber_number: "000000000",
+      subscriber_number: nationalNumber,
     };
   }
 
-  if (clean.startsWith("+")) {
-    return {
-      country_code: clean.slice(0, 3),
-      area_code: "",
-      subscriber_number: clean.slice(3),
-    };
+  const international = clean.match(/^\+(\d{1,3})(\d{4,})$/);
+
+  if (!international) {
+    throw new Error("Le téléphone doit être au format international.");
   }
 
   return {
-    country_code: "+33",
+    country_code: `+${international[1]}`,
     area_code: "",
-    subscriber_number:
-      clean.replace(/^0/, ""),
+    subscriber_number: international[2],
   };
 }
 
@@ -352,6 +365,7 @@ export async function createCustomer(
 
           phone: parsePhone(
             contact.phone,
+            contact.country,
           ),
 
           email: contact.email,

@@ -228,22 +228,119 @@ function SiteIcon() {
       <circle
         cx="7"
         cy="6.25"
-        r=".6"
+        r="0.6"
         fill="currentColor"
       />
       <circle
         cx="10"
         cy="6.25"
-        r=".6"
+        r="0.6"
         fill="currentColor"
       />
       <circle
         cx="13"
         cy="6.25"
-        r=".6"
+        r="0.6"
         fill="currentColor"
       />
     </svg>
+  );
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+function SuccessHeader() {
+  return (
+    <header className="successHeader">
+      <div className="successHeaderInner">
+        <Link
+          href="/"
+          className="successLogo"
+          aria-label="Retour à l'accueil Nova"
+        >
+          NOVA
+        </Link>
+
+        <nav
+          className="successNav"
+          aria-label="Navigation Nova"
+        >
+          <Link href="/domaines">
+            Domaines
+          </Link>
+
+          <Link href="/hebergement">
+            Hébergement
+          </Link>
+
+          <Link href="/emails">
+            Emails
+          </Link>
+
+          <Link href="/securite">
+            Sécurité
+          </Link>
+
+          <Link href="/a-propos">
+            À propos
+          </Link>
+        </nav>
+
+        <Link
+          href="/espace-client"
+          className="successClientButton"
+        >
+          Espace client
+        </Link>
+      </div>
+    </header>
+  );
+}
+
+/* =========================================================
+   EMPTY / ERROR PAGE
+========================================================= */
+
+function EmptySuccess({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) {
+  return (
+    <main className="successPage successStandalone">
+      <div className="successAmbient successAmbientOne" />
+      <div className="successAmbient successAmbientTwo" />
+
+      <SuccessHeader />
+
+      <section className="emptySuccess">
+        <div className="emptyCard">
+          <div className="emptyIcon">
+            <ShieldIcon />
+          </div>
+
+          <p className="eyebrow">
+            NOVA
+          </p>
+
+          <h1>{title}</h1>
+
+          <p>{description}</p>
+
+          <Link
+            href="/domaines"
+            className="primaryButton"
+          >
+            Retour aux domaines
+            <ArrowRight />
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }
 
@@ -302,79 +399,10 @@ export default async function DomainSuccessPage({
 
   if (!sessionId) {
     return (
-      <main className="successPage successStandalone">
-        <div className="successAmbient successAmbientOne" />
-        <div className="successAmbient successAmbientTwo" />
-
-        <header className="successHeader">
-          <div className="successHeaderInner">
-            <Link
-              href="/"
-              className="successLogo"
-            >
-              NOVA
-            </Link>
-
-            <nav className="successNav">
-              <Link href="/domaines">
-                Domaines
-              </Link>
-
-              <Link href="/hebergement">
-                Hébergement
-              </Link>
-
-              <Link href="/emails">
-                Emails
-              </Link>
-
-              <Link href="/securite">
-                Sécurité
-              </Link>
-
-              <Link href="/a-propos">
-                À propos
-              </Link>
-            </nav>
-
-            <Link
-              href="/espace-client"
-              className="successClientButton"
-            >
-              Espace client
-            </Link>
-          </div>
-        </header>
-
-        <section className="emptySuccess">
-          <div className="emptyCard">
-            <div className="emptyIcon">
-              <ShieldIcon />
-            </div>
-
-            <p className="eyebrow">
-              NOVA
-            </p>
-
-            <h1>
-              Commande introuvable
-            </h1>
-
-            <p>
-              Impossible de retrouver les
-              informations de cette commande.
-            </p>
-
-            <Link
-              href="/domaines"
-              className="primaryButton"
-            >
-              Retour aux domaines
-              <ArrowRight />
-            </Link>
-          </div>
-        </section>
-      </main>
+      <EmptySuccess
+        title="Commande introuvable"
+        description="Impossible de retrouver les informations de cette commande."
+      />
     );
   }
 
@@ -386,83 +414,17 @@ export default async function DomainSuccessPage({
 
   try {
     order = await getOrder(sessionId);
-  } catch {
+  } catch (error) {
+    console.error(
+      "STRIPE SUCCESS PAGE ERROR:",
+      error
+    );
+
     return (
-      <main className="successPage successStandalone">
-        <div className="successAmbient successAmbientOne" />
-        <div className="successAmbient successAmbientTwo" />
-
-        <header className="successHeader">
-          <div className="successHeaderInner">
-            <Link
-              href="/"
-              className="successLogo"
-            >
-              NOVA
-            </Link>
-
-            <nav className="successNav">
-              <Link href="/domaines">
-                Domaines
-              </Link>
-
-              <Link href="/hebergement">
-                Hébergement
-              </Link>
-
-              <Link href="/emails">
-                Emails
-              </Link>
-
-              <Link href="/securite">
-                Sécurité
-              </Link>
-
-              <Link href="/a-propos">
-                À propos
-              </Link>
-            </nav>
-
-            <Link
-              href="/espace-client"
-              className="successClientButton"
-            >
-              Espace client
-            </Link>
-          </div>
-        </header>
-
-        <section className="emptySuccess">
-          <div className="emptyCard">
-            <div className="emptyIcon">
-              <ShieldIcon />
-            </div>
-
-            <p className="eyebrow">
-              NOVA
-            </p>
-
-            <h1>
-              Impossible de charger la commande
-            </h1>
-
-            <p>
-              Votre paiement peut avoir été
-              effectué. Les informations de
-              commande sont temporairement
-              indisponibles.
-            </p>
-
-            <Link
-              href="/domaines"
-              className="primaryButton"
-            >
-              Retour aux domaines
-              <ArrowRight />
-            </Link>
-          </div>
-        </section>
-      </main>
+      <EmptySuccess
+        title="Impossible de charger la commande"
+        description="Votre paiement peut avoir été effectué. Les informations de commande sont temporairement indisponibles."
+      />
     );
   }
 
@@ -491,46 +453,7 @@ export default async function DomainSuccessPage({
           HEADER
       ===================================================== */}
 
-      <header className="successHeader">
-        <div className="successHeaderInner">
-          <Link
-            href="/"
-            className="successLogo"
-            aria-label="Retour à l'accueil Nova"
-          >
-            NOVA
-          </Link>
-
-          <nav className="successNav">
-            <Link href="/domaines">
-              Domaines
-            </Link>
-
-            <Link href="/hebergement">
-              Hébergement
-            </Link>
-
-            <Link href="/emails">
-              Emails
-            </Link>
-
-            <Link href="/securite">
-              Sécurité
-            </Link>
-
-            <Link href="/a-propos">
-              À propos
-            </Link>
-          </nav>
-
-          <Link
-            href="/espace-client"
-            className="successClientButton"
-          >
-            Espace client
-          </Link>
-        </div>
-      </header>
+      <SuccessHeader />
 
       {/* =====================================================
           HERO
@@ -1024,7 +947,6 @@ export default async function DomainSuccessPage({
       <section className="reassuranceSection">
         <div className="successContainer">
           <div className="reassuranceGrid">
-
             <div>
               <div className="reassuranceIcon">
                 <ShieldIcon />
@@ -1069,7 +991,6 @@ export default async function DomainSuccessPage({
                 lorsque vous en avez besoin.
               </p>
             </div>
-
           </div>
         </div>
       </section>
@@ -1080,7 +1001,6 @@ export default async function DomainSuccessPage({
 
       <section className="bottomSection">
         <div className="successContainer">
-
           <div className="bottomActions">
             <Link
               href="/"
@@ -1127,7 +1047,6 @@ export default async function DomainSuccessPage({
               </Link>
             </div>
           </div>
-
         </div>
       </section>
     </main>

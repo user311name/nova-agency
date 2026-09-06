@@ -1,39 +1,38 @@
 "use client";
 
+import { FormEvent, useMemo, useState } from "react";
 import Link from "next/link";
-import {
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-
 import "./page.css";
 
-type DomainStatus =
-  | "active"
-  | "pending"
-  | "unavailable"
-  | string;
-
-type Domain = {
-  id: string | number;
+type DomainResult = {
   domain: string;
-  status: DomainStatus;
-  email: string;
-  expires_at: string | null;
-  openprovider_id: string | null;
-  created_at: string | null;
+  available: boolean;
+  price?: number | null;
+  currency?: string | null;
 };
 
-function ArrowIcon() {
+function SearchIcon() {
   return (
     <svg
-      className="domains-client-svg"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
+      fill="none"
       aria-hidden="true"
     >
-      <path d="M5 12h13" />
-      <path d="m13 6 6 6-6 6" />
+      <circle
+        cx="11"
+        cy="11"
+        r="6.5"
+        stroke="currentColor"
+        strokeWidth="1.7"
+      />
+      <path
+        d="M16 16L21 21"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -41,14 +40,56 @@ function ArrowIcon() {
 function GlobeIcon() {
   return (
     <svg
-      className="domains-client-svg"
+      width="25"
+      height="25"
       viewBox="0 0 24 24"
+      fill="none"
       aria-hidden="true"
     >
-      <circle cx="12" cy="12" r="9" />
-      <path d="M3 12h18" />
-      <path d="M12 3c2.5 2.4 3.8 5.4 3.8 9S14.5 18.6 12 21" />
-      <path d="M12 3c-2.5 2.4-3.8 5.4-3.8 9S9.5 18.6 12 21" />
+      <circle
+        cx="12"
+        cy="12"
+        r="8.5"
+        stroke="currentColor"
+        strokeWidth="1.3"
+      />
+      <path
+        d="M3.8 12H20.2"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+      />
+      <path
+        d="M12 3.5C14.2 5.7 15.3 8.55 15.3 12C15.3 15.45 14.2 18.3 12 20.5C9.8 18.3 8.7 15.45 8.7 12C8.7 8.55 9.8 5.7 12 3.5Z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+      />
+    </svg>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M5 12H19"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+      <path
+        d="M13 6L19 12L13 18"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -56,39 +97,25 @@ function GlobeIcon() {
 function ShieldIcon() {
   return (
     <svg
-      className="domains-client-svg"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
+      fill="none"
       aria-hidden="true"
     >
-      <path d="M12 3 20 6v6c0 5-3.3 8.2-8 9-4.7-.8-8-4-8-9V6l8-3Z" />
-      <path d="m8.5 12 2.2 2.2 4.8-5" />
-    </svg>
-  );
-}
-
-function DnsIcon() {
-  return (
-    <svg
-      className="domains-client-svg"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <rect
-        x="4"
-        y="5"
-        width="16"
-        height="5"
-        rx="1"
+      <path
+        d="M12 3.5L19 6.2V11.4C19 15.9 16.1 19.2 12 20.5C7.9 19.2 5 15.9 5 11.4V6.2L12 3.5Z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
       />
-      <rect
-        x="4"
-        y="14"
-        width="16"
-        height="5"
-        rx="1"
+      <path
+        d="M8.8 12L11 14.2L15.5 9.7"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-      <path d="M8 7.5h.01" />
-      <path d="M8 16.5h.01" />
     </svg>
   );
 }
@@ -96,762 +123,717 @@ function DnsIcon() {
 function MailIcon() {
   return (
     <svg
-      className="domains-client-svg"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
+      fill="none"
       aria-hidden="true"
     >
       <rect
-        x="3"
-        y="5"
-        width="18"
-        height="14"
-        rx="2"
+        x="4"
+        y="6"
+        width="16"
+        height="12"
+        rx="2.5"
+        stroke="currentColor"
+        strokeWidth="1.4"
       />
-      <path d="m4 7 8 6 8-6" />
+      <path
+        d="M5.5 8L12 13L18.5 8"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
-function SearchIcon() {
+function ServerIcon() {
   return (
     <svg
-      className="domains-client-svg"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
+      fill="none"
       aria-hidden="true"
     >
-      <circle cx="11" cy="11" r="6.5" />
-      <path d="m16 16 5 5" />
+      <rect
+        x="4"
+        y="4"
+        width="16"
+        height="6"
+        rx="1.8"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
+      <rect
+        x="4"
+        y="14"
+        width="16"
+        height="6"
+        rx="1.8"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
+      <path
+        d="M8 7H8.01M8 17H8.01"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
 
-function CheckIcon() {
+function ZapIcon() {
   return (
     <svg
-      className="domains-client-svg"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
+      fill="none"
       aria-hidden="true"
     >
-      <path d="m5 12 4 4L19 6" />
+      <path
+        d="M13.2 3L6.8 12H11L10.8 21L17.2 12H13L13.2 3Z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
-function formatDate(
-  date: string | null,
+function formatPrice(
+  price: number | null | undefined,
+  currency?: string | null
 ) {
-  if (!date) {
-    return "—";
+  if (price === null || price === undefined) {
+    return "Prix indisponible";
   }
 
-  const parsed =
-    new Date(date);
-
-  if (
-    Number.isNaN(
-      parsed.getTime(),
-    )
-  ) {
-    return "—";
-  }
-
-  return parsed.toLocaleDateString(
-    "fr-FR",
-    {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    },
-  );
+  return new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: currency || "EUR",
+  }).format(price);
 }
 
-function getStatusLabel(
-  status: DomainStatus,
-) {
-  switch (status) {
-    case "active":
-      return "Actif";
+async function readJsonResponse(response: Response) {
+  const text = await response.text();
 
-    case "pending":
-      return "En cours";
+  if (!text.trim()) {
+    return null;
+  }
 
-    case "unavailable":
-      return "Indisponible";
-
-    default:
-      return status;
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error("Le serveur a renvoyé une réponse invalide.");
   }
 }
 
-function getStatusClass(
-  status: DomainStatus,
-) {
-  switch (status) {
-    case "active":
-      return "active";
+export default function DomainesPage() {
+  const [query, setQuery] = useState("");
+  const [searching, setSearching] = useState(false);
+  const [buyingDomain, setBuyingDomain] = useState<string | null>(null);
+  const [results, setResults] = useState<DomainResult[]>([]);
+  const [searched, setSearched] = useState(false);
+  const [error, setError] = useState("");
 
-    case "pending":
-      return "pending";
+  const normalizedQuery = useMemo(() => {
+    return query.trim().toLowerCase();
+  }, [query]);
 
-    default:
-      return "pending";
-  }
-}
+  async function handleSearch(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
-export default function ClientDomainsPage() {
-  const [domains, setDomains] =
-    useState<Domain[]>([]);
-
-  const [search, setSearch] =
-    useState("");
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [error, setError] =
-    useState("");
-
-  /*
-   * TEMPORAIRE :
-   * email utilisé pour retrouver les domaines.
-   *
-   * On remplacera ensuite ceci par
-   * l'utilisateur authentifié Supabase.
-   */
-  const clientEmail =
-    typeof window !== "undefined"
-      ? localStorage.getItem(
-          "nova_client_email",
-        )
-      : null;
-
-  useEffect(() => {
-    async function loadDomains() {
-      if (!clientEmail) {
-        setDomains([]);
-        setLoading(false);
-        return;
-      }
-
-      try {
-        setLoading(true);
-        setError("");
-
-        const response =
-          await fetch(
-            `/api/client/domains?email=${encodeURIComponent(
-              clientEmail,
-            )}`,
-          );
-
-        const data =
-          await response.json();
-
-        if (!response.ok) {
-          throw new Error(
-            data?.error ||
-              "Impossible de récupérer les domaines.",
-          );
-        }
-
-        setDomains(
-          Array.isArray(data.domains)
-            ? data.domains
-            : [],
-        );
-      } catch (err) {
-        console.error(err);
-
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Une erreur est survenue.",
-        );
-      } finally {
-        setLoading(false);
-      }
+    if (!normalizedQuery) {
+      setError("Entrez un nom de domaine.");
+      setResults([]);
+      setSearched(false);
+      return;
     }
 
-    loadDomains();
-  }, [clientEmail]);
+    setSearching(true);
+    setError("");
+    setSearched(true);
 
-  const filteredDomains =
-    useMemo(() => {
-      const query =
-        search
-          .trim()
-          .toLowerCase();
+    try {
+      const response = await fetch(
+        `/api/domains/search?domain=${encodeURIComponent(
+          normalizedQuery
+        )}`,
+        {
+          method: "GET",
+          cache: "no-store",
+        }
+      );
 
-      if (!query) {
-        return domains;
+      const data = await readJsonResponse(response);
+
+      if (!response.ok) {
+        throw new Error(
+          data?.error || "Impossible de rechercher ce domaine."
+        );
       }
 
-      return domains.filter(
-        (item) =>
-          item.domain
-            .toLowerCase()
-            .includes(query),
+      const incomingResults: DomainResult[] =
+        Array.isArray(data?.results)
+          ? data.results
+          : Array.isArray(data?.domains)
+            ? data.domains
+            : data?.domain
+              ? [data.domain]
+              : [];
+
+      setResults(incomingResults);
+    } catch (searchError) {
+      console.error("DOMAIN SEARCH ERROR:", searchError);
+
+      setResults([]);
+
+      setError(
+        searchError instanceof Error
+          ? searchError.message
+          : "Une erreur est survenue pendant la recherche."
       );
-    }, [domains, search]);
+    } finally {
+      setSearching(false);
+    }
+  }
+
+  async function handlePurchase(domain: DomainResult) {
+    if (!domain.available) {
+      return;
+    }
+
+    setBuyingDomain(domain.domain);
+    setError("");
+
+    try {
+      const response = await fetch("/api/domains/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          domain: domain.domain,
+          price: domain.price,
+          currency: domain.currency || "EUR",
+        }),
+      });
+
+      const data = await readJsonResponse(response);
+
+      if (!response.ok) {
+        throw new Error(
+          data?.error || "Impossible de lancer le paiement."
+        );
+      }
+
+      const checkoutUrl = data?.url || data?.checkoutUrl;
+
+      if (!checkoutUrl) {
+        throw new Error(
+          "L'adresse de paiement n'a pas été retournée."
+        );
+      }
+
+      window.location.href = checkoutUrl;
+    } catch (purchaseError) {
+      console.error(
+        "DOMAIN CHECKOUT ERROR:",
+        purchaseError
+      );
+
+      setError(
+        purchaseError instanceof Error
+          ? purchaseError.message
+          : "Impossible de lancer le paiement."
+      );
+
+      setBuyingDomain(null);
+    }
+  }
 
   return (
-    <main className="client-domains-page">
-      <div className="domains-background">
-        <div className="domains-orb domains-orb-one" />
-        <div className="domains-orb domains-orb-two" />
-        <div className="domains-grid-lines" />
-      </div>
+    <main className="domainsPage">
+      {/* ================= HERO ================= */}
 
-      {/* HEADER */}
-      <header className="domains-client-header">
-        <div className="domains-header-inner">
-          <Link
-            href="/"
-            className="domains-client-logo"
-          >
-            NOV<span>A</span>
-          </Link>
-
-          <nav className="domains-client-navigation">
-            <Link
-              href="/domaines"
-              className="active"
-            >
-              Domaines
-            </Link>
-
-            <Link href="/hebergement">
-              Hébergement
-            </Link>
-
-            <Link href="/emails">
-              Emails
-            </Link>
-
-            <Link href="/securite">
-              Sécurité
-            </Link>
-
-            <Link href="/a-propos">
-              À propos
-            </Link>
-          </nav>
-
-          <div className="domains-header-actions">
-            <Link
-              href="/contact"
-              className="domains-support-link"
-            >
-              Support
-            </Link>
-
-            <Link
-              href="/espace-client"
-              className="domains-account-button"
-            >
-              Espace client
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      <div className="domains-client-shell">
-        {/* BREADCRUMB */}
-        <div className="domains-breadcrumb">
-          <Link href="/espace-client">
-            Espace client
-          </Link>
-
-          <span>/</span>
-
-          <strong>
-            Domaines
-          </strong>
-        </div>
-
-        {/* HERO */}
-        <section className="domains-client-hero">
-          <div className="domains-hero-copy">
-            <div className="domains-client-badge">
+      <section className="domainsHero">
+        <div className="domainsHeroGrid">
+          <div className="domainsHeroCopy">
+            <div className="domainsBadge">
               <span />
-              GESTION DES DOMAINES
+              DOMAINE NOVA
             </div>
 
-            <h1>
-              Vos domaines.
+            <h1 className="domainsHeroTitle">
+              Trouvez le nom
               <br />
-              <span>
-                Votre identité.
+              qui donnera
+              <br />
+              une{" "}
+              <span className="domainsHeroAccent">
+                identité
               </span>
+              <br />
+              à votre projet.
             </h1>
 
-            <p>
-              Retrouvez et gérez tous vos
-              noms de domaine depuis votre
-              espace NOVA.
+            <p className="domainsHeroDescription">
+              Votre domaine est la première pierre de votre
+              présence en ligne. Trouvez une adresse unique,
+              disponible et prête à devenir votre marque.
             </p>
 
-            <div className="domains-hero-actions">
-              <Link
-                href="/domaines"
-                className="domains-primary-button"
+            <form
+              className="domainsSearch"
+              onSubmit={handleSearch}
+            >
+              <div className="domainsSearchInput">
+                <SearchIcon />
+
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(event) => {
+                    setQuery(event.target.value);
+
+                    if (error) {
+                      setError("");
+                    }
+                  }}
+                  placeholder="exemple.fr"
+                  aria-label="Rechercher un domaine"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="domainsSearchButton"
+                disabled={searching}
               >
-                Acheter un domaine
+                {searching
+                  ? "Recherche..."
+                  : "Rechercher"}
+
                 <ArrowIcon />
-              </Link>
+              </button>
+            </form>
 
-              <Link
-                href="/espace-client"
-                className="domains-secondary-button"
-              >
-                Retour au tableau de bord
-              </Link>
-            </div>
-          </div>
-
-          <div className="domains-hero-visual">
-            <div className="domains-hero-glow" />
-
-            <div className="domains-planet-orbit orbit-one" />
-            <div className="domains-planet-orbit orbit-two" />
-            <div className="domains-planet-orbit orbit-three" />
-
-            <div className="domains-planet">
-              <div className="domains-planet-grid" />
-
-              <div className="domains-planet-core">
-                <GlobeIcon />
+            {error && (
+              <div className="domainsError">
+                {error}
               </div>
-            </div>
+            )}
 
-            <div className="domains-floating-card floating-card-one">
-              <span>
-                DOMAINES
-              </span>
-
-              <strong>
-                {domains.length}
-              </strong>
-
-              <small>
-                enregistré(s)
-              </small>
-            </div>
-
-            <div className="domains-floating-card floating-card-two">
-              <div className="floating-check">
-                <CheckIcon />
-              </div>
-
-              <div>
-                <strong>
-                  Protection active
+            <div className="domainsHeroMeta">
+              <div className="domainsHeroMetaItem">
+                <strong className="domainsHeroMetaNumber">
+                  01
                 </strong>
 
-                <small>
-                  SSL & DNS
-                </small>
+                <span className="domainsHeroMetaLabel">
+                  Recherche instantanée
+                </span>
+              </div>
+
+              <div className="domainsHeroMetaItem">
+                <strong className="domainsHeroMetaNumber">
+                  02
+                </strong>
+
+                <span className="domainsHeroMetaLabel">
+                  Paiement sécurisé
+                </span>
+              </div>
+
+              <div className="domainsHeroMetaItem">
+                <strong className="domainsHeroMetaNumber">
+                  03
+                </strong>
+
+                <span className="domainsHeroMetaLabel">
+                  Activation automatique
+                </span>
               </div>
             </div>
           </div>
-        </section>
 
-        {/* DASHBOARD */}
-        <section className="domains-dashboard">
-          <div className="domains-dashboard-heading">
-            <div>
-              <span className="domains-section-label">
-                VOTRE PORTEFEUILLE
-              </span>
+          {/* ================= VISUAL ================= */}
 
-              <h2>
-                Mes domaines
-              </h2>
+          <div className="domainsHeroVisual">
+            <div className="domainsGlow" />
 
-              <p>
-                Gérez vos domaines, leur
-                sécurité et leurs paramètres.
-              </p>
+            <div className="domainsOrb">
+              <div className="domainsOrbCore">
+                <span>N</span>
+                <small>NOVA</small>
+              </div>
+
+              <div className="domainsOrbRing" />
+              <div className="domainsOrbRingTwo" />
+
+              <div className="domainsOrbSatellite domainsOrbSatelliteOne">
+                .fr
+              </div>
+
+              <div className="domainsOrbSatellite domainsOrbSatelliteTwo">
+                .com
+              </div>
+
+              <div className="domainsOrbSatellite domainsOrbSatelliteThree">
+                .io
+              </div>
             </div>
 
-            <div className="domains-count">
-              <span>
-                {domains.length}
-              </span>
-
-              <small>
-                domaine(s)
-              </small>
+            <div className="domainsHeroVisualCaption">
+              <span>VOTRE IDENTITÉ</span>
+              <strong>COMMENCE ICI</strong>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* SEARCH */}
-          <div className="domains-search-wrapper">
-            <div className="domains-search-icon">
+      {/* ================= RESULTS ================= */}
+
+      <section className="domainsSection">
+        <div className="domainsSectionHead">
+          <div>
+            <div className="domainsBadge domainsBadgeSmall">
+              <span />
+              DISPONIBILITÉ NOVA
+            </div>
+
+            <h2 className="domainsSectionTitle">
+              Votre domaine n’est que{" "}
+              <span>le début.</span>
+            </h2>
+
+            <p className="domainsSectionSubtitle">
+              Recherchez votre future adresse et construisez
+              votre présence digitale autour d'elle.
+            </p>
+          </div>
+
+          {searched && (
+            <div className="domainsResultCount">
+              {results.length} résultat
+              {results.length > 1 ? "s" : ""}
+            </div>
+          )}
+        </div>
+
+        {searched && results.length > 0 ? (
+          <div className="domainsList">
+            {results.map((domain) => (
+              <article
+                className="domainCard"
+                key={domain.domain}
+              >
+                <div className="domainCardMain">
+                  <div className="domainCardIcon">
+                    <GlobeIcon />
+                  </div>
+
+                  <div className="domainCardInfo">
+                    <div className="domainCardName">
+                      {domain.domain}
+                    </div>
+
+                    <div className="domainCardMeta">
+                      {domain.available
+                        ? "Domaine disponible"
+                        : "Domaine indisponible"}
+                    </div>
+                  </div>
+
+                  <div
+                    className={`domainStatus ${
+                      domain.available
+                        ? "active"
+                        : "pending"
+                    }`}
+                  >
+                    <span />
+
+                    {domain.available
+                      ? "Disponible"
+                      : "Indisponible"}
+                  </div>
+
+                  <div className="domainCardPrice">
+                    {formatPrice(
+                      domain.price,
+                      domain.currency
+                    )}
+                  </div>
+
+                  {domain.available && (
+                    <button
+                      type="button"
+                      className="domainManageButton"
+                      onClick={() =>
+                        handlePurchase(domain)
+                      }
+                      disabled={
+                        buyingDomain === domain.domain
+                      }
+                    >
+                      {buyingDomain === domain.domain
+                        ? "Chargement..."
+                        : "Acheter"}
+
+                      <span className="domainArrow">
+                        <ArrowIcon />
+                      </span>
+                    </button>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : searched && !searching ? (
+          <div className="domainsEmpty">
+            <div className="domainsEmptyIcon">
               <SearchIcon />
             </div>
 
-            <input
-              type="text"
-              value={search}
-              onChange={(event) =>
-                setSearch(
-                  event.target.value,
-                )
-              }
-              placeholder="Rechercher un domaine..."
-            />
+            <h3 className="domainsEmptyTitle">
+              Aucun domaine disponible
+            </h3>
 
-            {search && (
-              <button
-                type="button"
-                className="domains-search-clear"
-                onClick={() =>
-                  setSearch("")
-                }
-                aria-label="Effacer la recherche"
-              >
-                ×
-              </button>
-            )}
-          </div>
+            <p className="domainsEmptyText">
+              Essayez une autre combinaison ou une autre
+              extension pour trouver le nom parfait.
+            </p>
 
-          {/* ERROR */}
-          {error && (
-            <div
-              style={{
-                padding: "18px",
-                marginBottom: "13px",
-                border:
-                  "1px solid rgba(255,80,80,.2)",
-                borderRadius: "15px",
-                background:
-                  "rgba(255,60,60,.04)",
-                color: "#ff9b9b",
-                fontSize: "11px",
+            <button
+              type="button"
+              className="domainsEmptyButton"
+              onClick={() => {
+                setQuery("");
+                setResults([]);
+                setSearched(false);
+                setError("");
               }}
             >
-              {error}
-            </div>
-          )}
-
-          {/* LOADING */}
-          {loading ? (
-            <div className="domains-empty-panel">
-              <div className="domains-empty-content">
-                <span>
-                  CHARGEMENT
-                </span>
-
-                <h3>
-                  Chargement de vos domaines
-                </h3>
-
-                <p>
-                  Nous récupérons votre
-                  portefeuille NOVA.
-                </p>
-              </div>
-            </div>
-          ) : filteredDomains.length > 0 ? (
-            <div className="domains-list">
-              {filteredDomains.map(
-                (item) => (
-                  <article
-                    key={item.id}
-                    className="client-domain-card"
-                  >
-                    <div className="client-domain-main">
-                      <div className="client-domain-icon">
-                        <GlobeIcon />
-                      </div>
-
-                      <div className="client-domain-information">
-                        <span className="domain-extension-label">
-                          DOMAINE
-                        </span>
-
-                        <h3>
-                          {item.domain}
-                        </h3>
-
-                        <div
-                          className={`client-domain-status ${getStatusClass(
-                            item.status,
-                          )}`}
-                        >
-                          <span />
-                          {
-                            getStatusLabel(
-                              item.status,
-                            )
-                          }
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="client-domain-details">
-                      <div className="domain-detail">
-                        <span>
-                          EXPIRATION
-                        </span>
-
-                        <strong>
-                          {formatDate(
-                            item.expires_at,
-                          )}
-                        </strong>
-                      </div>
-
-                      <div className="domain-detail">
-                        <span>
-                          PROTECTION
-                        </span>
-
-                        <strong>
-                          <ShieldIcon />
-                          Active
-                        </strong>
-                      </div>
-
-                      <div className="domain-detail">
-                        <span>
-                          DNS
-                        </span>
-
-                        <strong>
-                          <CheckIcon />
-                          Configuré
-                        </strong>
-                      </div>
-                    </div>
-
-                    <Link
-                      href={`/espace-client/domaines/${encodeURIComponent(
-                        item.domain,
-                      )}`}
-                      className="client-domain-manage"
-                    >
-                      Gérer
-                      <ArrowIcon />
-                    </Link>
-                  </article>
-                ),
-              )}
-            </div>
-          ) : (
-            <div className="domains-empty-panel">
-              <div className="domains-empty-visual">
-                <div className="empty-orbit empty-orbit-one" />
-                <div className="empty-orbit empty-orbit-two" />
-                <div className="empty-orbit empty-orbit-three" />
-
-                <div className="empty-center">
-                  <GlobeIcon />
-                </div>
-              </div>
-
-              <div className="domains-empty-content">
-                <span>
-                  VOTRE PORTEFEUILLE N&apos;EST PAS VIDE
-                </span>
-
-                <h3>
-                  Aucun domaine pour le moment
-                </h3>
-
-                <p>
-                  Vos domaines achetés apparaîtront
-                  automatiquement ici après leur
-                  commande.
-                </p>
-
-                <Link
-                  href="/domaines"
-                  className="domains-empty-button"
-                >
-                  Trouver mon domaine
-                  <ArrowIcon />
-                </Link>
-              </div>
-            </div>
-          )}
-
-          {/* SERVICES */}
-          <div className="domain-services-section">
-            <div className="domains-dashboard-heading small">
-              <div>
-                <span className="domains-section-label">
-                  SERVICES ASSOCIÉS
-                </span>
-
-                <h2>
-                  Protection & gestion
-                </h2>
-
-                <p>
-                  Les outils essentiels pour
-                  protéger votre identité en ligne.
-                </p>
-              </div>
-            </div>
-
-            <div className="domain-tools-grid">
-              <Link
-                href="/securite"
-                className="domain-tool-card"
-              >
-                <div className="domain-tool-icon">
-                  <ShieldIcon />
-                </div>
-
-                <div className="domain-tool-arrow">
-                  <ArrowIcon />
-                </div>
-
-                <div className="domain-tool-content">
-                  <span>
-                    SÉCURITÉ
-                  </span>
-
-                  <h3>
-                    SSL & Protection
-                  </h3>
-
-                  <p>
-                    Vérifiez et protégez la
-                    sécurité de vos domaines.
-                  </p>
-                </div>
-              </Link>
-
-              <Link
-                href="/espace-client/domaines"
-                className="domain-tool-card"
-              >
-                <div className="domain-tool-icon">
-                  <DnsIcon />
-                </div>
-
-                <div className="domain-tool-arrow">
-                  <ArrowIcon />
-                </div>
-
-                <div className="domain-tool-content">
-                  <span>
-                    DNS
-                  </span>
-
-                  <h3>
-                    Configuration DNS
-                  </h3>
-
-                  <p>
-                    Gérez les enregistrements DNS
-                    de vos domaines.
-                  </p>
-                </div>
-              </Link>
-
-              <Link
-                href="/emails"
-                className="domain-tool-card"
-              >
-                <div className="domain-tool-icon">
-                  <MailIcon />
-                </div>
-
-                <div className="domain-tool-arrow">
-                  <ArrowIcon />
-                </div>
-
-                <div className="domain-tool-content">
-                  <span>
-                    EMAILS
-                  </span>
-
-                  <h3>
-                    Emails professionnels
-                  </h3>
-
-                  <p>
-                    Créez et gérez vos adresses
-                    professionnelles.
-                  </p>
-                </div>
-              </Link>
-            </div>
+              Nouvelle recherche
+              <ArrowIcon />
+            </button>
           </div>
+        ) : (
+          <div className="domainsEmpty domainsEmptyInitial">
+            <div className="domainsEmptyIcon">
+              <GlobeIcon />
+            </div>
 
-          {/* CTA */}
-          <section className="domains-bottom-cta">
-            <div className="domains-cta-glow" />
+            <h3 className="domainsEmptyTitle">
+              Votre prochain nom commence ici
+            </h3>
 
-            <div className="domains-cta-content">
-              <span className="domains-section-label">
-                BESOIN D&apos;UN NOUVEAU DOMAINE ?
-              </span>
+            <p className="domainsEmptyText">
+              Entrez un nom dans le moteur de recherche
+              pour vérifier instantanément sa disponibilité.
+            </p>
+          </div>
+        )}
+      </section>
 
-              <h2>
-                Donnez une adresse
-                <br />
-                à votre projet.
-              </h2>
+      {/* ================= TOOLS ================= */}
+
+      <section className="domainsTools">
+        <div className="domainsToolsTitle">
+          <div>
+            <div className="domainsBadge domainsBadgeSmall">
+              <span />
+              L’ÉCOSYSTÈME NOVA
+            </div>
+
+            <h2 className="domainsSectionTitle">
+              Un domaine.
+              <br />
+              <span>Un univers.</span>
+            </h2>
+          </div>
+        </div>
+
+        <div className="domainsToolsGrid">
+          <article className="domainsToolCard">
+            <div className="domainsToolIcon">
+              <ShieldIcon />
+            </div>
+
+            <div>
+              <span>SÉCURITÉ</span>
+
+              <h3>
+                Protégez votre identité
+              </h3>
 
               <p>
-                Trouvez le nom parfait pour
-                votre entreprise, votre marque
-                ou votre prochain projet.
+                Sécurisez votre domaine et votre présence
+                en ligne avec les solutions NOVA.
               </p>
-
-              <Link
-                href="/domaines"
-                className="domains-cta-button"
-              >
-                Rechercher un domaine
-                <ArrowIcon />
-              </Link>
             </div>
 
-            <div className="domains-cta-visual">
-              <div className="cta-ring cta-ring-one" />
-              <div className="cta-ring cta-ring-two" />
-              <div className="cta-ring cta-ring-three" />
-
-              <div className="cta-letter">
-                N
-              </div>
+            <div className="domainsToolArrow">
+              <ArrowIcon />
             </div>
-          </section>
-        </section>
-      </div>
+          </article>
 
-      {/* FOOTER */}
-      <footer className="domains-client-footer">
-        <div className="domains-footer-inner">
-          <Link
-            href="/"
-            className="domains-footer-logo"
-          >
-            NOV<span>A</span>
-          </Link>
+          <article className="domainsToolCard">
+            <div className="domainsToolIcon">
+              <MailIcon />
+            </div>
 
-          <div className="domains-footer-links">
+            <div>
+              <span>EMAIL</span>
+
+              <h3>
+                Une adresse professionnelle
+              </h3>
+
+              <p>
+                Donnez à votre marque une identité cohérente
+                avec des adresses professionnelles.
+              </p>
+            </div>
+
+            <div className="domainsToolArrow">
+              <ArrowIcon />
+            </div>
+          </article>
+
+          <article className="domainsToolCard">
+            <div className="domainsToolIcon">
+              <ServerIcon />
+            </div>
+
+            <div>
+              <span>PERFORMANCE</span>
+
+              <h3>
+                Un site rapide et fiable
+              </h3>
+
+              <p>
+                Faites évoluer votre domaine avec une
+                infrastructure pensée pour la performance.
+              </p>
+            </div>
+
+            <div className="domainsToolArrow">
+              <ArrowIcon />
+            </div>
+          </article>
+
+          <article className="domainsToolCard">
+            <div className="domainsToolIcon">
+              <ZapIcon />
+            </div>
+
+            <div>
+              <span>NOVA</span>
+
+              <h3>
+                Besoin d’un accompagnement ?
+              </h3>
+
+              <p>
+                Notre équipe peut vous accompagner dans
+                la création de votre présence digitale.
+              </p>
+            </div>
+
+            <div className="domainsToolArrow">
+              <ArrowIcon />
+            </div>
+          </article>
+        </div>
+      </section>
+
+      {/* ================= CTA ================= */}
+
+      <section className="domainsBottomCta">
+        <div className="domainsBottomCtaGlow" />
+
+        <div className="domainsBottomCtaContent">
+          <div>
+            <span className="domainsBottomCtaEyebrow">
+              BESOIN D’AUTRE CHOSE ?
+            </span>
+
+            <h2>
+              Construisez votre
+              <br />
+              <span>présence digitale.</span>
+            </h2>
+
+            <p>
+              Découvrez les domaines, services et solutions
+              proposés par NOVA.
+            </p>
+          </div>
+
+          <div className="domainsBottomCtaActions">
+            <Link
+              href="/espace-client"
+              className="domainsCtaPrimary"
+            >
+              Espace client
+              <ArrowIcon />
+            </Link>
+
+            <Link
+              href="/contact"
+              className="domainsCtaSecondary"
+            >
+              Nous contacter
+              <ArrowIcon />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= FOOTER ================= */}
+
+      <footer className="domainsFooter">
+        <div className="domainsFooterTop">
+          <div className="domainsFooterBrand">
+            <div className="domainsLogo">
+              NOV<span>A</span>
+            </div>
+
+            <p>
+              Des idées plus grandes en ligne.
+            </p>
+          </div>
+
+          <div className="domainsFooterLinks">
             <Link href="/mentions-legales">
               Mentions légales
             </Link>
 
-            <Link href="/confidentialite">
-              Confidentialité
+            <Link href="/faq">
+              FAQ
             </Link>
 
             <Link href="/contact">
               Support
             </Link>
           </div>
+        </div>
 
-          <span className="domains-footer-copy">
+        <div className="domainsFooterBottom">
+          <span>
             © {new Date().getFullYear()} NOVA
+          </span>
+
+          <span>
+            Agence digitale premium
           </span>
         </div>
       </footer>

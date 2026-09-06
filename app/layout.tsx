@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+
 import { Analytics } from "@vercel/analytics/next";
 import SiteHeader from "@/components/SiteHeader";
 import CookieBanner from "@/components/CookieBanner";
@@ -35,7 +36,12 @@ export const metadata: Metadata = {
     "performance web",
   ],
 
-  authors: [{ name: "NOVA" }],
+  authors: [
+    {
+      name: "NOVA",
+    },
+  ],
+
   creator: "NOVA",
   publisher: "NOVA",
 
@@ -58,30 +64,40 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: siteUrl,
     siteName: "NOVA",
-    title: "NOVA — Agence digitale & création de sites web",
+
+    title:
+      "NOVA — Agence digitale & création de sites web",
+
     description:
       "NOVA conçoit des sites web modernes, rapides et sur mesure pour donner aux entreprises une présence en ligne professionnelle et performante.",
+
     images: [
       {
         url: "/LG-Nova.png",
         width: 1200,
         height: 630,
-        alt: "NOVA — Agence digitale & création de sites web",
+        alt:
+          "NOVA — Agence digitale & création de sites web",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "NOVA — Agence digitale & création de sites web",
+
+    title:
+      "NOVA — Agence digitale & création de sites web",
+
     description:
       "NOVA conçoit des sites web modernes, rapides et sur mesure pour donner aux entreprises une présence en ligne professionnelle et performante.",
+
     images: ["/LG-Nova.png"],
   },
 
   robots: {
     index: true,
     follow: true,
+
     googleBot: {
       index: true,
       follow: true,

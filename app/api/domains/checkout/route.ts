@@ -3,12 +3,10 @@ import Stripe from "stripe";
 import { checkDomain } from "@/lib/openprovider";
 
 const stripe = new Stripe(
-  process.env.STRIPE_SECRET_KEY!,
+  process.env.STRIPE_SECRET_KEY!
 );
 
-export async function POST(
-  request: NextRequest,
-) {
+export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
@@ -16,16 +14,12 @@ export async function POST(
       .trim()
       .toLowerCase();
 
-    const email = String(body.email || "")
-      .trim()
-      .toLowerCase();
-
-    if (!domain || !email) {
+    if (!domain) {
       return NextResponse.json(
         {
-          error: "Domaine et email obligatoires.",
+          error: "Nom de domaine obligatoire.",
         },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -36,7 +30,7 @@ export async function POST(
         {
           error: "Ce domaine n'est plus disponible.",
         },
-        { status: 409 },
+        { status: 409 }
       );
     }
 
@@ -45,16 +39,15 @@ export async function POST(
         {
           error: "Prix fournisseur indisponible.",
         },
-        { status: 502 },
+        { status: 502 }
       );
     }
 
-    // Prix Nova = prix fournisseur + 5 €
-    const novaPrice =
-      result.resellerPrice + 5;
+    // Prix NOVA = prix fournisseur + 5 €
+    const novaPrice = result.resellerPrice + 5;
 
     const amount = Math.round(
-      novaPrice * 100,
+      novaPrice * 100
     );
 
     const site =
@@ -65,20 +58,20 @@ export async function POST(
       await stripe.checkout.sessions.create({
         mode: "payment",
 
-        customer_email: email,
-
         line_items: [
           {
             quantity: 1,
+
             price_data: {
               currency:
                 result.currency.toLowerCase(),
+
               unit_amount: amount,
 
               product_data: {
                 name: `Domaine ${domain}`,
                 description:
-                  "Enregistrement de domaine Nova",
+                  "Enregistrement de domaine NOVA",
               },
             },
           },
@@ -110,7 +103,7 @@ export async function POST(
   } catch (error) {
     console.error(
       "DOMAIN_CHECKOUT_ERROR:",
-      error,
+      error
     );
 
     return NextResponse.json(
@@ -120,7 +113,7 @@ export async function POST(
             ? error.message
             : "Impossible de créer le paiement.",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

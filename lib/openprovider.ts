@@ -63,6 +63,10 @@ function splitDomain(domain: string) {
   const extension = parts.pop()!;
   const name = parts.join(".");
 
+  if (!name || !extension) {
+    throw new Error("Nom de domaine invalide.");
+  }
+
   return {
     clean,
     name,
@@ -107,8 +111,17 @@ async function login(): Promise<string> {
     },
   );
 
-  const json =
-    (await response.json()) as ApiResponse<TokenResponse>;
+  const text = await response.text();
+
+  let json: ApiResponse<TokenResponse>;
+
+  try {
+    json = JSON.parse(text);
+  } catch {
+    throw new Error(
+      `Réponse Openprovider invalide (${response.status}).`,
+    );
+  }
 
   if (
     !response.ok ||
@@ -123,6 +136,7 @@ async function login(): Promise<string> {
 
   cachedToken = json.data.token;
 
+  // Le token Openprovider est conservé temporairement.
   tokenExpiresAt =
     Date.now() + 20 * 60 * 1000;
 
@@ -162,6 +176,7 @@ async function api<T>(
     );
   }
 
+  // Token expiré : on se reconnecte une seule fois.
   if (
     response.status === 401 &&
     retry
@@ -190,7 +205,7 @@ async function api<T>(
   return json.data as T;
 }
 
-function parsePrice(item: any) {
+function parsePrice(item: any): number | null {
   const price =
     item?.price?.reseller?.price ??
     item?.price?.product?.price ??
@@ -204,7 +219,7 @@ function parsePrice(item: any) {
     : null;
 }
 
-function parseCurrency(item: any) {
+function parseCurrency(item: any): string {
   return (
     item?.price?.reseller?.currency ??
     item?.price?.product?.currency ??
@@ -274,6 +289,14 @@ function parsePhone(phone: string) {
   const clean = phone
     .trim()
     .replace(/\s+/g, "");
+
+  if (!clean) {
+    return {
+      country_code: "+33",
+      area_code: "",
+      subscriber_number: "000000000",
+    };
+  }
 
   if (clean.startsWith("+")) {
     return {

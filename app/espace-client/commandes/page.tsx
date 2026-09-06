@@ -10,7 +10,7 @@ type Order = {
   id: string;
   domain: string;
   amount: number;
-  currency: string;
+  currency: string | null;
   status: OrderStatus;
   email: string;
   stripe_session_id?: string | null;
@@ -61,14 +61,20 @@ function FileIcon() {
 }
 
 function formatDate(date: string) {
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return "Date inconnue";
+  }
+
   return new Intl.DateTimeFormat("fr-FR", {
     day: "2-digit",
     month: "long",
     year: "numeric",
-  }).format(new Date(date));
+  }).format(parsedDate);
 }
 
-function formatPrice(amount: number, currency: string) {
+function formatPrice(amount: number, currency: string | null) {
   return new Intl.NumberFormat("fr-FR", {
     style: "currency",
     currency: currency || "EUR",
@@ -79,12 +85,16 @@ function statusLabel(status: OrderStatus) {
   switch (status) {
     case "paid":
       return "Payée";
+
     case "pending":
       return "En attente";
+
     case "failed":
       return "Échec";
+
     case "refunded":
       return "Remboursée";
+
     default:
       return status;
   }
@@ -97,7 +107,10 @@ export default function ClientOrdersPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const storedEmail = window.localStorage.getItem("nova_client_email");
+    const storedEmail = window.localStorage
+      .getItem("nova_client_email")
+      ?.trim()
+      .toLowerCase();
 
     if (!storedEmail) {
       setLoading(false);
@@ -108,17 +121,31 @@ export default function ClientOrdersPage() {
 
     async function loadOrders() {
       try {
+        setLoading(true);
+        setError("");
+
         const response = await fetch(
-          `/api/client/orders?email=${encodeURIComponent(storedEmail)}`
+          `/api/client/orders?email=${encodeURIComponent(storedEmail)}`,
+          {
+            method: "GET",
+            cache: "no-store",
+          }
         );
 
         const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(data?.error || "Impossible de récupérer les commandes.");
+          throw new Error(
+            data?.error ||
+              "Impossible de récupérer les commandes."
+          );
         }
 
-        setOrders(Array.isArray(data.orders) ? data.orders : []);
+        setOrders(
+          Array.isArray(data?.orders)
+            ? data.orders
+            : []
+        );
       } catch (err) {
         setError(
           err instanceof Error
@@ -136,32 +163,58 @@ export default function ClientOrdersPage() {
   const totalSpent = useMemo(() => {
     return orders
       .filter((order) => order.status === "paid")
-      .reduce((total, order) => total + Number(order.amount || 0), 0);
+      .reduce(
+        (total, order) =>
+          total + Number(order.amount || 0),
+        0
+      );
   }, [orders]);
 
-  const paidOrders = orders.filter(
-    (order) => order.status === "paid"
-  ).length;
+  const paidOrders = useMemo(() => {
+    return orders.filter(
+      (order) => order.status === "paid"
+    ).length;
+  }, [orders]);
 
   return (
     <main className="clientOrdersPage">
-
       {/* HEADER */}
+
       <header className="clientOrdersHeader">
-        <Link href="/" className="clientOrdersLogo">
+        <Link
+          href="/"
+          className="clientOrdersLogo"
+        >
           NOV<span>A</span>
         </Link>
 
         <nav className="clientOrdersNav">
-          <Link href="/domaines">Domaines</Link>
-          <Link href="/hebergement">Hébergement</Link>
-          <Link href="/emails">Emails</Link>
-          <Link href="/securite">Sécurité</Link>
-          <Link href="/a-propos">À propos</Link>
+          <Link href="/domaines">
+            Domaines
+          </Link>
+
+          <Link href="/hebergement">
+            Hébergement
+          </Link>
+
+          <Link href="/emails">
+            Emails
+          </Link>
+
+          <Link href="/securite">
+            Sécurité
+          </Link>
+
+          <Link href="/a-propos">
+            À propos
+          </Link>
         </nav>
 
         <div className="clientOrdersHeaderRight">
-          <Link href="/contact" className="supportLink">
+          <Link
+            href="/contact"
+            className="supportLink"
+          >
             Support
           </Link>
 
@@ -170,24 +223,31 @@ export default function ClientOrdersPage() {
             className="clientAvatar"
             aria-label="Retour à l'espace client"
           >
-            {email ? email.charAt(0).toUpperCase() : "N"}
+            {email
+              ? email.charAt(0).toUpperCase()
+              : "N"}
           </Link>
         </div>
       </header>
 
       {/* CONTENT */}
-      <section className="ordersContainer">
 
+      <section className="ordersContainer">
         {/* BREADCRUMB */}
+
         <div className="ordersBreadcrumb">
-          <Link href="/espace-client">Espace client</Link>
+          <Link href="/espace-client">
+            Espace client
+          </Link>
+
           <span>/</span>
+
           <span>Mes commandes</span>
         </div>
 
         {/* HERO */}
-        <div className="ordersHero">
 
+        <div className="ordersHero">
           <div>
             <div className="ordersBadge">
               <span className="ordersBadgeDot" />
@@ -201,8 +261,9 @@ export default function ClientOrdersPage() {
             </h1>
 
             <p>
-              Retrouvez ici l'ensemble de vos commandes NOVA,
-              leur statut et les informations de paiement.
+              Retrouvez ici l'ensemble de vos
+              commandes NOVA, leur statut et les
+              informations de paiement.
             </p>
           </div>
 
@@ -215,6 +276,7 @@ export default function ClientOrdersPage() {
               </div>
 
               <div className="cubeFace cubeTop" />
+
               <div className="cubeFace cubeSide" />
             </div>
 
@@ -222,12 +284,11 @@ export default function ClientOrdersPage() {
               NOVA · YOUR DIGITAL FUTURE
             </div>
           </div>
-
         </div>
 
         {/* STATS */}
-        <div className="ordersStats">
 
+        <div className="ordersStats">
           <div className="ordersStatCard">
             <div className="ordersStatIcon">
               <ShoppingBagIcon />
@@ -257,17 +318,20 @@ export default function ClientOrdersPage() {
 
             <div>
               <span>Total dépensé</span>
+
               <strong>
-                {formatPrice(totalSpent, "EUR")}
+                {formatPrice(
+                  totalSpent,
+                  "EUR"
+                )}
               </strong>
             </div>
           </div>
-
         </div>
 
         {/* COMMANDES */}
-        <section className="ordersSection">
 
+        <section className="ordersSection">
           <div className="ordersSectionHeading">
             <div>
               <span className="ordersEyebrow">
@@ -280,36 +344,54 @@ export default function ClientOrdersPage() {
             </div>
 
             <span className="ordersCount">
-              {orders.length} commande{orders.length > 1 ? "s" : ""}
+              {orders.length} commande
+              {orders.length > 1 ? "s" : ""}
             </span>
           </div>
+
+          {/* LOADING */}
 
           {loading && (
             <div className="ordersState">
               <div className="ordersLoader" />
-              <h3>Chargement de vos commandes...</h3>
+
+              <h3>
+                Chargement de vos commandes...
+              </h3>
+
               <p>
                 Nous récupérons vos informations.
               </p>
             </div>
           )}
 
+          {/* ERROR */}
+
           {!loading && error && (
             <div className="ordersState ordersStateError">
-              <div className="ordersStateIcon">!</div>
+              <div className="ordersStateIcon">
+                !
+              </div>
 
-              <h3>Impossible de charger vos commandes</h3>
+              <h3>
+                Impossible de charger vos
+                commandes
+              </h3>
 
               <p>{error}</p>
 
               <button
                 type="button"
-                onClick={() => window.location.reload()}
+                onClick={() =>
+                  window.location.reload()
+                }
               >
                 Réessayer
               </button>
             </div>
           )}
+
+          {/* NO EMAIL */}
 
           {!loading && !error && !email && (
             <div className="ordersState">
@@ -317,11 +399,15 @@ export default function ClientOrdersPage() {
                 <ShoppingBagIcon />
               </div>
 
-              <h3>Connectez-vous à votre espace client</h3>
+              <h3>
+                Connectez-vous à votre espace
+                client
+              </h3>
 
               <p>
-                Votre compte client permettra d'afficher
-                automatiquement vos commandes.
+                Votre compte client permettra
+                d'afficher automatiquement vos
+                commandes.
               </p>
 
               <Link href="/espace-client">
@@ -331,113 +417,130 @@ export default function ClientOrdersPage() {
             </div>
           )}
 
-          {!loading && !error && email && orders.length === 0 && (
-            <div className="ordersState">
-              <div className="ordersStateIcon">
-                <ShoppingBagIcon />
+          {/* EMPTY */}
+
+          {!loading &&
+            !error &&
+            email &&
+            orders.length === 0 && (
+              <div className="ordersState">
+                <div className="ordersStateIcon">
+                  <ShoppingBagIcon />
+                </div>
+
+                <h3>
+                  Aucune commande pour le
+                  moment
+                </h3>
+
+                <p>
+                  Vos futures commandes
+                  apparaîtront automatiquement
+                  ici.
+                </p>
+
+                <Link href="/domaines">
+                  Rechercher un domaine
+                  <ArrowIcon />
+                </Link>
               </div>
+            )}
 
-              <h3>Aucune commande pour le moment</h3>
+          {/* LIST */}
 
-              <p>
-                Vos futures commandes apparaîtront automatiquement
-                ici.
-              </p>
-
-              <Link href="/domaines">
-                Rechercher un domaine
-                <ArrowIcon />
-              </Link>
-            </div>
-          )}
-
-          {!loading && !error && orders.length > 0 && (
-            <div className="ordersList">
-
-              {orders.map((order) => (
-                <article
-                  className="orderRow"
-                  key={order.id}
-                >
-
-                  <div className="orderMain">
-
-                    <div className="orderIcon">
-                      <ShoppingBagIcon />
-                    </div>
-
-                    <div className="orderInfo">
-
-                      <div className="orderDomain">
-                        {order.domain}
-                      </div>
-
-                      <div className="orderMeta">
-                        Commande #{order.id.slice(0, 8)}
-                        <span>•</span>
-                        {formatDate(order.created_at)}
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                  <div className="orderStatus">
-
-                    {order.status === "paid" && (
-                      <span className="status paid">
-                        <CheckIcon />
-                        {statusLabel(order.status)}
-                      </span>
-                    )}
-
-                    {order.status === "pending" && (
-                      <span className="status pending">
-                        <ClockIcon />
-                        {statusLabel(order.status)}
-                      </span>
-                    )}
-
-                    {order.status === "failed" && (
-                      <span className="status failed">
-                        {statusLabel(order.status)}
-                      </span>
-                    )}
-
-                    {order.status === "refunded" && (
-                      <span className="status refunded">
-                        {statusLabel(order.status)}
-                      </span>
-                    )}
-
-                  </div>
-
-                  <div className="orderPrice">
-                    {formatPrice(
-                      Number(order.amount || 0),
-                      order.currency || "EUR"
-                    )}
-                  </div>
-
-                  <button
-                    type="button"
-                    className="orderArrow"
-                    aria-label={`Voir la commande ${order.domain}`}
+          {!loading &&
+            !error &&
+            orders.length > 0 && (
+              <div className="ordersList">
+                {orders.map((order) => (
+                  <article
+                    className="orderRow"
+                    key={order.id}
                   >
-                    <ArrowIcon />
-                  </button>
+                    <div className="orderMain">
+                      <div className="orderIcon">
+                        <ShoppingBagIcon />
+                      </div>
 
-                </article>
-              ))}
+                      <div className="orderInfo">
+                        <div className="orderDomain">
+                          {order.domain}
+                        </div>
 
-            </div>
-          )}
+                        <div className="orderMeta">
+                          Commande #
+                          {order.id.slice(0, 8)}
 
+                          <span>•</span>
+
+                          {formatDate(
+                            order.created_at
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="orderStatus">
+                      {order.status === "paid" && (
+                        <span className="status paid">
+                          <CheckIcon />
+                          {statusLabel(
+                            order.status
+                          )}
+                        </span>
+                      )}
+
+                      {order.status === "pending" && (
+                        <span className="status pending">
+                          <ClockIcon />
+                          {statusLabel(
+                            order.status
+                          )}
+                        </span>
+                      )}
+
+                      {order.status === "failed" && (
+                        <span className="status failed">
+                          {statusLabel(
+                            order.status
+                          )}
+                        </span>
+                      )}
+
+                      {order.status === "refunded" && (
+                        <span className="status refunded">
+                          {statusLabel(
+                            order.status
+                          )}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="orderPrice">
+                      {formatPrice(
+                        Number(
+                          order.amount || 0
+                        ),
+                        order.currency || "EUR"
+                      )}
+                    </div>
+
+                    <button
+                      type="button"
+                      className="orderArrow"
+                      aria-label={`Voir la commande ${order.domain}`}
+                    >
+                      <ArrowIcon />
+                    </button>
+                  </article>
+                ))}
+              </div>
+            )}
         </section>
 
         {/* BOTTOM CTA */}
-        <section className="ordersCTA">
 
+        <section className="ordersCTA">
           <div>
             <span className="ordersEyebrow">
               BESOIN D'AUTRE CHOSE ?
@@ -446,39 +549,49 @@ export default function ClientOrdersPage() {
             <h2>
               Construisez votre
               <br />
-              <span>présence digitale.</span>
+              <span>
+                présence digitale.
+              </span>
             </h2>
 
             <p>
-              Découvrez les domaines, services et solutions
-              proposés par NOVA.
+              Découvrez les domaines, services et
+              solutions proposés par NOVA.
             </p>
           </div>
 
           <div className="ordersCTAActions">
-            <Link href="/domaines" className="primaryButton">
+            <Link
+              href="/domaines"
+              className="primaryButton"
+            >
               Trouver un domaine
               <ArrowIcon />
             </Link>
 
-            <Link href="/espace-client" className="secondaryButton">
+            <Link
+              href="/espace-client"
+              className="secondaryButton"
+            >
               Espace client
             </Link>
           </div>
-
         </section>
-
       </section>
 
       {/* FOOTER */}
-      <footer className="clientOrdersFooter">
 
-        <Link href="/" className="footerLogo">
+      <footer className="clientOrdersFooter">
+        <Link
+          href="/"
+          className="footerLogo"
+        >
           NOV<span>A</span>
         </Link>
 
         <p>
-          © {new Date().getFullYear()} NOVA. Tous droits réservés.
+          © {new Date().getFullYear()} NOVA.
+          Tous droits réservés.
         </p>
 
         <div>
@@ -494,9 +607,7 @@ export default function ClientOrdersPage() {
             Support
           </Link>
         </div>
-
       </footer>
-
     </main>
   );
 }

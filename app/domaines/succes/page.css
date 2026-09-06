@@ -32,16 +32,21 @@
   margin: 0 auto;
 }
 
-
 /* =========================================================
    HEADER GLOBAL DU SITE
-   Masqué uniquement lorsque la page success est affichée.
+   IMPORTANT :
+   SiteHeader utilise className="navbar".
+   On le masque uniquement sur la page success.
    ========================================================= */
 
-body:has(.successPage) .nova-header {
+body:has(.successPage) > header.navbar {
   display: none !important;
 }
 
+/* Sécurité supplémentaire si le header est enveloppé */
+body:has(.successPage) .navbar {
+  display: none !important;
+}
 
 /* =========================================================
    BACKGROUND
@@ -78,7 +83,6 @@ body:has(.successPage) .nova-header {
   bottom: 400px;
   background: rgba(109, 68, 245, 0.06);
 }
-
 
 /* =========================================================
    HEADER SUCCESS
@@ -237,7 +241,6 @@ body:has(.successPage) .nova-header {
     );
 }
 
-
 /* =========================================================
    HERO
    ========================================================= */
@@ -365,7 +368,6 @@ body:has(.successPage) .nova-header {
   margin-top: 32px;
 }
 
-
 /* =========================================================
    BUTTONS
    ========================================================= */
@@ -448,7 +450,6 @@ body:has(.successPage) .nova-header {
   background: rgba(255, 255, 255, 0.065);
 }
 
-
 /* =========================================================
    TRUST
    ========================================================= */
@@ -506,7 +507,6 @@ body:has(.successPage) .nova-header {
 
   font-size: 9px;
 }
-
 
 /* =========================================================
    HERO VISUAL
@@ -877,7 +877,6 @@ body:has(.successPage) .nova-header {
   transform: rotate(12deg);
 }
 
-
 /* =========================================================
    ORDER
    ========================================================= */
@@ -1052,7 +1051,6 @@ body:has(.successPage) .nova-header {
   font-size: 8px;
 }
 
-
 /* =========================================================
    DETAILS
    ========================================================= */
@@ -1109,7 +1107,6 @@ body:has(.successPage) .nova-header {
 .emailValue {
   color: #b69aff !important;
 }
-
 
 /* =========================================================
    PROGRESS
@@ -1247,7 +1244,6 @@ body:has(.successPage) .nova-header {
   font-size: 9px;
   line-height: 1.55;
 }
-
 
 /* =========================================================
    ACTIONS
@@ -1414,7 +1410,6 @@ body:has(.successPage) .nova-header {
   width: 14px;
   height: 14px;
 }
-
 
 /* =========================================================
    CLIENT SECTION
@@ -1643,7 +1638,6 @@ body:has(.successPage) .nova-header {
   filter: blur(45px);
 }
 
-
 /* =========================================================
    REASSURANCE
    ========================================================= */
@@ -1717,7 +1711,6 @@ body:has(.successPage) .nova-header {
   font-size: 11px;
   line-height: 1.6;
 }
-
 
 /* =========================================================
    BOTTOM
@@ -1793,7 +1786,6 @@ body:has(.successPage) .nova-header {
   color: #ffffff;
 }
 
-
 /* =========================================================
    FOOTER
    ========================================================= */
@@ -1848,7 +1840,6 @@ body:has(.successPage) .nova-header {
 .footerLinks a:hover {
   color: #ffffff;
 }
-
 
 /* =========================================================
    EMPTY / ERROR
@@ -1933,7 +1924,6 @@ body:has(.successPage) .nova-header {
   line-height: 1.7;
 }
 
-
 /* =========================================================
    TABLET
    ========================================================= */
@@ -1984,7 +1974,6 @@ body:has(.successPage) .nova-header {
     padding: 50px;
   }
 }
-
 
 /* =========================================================
    MOBILE
@@ -2300,7 +2289,6 @@ body:has(.successPage) .nova-header {
   }
 }
 
-
 /* =========================================================
    SMALL MOBILE
    ========================================================= */
@@ -2430,7 +2418,6 @@ body:has(.successPage) .nova-header {
     font-size: 31px;
   }
 }
-
 
 /* =========================================================
    REDUCE MOTION

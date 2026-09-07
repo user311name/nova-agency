@@ -22,54 +22,41 @@ type DomainOrderStatus =
 
 type SavedOrder = {
   status: DomainOrderStatus;
+  user_id?: string | null;
 };
 
 function getStripe() {
-  const secretKey =
-    process.env.STRIPE_SECRET_KEY;
+  const secretKey = process.env.STRIPE_SECRET_KEY;
 
   if (!secretKey) {
-    throw new Error(
-      "STRIPE_SECRET_KEY manquante.",
-    );
+    throw new Error("STRIPE_SECRET_KEY manquante.");
   }
 
   return new Stripe(secretKey);
 }
 
-export async function POST(
-  request: NextRequest,
-) {
-  const body =
-    await request.text();
+export async function POST(request: NextRequest) {
+  const body = await request.text();
 
-  const signature =
-    request.headers.get(
-      "stripe-signature",
-    );
+  const signature = request.headers.get("stripe-signature");
 
   if (!signature) {
     return NextResponse.json(
       {
-        error:
-          "Signature Stripe manquante.",
+        error: "Signature Stripe manquante.",
       },
       { status: 400 },
     );
   }
 
-  const webhookSecret =
-    process.env.STRIPE_WEBHOOK_SECRET;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
   if (!webhookSecret) {
-    console.error(
-      "STRIPE_WEBHOOK_SECRET manquante.",
-    );
+    console.error("STRIPE_WEBHOOK_SECRET manquante.");
 
     return NextResponse.json(
       {
-        error:
-          "Configuration Stripe manquante.",
+        error: "Configuration Stripe manquante.",
       },
       { status: 500 },
     );
@@ -78,12 +65,11 @@ export async function POST(
   let event: Stripe.Event;
 
   try {
-    event =
-      getStripe().webhooks.constructEvent(
-        body,
-        signature,
-        webhookSecret,
-      );
+    event = getStripe().webhooks.constructEvent(
+      body,
+      signature,
+      webhookSecret,
+    );
   } catch (error) {
     console.error(
       "STRIPE WEBHOOK SIGNATURE ERROR:",
@@ -92,8 +78,7 @@ export async function POST(
 
     return NextResponse.json(
       {
-        error:
-          "Signature Stripe invalide.",
+        error: "Signature Stripe invalide.",
       },
       { status: 400 },
     );
@@ -105,10 +90,7 @@ export async function POST(
    * ==========================================================
    */
 
-  if (
-    event.type !==
-    "checkout.session.completed"
-  ) {
+  if (event.type !== "checkout.session.completed") {
     return NextResponse.json({
       received: true,
     });
@@ -123,8 +105,7 @@ export async function POST(
       received: true,
     });
   } catch (error) {
-    const message =
-      getErrorMessage(error);
+    const message = getErrorMessage(error);
 
     console.error(
       "DOMAIN PROVISIONING ERROR:",
@@ -158,10 +139,7 @@ export async function POST(
 async function processDomainOrder(
   session: Stripe.Checkout.Session,
 ) {
-  if (
-    session.payment_status !==
-    "paid"
-  ) {
+  if (session.payment_status !== "paid") {
     throw new Error(
       "Le paiement Stripe n'est pas confirmé.",
     );
@@ -180,27 +158,22 @@ async function processDomainOrder(
    * ==========================================================
    */
 
-  const domain =
-    session.metadata.domain
-      ?.trim()
-      .toLowerCase();
+  const domain = session.metadata.domain
+    ?.trim()
+    .toLowerCase();
 
-  const userId =
-    session.metadata.user_id
-      ?.trim();
+  const metadataUserId =
+    session.metadata.user_id?.trim();
 
-  const email =
-    session.customer_details?.email
-      ?.trim()
-      .toLowerCase();
+  const email = session.customer_details?.email
+    ?.trim()
+    .toLowerCase();
 
-  const name =
-    session.customer_details?.name
-      ?.trim();
+  const name = session.customer_details?.name
+    ?.trim();
 
-  const phone =
-    session.customer_details?.phone
-      ?.trim();
+  const phone = session.customer_details?.phone
+    ?.trim();
 
   const address =
     session.customer_details?.address;
@@ -211,24 +184,43 @@ async function processDomainOrder(
     );
   }
 
-  /*
-   * Les anciennes sessions Stripe créées
-   * avant cette version n'ont pas forcément
-   * user_id.
-   *
-   * On bloque les nouvelles commandes
-   * sans propriétaire pour éviter de créer
-   * un domaine sans compte associé.
-   */
-
-  if (!userId) {
+  if (!email) {
     throw new Error(
-      "Compte NOVA absent des metadata Stripe. Veuillez effectuer une nouvelle commande depuis votre compte.",
+      "E-mail client absent de la session Stripe.",
     );
   }
 
+  /*
+   * ==========================================================
+   * PROPRIETAIRE NOVA
+   * ==========================================================
+   *
+   * Nouvelle commande :
+   * Stripe contient directement user_id.
+   *
+   * Ancienne commande :
+   * Stripe ne contient pas user_id.
+   * On retrouve alors le compte Supabase
+   * correspondant exactement à l'e-mail Stripe.
+   */
+
+  const userId = metadataUserId
+    ? metadataUserId
+    : await findUserIdByEmail(email);
+
+  if (!userId) {
+    throw new Error(
+      `Aucun compte NOVA correspondant à l'e-mail ${email}.`,
+    );
+  }
+
+  /*
+   * ==========================================================
+   * INFORMATIONS CLIENT
+   * ==========================================================
+   */
+
   if (
-    !email ||
     !name ||
     !phone ||
     !address
@@ -262,9 +254,9 @@ async function processDomainOrder(
     );
 
     /*
-     * On s'assure quand même que user_id
-     * est renseigné sur une ancienne ligne
-     * compatible.
+     * Si l'ancienne commande existe déjà mais
+     * n'avait pas encore de user_id, on la rattache
+     * maintenant au compte retrouvé.
      */
 
     await attachUserToOrder(
@@ -285,17 +277,8 @@ async function processDomainOrder(
     domain,
     email,
     userId,
-    amount:
-      typeof session.amount_total ===
-      "number"
-        ? session.amount_total / 100
-        : null,
-    currency:
-      session.currency
-        ?.toUpperCase() || "EUR",
     status: "processing",
-    stripeSessionId:
-      session.id,
+    stripeSessionId: session.id,
   });
 
   try {
@@ -303,11 +286,6 @@ async function processDomainOrder(
      * ========================================================
      * VERIFICATION PORTFOLIO OPENPROVIDER
      * ========================================================
-     *
-     * Si Stripe relance le webhook après
-     * une inscription déjà effectuée,
-     * on synchronise le domaine au lieu
-     * de le réinscrire.
      */
 
     const ownedDomain =
@@ -318,18 +296,8 @@ async function processDomainOrder(
         domain,
         email,
         userId,
-        amount:
-          typeof session.amount_total ===
-          "number"
-            ? session.amount_total / 100
-            : null,
-        currency:
-          session.currency
-            ?.toUpperCase() || "EUR",
-        registration:
-          ownedDomain,
-        stripeSessionId:
-          session.id,
+        registration: ownedDomain,
+        stripeSessionId: session.id,
       });
 
       return;
@@ -404,17 +372,8 @@ async function processDomainOrder(
       domain,
       email,
       userId,
-      amount:
-        typeof session.amount_total ===
-        "number"
-          ? session.amount_total / 100
-          : null,
-      currency:
-        session.currency
-          ?.toUpperCase() || "EUR",
       registration,
-      stripeSessionId:
-        session.id,
+      stripeSessionId: session.id,
     });
   } catch (error) {
     /*
@@ -427,21 +386,71 @@ async function processDomainOrder(
       domain,
       email,
       userId,
-      amount:
-        typeof session.amount_total ===
-        "number"
-          ? session.amount_total / 100
-          : null,
-      currency:
-        session.currency
-          ?.toUpperCase() || "EUR",
       status: "failed",
-      stripeSessionId:
-        session.id,
+      stripeSessionId: session.id,
     });
 
     throw error;
   }
+}
+
+/*
+ * ============================================================
+ * RECHERCHE COMPTE SUPABASE PAR E-MAIL
+ * ============================================================
+ */
+
+async function findUserIdByEmail(
+  email: string,
+): Promise<string | null> {
+  const normalizedEmail =
+    email.trim().toLowerCase();
+
+  let page = 1;
+
+  const perPage = 100;
+
+  while (true) {
+    const {
+      data,
+      error,
+    } =
+      await supabaseAdmin.auth.admin.listUsers({
+        page,
+        perPage,
+      });
+
+    if (error) {
+      throw new Error(
+        `Erreur Supabase lors de la recherche du compte : ${error.message}`,
+      );
+    }
+
+    const users = data?.users || [];
+
+    const matchingUser =
+      users.find(
+        (user) =>
+          user.email
+            ?.trim()
+            .toLowerCase() ===
+          normalizedEmail,
+      );
+
+    if (matchingUser) {
+      return matchingUser.id;
+    }
+
+    if (
+      users.length < perPage
+    ) {
+      break;
+    }
+
+    page += 1;
+  }
+
+  return null;
 }
 
 /*
@@ -461,15 +470,13 @@ function makeContact({
   name: string;
   phone: string;
 }) {
-  const parts =
-    name.split(/\s+/);
+  const parts = name.split(/\s+/);
 
   const firstName =
     parts.shift() || "Client";
 
   const lastName =
-    parts.join(" ") ||
-    firstName;
+    parts.join(" ") || firstName;
 
   const line1 =
     address.line1?.trim();
@@ -536,7 +543,9 @@ async function getOrder(
     error,
   } = await supabaseAdmin
     .from("domains")
-    .select("status")
+    .select(
+      "status, user_id",
+    )
     .eq(
       "stripe_session_id",
       stripeSessionId,
@@ -595,16 +604,12 @@ async function saveRegisteredOrder({
   domain,
   email,
   userId,
-  amount,
-  currency,
   registration,
   stripeSessionId,
 }: {
   domain: string;
   email: string;
   userId: string;
-  amount: number | null;
-  currency: string;
   registration: Record<
     string,
     unknown
@@ -615,8 +620,6 @@ async function saveRegisteredOrder({
     domain,
     email,
     userId,
-    amount,
-    currency,
     expiresAt:
       extractExpirationDate(
         registration,
@@ -645,8 +648,6 @@ async function saveOrder({
   domain,
   email,
   userId,
-  amount,
-  currency,
   expiresAt,
   openproviderId,
   status,
@@ -655,8 +656,6 @@ async function saveOrder({
   domain: string;
   email: string;
   userId: string;
-  amount?: number | null;
-  currency?: string;
   expiresAt?: string | null;
   openproviderId?: string | null;
   status: DomainOrderStatus;
@@ -664,8 +663,11 @@ async function saveOrder({
 }) {
   const values = {
     domain,
+
     email,
-    user_id: userId,
+
+    user_id:
+      userId,
 
     expires_at:
       expiresAt || null,
@@ -677,12 +679,6 @@ async function saveOrder({
 
     stripe_session_id:
       stripeSessionId,
-
-    amount:
-      amount ?? null,
-
-    currency:
-      currency || "EUR",
   };
 
   const existingOrder =
@@ -690,17 +686,18 @@ async function saveOrder({
       stripeSessionId,
     );
 
-  const query = existingOrder
-    ? supabaseAdmin
-        .from("domains")
-        .update(values)
-        .eq(
-          "stripe_session_id",
-          stripeSessionId,
-        )
-    : supabaseAdmin
-        .from("domains")
-        .insert(values);
+  const query =
+    existingOrder
+      ? supabaseAdmin
+          .from("domains")
+          .update(values)
+          .eq(
+            "stripe_session_id",
+            stripeSessionId,
+          )
+      : supabaseAdmin
+          .from("domains")
+          .insert(values);
 
   const {
     error,

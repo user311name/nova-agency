@@ -15,7 +15,13 @@ export default function ParametresPage() {
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (user?.email) {
+      if (!user) {
+        window.location.href =
+          "/connexion?next=/espace-client/parametres";
+        return;
+      }
+
+      if (user.email) {
         setEmail(user.email);
       }
 
@@ -26,7 +32,16 @@ export default function ParametresPage() {
   }, []);
 
   async function handleLogout() {
-    await supabase.auth.signOut();
+    setMessage("");
+
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      setMessage(
+        "Impossible de vous déconnecter. Réessayez.",
+      );
+      return;
+    }
 
     window.location.href = "/connexion";
   }
@@ -40,7 +55,7 @@ export default function ParametresPage() {
           href="/espace-client"
           className="back-link"
         >
-          ← Retour à l'espace client
+          ← Retour à l&apos;espace client
         </Link>
 
         <div className="settings-header">
@@ -371,7 +386,7 @@ export default function ParametresPage() {
 
         .message {
           margin-bottom: 15px;
-          color: #8ff0be;
+          color: #ff9b9b;
           font-size: 13px;
         }
 

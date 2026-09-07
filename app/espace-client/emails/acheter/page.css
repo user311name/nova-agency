@@ -1,487 +1,755 @@
-.email-checkout-page {
+.email-purchase-page {
+  position: relative;
   min-height: 100vh;
+  overflow: hidden;
   background:
-    radial-gradient(
-      circle at 75% 20%,
-      rgba(132, 92, 255, 0.12),
-      transparent 28%
-    ),
+    radial-gradient(circle at 75% 20%, rgba(126, 87, 255, 0.16), transparent 34%),
+    radial-gradient(circle at 15% 80%, rgba(91, 57, 180, 0.12), transparent 32%),
     #050507;
-  color: #fff;
+  color: #ffffff;
 }
 
-.email-checkout-header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.email-checkout-header-inner {
-  width: min(1280px, calc(100% - 40px));
-  min-height: 78px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.email-checkout-logo {
-  color: #fff;
-  text-decoration: none;
-  font-size: 25px;
-  font-weight: 800;
-  letter-spacing: -0.06em;
-}
-
-.email-checkout-logo span {
-  color: #a487ff;
-}
-
-.email-checkout-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  color: rgba(255, 255, 255, 0.55);
-  text-decoration: none;
-  font-size: 12px;
-}
-
-.email-checkout-back:hover {
-  color: #fff;
-}
-
-.email-checkout-main {
-  padding: 90px 0 120px;
-}
-
-.email-checkout-container {
-  width: min(1120px, calc(100% - 40px));
-  margin: 0 auto;
-}
-
-.email-checkout-intro {
-  max-width: 760px;
-  margin-bottom: 60px;
-}
-
-.email-checkout-eyebrow {
-  color: #a487ff;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-}
-
-.email-checkout-intro h1 {
-  margin: 22px 0;
-  font-size: clamp(48px, 6vw, 78px);
-  line-height: 0.95;
-  letter-spacing: -0.065em;
-}
-
-.email-checkout-intro h1 span {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.email-checkout-intro p {
-  max-width: 600px;
-  margin: 0;
-  color: rgba(255, 255, 255, 0.52);
-  font-size: 16px;
-  line-height: 1.7;
-}
-
-.email-checkout-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.7fr);
-  gap: 22px;
-  align-items: start;
-}
-
-.email-checkout-form,
-.email-summary {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 26px;
-  background: rgba(255, 255, 255, 0.035);
-}
-
-.email-checkout-form {
-  padding: 38px;
-}
-
-.email-checkout-step {
-  display: flex;
-  gap: 17px;
-  align-items: flex-start;
-  margin-bottom: 30px;
-}
-
-.email-checkout-step > span {
-  color: #a487ff;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-}
-
-.email-checkout-step small {
-  display: block;
-  color: rgba(255, 255, 255, 0.32);
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-}
-
-.email-checkout-step h2 {
-  margin: 7px 0 0;
-  font-size: 22px;
-  letter-spacing: -0.035em;
-}
-
-.email-field {
-  display: block;
-  margin: 0 0 46px 31px;
-}
-
-.email-field > span {
-  display: block;
-  margin-bottom: 10px;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.email-field > small {
-  display: block;
-  margin-top: 9px;
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 10px;
-}
-
-.email-input-wrapper input,
-.email-address-input input {
-  width: 100%;
-  height: 55px;
-  box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
-  outline: none;
-  background: rgba(0, 0, 0, 0.2);
-  color: #fff;
-  padding: 0 17px;
-  font: inherit;
-  font-size: 14px;
-  transition:
-    border-color 180ms ease,
-    box-shadow 180ms ease;
-}
-
-.email-input-wrapper input:focus,
-.email-address-input:focus-within {
-  border-color: rgba(164, 135, 255, 0.7);
-  box-shadow: 0 0 0 4px rgba(164, 135, 255, 0.08);
-}
-
-.email-address-input {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
-  background: rgba(0, 0, 0, 0.2);
+.email-purchase-background {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   overflow: hidden;
 }
 
-.email-address-input input {
-  border: 0;
-  background: transparent;
-  box-shadow: none;
-}
-
-.email-address-input strong {
-  padding-right: 17px;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.email-address-input strong span {
-  color: #a487ff;
-}
-
-.email-secure-payment {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  margin: 0 0 18px 31px;
-  padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 15px;
-  background: rgba(255, 255, 255, 0.025);
-}
-
-.email-secure-icon {
-  width: 34px;
-  height: 34px;
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
+.email-purchase-orb {
+  position: absolute;
   border-radius: 50%;
-  background: rgba(164, 135, 255, 0.13);
-  color: #bba8ff;
+  filter: blur(90px);
+  opacity: 0.28;
 }
 
-.email-secure-payment strong {
+.email-purchase-orb-one {
+  width: 420px;
+  height: 420px;
+  top: -180px;
+  right: -80px;
+  background: rgba(126, 87, 255, 0.34);
+}
+
+.email-purchase-orb-two {
+  width: 360px;
+  height: 360px;
+  bottom: -160px;
+  left: -120px;
+  background: rgba(94, 54, 190, 0.25);
+}
+
+.email-purchase-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 70px 70px;
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    transparent 80%
+  );
+}
+
+.email-purchase-container {
+  position: relative;
+  z-index: 2;
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 48px 0 90px;
+}
+
+.email-purchase-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.62);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.email-purchase-back span {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.email-purchase-back:hover {
+  color: #ffffff;
+  transform: translateX(-3px);
+}
+
+.email-purchase-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+  gap: 70px;
+  align-items: start;
+  margin-top: 65px;
+}
+
+.email-purchase-content {
+  max-width: 680px;
+}
+
+.email-purchase-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 22px;
+  color: #a98cff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.email-purchase-eyebrow::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: #9877ff;
+  box-shadow: 0 0 12px rgba(152, 119, 255, 0.8);
+}
+
+.email-purchase-content h1 {
+  margin: 0;
+  font-size: clamp(48px, 6vw, 82px);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+  font-weight: 500;
+}
+
+.email-purchase-content h1 span {
+  color: #9d7cff;
+}
+
+.email-purchase-intro {
+  max-width: 600px;
+  margin: 30px 0 42px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.email-purchase-form {
+  width: 100%;
+  max-width: 620px;
+}
+
+.email-purchase-field {
+  margin-bottom: 24px;
+}
+
+.email-purchase-field label {
   display: block;
-  font-size: 12px;
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
-.email-secure-payment span {
+.email-purchase-field input {
+  width: 100%;
+  height: 58px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.045);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 16px;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+  box-sizing: border-box;
+}
+
+.email-purchase-field input::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.email-purchase-field input:focus {
+  border-color: rgba(155, 124, 255, 0.75);
+  background: rgba(255, 255, 255, 0.065);
+  box-shadow:
+    0 0 0 3px rgba(155, 124, 255, 0.08),
+    0 0 30px rgba(112, 75, 220, 0.12);
+}
+
+.email-purchase-field input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.email-purchase-field > span {
   display: block;
-  margin-top: 4px;
-  color: rgba(255, 255, 255, 0.35);
-  font-size: 10px;
-}
-
-.email-checkout-error {
-  margin: 15px 0 18px 31px;
-  padding: 13px 15px;
-  border: 1px solid rgba(255, 90, 90, 0.3);
-  border-radius: 12px;
-  background: rgba(255, 60, 60, 0.07);
-  color: #ffb1b1;
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.36);
   font-size: 12px;
   line-height: 1.5;
 }
 
-.email-checkout-button {
-  width: calc(100% - 31px);
-  min-height: 56px;
-  margin-left: 31px;
+.email-purchase-email-input {
+  display: flex;
+  align-items: center;
+  height: 58px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.045);
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.email-purchase-email-input:focus-within {
+  border-color: rgba(155, 124, 255, 0.75);
+  background: rgba(255, 255, 255, 0.065);
+  box-shadow:
+    0 0 0 3px rgba(155, 124, 255, 0.08),
+    0 0 30px rgba(112, 75, 220, 0.12);
+}
+
+.email-purchase-email-input input {
+  height: 100%;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.email-purchase-email-input input:focus {
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.email-purchase-email-input > span {
+  flex-shrink: 0;
+  padding-right: 18px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 15px;
+}
+
+.email-purchase-error {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 8px 0 20px;
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 100, 120, 0.25);
+  border-radius: 13px;
+  background: rgba(255, 70, 100, 0.06);
+}
+
+.email-purchase-error strong {
+  color: #ff9ba9;
+  font-size: 13px;
+}
+
+.email-purchase-error span {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.email-purchase-submit {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  border: 0;
-  border-radius: 999px;
-  background: #fff;
-  color: #050507;
+  gap: 12px;
+  width: 100%;
+  min-height: 58px;
+  margin-top: 10px;
+  padding: 0 24px;
+  border: 1px solid rgba(176, 151, 255, 0.7);
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    #a98cff,
+    #7654dc
+  );
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
-  font: inherit;
-  font-size: 13px;
-  font-weight: 800;
+  box-shadow:
+    0 16px 45px rgba(104, 71, 210, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
   transition:
-    transform 180ms ease,
-    background 180ms ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
 }
 
-.email-checkout-button:hover:not(:disabled) {
+.email-purchase-submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  background: #ececf0;
+  box-shadow:
+    0 22px 55px rgba(104, 71, 210, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-.email-checkout-button:disabled {
+.email-purchase-submit:disabled {
+  opacity: 0.65;
   cursor: wait;
-  opacity: 0.55;
 }
 
-.email-checkout-button svg {
-  width: 17px;
-  height: 17px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* SUMMARY */
-
-.email-summary {
-  position: sticky;
-  top: 25px;
-  padding: 30px;
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(130, 91, 255, 0.15),
-      transparent 45%
-    ),
-    rgba(255, 255, 255, 0.04);
-}
-
-.email-summary-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.email-summary-top > span {
-  color: rgba(255, 255, 255, 0.35);
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-}
-
-.email-summary-badge {
-  padding: 6px 9px;
-  border: 1px solid rgba(164, 135, 255, 0.25);
-  border-radius: 999px;
-  color: #bba8ff;
-  font-size: 8px;
-  font-weight: 900;
-}
-
-.email-summary h2 {
-  margin: 35px 0 7px;
-  font-size: 32px;
-  letter-spacing: -0.05em;
-}
-
-.email-summary > p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 12px;
-}
-
-.email-summary-price {
-  display: flex;
-  align-items: baseline;
-  gap: 7px;
-  margin: 35px 0 25px;
-}
-
-.email-summary-price strong {
-  font-size: 42px;
-  letter-spacing: -0.06em;
-}
-
-.email-summary-price span {
-  color: rgba(255, 255, 255, 0.35);
-  font-size: 12px;
-}
-
-.email-summary-divider {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.email-summary-list {
-  display: grid;
-  gap: 13px;
-  margin: 25px 0;
-}
-
-.email-summary-list div {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 12px;
-}
-
-.email-summary-list svg {
+.email-purchase-spinner {
   width: 16px;
   height: 16px;
-  flex: 0 0 auto;
-  fill: none;
-  stroke: #a487ff;
-  stroke-width: 1.8;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: emailPurchaseSpin 0.7s linear infinite;
 }
 
-.email-summary-domain {
-  padding: 17px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  background: rgba(0, 0, 0, 0.18);
+@keyframes emailPurchaseSpin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.email-summary-domain small {
-  display: block;
-  color: rgba(255, 255, 255, 0.3);
+.email-purchase-secure {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 16px 0 0;
+}
+
+.email-purchase-secure-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border: 1px solid rgba(155, 124, 255, 0.3);
+  border-radius: 50%;
+  color: #a98cff;
+  font-size: 11px;
+}
+
+.email-purchase-secure div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.email-purchase-secure strong {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 12px;
+}
+
+.email-purchase-secure div span {
+  color: rgba(255, 255, 255, 0.38);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.email-purchase-summary {
+  position: sticky;
+  top: 30px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.075),
+      rgba(255, 255, 255, 0.025)
+    );
+  box-shadow:
+    0 30px 100px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(24px);
+}
+
+.email-purchase-summary-label {
+  margin-bottom: 18px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.email-purchase-plan {
+  position: relative;
+  padding: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(155, 124, 255, 0.18);
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(137, 103, 255, 0.14),
+      transparent 45%
+    ),
+    rgba(255, 255, 255, 0.035);
+}
+
+.email-purchase-plan-badge {
+  display: inline-flex;
+  margin-bottom: 16px;
+  padding: 6px 9px;
+  border: 1px solid rgba(167, 139, 255, 0.25);
+  border-radius: 999px;
+  background: rgba(142, 108, 255, 0.08);
+  color: #b49cff;
   font-size: 8px;
   font-weight: 800;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.12em;
 }
 
-.email-summary-domain strong {
-  display: block;
+.email-purchase-plan-name {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.email-purchase-plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
   margin-top: 8px;
-  color: rgba(255, 255, 255, 0.75);
+}
+
+.email-purchase-plan-price strong {
+  font-size: 42px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.email-purchase-plan-price span {
+  color: rgba(255, 255, 255, 0.38);
   font-size: 12px;
-  word-break: break-word;
 }
 
-.email-summary-domain strong span {
-  color: #a487ff;
-}
-
-.email-summary-note {
-  margin-top: 18px;
-  color: rgba(255, 255, 255, 0.28);
-  font-size: 10px;
+.email-purchase-plan > p {
+  margin: 15px 0 0;
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 12px;
   line-height: 1.6;
 }
 
-/* MOBILE */
+.email-purchase-plan-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 22px;
+}
 
-@media (max-width: 850px) {
-  .email-checkout-layout {
-    grid-template-columns: 1fr;
+.email-purchase-plan-stats div {
+  padding: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.email-purchase-plan-stats span {
+  display: block;
+  margin-bottom: 5px;
+  color: rgba(255, 255, 255, 0.32);
+  font-size: 10px;
+}
+
+.email-purchase-plan-stats strong {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+}
+
+.email-purchase-preview {
+  margin-top: 18px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.email-purchase-preview-label {
+  margin-bottom: 14px;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.email-purchase-preview-address {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.email-purchase-preview-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border: 1px solid rgba(158, 126, 255, 0.25);
+  border-radius: 12px;
+  background: rgba(141, 104, 255, 0.08);
+  color: #ad94ff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.email-purchase-preview-address > div:last-child {
+  min-width: 0;
+}
+
+.email-purchase-preview-address span {
+  display: block;
+  margin-bottom: 4px;
+  color: rgba(255, 255, 255, 0.32);
+  font-size: 10px;
+}
+
+.email-purchase-preview-address strong {
+  display: block;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.email-purchase-summary-features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.email-purchase-summary-features div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.email-purchase-summary-features div span {
+  color: #9d7cff;
+  font-size: 12px;
+}
+
+.email-purchase-summary-features p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 11px;
+}
+
+.email-purchase-change {
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 11px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.email-purchase-change:hover {
+  color: #ffffff;
+}
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+  .email-purchase-container {
+    width: min(100% - 36px, 700px);
+    padding-top: 34px;
   }
 
-  .email-summary {
-    position: static;
-    order: -1;
+  .email-purchase-layout {
+    grid-template-columns: 1fr;
+    gap: 45px;
+    margin-top: 50px;
+  }
+
+  .email-purchase-content {
+    max-width: none;
+  }
+
+  .email-purchase-form {
+    max-width: none;
+  }
+
+  .email-purchase-summary {
+    position: relative;
+    top: auto;
   }
 }
 
+/* ============================================================
+   MOBILE
+============================================================ */
+
 @media (max-width: 600px) {
-  .email-checkout-header-inner,
-  .email-checkout-container {
-    width: calc(100% - 30px);
+  .email-purchase-page {
+    min-height: 100svh;
   }
 
-  .email-checkout-main {
-    padding: 55px 0 80px;
+  .email-purchase-container {
+    width: calc(100% - 28px);
+    padding: 24px 0 55px;
   }
 
-  .email-checkout-intro {
-    margin-bottom: 35px;
+  .email-purchase-back {
+    font-size: 12px;
   }
 
-  .email-checkout-intro h1 {
-    font-size: 45px;
+  .email-purchase-layout {
+    gap: 38px;
+    margin-top: 42px;
   }
 
-  .email-checkout-form {
-    padding: 24px 18px;
+  .email-purchase-eyebrow {
+    margin-bottom: 17px;
+    font-size: 9px;
+    letter-spacing: 0.13em;
   }
 
-  .email-checkout-step {
-    gap: 12px;
+  .email-purchase-eyebrow::before {
+    width: 18px;
   }
 
-  .email-field,
-  .email-secure-payment {
-    margin-left: 0;
+  .email-purchase-content h1 {
+    font-size: clamp(43px, 13vw, 60px);
+    line-height: 0.98;
   }
 
-  .email-checkout-button {
-    width: 100%;
-    margin-left: 0;
+  .email-purchase-intro {
+    margin: 22px 0 30px;
+    font-size: 14px;
+    line-height: 1.65;
   }
 
-  .email-address-input {
-    grid-template-columns: 1fr;
+  .email-purchase-field {
+    margin-bottom: 20px;
   }
 
-  .email-address-input strong {
-    padding: 0 17px 14px;
+  .email-purchase-field label {
+    font-size: 12px;
+  }
+
+  .email-purchase-field input {
+    height: 54px;
+    padding: 0 15px;
+    border-radius: 12px;
+    font-size: 15px;
+  }
+
+  .email-purchase-email-input {
+    height: 54px;
+    border-radius: 12px;
+  }
+
+  .email-purchase-email-input input {
+    padding-left: 15px;
+  }
+
+  .email-purchase-email-input > span {
+    padding-right: 14px;
+    font-size: 12px;
+  }
+
+  .email-purchase-field > span {
     font-size: 11px;
   }
 
-  .email-summary {
-    padding: 24px;
+  .email-purchase-submit {
+    min-height: 55px;
+    padding: 0 16px;
+    border-radius: 12px;
+    font-size: 12px;
   }
 
-  .email-summary-price strong {
+  .email-purchase-secure {
+    margin-top: 16px;
+  }
+
+  .email-purchase-summary {
+    padding: 17px;
+    border-radius: 19px;
+  }
+
+  .email-purchase-plan {
+    padding: 19px;
+    border-radius: 15px;
+  }
+
+  .email-purchase-plan-price strong {
     font-size: 36px;
+  }
+
+  .email-purchase-plan-stats {
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .email-purchase-plan-stats div {
+    padding: 11px;
+  }
+
+  .email-purchase-preview {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .email-purchase-preview-address strong {
+    font-size: 11px;
+  }
+
+  .email-purchase-summary-features {
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .email-purchase-summary-features p {
+    font-size: 10px;
+  }
+}
+
+/* ============================================================
+   VERY SMALL MOBILE
+============================================================ */
+
+@media (max-width: 380px) {
+  .email-purchase-container {
+    width: calc(100% - 22px);
+  }
+
+  .email-purchase-content h1 {
+    font-size: 40px;
+  }
+
+  .email-purchase-plan-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .email-purchase-email-input > span {
+    max-width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

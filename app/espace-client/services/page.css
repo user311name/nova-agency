@@ -58,128 +58,16 @@
   );
 }
 
-.client-services-header {
-  position: relative;
-  z-index: 20;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  background: rgba(5, 5, 10, 0.82);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-}
-
-.client-services-header-inner {
-  width: min(1320px, calc(100% - 68px));
-  min-height: 82px;
-  margin: 0 auto;
-
-  display: flex;
-  align-items: center;
-  gap: 35px;
-}
-
-.client-services-logo {
-  color: #fff;
-  text-decoration: none;
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: -0.08em;
-}
-
-.client-services-logo span,
-.client-services-footer-logo span {
-  color: #7d5cff;
-}
-
-.client-services-nav {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  margin-left: auto;
-}
-
-.client-services-nav a {
-  position: relative;
-  padding: 31px 0;
-  color: rgba(255, 255, 255, 0.48);
-  font-size: 12px;
-  text-decoration: none;
-  transition:
-    color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.client-services-nav a:hover,
-.client-services-nav a.active {
-  color: #fff;
-}
-
-.client-services-nav a.active::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 19px;
-  width: 20px;
-  height: 1px;
-  transform: translateX(-50%);
-  background: #8d62ff;
-  box-shadow: 0 0 10px rgba(141, 98, 255, 0.8);
-}
-
-.client-services-actions {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  margin-left: 10px;
-}
-
-.client-services-support {
-  color: rgba(255, 255, 255, 0.42);
-  font-size: 11px;
-  text-decoration: none;
-}
-
-.client-services-support:hover {
-  color: #fff;
-}
-
-.client-services-account {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-
-  min-height: 38px;
-  padding: 0 14px;
-
-  border: 1px solid rgba(141, 98, 255, 0.25);
-  border-radius: 10px;
-
-  background: rgba(126, 71, 230, 0.08);
-
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 11px;
-  font-weight: 600;
-  text-decoration: none;
-
-  transition: 0.2s ease;
-}
-
-.client-services-account:hover {
-  border-color: rgba(141, 98, 255, 0.55);
-  background: rgba(126, 71, 230, 0.15);
-  color: #fff;
-}
-
-.client-services-account .client-services-svg {
-  width: 14px;
-  height: 14px;
-}
-
 .client-services-shell {
   position: relative;
   z-index: 2;
   width: min(1320px, calc(100% - 68px));
   margin: 0 auto;
 }
+
+/* =========================================================
+   HERO
+========================================================= */
 
 .client-services-hero {
   min-height: 720px;
@@ -197,13 +85,10 @@
   display: inline-flex;
   align-items: center;
   gap: 9px;
-
   margin-bottom: 35px;
   padding: 8px 13px;
-
   border: 1px solid rgba(140, 96, 255, 0.4);
   border-radius: 999px;
-
   color: #a982ff;
   font-size: 9px;
   font-weight: 700;
@@ -222,16 +107,10 @@
   display: flex;
   align-items: center;
   gap: 12px;
-
   margin-bottom: 20px;
-
   color: rgba(255, 255, 255, 0.36);
   font-size: 10px;
   letter-spacing: 0.18em;
-}
-
-.client-services-eyebrow:first-letter {
-  color: #8b60ff;
 }
 
 .client-services-eyebrow i {
@@ -243,7 +122,6 @@
 .client-services-hero h1 {
   margin: 0;
   max-width: 750px;
-
   font-size: clamp(58px, 6vw, 94px);
   line-height: 0.94;
   letter-spacing: -0.065em;
@@ -257,7 +135,6 @@
 .client-services-hero-copy > p {
   max-width: 570px;
   margin: 30px 0 0;
-
   color: rgba(255, 255, 255, 0.48);
   font-size: 15px;
   line-height: 1.8;
@@ -276,16 +153,12 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-
   min-height: 48px;
   padding: 0 19px;
-
   border-radius: 11px;
-
   text-decoration: none;
   font-size: 11px;
   font-weight: 650;
-
   transition: 0.25s ease;
 }
 
@@ -326,10 +199,13 @@
   stroke-linejoin: round;
 }
 
+/* =========================================================
+   HERO VISUAL
+========================================================= */
+
 .client-services-visual {
   position: relative;
   min-height: 520px;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -371,24 +247,19 @@
 .client-services-server-card {
   position: relative;
   z-index: 3;
-
   width: min(390px, 85%);
   padding: 28px;
-
   border: 1px solid rgba(151, 111, 255, 0.24);
   border-radius: 22px;
-
   background:
     linear-gradient(
       145deg,
       rgba(35, 27, 58, 0.9),
       rgba(11, 10, 18, 0.94)
     );
-
   box-shadow:
     0 35px 80px rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
-
   animation: clientServerFloat 5s ease-in-out infinite;
 }
 
@@ -407,10 +278,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-
   color: rgba(255, 255, 255, 0.3);
   font-size: 9px;
   letter-spacing: 0.15em;
@@ -436,14 +305,11 @@
   width: 56px;
   height: 56px;
   margin: 27px 0 22px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border: 1px solid rgba(145, 96, 255, 0.28);
   border-radius: 15px;
-
   background: rgba(133, 82, 255, 0.08);
   color: #9c72ff;
 }
@@ -461,7 +327,6 @@
 
 .client-services-server-card > p {
   margin: 9px 0 28px;
-
   color: rgba(255, 255, 255, 0.43);
   font-size: 12px;
   line-height: 1.65;
@@ -470,11 +335,8 @@
 .server-card-line {
   display: flex;
   justify-content: space-between;
-
   padding: 13px 0;
-
   border-top: 1px solid rgba(255, 255, 255, 0.06);
-
   font-size: 10px;
 }
 
@@ -486,6 +348,10 @@
   color: rgba(255, 255, 255, 0.78);
   font-weight: 600;
 }
+
+/* =========================================================
+   INTRO
+========================================================= */
 
 .client-services-intro {
   padding: 120px 0 90px;
@@ -508,7 +374,6 @@
 
 .client-services-intro h2 {
   margin: 0;
-
   font-size: clamp(42px, 5vw, 72px);
   line-height: 0.98;
   letter-spacing: -0.055em;
@@ -520,13 +385,15 @@
 
 .client-services-intro-heading p {
   align-self: end;
-
   margin: 0;
-
   color: rgba(255, 255, 255, 0.45);
   font-size: 14px;
   line-height: 1.85;
 }
+
+/* =========================================================
+   SERVICES
+========================================================= */
 
 .client-services-list-section {
   padding: 60px 0 130px;
@@ -536,7 +403,6 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-
   margin-bottom: 50px;
 }
 
@@ -548,7 +414,6 @@
 
 .client-services-section-heading h2 {
   margin: 16px 0 0;
-
   font-size: clamp(40px, 5vw, 66px);
   line-height: 0.98;
   letter-spacing: -0.055em;
@@ -575,20 +440,16 @@
   position: relative;
   min-height: 390px;
   padding: 28px;
-
   display: flex;
   flex-direction: column;
-
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 20px;
-
   background:
     linear-gradient(
       145deg,
       rgba(21, 19, 32, 0.9),
       rgba(9, 9, 14, 0.94)
     );
-
   overflow: hidden;
   transition:
     transform 0.3s ease,
@@ -602,7 +463,6 @@
   height: 250px;
   top: -100px;
   right: -80px;
-
   border-radius: 50%;
   background: rgba(125, 74, 244, 0.08);
   filter: blur(40px);
@@ -626,7 +486,6 @@
 .client-service-card-top {
   position: relative;
   z-index: 2;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -635,14 +494,11 @@
 .client-service-card-icon {
   width: 50px;
   height: 50px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border: 1px solid rgba(142, 96, 255, 0.25);
   border-radius: 13px;
-
   background: rgba(129, 74, 237, 0.08);
   color: #986bff;
 }
@@ -656,7 +512,6 @@
   display: flex;
   align-items: center;
   gap: 7px;
-
   color: rgba(255, 255, 255, 0.34);
   font-size: 8px;
   letter-spacing: 0.14em;
@@ -685,7 +540,6 @@
 
 .client-service-card h3 {
   margin: 12px 0 16px;
-
   font-size: 34px;
   line-height: 1;
   letter-spacing: -0.045em;
@@ -694,7 +548,6 @@
 .client-service-card p {
   max-width: 460px;
   margin: 0;
-
   color: rgba(255, 255, 255, 0.43);
   font-size: 12px;
   line-height: 1.7;
@@ -703,14 +556,11 @@
 .client-service-card-bottom {
   position: relative;
   z-index: 2;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   margin-top: 28px;
   padding-top: 18px;
-
   border-top: 1px solid rgba(255, 255, 255, 0.07);
 }
 
@@ -719,19 +569,10 @@
   font-size: 9px;
 }
 
-.client-service-card-bottom a {
+.client-service-card-bottom > span:last-child {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-
-  color: #fff;
-  font-size: 10px;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.client-service-card-bottom a:hover {
-  color: #a579ff;
+  color: #9b72ff;
 }
 
 .client-service-card-bottom .client-services-svg {
@@ -739,20 +580,20 @@
   height: 15px;
 }
 
+/* =========================================================
+   CTA
+========================================================= */
+
 .client-services-cta {
   position: relative;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 50px;
-
   margin-bottom: 100px;
   padding: 60px;
-
   border: 1px solid rgba(141, 98, 255, 0.18);
   border-radius: 24px;
-
   background:
     radial-gradient(
       circle at 80% 50%,
@@ -760,7 +601,6 @@
       transparent 35%
     ),
     rgba(18, 14, 29, 0.85);
-
   overflow: hidden;
 }
 
@@ -770,7 +610,6 @@
   height: 300px;
   right: 5%;
   top: -100px;
-
   border-radius: 50%;
   background: rgba(117, 66, 232, 0.12);
   filter: blur(70px);
@@ -790,7 +629,6 @@
 
 .client-services-cta h2 {
   margin: 15px 0;
-
   font-size: clamp(34px, 4vw, 58px);
   line-height: 1;
   letter-spacing: -0.055em;
@@ -804,7 +642,6 @@
 .client-services-cta p {
   max-width: 530px;
   margin: 0;
-
   color: rgba(255, 255, 255, 0.4);
   font-size: 12px;
   line-height: 1.7;
@@ -813,25 +650,18 @@
 .client-services-cta-button {
   position: relative;
   z-index: 2;
-
   flex-shrink: 0;
-
   display: inline-flex;
   align-items: center;
   gap: 12px;
-
   min-height: 48px;
   padding: 0 20px;
-
   border-radius: 11px;
-
   background: #fff;
   color: #08070c;
-
   font-size: 11px;
   font-weight: 700;
   text-decoration: none;
-
   transition: 0.25s ease;
 }
 
@@ -840,10 +670,13 @@
   box-shadow: 0 15px 35px rgba(255, 255, 255, 0.1);
 }
 
+/* =========================================================
+   FOOTER
+========================================================= */
+
 .client-services-footer {
   position: relative;
   z-index: 2;
-
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
@@ -851,7 +684,6 @@
   width: min(1320px, calc(100% - 68px));
   min-height: 100px;
   margin: 0 auto;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -864,6 +696,10 @@
   font-weight: 700;
   letter-spacing: -0.08em;
   text-decoration: none;
+}
+
+.client-services-footer-logo span {
+  color: #7d5cff;
 }
 
 .client-services-footer-links {
@@ -887,22 +723,9 @@
 ========================================================= */
 
 @media (max-width: 1000px) {
-  .client-services-header-inner,
   .client-services-shell,
   .client-services-footer-inner {
     width: min(100% - 40px, 900px);
-  }
-
-  .client-services-nav {
-    gap: 18px;
-  }
-
-  .client-services-nav a {
-    font-size: 10px;
-  }
-
-  .client-services-support {
-    display: none;
   }
 
   .client-services-hero {
@@ -927,6 +750,11 @@
   .client-services-grid-cards {
     grid-template-columns: 1fr;
   }
+
+  .client-services-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 /* =========================================================
@@ -934,32 +762,9 @@
 ========================================================= */
 
 @media (max-width: 700px) {
-  .client-services-header-inner,
   .client-services-shell,
   .client-services-footer-inner {
     width: calc(100% - 30px);
-  }
-
-  .client-services-header-inner {
-    min-height: 70px;
-  }
-
-  .client-services-nav {
-    display: none;
-  }
-
-  .client-services-actions {
-    margin-left: auto;
-  }
-
-  .client-services-account {
-    min-height: 36px;
-    padding: 0 11px;
-    font-size: 9px;
-  }
-
-  .client-services-logo {
-    font-size: 23px;
   }
 
   .client-services-hero {
@@ -1039,9 +844,6 @@
   }
 
   .client-services-cta {
-    flex-direction: column;
-    align-items: flex-start;
-
     margin-bottom: 60px;
     padding: 32px 25px;
   }
@@ -1064,15 +866,6 @@
 }
 
 @media (max-width: 420px) {
-  .client-services-account {
-    font-size: 0;
-  }
-
-  .client-services-account .client-services-svg {
-    width: 17px;
-    height: 17px;
-  }
-
   .client-services-badge {
     font-size: 8px;
   }

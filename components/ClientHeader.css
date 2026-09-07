@@ -1,0 +1,309 @@
+.nova-client-header {
+  position: relative;
+  z-index: 100;
+  width: 100%;
+  height: 82px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(7, 7, 12, 0.98),
+      rgba(5, 5, 9, 0.96)
+    );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.nova-client-header-inner {
+  width: min(100% - 72px, 1400px);
+  height: 100%;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 220px 1fr 220px;
+  align-items: center;
+}
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.nova-client-logo {
+  display: inline-flex;
+  align-items: center;
+
+  width: fit-content;
+
+  color: #ffffff;
+  text-decoration: none;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -1.8px;
+}
+
+.nova-client-logo span {
+  color: #8c5cff;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.nova-client-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+.nova-client-nav-link {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  height: 82px;
+  padding: 0 16px;
+
+  color: rgba(255, 255, 255, 0.48);
+  text-decoration: none;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  border-radius: 12px;
+
+  background: transparent;
+
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.nova-client-nav-link:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nova-client-nav-link.active {
+  color: #ffffff;
+  background: rgba(139, 92, 246, 0.15);
+}
+
+.nova-client-nav-link.active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 2px;
+
+  background: #8b5cf6;
+
+  box-shadow:
+    0 0 12px rgba(139, 92, 246, 0.7);
+}
+
+.nav-link-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.nav-link-label {
+  display: none;
+}
+
+@media (min-width: 1000px) {
+  .nav-link-label {
+    display: inline;
+  }
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.nova-client-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 28px;
+}
+
+.nova-client-support {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  transition:
+    color 0.25s ease;
+}
+
+.nova-client-support:hover {
+  color: #ffffff;
+}
+
+/* =========================================================
+   AVATAR
+========================================================= */
+
+.nova-client-avatar {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color: #ffffff;
+  text-decoration: none;
+
+  background:
+    linear-gradient(
+      145deg,
+      #9d72ff,
+      #6328d8
+    );
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  box-shadow:
+    0 8px 25px rgba(92, 45, 190, 0.3);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.nova-client-avatar:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 12px 32px rgba(115, 62, 235, 0.45);
+}
+
+/* =========================================================
+   MOBILE BUTTON
+========================================================= */
+
+.nova-client-mobile-button {
+  display: none;
+
+  width: 42px;
+  height: 42px;
+
+  padding: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.03);
+
+  cursor: pointer;
+}
+
+.nova-client-mobile-button span {
+  display: block;
+
+  width: 17px;
+  height: 1px;
+
+  margin: 5px auto;
+
+  background: #ffffff;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+  .nova-client-header-inner {
+    width: min(100% - 40px, 1400px);
+
+    grid-template-columns:
+      180px
+      1fr
+      180px;
+  }
+
+  .nova-client-nav {
+    gap: 24px;
+  }
+
+  .nova-client-nav-link {
+    font-size: 12px;
+  }
+
+  .nova-client-actions {
+    gap: 18px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 760px) {
+  .nova-client-header {
+    height: 72px;
+  }
+
+  .nova-client-header-inner {
+    width: calc(100% - 32px);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nova-client-logo {
+    font-size: 24px;
+  }
+
+  .nova-client-nav {
+    display: none;
+  }
+
+  .nova-client-actions {
+    display: none;
+  }
+
+  .nova-client-mobile-button {
+    display: block;
+  }
+}

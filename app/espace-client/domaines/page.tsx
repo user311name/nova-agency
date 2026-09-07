@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
 import "./page.css";
+
+
 
 type DomainStatus = "Enregistrement" | "Actif" | "Erreur";
 
@@ -274,62 +275,6 @@ export default function ClientDomainsPage() {
         <div className="domains-grid-lines" />
       </div>
 
-      <header className="domains-client-header">
-        <div className="domains-header-inner">
-          <Link
-            href="/"
-            className="domains-client-logo"
-            aria-label="NOVA - Accueil"
-          >
-            NOV<span>A</span>
-          </Link>
-
-          <nav
-            className="domains-client-navigation"
-            aria-label="Navigation principale"
-          >
-            <Link
-              href="/espace-client/domaines"
-              className="active"
-            >
-              Domaines
-            </Link>
-
-            <Link href="/espace-client/services">
-              Hébergement
-            </Link>
-
-            <Link href="/espace-client/emails">
-              Emails
-            </Link>
-
-            <Link href="/espace-client/securite">
-              Sécurité
-            </Link>
-
-            <Link href="/a-propos">
-              À propos
-            </Link>
-          </nav>
-
-          <div className="domains-header-actions">
-            <Link
-              href="/contact"
-              className="domains-support-link"
-            >
-              Support
-            </Link>
-
-            <Link
-              href="/espace-client"
-              className="domains-account-button"
-            >
-              Espace client
-            </Link>
-          </div>
-        </div>
-      </header>
-
       <div className="domains-client-shell">
         <div className="domains-breadcrumb">
           <Link href="/espace-client">
@@ -361,7 +306,7 @@ export default function ClientDomainsPage() {
 
             <div className="domains-hero-actions">
               <Link
-                href="/domaines"
+                href="/espace-client/domaines"
                 className="domains-primary-button"
               >
                 Acheter un domaine
@@ -370,9 +315,9 @@ export default function ClientDomainsPage() {
 
               <Link
                 href="/espace-client"
-                className="domains-secondary-button"
+                className="domains-return-nova"
               >
-                Retour au tableau de bord
+                ← Retour NOVA
               </Link>
             </div>
           </div>
@@ -704,7 +649,7 @@ export default function ClientDomainsPage() {
                   </p>
 
                   <Link
-                    href="/domaines"
+                    href="/espace-client/domaines"
                     className="domains-empty-button"
                   >
                     Trouver mon domaine
@@ -762,7 +707,7 @@ export default function ClientDomainsPage() {
               </Link>
 
               <Link
-                href="/espace-client/dns"
+                href="/espace-client/domaines"
                 className="domain-tool-card"
               >
                 <div className="domain-tool-icon">
@@ -840,7 +785,7 @@ export default function ClientDomainsPage() {
               </p>
 
               <Link
-                href="/domaines"
+                href="/espace-client/domaines"
                 className="domains-cta-button"
               >
                 Rechercher un domaine

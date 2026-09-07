@@ -162,6 +162,7 @@ export default function DomainDetailsPage() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (!domainName) {
@@ -275,24 +276,6 @@ export default function DomainDetailsPage() {
           <div className="domain-details-grid-lines" />
         </div>
 
-        <header className="domain-details-header">
-          <div className="domain-details-header-inner">
-            <Link
-              href="/espace-client"
-              className="domain-details-logo"
-            >
-              NOVA<span>.</span>
-            </Link>
-
-            <Link
-              href="/espace-client"
-              className="domain-details-account"
-            >
-              Espace client
-            </Link>
-          </div>
-        </header>
-
         <section className="domain-details-loading">
           <div className="domain-details-spinner" />
 
@@ -312,24 +295,6 @@ export default function DomainDetailsPage() {
           <div className="domain-details-orb domain-details-orb-two" />
           <div className="domain-details-grid-lines" />
         </div>
-
-        <header className="domain-details-header">
-          <div className="domain-details-header-inner">
-            <Link
-              href="/espace-client"
-              className="domain-details-logo"
-            >
-              NOVA<span>.</span>
-            </Link>
-
-            <Link
-              href="/espace-client"
-              className="domain-details-account"
-            >
-              Espace client
-            </Link>
-          </div>
-        </header>
 
         <section className="domain-details-error">
           <span className="domain-details-error-label">
@@ -368,59 +333,50 @@ export default function DomainDetailsPage() {
         <div className="domain-details-grid-lines" />
       </div>
 
-      <header className="domain-details-header">
-        <div className="domain-details-header-inner">
-          <Link
-            href="/espace-client"
-            className="domain-details-logo"
-          >
-            NOVA<span>.</span>
-          </Link>
+      <div className="domain-details-shell">
+        <header className="domain-details-header">
+          <div className="domain-details-header-inner">
+            <Link href="/espace-client/domaines" className="domain-details-link">
+              <a>←</a>
+              Mes domaines
+            </Link>
 
-          <nav className="domain-details-navigation">
-            <Link
-              href="/espace-client/domaines"
-              className="active"
+            <Link href="/espace-client" className="domain-details-return-nova">
+              Retour NOVA
+            </Link>
+
+            <button
+              className={`domain-details-mobile-toggle ${mobileMenuOpen ? "is-open" : ""}`}
+              onClick={() => setMobileMenuOpen((o) => !o)}
+              aria-label="Menu"
             >
+              <span />
+              <span />
+              <span />
+            </button>
+          </div>
+        </header>
+
+        <div className={`domain-details-mobile-menu ${mobileMenuOpen ? "is-open" : ""}`}>
+          <nav>
+            <Link href="/espace-client/domaines" onClick={() => setMobileMenuOpen(false)}>
               Domaines
             </Link>
-
-            <Link href="/espace-client/services">
+            <Link href="/espace-client/services" onClick={() => setMobileMenuOpen(false)}>
               Hébergement
             </Link>
-
-            <Link href="/espace-client/emails">
+            <Link href="/espace-client/emails" onClick={() => setMobileMenuOpen(false)}>
               Emails
             </Link>
-
-            <Link href="/espace-client/securite">
+            <Link href="/espace-client/securite" onClick={() => setMobileMenuOpen(false)}>
               Sécurité
             </Link>
-
-            <Link href="/a-propos">
-              À propos
-            </Link>
-          </nav>
-
-          <div className="domain-details-header-actions">
-            <Link
-              href="/contact"
-              className="domain-details-support"
-            >
+            <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
               Support
             </Link>
-
-            <Link
-              href="/espace-client"
-              className="domain-details-account"
-            >
-              Espace client
-            </Link>
-          </div>
+          </nav>
         </div>
-      </header>
 
-      <div className="domain-details-shell">
         <div className="domain-details-breadcrumb">
           <Link href="/espace-client">
             Espace client
@@ -674,19 +630,19 @@ export default function DomainDetailsPage() {
           </Link>
 
           <div className="domain-details-footer-links">
-            <Link href="/domaines">
+            <Link href="/espace-client/domaines">
               Domaines
             </Link>
 
-            <Link href="/services">
+            <Link href="/espace-client/services">
               Hébergement
             </Link>
 
-            <Link href="/emails">
+            <Link href="/espace-client/emails">
               Emails
             </Link>
 
-            <Link href="/securite">
+            <Link href="/espace-client/securite">
               Sécurité
             </Link>
 

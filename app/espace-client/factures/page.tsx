@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import "./page.css";
 
+
 type Invoice = {
   id: string;
   domain: string;
@@ -323,59 +324,7 @@ export default function ClientInvoicesPage() {
 
   return (
     <main className="clientInvoicesPage">
-      {/* =====================================================
-          HEADER
-      ===================================================== */}
 
-      <header className="clientInvoicesHeader">
-        <Link
-          href="/"
-          className="clientInvoicesLogo"
-        >
-          NOV<span>A</span>
-        </Link>
-
-        <nav className="clientInvoicesNav">
-          <Link href="/domaines">
-            Domaines
-          </Link>
-
-          <Link href="/services">
-            Hébergement
-          </Link>
-
-          <Link href="/emails">
-            Emails
-          </Link>
-
-          <Link href="/securite">
-            Sécurité
-          </Link>
-
-          <Link href="/a-propos">
-            À propos
-          </Link>
-        </nav>
-
-        <div className="clientInvoicesHeaderRight">
-          <Link
-            href="/contact"
-            className="invoiceSupport"
-          >
-            Support
-          </Link>
-
-          <Link
-            href="/espace-client"
-            className="invoiceAvatar"
-            aria-label="Espace client"
-          >
-            {email
-              ? email.charAt(0).toUpperCase()
-              : "N"}
-          </Link>
-        </div>
-      </header>
 
       {/* =====================================================
           CONTENT
@@ -597,7 +546,7 @@ export default function ClientInvoicesPage() {
                   prochains achats.
                 </p>
 
-                <Link href="/domaines">
+                <Link href="/espace-client/domaines">
                   Rechercher un domaine
                   <ArrowIcon />
                 </Link>
@@ -771,9 +720,9 @@ export default function ClientInvoicesPage() {
             </p>
           </div>
 
-          <div className="invoiceCTAActions">
+<div className="invoiceCTAActions">
             <Link
-              href="/domaines"
+              href="/espace-client/domaines"
               className="invoicePrimaryButton"
             >
               Trouver un domaine

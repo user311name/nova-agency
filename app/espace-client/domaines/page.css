@@ -4,22 +4,8 @@
    ============================================================ */
 
 /* ============================================================
-   HEADER GLOBAL DU SITE
-   On garde uniquement le header de l'espace client
-   ============================================================ */
-
-body:has(.client-domains-page) .navbar,
-body:has(.client-domains-page) .nova-header {
-  display: none !important;
-}
-
-body:has(.client-domains-page) header:not(.domains-client-header) {
-  display: none !important;
-}
-
-/* ============================================================
-   PAGE
-   ============================================================ */
+    PAGE
+    ============================================================ */
 
 .client-domains-page {
   position: relative;
@@ -127,146 +113,8 @@ body:has(.client-domains-page) header:not(.domains-client-header) {
 }
 
 /* ============================================================
-   HEADER ESPACE CLIENT
-   ============================================================ */
-
-.domains-client-header {
-  position: relative;
-  z-index: 30;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.075);
-  background: rgba(5, 5, 5, 0.78);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-}
-
-.domains-header-inner {
-  width: min(1400px, calc(100% - 48px));
-  min-height: 78px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 30px;
-}
-
-/* ============================================================
-   LOGO
-   ============================================================ */
-
-.domains-client-logo {
-  display: inline-flex;
-  align-items: center;
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 25px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease;
-}
-
-.domains-client-logo span {
-  color: #7d68ff;
-}
-
-.domains-client-logo:hover {
-  opacity: 0.82;
-  transform: translateY(-1px);
-}
-
-/* ============================================================
-   NAVIGATION
-   ============================================================ */
-
-.domains-client-navigation {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-}
-
-.domains-client-navigation a {
-  position: relative;
-  color: #85858e;
-  text-decoration: none;
-  font-size: 11px;
-  font-weight: 600;
-  transition: color 0.25s ease;
-}
-
-.domains-client-navigation a::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -11px;
-  width: 0;
-  height: 1px;
-  background: #8c78ff;
-  transform: translateX(-50%);
-  transition: width 0.25s ease;
-}
-
-.domains-client-navigation a:hover,
-.domains-client-navigation a.active {
-  color: #ffffff;
-}
-
-.domains-client-navigation a.active::after,
-.domains-client-navigation a:hover::after {
-  width: 100%;
-}
-
-/* ============================================================
-   HEADER ACTIONS
-   ============================================================ */
-
-.domains-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.domains-support-link {
-  color: #7e7e87;
-  text-decoration: none;
-  font-size: 11px;
-  font-weight: 600;
-  transition: color 0.25s ease;
-}
-
-.domains-support-link:hover {
-  color: #ffffff;
-}
-
-.domains-account-button {
-  min-height: 38px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 15px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.035);
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 10px;
-  font-weight: 700;
-  transition:
-    transform 0.25s ease,
-    background 0.25s ease,
-    border-color 0.25s ease;
-}
-
-.domains-account-button:hover {
-  transform: translateY(-2px);
-  border-color: rgba(132, 110, 255, 0.4);
-  background: rgba(119, 95, 255, 0.08);
-}
-
-/* ============================================================
-   SHELL
-   ============================================================ */
+    SHELL
+    ============================================================ */
 
 .domains-client-shell {
   position: relative;
@@ -428,13 +276,15 @@ body:has(.client-domains-page) header:not(.domains-client-header) {
   height: 13px;
 }
 
-.domains-secondary-button {
+.domains-secondary-button,
+.domains-return-nova {
   border: 1px solid rgba(255, 255, 255, 0.09);
   background: rgba(255, 255, 255, 0.025);
   color: #8d8d95;
 }
 
-.domains-secondary-button:hover {
+.domains-secondary-button:hover,
+.domains-return-nova:hover {
   transform: translateY(-3px);
   border-color: rgba(133, 112, 255, 0.32);
   background: rgba(117, 93, 255, 0.05);
@@ -1716,14 +1566,6 @@ body:has(.client-domains-page) header:not(.domains-client-header) {
    ============================================================ */
 
 @media (max-width: 850px) {
-  .domains-header-inner {
-    width: calc(100% - 32px);
-  }
-
-  .domains-client-navigation {
-    display: none;
-  }
-
   .domains-client-shell {
     width: calc(100% - 32px);
   }

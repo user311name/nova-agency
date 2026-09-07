@@ -1,135 +1,162 @@
 "use client";
 
-import { FormEvent, Suspense, useMemo, useState } from "react";
+import Link from "next/link";
+import { FormEvent, useMemo, Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import "./page.css";
 
-type PlanId = "essential" | "business" | "team";
-
-type Plan = {
-  id: PlanId;
-  name: string;
-  price: number;
-  mailboxes: number;
-  storage: number;
-};
-
-const plans: Plan[] = [
-  {
+const plans = {
+  essential: {
     id: "essential",
     name: "Essentiel",
-    price: 14.9,
+    price: "14,90 €",
     mailboxes: 1,
     storage: 15,
+    description: "Une adresse professionnelle pour démarrer.",
   },
-  {
+  business: {
     id: "business",
     name: "Business",
-    price: 39.9,
+    price: "39,90 €",
     mailboxes: 3,
     storage: 45,
+    description:
+      "La solution idéale pour une activité professionnelle.",
   },
-  {
+  team: {
     id: "team",
     name: "Équipe",
-    price: 59.9,
+    price: "59,90 €",
     mailboxes: 5,
     storage: 75,
+    description:
+      "Une messagerie complète pour votre équipe.",
   },
-];
+} as const;
+
+type PlanId = keyof typeof plans;
 
 function ArrowIcon() {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M5 12h13" />
-      <path d="m13 6 6 6-6 6" />
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M3 8H13"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M9 4L13 8L9 12"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
-  );
+);
 }
 
-function CheckIcon() {
+export default function EmailPurchasePage() {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="m5 12 4 4L19 6" />
-    </svg>
+    <Suspense fallback={<div>Chargement...</div>}>
+      <EmailPurchasePageContent />
+    </Suspense>
   );
 }
 
-function ShieldIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 3 20 6v5c0 5-3.2 8.5-8 10-4.8-1.5-8-5-8-10V6l8-3Z" />
-      <path d="m8.5 12 2.2 2.2 4.8-5" />
-    </svg>
-  );
-}
-
-function EmailPurchaseContent() {
+function EmailPurchasePageContent() {
   const searchParams = useSearchParams();
 
-  const requestedPlan = searchParams.get("plan") as PlanId | null;
+  const requestedPlan = searchParams.get("plan");
 
-  const selectedPlan = useMemo(() => {
-    return plans.find((plan) => plan.id === requestedPlan) ?? plans[0];
-  }, [requestedPlan]);
+  const selectedPlanId: PlanId =
+    requestedPlan === "business" ||
+    requestedPlan === "team" ||
+    requestedPlan === "essential"
+      ? requestedPlan
+      : "essential";
+
+  const selectedPlan = useMemo(
+    () => plans[selectedPlanId],
+    [selectedPlanId],
+  );
 
   const [domain, setDomain] = useState("");
-  const [prefix, setPrefix] = useState("");
+  const [emailPrefix, setEmailPrefix] = useState("contact");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const normalizedDomain = domain
-    .trim()
-    .toLowerCase()
-    .replace(/^https?:\/\/,?/, "")
-    .replace(/^www\./, "")
-    .replace(/\/.*$/, "");
+  function cleanDomain(value: string) {
+    return value
+      .trim()
+      .toLowerCase()
+      .replace(/^https?:\/\//, "")
+      .replace(/^www\./, "")
+      .replace(/\/.*$/, "");
+  }
 
-  const normalizedPrefix = prefix
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9._-]/g, "");
+  function cleanPrefix(value: string) {
+    return value
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "")
+      .replace(/[^a-z0-9._-]/g, "");
+  }
 
-  const fullEmail =
-    normalizedPrefix && normalizedDomain
-      ? `${normalizedPrefix}@${normalizedDomain}`
-      : "contact@votre-domaine.fr";
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>,
+  ) {
     event.preventDefault();
 
     setError("");
 
-    if (!normalizedDomain) {
-      setError("Veuillez renseigner votre domaine.");
+    const finalDomain = cleanDomain(domain);
+    const finalPrefix = cleanPrefix(emailPrefix);
+
+    if (!finalDomain) {
+      setError(
+        "Veuillez renseigner votre nom de domaine.",
+      );
       return;
     }
 
-    if (!normalizedPrefix) {
-      setError("Veuillez choisir le nom de votre boîte mail.");
+    if (!finalPrefix) {
+      setError(
+        "Veuillez renseigner le nom de votre boîte mail.",
+      );
       return;
     }
 
     setLoading(true);
 
     try {
-      const response = await fetch("/api/emails/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "/api/emails/checkout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            plan: selectedPlanId,
+            domain: finalDomain,
+            emailPrefix: finalPrefix,
+          }),
         },
-        body: JSON.stringify({
-          plan: selectedPlan.id,
-          domain: normalizedDomain,
-          emailPrefix: normalizedPrefix,
-        }),
-      });
+      );
 
       const data = await response.json();
 
       if (!response.ok) {
         throw new Error(
-          data?.error || "Impossible de créer la session de paiement.",
+          data?.error ||
+            "Impossible de créer le paiement.",
         );
       }
 
@@ -146,245 +173,275 @@ function EmailPurchaseContent() {
           ? err.message
           : "Une erreur est survenue.",
       );
+
       setLoading(false);
     }
   }
 
+  const previewEmail =
+    cleanPrefix(emailPrefix) || "contact";
+
+  const previewDomain =
+    cleanDomain(domain) || "votre-domaine.fr";
+
   return (
-    <main className="email-checkout-page">
-      <header className="email-checkout-header">
-        <div className="email-checkout-header-inner">
-          <a href="/emails" className="email-checkout-logo">
-            NOV<span>A</span>
-          </a>
+    <main className="email-purchase-page">
+      <div className="email-purchase-background">
+        <div className="email-purchase-orb email-purchase-orb-one" />
+        <div className="email-purchase-orb email-purchase-orb-two" />
+        <div className="email-purchase-grid" />
+      </div>
 
-          <a href="/emails#offres" className="email-checkout-back">
-            <span>←</span>
-            Retour aux offres
-          </a>
-        </div>
-      </header>
+      <div className="email-purchase-container">
+        <Link
+          href="/emails"
+          className="email-purchase-back"
+        >
+          <span>←</span>
+          Retour aux offres email
+        </Link>
 
-      <div className="email-checkout-main">
-        <div className="email-checkout-container">
-          <section className="email-checkout-intro">
-            <div className="email-checkout-eyebrow">
-              NOVA · PROFESSIONAL EMAIL
+        <div className="email-purchase-layout">
+          <section className="email-purchase-content">
+            <div className="email-purchase-eyebrow">
+              EMAIL PROFESSIONNEL NOVA
             </div>
 
             <h1>
-              Créez votre adresse.
+              Configurez votre
               <br />
-              <span>En quelques secondes.</span>
+              <span>messagerie.</span>
             </h1>
 
-            <p>
-              Choisissez votre domaine et le nom de votre boîte
-              professionnelle. Le paiement est sécurisé par Stripe.
+            <p className="email-purchase-intro">
+              Configurez votre adresse email
+              professionnelle avant de passer au
+              paiement sécurisé.
             </p>
-          </section>
 
-          <div className="email-checkout-layout">
-            <section className="email-checkout-form">
-              <div className="email-checkout-step">
-                <span>01</span>
+            <form
+              onSubmit={handleSubmit}
+              className="email-purchase-form"
+            >
+              <div className="email-purchase-field">
+                <label htmlFor="domain">
+                  Votre domaine
+                </label>
+
+                <input
+                  id="domain"
+                  name="domain"
+                  type="text"
+                  value={domain}
+                  onChange={(event) =>
+                    setDomain(event.target.value)
+                  }
+                  placeholder="exemple.fr"
+                  autoComplete="url"
+                  disabled={loading}
+                />
+
+                <span>
+                  Le domaine doit être associé à votre
+                  compte NOVA.
+                </span>
+              </div>
+
+              <div className="email-purchase-field">
+                <label htmlFor="emailPrefix">
+                  Votre adresse email
+                </label>
+
+                <div className="email-purchase-email-input">
+                  <input
+                    id="emailPrefix"
+                    name="emailPrefix"
+                    type="text"
+                    value={emailPrefix}
+                    onChange={(event) =>
+                      setEmailPrefix(
+                        cleanPrefix(
+                          event.target.value,
+                        ),
+                      )
+                    }
+                    placeholder="contact"
+                    autoComplete="email"
+                    disabled={loading}
+                  />
+
+                  <span>
+                    @{previewDomain}
+                  </span>
+                </div>
+
+                <span>
+                  Exemple : contact@votre-domaine.fr
+                </span>
+              </div>
+
+              {error && (
+                <div
+                  className="email-purchase-error"
+                  role="alert"
+                >
+                  <strong>
+                    Impossible de continuer
+                  </strong>
+
+                  <span>{error}</span>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                className="email-purchase-submit"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <span className="email-purchase-spinner" />
+                    Préparation du paiement...
+                  </>
+                ) : (
+                  <>
+                    Continuer vers le paiement
+                    <ArrowIcon />
+                  </>
+                )}
+              </button>
+
+              <div className="email-purchase-secure">
+                <span className="email-purchase-secure-icon">
+                  ✓
+                </span>
 
                 <div>
-                  <small>VOTRE ADRESSE</small>
-                  <h2>Configurez votre email</h2>
+                  <strong>
+                    Paiement sécurisé
+                  </strong>
+
+                  <span>
+                    Vous serez redirigé vers Stripe
+                    pour finaliser votre commande.
+                  </span>
                 </div>
               </div>
+            </form>
+          </section>
 
-              <form onSubmit={handleSubmit}>
-                <label className="email-field">
-                  <span>Votre domaine</span>
+          <aside className="email-purchase-summary">
+            <div className="email-purchase-summary-label">
+              VOTRE OFFRE
+            </div>
 
-                  <div className="email-input-wrapper">
-                    <input
-                      type="text"
-                      value={domain}
-                      onChange={(event) =>
-                        setDomain(event.target.value)
-                      }
-                      placeholder="votreentreprise.fr"
-                      autoComplete="off"
-                    />
-                  </div>
-
-                  <small>
-                    Utilisez un domaine déjà enregistré chez NOVA.
-                  </small>
-                </label>
-
-                <label className="email-field">
-                  <span>Nom de la boîte</span>
-
-                  <div className="email-address-input">
-                    <input
-                      type="text"
-                      value={prefix}
-                      onChange={(event) =>
-                        setPrefix(event.target.value)
-                      }
-                      placeholder="contact"
-                      autoComplete="off"
-                    />
-
-                    <strong>
-                      @<span>{normalizedDomain || "domaine.fr"}</span>
-                    </strong>
-                  </div>
-
-                  <small>
-                    Exemple : contact, bonjour, prenom...
-                  </small>
-                </label>
-
-                <div className="email-secure-payment">
-                  <div className="email-secure-icon">
-                    <ShieldIcon />
-                  </div>
-
-                  <div>
-                    <strong>Paiement sécurisé</strong>
-                    <span>
-                      Vous serez redirigé vers Stripe pour finaliser
-                      votre commande.
-                    </span>
-                  </div>
+            <div className="email-purchase-plan">
+              {selectedPlanId === "business" && (
+                <div className="email-purchase-plan-badge">
+                  LE PLUS CHOISI
                 </div>
+              )}
 
-                {error && (
-                  <div className="email-checkout-error">
-                    {error}
-                  </div>
-                )}
-
-                <button
-                  type="submit"
-                  className="email-checkout-button"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    "Redirection vers Stripe..."
-                  ) : (
-                    <>
-                      Continuer vers le paiement
-                      <ArrowIcon />
-                    </>
-                  )}
-                </button>
-              </form>
-            </section>
-
-            <aside className="email-summary">
-              <div className="email-summary-top">
-                <span>VOTRE FORMULE</span>
-
-                <div className="email-summary-badge">
-                  {selectedPlan.id === "business"
-                    ? "POPULAIRE"
-                    : "NOVA"}
-                </div>
+              <div className="email-purchase-plan-name">
+                {selectedPlan.name}
               </div>
 
-              <h2>{selectedPlan.name}</h2>
-
-              <p>
-                Email professionnel avec votre propre domaine.
-              </p>
-
-              <div className="email-summary-price">
+              <div className="email-purchase-plan-price">
                 <strong>
-                  {selectedPlan.price
-                    .toFixed(2)
-                    .replace(".", ",")}{" "}
-                  €
+                  {selectedPlan.price}
                 </strong>
 
                 <span>/ an</span>
               </div>
 
-              <div className="email-summary-divider" />
-
-              <div className="email-summary-list">
-                <div>
-                  <CheckIcon />
-                  {selectedPlan.mailboxes} boîte
-                  {selectedPlan.mailboxes > 1 ? "s" : ""} mail
-                </div>
-
-                <div>
-                  <CheckIcon />
-                  {selectedPlan.storage} Go de stockage
-                </div>
-
-                <div>
-                  <CheckIcon />
-                  Domaine personnalisé
-                </div>
-
-                <div>
-                  <CheckIcon />
-                  Connexion sécurisée
-                </div>
-
-                <div>
-                  <CheckIcon />
-                  Assistance NOVA
-                </div>
-              </div>
-
-              <div className="email-summary-domain">
-                <small>ADRESSE QUI SERA COMMANDÉE</small>
-
-                <strong>
-                  {normalizedPrefix || "contact"}
-                  <span>@</span>
-                  {normalizedDomain || "votre-domaine.fr"}
-                </strong>
-              </div>
-
-              <p className="email-summary-note">
-                Le paiement sera effectué sur Stripe. Votre commande
-                sera ensuite traitée par NOVA.
+              <p>
+                {selectedPlan.description}
               </p>
-            </aside>
-          </div>
+
+              <div className="email-purchase-plan-stats">
+                <div>
+                  <span>Boîtes mail</span>
+
+                  <strong>
+                    {selectedPlan.mailboxes}
+                  </strong>
+                </div>
+
+                <div>
+                  <span>Stockage</span>
+
+                  <strong>
+                    {selectedPlan.storage} Go
+                  </strong>
+                </div>
+              </div>
+            </div>
+
+            <div className="email-purchase-preview">
+              <div className="email-purchase-preview-label">
+                VOTRE ADRESSE
+              </div>
+
+              <div className="email-purchase-preview-address">
+                <div className="email-purchase-preview-icon">
+                  @
+                </div>
+
+                <div>
+                  <span>
+                    Adresse professionnelle
+                  </span>
+
+                  <strong>
+                    {previewEmail}@{previewDomain}
+                  </strong>
+                </div>
+              </div>
+            </div>
+
+            <div className="email-purchase-summary-features">
+              <div>
+                <span>✓</span>
+
+                <p>
+                  Messagerie professionnelle
+                </p>
+              </div>
+
+              <div>
+                <span>✓</span>
+
+                <p>
+                  Protection anti-spam
+                </p>
+              </div>
+
+              <div>
+                <span>✓</span>
+
+                <p>
+                  Accès ordinateur et mobile
+                </p>
+              </div>
+
+              <div>
+                <span>✓</span>
+
+                <p>
+                  Stockage {selectedPlan.storage} Go
+                </p>
+              </div>
+            </div>
+
+            <Link
+              href="/emails"
+              className="email-purchase-change"
+            >
+              Changer d'offre
+            </Link>
+          </aside>
         </div>
       </div>
     </main>
-  );
-}
-
-export default function EmailPurchasePage() {
-  return (
-    <Suspense
-      fallback={
-        <main className="email-checkout-page">
-          <div className="email-checkout-main">
-            <div className="email-checkout-container">
-              <section className="email-checkout-intro">
-                <div className="email-checkout-eyebrow">
-                  NOVA · PROFESSIONAL EMAIL
-                </div>
-
-                <h1>
-                  Chargement...
-                  <br />
-                  <span>Préparation de votre commande.</span>
-                </h1>
-
-                <p>
-                  Nous préparons votre espace de commande.
-                </p>
-              </section>
-            </div>
-          </div>
-        </main>
-      }
-    >
-      <EmailPurchaseContent />
-    </Suspense>
   );
 }

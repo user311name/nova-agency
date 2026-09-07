@@ -43,31 +43,6 @@ function ShieldIcon() {
 export default function HebergementPage() {
   return (
     <main className="hosting-page">
-      {/* HEADER */}
-
-      <header className="hosting-header">
-        <div className="hosting-header-inner">
-          <Link href="/" className="hosting-logo" aria-label="NOVA - Accueil">
-            NOV<span>A</span>
-          </Link>
-
-          <nav className="hosting-nav" aria-label="Navigation principale">
-            <Link href="/domaines">Domaines</Link>
-            <Link href="/hebergement" className="active">
-              Hébergement
-            </Link>
-            <Link href="/emails">Emails</Link>
-            <Link href="/securite">Sécurité</Link>
-            <Link href="/a-propos">À propos</Link>
-          </nav>
-
-          <Link href="/espace-client" className="hosting-account">
-            Espace client
-            <ArrowIcon />
-          </Link>
-        </div>
-      </header>
-
       {/* HERO */}
 
       <section className="hosting-hero">
@@ -399,7 +374,7 @@ export default function HebergementPage() {
                 <ArrowIcon />
               </Link>
 
-              <Link href="/domaines" className="hosting-secondary-button">
+              <Link href="/espace-client/domaines" className="hosting-secondary-button">
                 Trouver un domaine
               </Link>
             </div>
@@ -416,10 +391,10 @@ export default function HebergementPage() {
           </Link>
 
           <div className="hosting-footer-links">
-            <Link href="/domaines">Domaines</Link>
-            <Link href="/hebergement">Hébergement</Link>
-            <Link href="/emails">Emails</Link>
-            <Link href="/securite">Sécurité</Link>
+            <Link href="/espace-client/domaines">Domaines</Link>
+            <Link href="/espace-client/hebergement">Hébergement</Link>
+            <Link href="/espace-client/emails">Emails</Link>
+            <Link href="/espace-client/securite">Sécurité</Link>
             <Link href="/a-propos">À propos</Link>
           </div>
 

@@ -508,22 +508,6 @@ export default function DomainDnsPage() {
       <main className="dns-page">
         <div className="dns-background" />
 
-        <header className="dns-header">
-          <Link
-            href="/espace-client"
-            className="dns-logo"
-          >
-            NOVA<span>.</span>
-          </Link>
-
-          <Link
-            href="/espace-client/domaines"
-            className="dns-back-button"
-          >
-            Retour aux domaines
-          </Link>
-        </header>
-
         <section className="dns-loading">
           <div className="dns-spinner" />
 
@@ -551,15 +535,6 @@ export default function DomainDnsPage() {
     return (
       <main className="dns-page">
         <div className="dns-background" />
-
-        <header className="dns-header">
-          <Link
-            href="/espace-client"
-            className="dns-logo"
-          >
-            NOVA<span>.</span>
-          </Link>
-        </header>
 
         <section className="dns-error">
           <span>
@@ -597,49 +572,6 @@ export default function DomainDnsPage() {
         <div className="dns-orb dns-orb-two" />
         <div className="dns-grid" />
       </div>
-
-      <header className="dns-header">
-        <div className="dns-header-inner">
-          <Link
-            href="/espace-client"
-            className="dns-logo"
-          >
-            NOVA<span>.</span>
-          </Link>
-
-          <nav className="dns-navigation">
-            <Link
-              href="/espace-client/domaines"
-              className="active"
-            >
-              Domaines
-            </Link>
-
-            <Link href="/espace-client/services">
-              Hébergement
-            </Link>
-
-            <Link href="/espace-client/emails">
-              Emails
-            </Link>
-
-            <Link href="/espace-client/securite">
-              Sécurité
-            </Link>
-
-            <Link href="/a-propos">
-              À propos
-            </Link>
-          </nav>
-
-          <Link
-            href="/espace-client"
-            className="dns-account-button"
-          >
-            Espace client
-          </Link>
-        </div>
-      </header>
 
       <div className="dns-shell">
         <div className="dns-breadcrumb">

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-const links = [
+const classicLinks = [
   { href: "/", label: "Accueil" },
   { href: "/services", label: "Services" },
   { href: "/realisations", label: "Réalisations" },
@@ -15,29 +15,14 @@ const links = [
 ];
 
 const premiumLinks = [
-  {
-    href: "/domaines",
-    label: "Domaines",
-  },
-  {
-    href: "/services",
-    label: "Hébergement",
-  },
-  {
-    href: "/emails",
-    label: "Emails",
-  },
-  {
-    href: "/securite",
-    label: "Sécurité",
-  },
-  {
-    href: "/a-propos",
-    label: "À propos",
-  },
+  { href: "/domaines", label: "Domaines" },
+  { href: "/services", label: "Hébergement" },
+  { href: "/emails", label: "Emails" },
+  { href: "/securite", label: "Sécurité" },
+  { href: "/a-propos", label: "À propos" },
 ];
 
-function isActivePath(pathname: string, href: string) {
+function isActive(pathname: string, href: string) {
   if (href === "/") {
     return pathname === "/";
   }
@@ -46,15 +31,19 @@ function isActivePath(pathname: string, href: string) {
 }
 
 export default function SiteHeader() {
-  const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
 
     return () => {
       document.body.style.overflow = "";
@@ -62,8 +51,11 @@ export default function SiteHeader() {
   }, [open]);
 
   /*
-   * Pages possédant leur propre header/interface.
+   * ============================================================
+   * PAGES QUI ONT LEUR PROPRE INTERFACE
+   * ============================================================
    */
+
   const isSuccessPage =
     pathname === "/success" ||
     pathname.startsWith("/success/") ||
@@ -81,27 +73,156 @@ export default function SiteHeader() {
     pathname === "/mot-de-passe-oublie" ||
     pathname.startsWith("/auth/");
 
-  const hasOwnHeader =
-    isSuccessPage ||
-    isClientArea ||
-    isAuthPage;
-
-  if (hasOwnHeader) {
+  if (isSuccessPage || isClientArea || isAuthPage) {
     return null;
   }
 
   /*
-   * =========================================================
-   * HEADER PREMIUM
+   * ============================================================
+   * PAGE DOMAINES
    *
-   * IMPORTANT :
-   * /services n'est PAS ici.
-   * La page Services utilise le header classique.
-   * =========================================================
+   * Cette page est volontairement débarrassée du header
+   * premium complet.
+   *
+   * On affiche uniquement un bouton discret permettant
+   * de revenir au site NOVA principal.
+   * ============================================================
    */
-  const isPremiumPage =
-    pathname === "/domaines" ||
-    pathname.startsWith("/domaines/") ||
+
+  if (pathname === "/domaines") {
+    return (
+      <>
+        <Link
+          href="/"
+          className="domaines-back-button"
+          aria-label="Retour au site NOVA"
+        >
+          <span className="domaines-back-arrow">
+            ←
+          </span>
+
+          <span className="domaines-back-text">
+            Retour à NOVA
+          </span>
+        </Link>
+
+        <style jsx>{`
+          .domaines-back-button {
+            position: fixed;
+            top: 24px;
+            left: 28px;
+            z-index: 99999;
+
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+
+            min-height: 40px;
+            padding: 0 15px;
+
+            border: 1px solid
+              rgba(255, 255, 255, 0.1);
+
+            border-radius: 10px;
+
+            background:
+              rgba(8, 7, 15, 0.72);
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            color: rgba(255, 255, 255, 0.7);
+
+            font-family:
+              Arial,
+              Helvetica,
+              sans-serif;
+
+            font-size: 11px;
+            font-weight: 600;
+
+            text-decoration: none;
+
+            box-shadow:
+              0 10px 35px rgba(0, 0, 0, 0.25);
+
+            transition:
+              color 180ms ease,
+              border-color 180ms ease,
+              background 180ms ease,
+              transform 180ms ease,
+              box-shadow 180ms ease;
+          }
+
+          .domaines-back-button:hover {
+            color: #ffffff;
+
+            border-color:
+              rgba(149, 101, 255, 0.45);
+
+            background:
+              rgba(24, 17, 42, 0.88);
+
+            transform:
+              translateY(-1px);
+
+            box-shadow:
+              0 14px 40px rgba(0, 0, 0, 0.35),
+              0 0 25px
+                rgba(126, 71, 230, 0.1);
+          }
+
+          .domaines-back-arrow {
+            color: #a473ff;
+            font-size: 16px;
+            line-height: 1;
+
+            transition:
+              transform 180ms ease;
+          }
+
+          .domaines-back-button:hover
+            .domaines-back-arrow {
+            transform:
+              translateX(-2px);
+          }
+
+          .domaines-back-text {
+            white-space: nowrap;
+          }
+
+          @media (max-width: 600px) {
+            .domaines-back-button {
+              top: 16px;
+              left: 16px;
+
+              min-height: 38px;
+
+              padding: 0 12px;
+
+              border-radius: 9px;
+
+              font-size: 10px;
+            }
+
+            .domaines-back-arrow {
+              font-size: 15px;
+            }
+          }
+        `}</style>
+      </>
+    );
+  }
+
+  /*
+   * ============================================================
+   * ZONE PREMIUM PUBLIQUE
+   *
+   * Toutes les autres pages premium gardent leur header.
+   * ============================================================
+   */
+
+  const isPremiumArea =
     pathname === "/emails" ||
     pathname.startsWith("/emails/") ||
     pathname === "/securite" ||
@@ -110,20 +231,20 @@ export default function SiteHeader() {
     pathname.startsWith("/a-propos/");
 
   /*
-   * =========================================================
+   * ============================================================
    * HEADER PREMIUM
-   * =========================================================
+   * ============================================================
    */
 
-  if (isPremiumPage) {
+  if (isPremiumArea) {
     return (
-      <header className="premium-navbar">
+      <header className="navbar premium-navbar">
         <div className="premium-navbar-inner">
+
           <Link
             href="/"
             className="premium-logo"
             aria-label="NOVA — Accueil"
-            onClick={() => setOpen(false)}
           >
             <Image
               src="/logo-nova.png"
@@ -136,34 +257,34 @@ export default function SiteHeader() {
 
           <nav
             className="premium-nav"
-            aria-label="Navigation principale"
+            aria-label="Navigation NOVA"
           >
-            {premiumLinks.map((link) => {
-              const active = isActivePath(
-                pathname,
-                link.href,
-              );
+            {premiumLinks
+              .filter((link) => link.href !== "/domaines")
+              .map((link) => {
+                const active = isActive(
+                  pathname,
+                  link.href
+                );
 
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={active ? "active" : ""}
-                  aria-current={
-                    active ? "page" : undefined
-                  }
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={active ? "active" : ""}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
           </nav>
 
           <div className="premium-navbar-actions">
+
             <button
               type="button"
               className="premium-language"
-              aria-label="Langue française"
+              aria-label="Langue"
             >
               FR
               <span>⌄</span>
@@ -172,14 +293,10 @@ export default function SiteHeader() {
             <Link
               href="/espace-client"
               className="premium-client-button"
-              onClick={() => setOpen(false)}
             >
               <span>Espace client</span>
 
-              <span
-                className="premium-client-arrow"
-                aria-hidden="true"
-              >
+              <span className="premium-client-arrow">
                 →
               </span>
             </Link>
@@ -204,6 +321,7 @@ export default function SiteHeader() {
               <span />
               <span />
             </button>
+
           </div>
         </div>
 
@@ -221,42 +339,60 @@ export default function SiteHeader() {
             <span>MENU</span>
           </div>
 
-          <nav aria-label="Navigation mobile">
-            {premiumLinks.map((link, index) => {
-              const active = isActivePath(
-                pathname,
-                link.href,
-              );
+          <Link
+            href="/"
+            className="premium-mobile-home"
+            onClick={() => setOpen(false)}
+          >
+            <span className="premium-mobile-number">
+              00
+            </span>
 
-              return (
-                <Link
-                  key={`${link.href}-${link.label}`}
-                  href={link.href}
-                  className={active ? "active" : ""}
-                  aria-current={
-                    active ? "page" : undefined
-                  }
-                  onClick={() =>
-                    setOpen(false)
-                  }
-                >
-                  <span className="premium-mobile-number">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+            <span className="premium-mobile-label">
+              Retour au site NOVA
+            </span>
 
-                  <span className="premium-mobile-label">
-                    {link.label}
-                  </span>
+            <span
+              className="premium-mobile-arrow"
+              aria-hidden="true"
+            >
+              ←
+            </span>
+          </Link>
 
-                  <span
-                    className="premium-mobile-arrow"
-                    aria-hidden="true"
+          <nav aria-label="Navigation mobile premium">
+            {premiumLinks
+              .filter((link) => link.href !== "/domaines")
+              .map((link, index) => {
+                const active = isActive(
+                  pathname,
+                  link.href
+                );
+
+                return (
+                  <Link
+                    key={`${link.href}-${link.label}`}
+                    href={link.href}
+                    className={active ? "active" : ""}
+                    onClick={() => setOpen(false)}
                   >
-                    →
-                  </span>
-                </Link>
-              );
-            })}
+                    <span className="premium-mobile-number">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    <span className="premium-mobile-label">
+                      {link.label}
+                    </span>
+
+                    <span
+                      className="premium-mobile-arrow"
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
+                  </Link>
+                );
+              })}
           </nav>
 
           <Link
@@ -268,16 +404,14 @@ export default function SiteHeader() {
               Accéder à mon espace client
             </span>
 
-            <span aria-hidden="true">
-              ↗
-            </span>
+            <span>↗</span>
           </Link>
         </div>
 
         <style jsx>{`
           .premium-navbar {
             position: relative;
-            z-index: 999999;
+            z-index: 9999;
             width: 100%;
             min-height: 82px;
             border-bottom: 1px solid
@@ -290,10 +424,10 @@ export default function SiteHeader() {
               ),
               rgba(5, 5, 10, 0.96);
             box-shadow:
-              0 18px 50px rgba(0, 0, 0, 0.25);
+              0 18px 50px rgba(0, 0, 0, 0.25),
+              inset 0 -1px 0
+                rgba(155, 102, 255, 0.025);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            pointer-events: auto;
           }
 
           .premium-navbar-inner {
@@ -310,13 +444,18 @@ export default function SiteHeader() {
           }
 
           .premium-logo {
-            position: relative;
-            z-index: 2;
             display: flex;
             align-items: center;
             flex-shrink: 0;
             text-decoration: none;
-            cursor: pointer;
+            transition:
+              opacity 180ms ease,
+              transform 180ms ease;
+          }
+
+          .premium-logo:hover {
+            opacity: 0.86;
+            transform: translateX(-1px);
           }
 
           .premium-logo :global(img) {
@@ -324,12 +463,9 @@ export default function SiteHeader() {
             width: 108px;
             height: auto;
             object-fit: contain;
-            user-select: none;
           }
 
           .premium-nav {
-            position: relative;
-            z-index: 2;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -339,26 +475,18 @@ export default function SiteHeader() {
 
           .premium-nav a {
             position: relative;
-            display: inline-flex;
-            align-items: center;
-            min-height: 40px;
-            color: rgba(255, 255, 255, 0.48);
-            font-size: 11px;
+            color: rgba(255, 255, 255, 0.43);
+            font-size: 10px;
             font-weight: 500;
             line-height: 1;
             text-decoration: none;
             white-space: nowrap;
-            cursor: pointer;
             transition:
               color 180ms ease,
               transform 180ms ease;
           }
 
-          .premium-nav a:hover {
-            color: #ffffff;
-            transform: translateY(-1px);
-          }
-
+          .premium-nav a:hover,
           .premium-nav a.active {
             color: #ffffff;
           }
@@ -367,14 +495,13 @@ export default function SiteHeader() {
             content: "";
             position: absolute;
             left: 50%;
-            bottom: 0;
+            bottom: -12px;
             width: 0;
             height: 1px;
             transform: translateX(-50%);
             background: #9565ff;
             box-shadow:
-              0 0 10px
-              rgba(149, 101, 255, 0.9);
+              0 0 8px rgba(149, 101, 255, 0.8);
             transition: width 180ms ease;
           }
 
@@ -384,8 +511,6 @@ export default function SiteHeader() {
           }
 
           .premium-navbar-actions {
-            position: relative;
-            z-index: 2;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -422,13 +547,11 @@ export default function SiteHeader() {
             border: 1px solid
               rgba(150, 100, 255, 0.24);
             border-radius: 10px;
-            background:
-              rgba(126, 71, 230, 0.08);
-            color: rgba(255, 255, 255, 0.78);
+            background: rgba(126, 71, 230, 0.08);
+            color: rgba(255, 255, 255, 0.72);
             font-size: 9px;
             font-weight: 600;
             text-decoration: none;
-            cursor: pointer;
             transition:
               transform 180ms ease,
               background 180ms ease,
@@ -439,22 +562,21 @@ export default function SiteHeader() {
           .premium-client-button:hover {
             transform: translateY(-1px);
             border-color:
-              rgba(150, 100, 255, 0.5);
+              rgba(150, 100, 255, 0.45);
             background:
-              rgba(126, 71, 230, 0.16);
+              rgba(126, 71, 230, 0.15);
             color: #ffffff;
           }
 
           .premium-client-arrow {
             color: #a473ff;
             font-size: 12px;
-            transition:
-              transform 180ms ease;
+            transition: transform 180ms ease;
           }
 
           .premium-client-button:hover
             .premium-client-arrow {
-            transform: translateX(3px);
+            transform: translateX(2px);
           }
 
           .premium-menu-toggle {
@@ -516,7 +638,7 @@ export default function SiteHeader() {
           .premium-mobile-menu {
             position: fixed;
             inset: 82px 0 0;
-            z-index: 999998;
+            z-index: 9998;
             display: none;
             padding: 30px 24px;
             overflow-y: auto;
@@ -563,10 +685,28 @@ export default function SiteHeader() {
             padding-bottom: 15px;
             border-bottom: 1px solid
               rgba(255, 255, 255, 0.07);
-            color:
-              rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.3);
             font-size: 8px;
             letter-spacing: 0.16em;
+          }
+
+          .premium-mobile-home {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns:
+              35px 1fr auto;
+            align-items: center;
+            gap: 15px;
+            min-height: 70px;
+            border-bottom: 1px solid
+              rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.52);
+            text-decoration: none;
+          }
+
+          .premium-mobile-home:hover {
+            color: #ffffff;
           }
 
           .premium-mobile-menu nav {
@@ -585,10 +725,8 @@ export default function SiteHeader() {
             min-height: 70px;
             border-bottom: 1px solid
               rgba(255, 255, 255, 0.06);
-            color:
-              rgba(255, 255, 255, 0.52);
+            color: rgba(255, 255, 255, 0.52);
             text-decoration: none;
-            cursor: pointer;
           }
 
           .premium-mobile-menu nav a.active {
@@ -627,20 +765,22 @@ export default function SiteHeader() {
             font-size: 11px;
             font-weight: 600;
             text-decoration: none;
-            cursor: pointer;
           }
 
           @media (max-width: 1050px) {
             .premium-navbar-inner {
-              width: calc(100% - 40px);
+              width: min(
+                calc(100% - 40px),
+                900px
+              );
             }
 
             .premium-nav {
-              gap: 20px;
+              gap: 21px;
             }
 
             .premium-nav a {
-              font-size: 10px;
+              font-size: 9px;
             }
           }
 
@@ -650,15 +790,11 @@ export default function SiteHeader() {
             }
 
             .premium-navbar-inner {
-              width: calc(100% - 30px);
               min-height: 72px;
+              width: calc(100% - 30px);
             }
 
             .premium-nav {
-              display: none;
-            }
-
-            .premium-language {
               display: none;
             }
 
@@ -669,6 +805,10 @@ export default function SiteHeader() {
             .premium-mobile-menu {
               display: block;
               inset: 72px 0 0;
+            }
+
+            .premium-language {
+              display: none;
             }
           }
 
@@ -682,7 +822,8 @@ export default function SiteHeader() {
               padding: 0 11px;
             }
 
-            .premium-client-button span:first-child {
+            .premium-client-button
+              span:first-child {
               font-size: 8px;
             }
 
@@ -697,14 +838,15 @@ export default function SiteHeader() {
   }
 
   /*
-   * =========================================================
+   * ============================================================
    * HEADER CLASSIQUE NOVA
-   * =========================================================
+   * ============================================================
    */
 
   return (
     <header className="navbar">
       <div className="navbar-inner">
+
         <Link
           href="/"
           className="logo"
@@ -724,10 +866,10 @@ export default function SiteHeader() {
           className="main-nav"
           aria-label="Navigation principale"
         >
-          {links.map((link) => {
-            const active = isActivePath(
+          {classicLinks.map((link) => {
+            const active = isActive(
               pathname,
-              link.href,
+              link.href
             );
 
             return (
@@ -735,9 +877,6 @@ export default function SiteHeader() {
                 key={link.href}
                 href={link.href}
                 className={active ? "active" : ""}
-                aria-current={
-                  active ? "page" : undefined
-                }
               >
                 <span>{link.label}</span>
 
@@ -753,16 +892,13 @@ export default function SiteHeader() {
         </nav>
 
         <div className="navbar-actions">
+
           <Link
             href="/devis"
             className="nav-button"
-            onClick={() => setOpen(false)}
           >
             <span>Demander un devis</span>
-
-            <span aria-hidden="true">
-              ↗
-            </span>
+            <span aria-hidden="true">↗</span>
           </Link>
 
           <button
@@ -785,6 +921,7 @@ export default function SiteHeader() {
             <span />
             <span />
           </button>
+
         </div>
       </div>
 
@@ -803,10 +940,10 @@ export default function SiteHeader() {
         </div>
 
         <nav aria-label="Navigation mobile">
-          {links.map((link, index) => {
-            const active = isActivePath(
+          {classicLinks.map((link, index) => {
+            const active = isActive(
               pathname,
-              link.href,
+              link.href
             );
 
             return (
@@ -814,12 +951,7 @@ export default function SiteHeader() {
                 key={link.href}
                 href={link.href}
                 className={active ? "active" : ""}
-                aria-current={
-                  active ? "page" : undefined
-                }
-                onClick={() =>
-                  setOpen(false)
-                }
+                onClick={() => setOpen(false)}
               >
                 <span className="mobile-number">
                   {String(index + 1).padStart(2, "0")}
@@ -846,10 +978,7 @@ export default function SiteHeader() {
           onClick={() => setOpen(false)}
         >
           <span>Parler de mon projet</span>
-
-          <span aria-hidden="true">
-            ↗
-          </span>
+          <span aria-hidden="true">↗</span>
         </Link>
       </div>
     </header>

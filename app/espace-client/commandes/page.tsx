@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import "./page.css";
 
+
 type OrderStatus = "paid" | "pending" | "failed" | "refunded";
 
 type Order = {
@@ -197,57 +198,8 @@ export default function ClientOrdersPage() {
     ).length;
   }, [orders]);
 
-  return (
+return (
     <main className="clientOrdersPage">
-      <header className="clientOrdersHeader">
-        <Link
-          href="/"
-          className="clientOrdersLogo"
-        >
-          NOV<span>A</span>
-        </Link>
-
-        <nav className="clientOrdersNav">
-          <Link href="/domaines">
-            Domaines
-          </Link>
-
-          <Link href="/services">
-            Hébergement
-          </Link>
-
-          <Link href="/emails">
-            Emails
-          </Link>
-
-          <Link href="/securite">
-            Sécurité
-          </Link>
-
-          <Link href="/a-propos">
-            À propos
-          </Link>
-        </nav>
-
-        <div className="clientOrdersHeaderRight">
-          <Link
-            href="/contact"
-            className="supportLink"
-          >
-            Support
-          </Link>
-
-          <Link
-            href="/espace-client"
-            className="clientAvatar"
-            aria-label="Retour à l'espace client"
-          >
-            {email
-              ? email.charAt(0).toUpperCase()
-              : "N"}
-          </Link>
-        </div>
-      </header>
 
       <section className="ordersContainer">
         <div className="ordersBreadcrumb">
@@ -424,7 +376,7 @@ export default function ClientOrdersPage() {
                   ici.
                 </p>
 
-                <Link href="/domaines">
+                <Link href="/espace-client/domaines">
                   Rechercher un domaine
                   <ArrowIcon />
                 </Link>
@@ -545,7 +497,7 @@ export default function ClientOrdersPage() {
 
           <div className="ordersCTAActions">
             <Link
-              href="/domaines"
+              href="/espace-client/domaines"
               className="primaryButton"
             >
               Trouver un domaine

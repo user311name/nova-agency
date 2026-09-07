@@ -1,7 +1,28 @@
 import Link from "next/link";
 import "./page.css";
 
-
+const protections = [
+  {
+    number: "01",
+    title: "Protection des accès",
+    text: "Vos accès sensibles sont protégés afin de limiter les risques liés aux comptes et aux identifiants.",
+  },
+  {
+    number: "02",
+    title: "Sécurité du site",
+    text: "Votre environnement web est configuré avec des protections adaptées à votre activité et à votre niveau d'exposition.",
+  },
+  {
+    number: "03",
+    title: "Surveillance",
+    text: "Les éléments essentiels de votre infrastructure peuvent être suivis afin de détecter plus rapidement les anomalies.",
+  },
+  {
+    number: "04",
+    title: "Accompagnement",
+    text: "Vous disposez d'un interlocuteur pour comprendre les alertes, les actions à effectuer et les prochaines étapes.",
+  },
+];
 
 const layers = [
   {
@@ -28,6 +49,7 @@ export default function SecuritePage() {
       {/* =====================================================
           HERO
       ===================================================== */}
+
       <section className="security-hero">
         <div className="security-container security-hero-grid">
           <div className="security-hero-content">
@@ -120,8 +142,9 @@ export default function SecuritePage() {
       </section>
 
       {/* =====================================================
-          INTRO - STATUT DE SÉCURITÉ
+          INTRO
       ===================================================== */}
+
       <section
         className="security-intro"
         id="protection"
@@ -213,7 +236,7 @@ export default function SecuritePage() {
       </section>
 
       {/* =====================================================
-          INTRO - APPROCHE PAR COUCHES
+          INTRO
       ===================================================== */}
       <section
         className="security-intro"
@@ -259,93 +282,50 @@ export default function SecuritePage() {
       </section>
 
       {/* =====================================================
-          PROTECTION - ACTIONS
+          PROTECTION
       ===================================================== */}
+
       <section className="security-protection-section">
         <div className="security-container">
           <div className="security-protection-heading">
             <div>
               <span className="security-label">
-                ACTIONS DE PROTECTION
+                PROTECTION NOVA
               </span>
 
               <h2>
-                Renforcez votre sécurité
+                Les points essentiels
                 <br />
-                dès aujourd'hui.
+                <span>sous contrôle.</span>
               </h2>
             </div>
 
             <p>
-              Passez à l'action avec des mesures concrètes pour protéger
-              vos domaines, vos emails et votre infrastructure.
+              Une vision globale permet d'éviter les angles morts et de
+              conserver un environnement numérique propre et maîtrisé.
             </p>
           </div>
 
-          <div className="security-action-grid">
-            <article className="security-action-card">
-              <div className="security-action-icon">
-                🔑
-              </div>
-              <div>
-                <h3>Authentification à deux facteurs</h3>
-                <p>Activez la 2FA sur votre compte pour une protection renforcée contre les accès non autorisés.</p>
-                <Link
-                  href="/espace-client/parametres"
-                  className="security-button security-button-primary"
-                >
-                  Activer la 2FA
-                </Link>
-              </div>
-            </article>
+          <div className="security-protection-grid">
+            {protections.map((item) => (
+              <article
+                className="security-protection-card"
+                key={item.number}
+              >
+                <div className="security-protection-top">
+                  <span>{item.number}</span>
 
-            <article className="security-action-card">
-              <div className="security-action-icon">
-                🌐
-              </div>
-              <div>
-                <h3>Sécurité DNS avancée</h3>
-                <p>Configurez DNSSEC et d'autres protections pour sécuriser la résolution de vos domaines.</p>
-                <Link
-                  href="/espace-client/domaines"
-                  className="security-button security-button-primary"
-                >
-                  Sécuriser mes DNS
-                </Link>
-              </div>
-            </article>
+                  <span className="security-protection-symbol">
+                    ↗
+                  </span>
+                </div>
 
-            <article className="security-action-card">
-              <div className="security-action-icon">
-                📧
-              </div>
-              <div>
-                <h3>Protection des emails</h3>
-                <p>Mettez en place SPF, DKIM et DMARC pour prévenir le spoofing et le phishing sur vos domaines.</p>
-                <Link
-                  href="/espace-client/emails"
-                  className="security-button security-button-primary"
-                >
-                  Protéger mes emails
-                </Link>
-              </div>
-            </article>
+                <div className="security-card-divider" />
 
-            <article className="security-action-card">
-              <div className="security-action-icon">
-                💾
-              </div>
-              <div>
-                <h3>Sauvegardes sécurisées</h3>
-                <p>Activez des sauvegardes automatiques et chiffrées de vos données critiques.</p>
-                <Link
-                  href="/espace-client/services"
-                  className="security-button security-button-primary"
-                >
-                  Configurer les sauvegardes
-                </Link>
-              </div>
-            </article>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
@@ -353,6 +333,7 @@ export default function SecuritePage() {
       {/* =====================================================
           ESPACE CLIENT
       ===================================================== */}
+
       <section className="security-center-section">
         <div className="security-container">
           <div className="security-center-card">
@@ -432,6 +413,7 @@ export default function SecuritePage() {
       {/* =====================================================
           REASSURANCE
       ===================================================== */}
+
       <section className="security-reassurance">
         <div className="security-container">
           <div className="security-reassurance-grid">
@@ -466,6 +448,7 @@ export default function SecuritePage() {
       {/* =====================================================
           CTA
       ===================================================== */}
+
       <section className="security-cta">
         <div className="security-container">
           <div className="security-cta-card">
@@ -511,6 +494,7 @@ export default function SecuritePage() {
       {/* =====================================================
           FOOTER
       ===================================================== */}
+
       <footer className="security-footer">
         <div className="security-container security-footer-grid">
           <div className="security-footer-brand">

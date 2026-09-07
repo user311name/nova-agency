@@ -52,77 +52,7 @@
   background-size: 70px 70px;
 }
 
-.dns-header {
-  position: relative;
-  z-index: 10;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(5, 5, 7, 0.72);
-  backdrop-filter: blur(20px);
-}
 
-.dns-header-inner {
-  width: min(1400px, calc(100% - 48px));
-  min-height: 82px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-}
-
-.dns-logo {
-  color: #fff;
-  text-decoration: none;
-  font-size: 25px;
-  font-weight: 800;
-  letter-spacing: -0.05em;
-}
-
-.dns-logo span {
-  color: #8b5cff;
-}
-
-.dns-navigation {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-}
-
-.dns-navigation a {
-  color: rgba(255, 255, 255, 0.62);
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 600;
-  transition: 0.25s ease;
-}
-
-.dns-navigation a:hover,
-.dns-navigation a.active {
-  color: #fff;
-}
-
-.dns-account-button,
-.dns-back-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  padding: 0 18px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.045);
-  color: #fff;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 700;
-  transition: 0.25s ease;
-}
-
-.dns-account-button:hover,
-.dns-back-button:hover {
-  border-color: rgba(139, 92, 255, 0.55);
-  background: rgba(139, 92, 255, 0.12);
-}
 
 .dns-shell {
   position: relative;

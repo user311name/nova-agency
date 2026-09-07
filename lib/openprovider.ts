@@ -40,6 +40,16 @@ export type DomainCheckResult = {
   premium: boolean;
 };
 
+export type DnsRecord = {
+  id?: number | string;
+  name: string;
+  type: string;
+  value: string;
+  ttl: number;
+  prio?: number;
+  priority?: number;
+};
+
 let cachedToken: string | null = null;
 let tokenExpiresAt = 0;
 
@@ -136,7 +146,6 @@ async function login(): Promise<string> {
 
   cachedToken = json.data.token;
 
-  // Le token Openprovider est conservé temporairement.
   tokenExpiresAt =
     Date.now() + 20 * 60 * 1000;
 
@@ -176,7 +185,6 @@ async function api<T>(
     );
   }
 
-  // Token expiré : on se reconnecte une seule fois.
   if (
     response.status === 401 &&
     retry
@@ -294,37 +302,46 @@ function parsePhone(
   const countryCode = country.toUpperCase();
 
   if (!clean) {
-    throw new Error("Numéro de téléphone manquant.");
+    throw new Error(
+      "Numéro de téléphone manquant.",
+    );
   }
 
-  // Stripe fournit le numéro français au format +33 0X… dans certains cas.
-  // Le 0 national ne doit pas être envoyé à Openprovider après +33.
   if (countryCode === "FR") {
     const nationalNumber = clean
       .replace(/^\+?33/, "")
       .replace(/^0/, "");
 
     if (!/^\d{9}$/.test(nationalNumber)) {
-      throw new Error("Numéro de téléphone français invalide.");
+      throw new Error(
+        "Numéro de téléphone français invalide.",
+      );
     }
 
     return {
       country_code: "+33",
-      area_code: nationalNumber.slice(0, 1),
-      subscriber_number: nationalNumber.slice(1),
+      area_code:
+        nationalNumber.slice(0, 1),
+      subscriber_number:
+        nationalNumber.slice(1),
     };
   }
 
-  const international = clean.match(/^\+(\d{1,3})(\d{4,})$/);
+  const international = clean.match(
+    /^\+(\d{1,3})(\d{4,})$/,
+  );
 
   if (!international) {
-    throw new Error("Le téléphone doit être au format international.");
+    throw new Error(
+      "Le téléphone doit être au format international.",
+    );
   }
 
   return {
     country_code: `+${international[1]}`,
     area_code: "",
-    subscriber_number: international[2],
+    subscriber_number:
+      international[2],
   };
 }
 
@@ -422,6 +439,7 @@ export async function findDomainByName(
   } = splitDomain(domain);
 
   const result = await listDomains(name);
+
   const domains =
     result?.results ??
     result?.domains ??
@@ -452,25 +470,31 @@ export async function findDomainByName(
         extension?: string;
         name?: string;
       };
+
       const itemName =
-        typeof domainItem.domain === "object"
+        typeof domainItem.domain ===
+        "object"
           ? domainItem.domain?.name
           : domainItem.name;
+
       const itemExtension =
-        typeof domainItem.domain === "object"
+        typeof domainItem.domain ===
+        "object"
           ? domainItem.domain?.extension
           : domainItem.extension;
+
       const fullDomain =
         domainItem.domain_name ??
         domainItem.domain;
 
       return (
-        (String(itemName || "").toLowerCase() ===
-          name &&
-          String(itemExtension || "").toLowerCase() ===
+        (String(itemName || "")
+          .toLowerCase() === name &&
+          String(itemExtension || "")
+            .toLowerCase() ===
             extension) ||
-        String(fullDomain || "").toLowerCase() ===
-          clean
+        String(fullDomain || "")
+          .toLowerCase() === clean
       );
     }) ?? null
   );
@@ -544,6 +568,182 @@ export async function getAuthCode(
     `/domains/${domainId}/authcode`,
     {
       method: "GET",
+    },
+  );
+}
+
+/* =========================================================
+   DNS OPENPROVIDER
+   ========================================================= */
+
+export async function getDnsZone(
+  domain: string,
+) {
+  const clean = cleanDomain(domain);
+
+  return api<any>(
+    `/dns/zones/${encodeURIComponent(clean)}?with_records=true`,
+    {
+      method: "GET",
+    },
+  );
+}
+
+export async function getDnsRecords(
+  domain: string,
+) {
+  const clean = cleanDomain(domain);
+
+  return api<any>(
+    `/dns/zones/${encodeURIComponent(clean)}/records?limit=500`,
+    {
+      method: "GET",
+    },
+  );
+}
+
+export async function createDnsZone(
+  domain: string,
+  records: DnsRecord[] = [],
+) {
+  const clean = cleanDomain(domain);
+
+  const formattedRecords =
+    records.map((record) => ({
+      name: record.name,
+      ttl: record.ttl,
+      type: record.type,
+      value: record.value,
+      ...(record.prio !== undefined
+        ? {
+            prio: record.prio,
+          }
+        : record.priority !== undefined
+          ? {
+              prio: record.priority,
+            }
+          : {}),
+    }));
+
+  return api<any>(
+    "/dns/zones",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        domain: {
+          name: clean,
+        },
+
+        type: "master",
+
+        records:
+          formattedRecords,
+      }),
+    },
+  );
+}
+
+export async function updateDnsZone(
+  domain: string,
+  records: DnsRecord[],
+) {
+  const clean = cleanDomain(domain);
+
+  const zone =
+    await getDnsZone(clean);
+
+  const zoneId =
+    zone?.id ??
+    zone?.zone_id;
+
+  if (!zoneId) {
+    throw new Error(
+      "Zone DNS Openprovider introuvable.",
+    );
+  }
+
+  const formattedRecords =
+    records.map((record) => ({
+      name: record.name,
+      ttl: record.ttl,
+      type: record.type,
+      value: record.value,
+      ...(record.prio !== undefined
+        ? {
+            prio: record.prio,
+          }
+        : record.priority !== undefined
+          ? {
+              prio: record.priority,
+            }
+          : {}),
+    }));
+
+  return api<any>(
+    `/dns/zones/${encodeURIComponent(clean)}`,
+    {
+      method: "PUT",
+      body: JSON.stringify({
+        id: zoneId,
+        name: clean,
+        type: "master",
+        records: {
+          add: formattedRecords,
+        },
+      }),
+    },
+  );
+}
+
+export async function deleteDnsRecord(
+  domain: string,
+  record: DnsRecord,
+) {
+  const clean = cleanDomain(domain);
+
+  const zone =
+    await getDnsZone(clean);
+
+  const zoneId =
+    zone?.id ??
+    zone?.zone_id;
+
+  if (!zoneId) {
+    throw new Error(
+      "Zone DNS Openprovider introuvable.",
+    );
+  }
+
+  const originalRecord = {
+    name: record.name,
+    ttl: record.ttl,
+    type: record.type,
+    value: record.value,
+    ...(record.prio !== undefined
+      ? {
+          prio: record.prio,
+        }
+      : record.priority !== undefined
+        ? {
+            prio: record.priority,
+          }
+        : {}),
+  };
+
+  return api<any>(
+    `/dns/zones/${encodeURIComponent(clean)}`,
+    {
+      method: "PUT",
+      body: JSON.stringify({
+        id: zoneId,
+        name: clean,
+        type: "master",
+        records: {
+          remove: [
+            originalRecord,
+          ],
+        },
+      }),
     },
   );
 }

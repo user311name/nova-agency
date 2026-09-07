@@ -1,29 +1,37 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function GET(
-  _request: NextRequest,
-) {
+export async function GET() {
   try {
-    /*
-     * ========================================================
-     * AUTHENTIFICATION
-     * ========================================================
-     */
+    // ========================================================
+    // AUTHENTIFICATION
+    // ========================================================
 
-    const supabase =
-      await createSupabaseServerClient();
+    const supabase = await createSupabaseServerClient();
 
     const {
       data: { user },
       error: authError,
     } = await supabase.auth.getUser();
 
-    if (authError || !user) {
+    if (authError) {
+      console.error("SUPABASE AUTH ERROR:", authError);
+
+      return NextResponse.json(
+        {
+          error: "Impossible de vérifier votre session.",
+          code: "AUTH_ERROR",
+        },
+        { status: 401 },
+      );
+    }
+
+    if (!user) {
       return NextResponse.json(
         {
           error: "Vous devez être connecté.",
@@ -33,16 +41,11 @@ export async function GET(
       );
     }
 
-    /*
-     * ========================================================
-     * DOMAINES DU COMPTE
-     * ========================================================
-     */
+    // ========================================================
+    // RÉCUPÉRATION DES DOMAINES DU CLIENT
+    // ========================================================
 
-    const {
-      data,
-      error,
-    } = await supabaseAdmin
+    const { data, error } = await supabaseAdmin
       .from("domains")
       .select(`
         id,
@@ -50,42 +53,48 @@ export async function GET(
         status,
         email,
         expires_at,
-        openprovider_id,
-        stripe_session_id,
         user_id,
         created_at
       `)
       .eq("user_id", user.id)
-      .order(
-        "created_at",
-        {
-          ascending: false,
-        },
-      );
+      .order("created_at", {
+        ascending: false,
+      });
 
     if (error) {
-      console.error(
-        "SUPABASE DOMAINS ERROR:",
-        error,
-      );
+      console.error("SUPABASE DOMAINS ERROR:", {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+      });
 
       return NextResponse.json(
         {
-          error:
-            "Impossible de récupérer les domaines.",
+          error: "Impossible de récupérer les domaines.",
+          code: "DOMAINS_FETCH_ERROR",
         },
         { status: 500 },
       );
     }
 
-    return NextResponse.json({
-      domains: data || [],
-    });
-  } catch (error) {
-    console.error(
-      "CLIENT DOMAINS API ERROR:",
-      error,
+    // ========================================================
+    // RÉPONSE
+    // ========================================================
+
+    return NextResponse.json(
+      {
+        domains: data ?? [],
+      },
+      {
+        status: 200,
+        headers: {
+          "Cache-Control": "no-store, max-age=0",
+        },
+      },
     );
+  } catch (error) {
+    console.error("CLIENT DOMAINS API ERROR:", error);
 
     return NextResponse.json(
       {
@@ -93,6 +102,7 @@ export async function GET(
           error instanceof Error
             ? error.message
             : "Erreur serveur.",
+        code: "SERVER_ERROR",
       },
       { status: 500 },
     );

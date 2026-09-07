@@ -18,6 +18,36 @@ type RouteContext = {
   }>;
 };
 
+type DnsRecord = {
+  name?: string;
+  type?: string;
+  value?: string;
+  ip?: string;
+  ttl?: number;
+  prio?: number;
+  priority?: number;
+};
+
+const ALLOWED_TTLS = [
+  900,
+  3600,
+  10800,
+  21600,
+  43200,
+  86400,
+];
+
+const ALLOWED_TYPES = [
+  "A",
+  "AAAA",
+  "CNAME",
+  "MX",
+  "TXT",
+  "NS",
+  "SRV",
+  "CAA",
+];
+
 async function getAuthenticatedDomain(id: string) {
   const supabase = await createSupabaseServerClient();
 
@@ -26,7 +56,16 @@ async function getAuthenticatedDomain(id: string) {
     error: authError,
   } = await supabase.auth.getUser();
 
-  if (authError || !user) {
+  if (authError) {
+    console.error("DNS AUTH ERROR:", authError);
+
+    return {
+      user: null,
+      domain: null,
+    };
+  }
+
+  if (!user) {
     return {
       user: null,
       domain: null,
@@ -48,7 +87,10 @@ async function getAuthenticatedDomain(id: string) {
 
   if (error) {
     console.error("DNS DOMAIN LOOKUP ERROR:", error);
-    throw new Error("Impossible de récupérer votre domaine.");
+
+    throw new Error(
+      "Impossible de récupérer votre domaine.",
+    );
   }
 
   return {
@@ -57,45 +99,205 @@ async function getAuthenticatedDomain(id: string) {
   };
 }
 
-function normalizeRecords(data: any) {
-  const records =
-    data?.results ??
-    data?.records ??
-    [];
+function createRecordId(record: DnsRecord) {
+  const payload: {
+    name: string;
+    type: string;
+    value: string;
+    ttl: number;
+    priority?: number;
+  } = {
+    name:
+      String(record.name ?? "@").trim() ||
+      "@",
 
-  if (!Array.isArray(records)) {
-    return [];
+    type:
+      String(record.type ?? "")
+        .trim()
+        .toUpperCase(),
+
+    value:
+      String(
+        record.value ??
+          record.ip ??
+          "",
+      ).trim(),
+
+    ttl:
+      Number(record.ttl) || 3600,
+  };
+
+  const priority =
+    record.prio !== undefined &&
+    record.prio !== null
+      ? Number(record.prio)
+      : record.priority !== undefined &&
+          record.priority !== null
+        ? Number(record.priority)
+        : undefined;
+
+  if (
+    priority !== undefined &&
+    Number.isFinite(priority)
+  ) {
+    payload.priority = priority;
   }
 
-  return records.map(
-    (record: any, index: number) => ({
-      id:
-        record.id ??
-        record.record_id ??
-        `${record.type || "record"}-${record.name || index}-${index}`,
+  return Buffer.from(
+    JSON.stringify(payload),
+    "utf8",
+  ).toString("base64url");
+}
 
-      type: String(record.type || "").toUpperCase(),
+function normalizeRecords(data: unknown) {
+  const source = data as {
+    results?: unknown;
+    records?: unknown;
+  };
 
-      name: String(record.name || "@"),
+  const records =
+    Array.isArray(source?.results)
+      ? source.results
+      : Array.isArray(source?.records)
+        ? source.records
+        : Array.isArray(data)
+          ? data
+          : [];
 
-      value: String(
-        record.value ??
+  return records.map((recordValue) => {
+    const record =
+      recordValue as DnsRecord;
+
+    const type = String(
+      record.type ?? "",
+    ).toUpperCase();
+
+    const name =
+      String(
+        record.name ?? "@",
+      ).trim() || "@";
+
+    const value = String(
+      record.value ??
         record.ip ??
         "",
-      ),
+    );
 
-      ttl:
-        Number(record.ttl) ||
-        3600,
+    const ttl =
+      Number(record.ttl) || 3600;
 
-      priority:
-        record.prio !== undefined
-          ? Number(record.prio)
-          : record.priority !== undefined
-            ? Number(record.priority)
-            : null,
-    }),
+    const priority =
+      record.prio !== undefined &&
+      record.prio !== null
+        ? Number(record.prio)
+        : record.priority !== undefined &&
+            record.priority !== null
+          ? Number(record.priority)
+          : null;
+
+    return {
+      id: createRecordId({
+        name,
+        type,
+        value,
+        ttl,
+        ...(priority !== null
+          ? { priority }
+          : {}),
+      }),
+
+      type,
+      name,
+      value,
+      ttl,
+      priority,
+    };
+  });
+}
+
+function getDomainName(domain: {
+  domain?: string | null;
+}) {
+  return String(
+    domain.domain ?? "",
+  )
+    .trim()
+    .toLowerCase();
+}
+
+function getDomainStatus(status: unknown) {
+  return String(
+    status ?? "",
+  )
+    .trim()
+    .toLowerCase();
+}
+
+function isDomainActive(status: unknown) {
+  return getDomainStatus(status) === "active";
+}
+
+function getDnsUnavailableResponse(
+  status: unknown,
+) {
+  const normalizedStatus =
+    getDomainStatus(status);
+
+  if (
+    normalizedStatus === "pending" ||
+    normalizedStatus === "processing"
+  ) {
+    return NextResponse.json(
+      {
+        error:
+          "La configuration DNS sera disponible dès que votre domaine sera activé.",
+        code: "DOMAIN_ACTIVATION_PENDING",
+        status: normalizedStatus,
+      },
+      { status: 409 },
+    );
+  }
+
+  if (normalizedStatus === "failed") {
+    return NextResponse.json(
+      {
+        error:
+          "La configuration DNS n'est pas disponible car l'activation de votre domaine n'est pas finalisée.",
+        code: "DOMAIN_ACTIVATION_FAILED",
+        status: normalizedStatus,
+      },
+      { status: 409 },
+    );
+  }
+
+  return NextResponse.json(
+    {
+      error:
+        "La configuration DNS sera disponible dès que votre domaine sera actif.",
+      code: "DOMAIN_NOT_ACTIVE",
+      status: normalizedStatus || "unknown",
+    },
+    { status: 409 },
   );
+}
+
+async function ensureDnsZone(
+  domainName: string,
+) {
+  try {
+    return await getDnsZone(
+      domainName,
+    );
+  } catch (error) {
+    console.error(
+      "OPENPROVIDER DNS ZONE LOOKUP ERROR:",
+      error,
+    );
+
+    return await createDnsZone(
+      domainName,
+    );
+  }
 }
 
 export async function GET(
@@ -103,12 +305,14 @@ export async function GET(
   context: RouteContext,
 ) {
   try {
-    const { id } = await context.params;
+    const { id } =
+      await context.params;
 
     if (!id) {
       return NextResponse.json(
         {
-          error: "Identifiant de domaine manquant.",
+          error:
+            "Identifiant de domaine manquant.",
         },
         { status: 400 },
       );
@@ -117,12 +321,14 @@ export async function GET(
     const {
       user,
       domain,
-    } = await getAuthenticatedDomain(id);
+    } =
+      await getAuthenticatedDomain(id);
 
     if (!user) {
       return NextResponse.json(
         {
-          error: "Vous devez être connecté.",
+          error:
+            "Vous devez être connecté.",
           code: "AUTH_REQUIRED",
         },
         { status: 401 },
@@ -139,27 +345,72 @@ export async function GET(
       );
     }
 
-    const domainName = String(domain.domain)
-      .trim()
-      .toLowerCase();
+    /*
+     * ========================================================
+     * VÉRIFICATION DE L'ACTIVATION DU DOMAINE
+     * ========================================================
+     */
 
-    let zone: any = null;
-    let records: any = [];
+    if (
+      !isDomainActive(
+        domain.status,
+      )
+    ) {
+      return getDnsUnavailableResponse(
+        domain.status,
+      );
+    }
+
+    const domainName =
+      getDomainName(domain);
+
+    if (!domainName) {
+      return NextResponse.json(
+        {
+          error:
+            "Nom de domaine invalide.",
+        },
+        { status: 400 },
+      );
+    }
+
+    /*
+     * ========================================================
+     * RÉCUPÉRATION DE LA ZONE DNS
+     * ========================================================
+     */
+
+    let zone: unknown = null;
+    let records: unknown = [];
 
     try {
-      zone = await getDnsZone(domainName);
+      zone =
+        await getDnsZone(
+          domainName,
+        );
 
       records =
-        await getDnsRecords(domainName);
+        await getDnsRecords(
+          domainName,
+        );
     } catch (openproviderError) {
       console.error(
         "OPENPROVIDER DNS GET ERROR:",
         openproviderError,
       );
 
+      /*
+       * Le domaine est actif mais aucune
+       * zone n'existe encore.
+       *
+       * On tente donc de créer la zone.
+       */
+
       try {
         zone =
-          await createDnsZone(domainName);
+          await createDnsZone(
+            domainName,
+          );
 
         records = [];
       } catch (createError) {
@@ -168,7 +419,14 @@ export async function GET(
           createError,
         );
 
-        throw openproviderError;
+        return NextResponse.json(
+          {
+            error:
+              "Impossible d'initialiser la zone DNS de votre domaine.",
+            code: "DNS_ZONE_UNAVAILABLE",
+          },
+          { status: 503 },
+        );
       }
     }
 
@@ -185,7 +443,9 @@ export async function GET(
         zone,
 
         records:
-          normalizeRecords(records),
+          normalizeRecords(
+            records,
+          ),
       },
       { status: 200 },
     );
@@ -212,12 +472,14 @@ export async function POST(
   context: RouteContext,
 ) {
   try {
-    const { id } = await context.params;
+    const { id } =
+      await context.params;
 
     if (!id) {
       return NextResponse.json(
         {
-          error: "Identifiant de domaine manquant.",
+          error:
+            "Identifiant de domaine manquant.",
         },
         { status: 400 },
       );
@@ -226,12 +488,14 @@ export async function POST(
     const {
       user,
       domain,
-    } = await getAuthenticatedDomain(id);
+    } =
+      await getAuthenticatedDomain(id);
 
     if (!user) {
       return NextResponse.json(
         {
-          error: "Vous devez être connecté.",
+          error:
+            "Vous devez être connecté.",
           code: "AUTH_REQUIRED",
         },
         { status: 401 },
@@ -248,23 +512,52 @@ export async function POST(
       );
     }
 
-    const body = await request.json();
+    /*
+     * ========================================================
+     * UN DOMAINE NON ACTIF NE PEUT PAS RECEVOIR DE DNS
+     * ========================================================
+     */
 
-    const type = String(body?.type || "")
-      .trim()
-      .toUpperCase();
+    if (
+      !isDomainActive(
+        domain.status,
+      )
+    ) {
+      return getDnsUnavailableResponse(
+        domain.status,
+      );
+    }
 
-    const name = String(
-      body?.name || "@",
-    ).trim();
+    /*
+     * ========================================================
+     * LECTURE DU FORMULAIRE
+     * ========================================================
+     */
 
-    const value = String(
-      body?.value || "",
-    ).trim();
+    const body =
+      await request.json();
 
-    const ttl = Number(
-      body?.ttl || 3600,
-    );
+    const type =
+      String(
+        body?.type ?? "",
+      )
+        .trim()
+        .toUpperCase();
+
+    const name =
+      String(
+        body?.name ?? "@",
+      ).trim() || "@";
+
+    const value =
+      String(
+        body?.value ?? "",
+      ).trim();
+
+    const ttl =
+      Number(
+        body?.ttl ?? 3600,
+      );
 
     const priority =
       body?.priority !== null &&
@@ -273,25 +566,31 @@ export async function POST(
         ? Number(body.priority)
         : null;
 
-    const allowedTypes = [
-      "A",
-      "AAAA",
-      "CNAME",
-      "MX",
-      "TXT",
-      "NS",
-      "SRV",
-      "CAA",
-    ];
+    /*
+     * ========================================================
+     * VALIDATION DU TYPE
+     * ========================================================
+     */
 
-    if (!allowedTypes.includes(type)) {
+    if (
+      !ALLOWED_TYPES.includes(
+        type,
+      )
+    ) {
       return NextResponse.json(
         {
-          error: "Type DNS non autorisé.",
+          error:
+            "Type DNS non autorisé.",
         },
         { status: 400 },
       );
     }
+
+    /*
+     * ========================================================
+     * VALIDATION DE LA VALEUR
+     * ========================================================
+     */
 
     if (!value) {
       return NextResponse.json(
@@ -303,24 +602,38 @@ export async function POST(
       );
     }
 
+    /*
+     * ========================================================
+     * VALIDATION DU TTL
+     * ========================================================
+     */
+
     if (
       !Number.isFinite(ttl) ||
-      ttl < 60
+      !ALLOWED_TTLS.includes(ttl)
     ) {
       return NextResponse.json(
         {
           error:
-            "Le TTL doit être supérieur ou égal à 60 secondes.",
+            "TTL invalide. Utilisez 900, 3600, 10800, 21600, 43200 ou 86400 secondes.",
         },
         { status: 400 },
       );
     }
 
+    /*
+     * ========================================================
+     * VALIDATION MX
+     * ========================================================
+     */
+
     if (
       type === "MX" &&
       (
         priority === null ||
-        !Number.isFinite(priority)
+        !Number.isFinite(
+          priority,
+        )
       )
     ) {
       return NextResponse.json(
@@ -332,66 +645,76 @@ export async function POST(
       );
     }
 
-    const domainName = String(domain.domain)
-      .trim()
-      .toLowerCase();
+    const domainName =
+      getDomainName(domain);
 
-    let zone: any;
-
-    try {
-      zone =
-        await getDnsZone(domainName);
-    } catch {
-      zone =
-        await createDnsZone(domainName);
+    if (!domainName) {
+      return NextResponse.json(
+        {
+          error:
+            "Nom de domaine invalide.",
+        },
+        { status: 400 },
+      );
     }
 
-    const currentRecords =
-      await getDnsRecords(domainName);
+    /*
+     * ========================================================
+     * ZONE DNS
+     * ========================================================
+     */
 
-    const normalizedCurrent =
-      normalizeRecords(currentRecords);
+    const zone =
+      await ensureDnsZone(
+        domainName,
+      );
 
-    const nextRecords = [
-      ...normalizedCurrent.map(
-        (record: any) => ({
-          name: record.name,
-          ttl: record.ttl,
-          type: record.type,
-          value: record.value,
+    /*
+     * ========================================================
+     * NOUVEL ENREGISTREMENT
+     * ========================================================
+     */
 
-          ...(record.priority !== null
-            ? {
-                prio:
-                  record.priority,
-              }
-            : {}),
-        }),
-      ),
+    const newRecord: {
+      name: string;
+      ttl: number;
+      type: string;
+      value: string;
+      prio?: number;
+    } = {
+      name,
+      ttl,
+      type,
+      value,
+    };
 
-      {
-        name,
-        ttl,
-        type,
-        value,
+    if (
+      priority !== null &&
+      Number.isFinite(priority)
+    ) {
+      newRecord.prio =
+        priority;
+    }
 
-        ...(priority !== null
-          ? {
-              prio: priority,
-            }
-          : {}),
-      },
-    ];
+    /*
+     * ========================================================
+     * SYNCHRONISATION OPENPROVIDER
+     * ========================================================
+     *
+     * On envoie uniquement le nouvel
+     * enregistrement.
+     */
 
     const updated =
       await updateDnsZone(
         domainName,
-        nextRecords,
+        [newRecord],
       );
 
     return NextResponse.json(
       {
         success: true,
+
         message:
           "Enregistrement DNS ajouté.",
 
@@ -399,6 +722,16 @@ export async function POST(
           updated || zone,
 
         record: {
+          id: createRecordId({
+            name,
+            type,
+            value,
+            ttl,
+            ...(priority !== null
+              ? { priority }
+              : {}),
+          }),
+
           type,
           name,
           value,

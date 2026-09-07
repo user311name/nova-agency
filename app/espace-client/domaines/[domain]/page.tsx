@@ -18,7 +18,9 @@ type Domain = {
   created_at: string | null;
 };
 
-function mapStatus(status: string | null | undefined): DomainStatus {
+function mapStatus(
+  status: string | null | undefined,
+): DomainStatus {
   const normalized = String(status || "").toLowerCase();
 
   if (
@@ -71,6 +73,79 @@ function getStatusLabel(status: DomainStatus) {
   }
 }
 
+function GlobeIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="domain-details-svg"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18" />
+      <path d="M12 3c2.3 2.4 3.5 5.4 3.5 9s-1.2 6.6-3.5 9c-2.3-2.4-3.5-5.4-3.5-9S9.7 5.4 12 3Z" />
+    </svg>
+  );
+}
+
+function DnsIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="domain-details-svg"
+      aria-hidden="true"
+    >
+      <rect
+        x="4"
+        y="4"
+        width="16"
+        height="5"
+        rx="1.5"
+      />
+      <rect
+        x="4"
+        y="15"
+        width="16"
+        height="5"
+        rx="1.5"
+      />
+      <path d="M8 9v6" />
+      <path d="M16 9v6" />
+    </svg>
+  );
+}
+
+function MailIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="domain-details-svg"
+      aria-hidden="true"
+    >
+      <rect
+        x="3"
+        y="5"
+        width="18"
+        height="14"
+        rx="2"
+      />
+      <path d="m4 7 8 6 8-6" />
+    </svg>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="domain-details-svg"
+      aria-hidden="true"
+    >
+      <path d="M12 3 19 6v5c0 4.7-2.9 8.2-7 10-4.1-1.8-7-5.3-7-10V6l7-3Z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  );
+}
+
 export default function DomainDetailsPage() {
   const params = useParams();
 
@@ -78,9 +153,13 @@ export default function DomainDetailsPage() {
     ? params.domain[0]
     : params?.domain;
 
-  const domainName = decodeURIComponent(String(domainParam || ""));
+  const domainName = decodeURIComponent(
+    String(domainParam || ""),
+  );
 
-  const [domain, setDomain] = useState<Domain | null>(null);
+  const [domain, setDomain] =
+    useState<Domain | null>(null);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -98,16 +177,21 @@ export default function DomainDetailsPage() {
         setLoading(true);
         setError("");
 
-        const response = await fetch("/api/domains/client/domains", {
-          method: "GET",
-          credentials: "include",
-          cache: "no-store",
-        });
+        const response = await fetch(
+          "/api/domains/client/domains",
+          {
+            method: "GET",
+            credentials: "include",
+            cache: "no-store",
+          },
+        );
 
         if (response.status === 401) {
-          window.location.href = `/connexion?next=${encodeURIComponent(
-            `/espace-client/domaines/${domainName}`,
-          )}`;
+          window.location.href =
+            `/connexion?next=${encodeURIComponent(
+              `/espace-client/domaines/${domainName}`,
+            )}`;
+
           return;
         }
 
@@ -115,7 +199,8 @@ export default function DomainDetailsPage() {
 
         if (!response.ok) {
           throw new Error(
-            data?.error || "Impossible de récupérer le domaine.",
+            data?.error ||
+              "Impossible de récupérer le domaine.",
           );
         }
 
@@ -153,7 +238,8 @@ export default function DomainDetailsPage() {
           status: mapStatus(found.status),
           email: found.email ?? null,
           expires_at: found.expires_at ?? null,
-          openprovider_id: found.openprovider_id ?? null,
+          openprovider_id:
+            found.openprovider_id ?? null,
           created_at: found.created_at ?? null,
         });
       } catch (err) {
@@ -209,7 +295,10 @@ export default function DomainDetailsPage() {
 
         <section className="domain-details-loading">
           <div className="domain-details-spinner" />
-          <p>Chargement de votre domaine…</p>
+
+          <p>
+            Chargement de votre domaine…
+          </p>
         </section>
       </main>
     );
@@ -247,7 +336,9 @@ export default function DomainDetailsPage() {
             DOMAINE INTROUVABLE
           </span>
 
-          <h1>Impossible d'afficher ce domaine.</h1>
+          <h1>
+            Impossible d'afficher ce domaine.
+          </h1>
 
           <p>
             {error ||
@@ -265,7 +356,9 @@ export default function DomainDetailsPage() {
     );
   }
 
-  const statusLabel = getStatusLabel(domain.status);
+  const statusLabel = getStatusLabel(
+    domain.status,
+  );
 
   return (
     <main className="domain-details-page">
@@ -285,7 +378,10 @@ export default function DomainDetailsPage() {
           </Link>
 
           <nav className="domain-details-navigation">
-            <Link href="/espace-client/domaines" className="active">
+            <Link
+              href="/espace-client/domaines"
+              className="active"
+            >
               Domaines
             </Link>
 
@@ -349,15 +445,7 @@ export default function DomainDetailsPage() {
 
             <div className="domain-details-title-row">
               <div className="domain-details-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="domain-details-svg"
-                  aria-hidden="true"
-                >
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M3 12h18" />
-                  <path d="M12 3c2.3 2.4 3.5 5.4 3.5 9s-1.2 6.6-3.5 9c-2.3-2.4-3.5-5.4-3.5-9S9.7 5.4 12 3Z" />
-                </svg>
+                <GlobeIcon />
               </div>
 
               <div>
@@ -373,10 +461,10 @@ export default function DomainDetailsPage() {
             </div>
 
             <p className="domain-details-intro">
-              Gérez votre domaine depuis votre espace NOVA.
-              Retrouvez ici les informations essentielles,
-              les services associés et les prochaines actions
-              disponibles.
+              Gérez votre domaine depuis votre espace
+              NOVA. Retrouvez ici les informations
+              essentielles, les services associés et les
+              prochaines actions disponibles.
             </p>
           </div>
 
@@ -402,13 +490,19 @@ export default function DomainDetailsPage() {
           <div className="domain-details-info-grid">
             <article className="domain-details-info-card">
               <span>DOMAINE</span>
+
               <strong>{domain.domain}</strong>
-              <small>Nom de domaine enregistré</small>
+
+              <small>
+                Nom de domaine enregistré
+              </small>
             </article>
 
             <article className="domain-details-info-card">
               <span>STATUT</span>
+
               <strong>{statusLabel}</strong>
+
               <small>
                 État actuel de l'enregistrement
               </small>
@@ -416,9 +510,11 @@ export default function DomainDetailsPage() {
 
             <article className="domain-details-info-card">
               <span>EXPIRATION</span>
+
               <strong>
                 {formatDate(domain.expires_at)}
               </strong>
+
               <small>
                 Date de renouvellement à surveiller
               </small>
@@ -426,9 +522,11 @@ export default function DomainDetailsPage() {
 
             <article className="domain-details-info-card">
               <span>CONTACT</span>
+
               <strong>
                 {domain.email || "Non défini"}
               </strong>
+
               <small>
                 Adresse associée au domaine
               </small>
@@ -452,20 +550,12 @@ export default function DomainDetailsPage() {
               className="domain-details-tool"
             >
               <div className="domain-details-tool-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="domain-details-svg"
-                  aria-hidden="true"
-                >
-                  <circle cx="12" cy="12" r="9" />
-                  <path d="M3 12h18" />
-                  <path d="M12 3v18" />
-                </svg>
+                <DnsIcon />
               </div>
 
               <span>CONFIGURATION</span>
 
-              <h3>DNS & serveurs</h3>
+              <h3>DNS &amp; serveurs</h3>
 
               <p>
                 Gérez les enregistrements DNS et les
@@ -482,20 +572,7 @@ export default function DomainDetailsPage() {
               className="domain-details-tool"
             >
               <div className="domain-details-tool-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="domain-details-svg"
-                  aria-hidden="true"
-                >
-                  <rect
-                    x="3"
-                    y="5"
-                    width="18"
-                    height="14"
-                    rx="2"
-                  />
-                  <path d="m4 7 8 6 8-6" />
-                </svg>
+                <MailIcon />
               </div>
 
               <span>MESSAGERIE</span>
@@ -517,14 +594,7 @@ export default function DomainDetailsPage() {
               className="domain-details-tool"
             >
               <div className="domain-details-tool-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  className="domain-details-svg"
-                  aria-hidden="true"
-                >
-                  <path d="M12 3 19 6v5c0 4.7-2.9 8.2-7 10-4.1-1.8-7-5.3-7-10V6l7-3Z" />
-                  <path d="m9 12 2 2 4-4" />
-                </svg>
+                <ShieldIcon />
               </div>
 
               <span>PROTECTION</span>
@@ -532,8 +602,9 @@ export default function DomainDetailsPage() {
               <h3>Sécurité</h3>
 
               <p>
-                Consultez les protections et services de
-                sécurité disponibles pour votre domaine.
+                Consultez les protections et services
+                de sécurité disponibles pour votre
+                domaine.
               </p>
 
               <span className="domain-details-tool-arrow">
@@ -556,8 +627,8 @@ export default function DomainDetailsPage() {
             </h2>
 
             <p>
-              La date d'expiration actuelle de votre domaine
-              est le{" "}
+              La date d'expiration actuelle de votre
+              domaine est le{" "}
               <strong>
                 {formatDate(domain.expires_at)}
               </strong>

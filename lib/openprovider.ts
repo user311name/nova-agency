@@ -67,14 +67,68 @@ function splitDomain(domain: string) {
   const parts = clean.split(".");
 
   if (parts.length < 2) {
-    throw new Error("Nom de domaine invalide.");
+    throw new Error(
+      "Nom de domaine invalide.",
+    );
+  }
+
+  const knownTwoPartExtensions = [
+    "co.uk",
+    "org.uk",
+    "me.uk",
+    "ac.uk",
+    "gov.uk",
+    "com.au",
+    "net.au",
+    "org.au",
+    "co.nz",
+    "net.nz",
+    "org.nz",
+    "co.jp",
+    "ne.jp",
+    "com.br",
+    "com.cn",
+    "com.sg",
+    "com.hk",
+  ];
+
+  const matchedExtension =
+    knownTwoPartExtensions.find(
+      (extension) =>
+        clean.endsWith(
+          `.${extension}`,
+        ),
+    );
+
+  if (matchedExtension) {
+    const suffix =
+      `.${matchedExtension}`;
+
+    const name = clean.slice(
+      0,
+      -suffix.length,
+    );
+
+    if (!name) {
+      throw new Error(
+        "Nom de domaine invalide.",
+      );
+    }
+
+    return {
+      clean,
+      name,
+      extension: matchedExtension,
+    };
   }
 
   const extension = parts.pop()!;
   const name = parts.join(".");
 
   if (!name || !extension) {
-    throw new Error("Nom de domaine invalide.");
+    throw new Error(
+      "Nom de domaine invalide.",
+    );
   }
 
   return {
@@ -109,8 +163,10 @@ async function login(): Promise<string> {
     {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        "Content-Type":
+          "application/json",
+        Accept:
+          "application/json",
       },
       body: JSON.stringify({
         username,
@@ -121,7 +177,8 @@ async function login(): Promise<string> {
     },
   );
 
-  const text = await response.text();
+  const text =
+    await response.text();
 
   let json: ApiResponse<TokenResponse>;
 
@@ -144,10 +201,12 @@ async function login(): Promise<string> {
     );
   }
 
-  cachedToken = json.data.token;
+  cachedToken =
+    json.data.token;
 
   tokenExpiresAt =
-    Date.now() + 20 * 60 * 1000;
+    Date.now() +
+    20 * 60 * 1000;
 
   return cachedToken;
 }
@@ -157,23 +216,29 @@ async function api<T>(
   options: RequestInit = {},
   retry = true,
 ): Promise<T> {
-  const token = await login();
+  const token =
+    await login();
 
-  const response = await fetch(
-    `${API_URL}${endpoint}`,
-    {
-      ...options,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        ...(options.headers || {}),
+  const response =
+    await fetch(
+      `${API_URL}${endpoint}`,
+      {
+        ...options,
+        headers: {
+          Authorization:
+            `Bearer ${token}`,
+          "Content-Type":
+            "application/json",
+          Accept:
+            "application/json",
+          ...(options.headers || {}),
+        },
+        cache: "no-store",
       },
-      cache: "no-store",
-    },
-  );
+    );
 
-  const text = await response.text();
+  const text =
+    await response.text();
 
   let json: ApiResponse<T>;
 
@@ -201,8 +266,10 @@ async function api<T>(
 
   if (
     !response.ok ||
-    (typeof json.code === "number" &&
-      json.code !== 0)
+    (
+      typeof json.code === "number" &&
+      json.code !== 0
+    )
   ) {
     throw new Error(
       json.desc ||
@@ -213,7 +280,9 @@ async function api<T>(
   return json.data as T;
 }
 
-function parsePrice(item: any): number | null {
+function parsePrice(
+  item: any,
+): number | null {
   const price =
     item?.price?.reseller?.price ??
     item?.price?.reseller ??
@@ -221,14 +290,17 @@ function parsePrice(item: any): number | null {
     item?.reseller_price ??
     item?.price?.price;
 
-  const number = Number(price);
+  const number =
+    Number(price);
 
   return Number.isFinite(number)
     ? number
     : null;
 }
 
-function parseCurrency(item: any): string {
+function parseCurrency(
+  item: any,
+): string {
   return (
     item?.price?.reseller?.currency ??
     item?.price?.product?.currency ??
@@ -247,18 +319,21 @@ export async function checkDomain(
   } = splitDomain(domain);
 
   const result =
-    await api<any>("/domains/check", {
-      method: "POST",
-      body: JSON.stringify({
-        domains: [
-          {
-            name,
-            extension,
-          },
-        ],
-        with_price: true,
-      }),
-    });
+    await api<any>(
+      "/domains/check",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          domains: [
+            {
+              name,
+              extension,
+            },
+          ],
+          with_price: true,
+        }),
+      },
+    );
 
   const item =
     result?.results?.[0] ??
@@ -271,9 +346,10 @@ export async function checkDomain(
     );
   }
 
-  const status = String(
-    item.status || "",
-  ).toLowerCase();
+  const status =
+    String(
+      item.status || "",
+    ).toLowerCase();
 
   const available =
     status === "free" ||
@@ -286,8 +362,10 @@ export async function checkDomain(
     extension,
     available,
     status,
-    resellerPrice: parsePrice(item),
-    currency: parseCurrency(item),
+    resellerPrice:
+      parsePrice(item),
+    currency:
+      parseCurrency(item),
     premium:
       Boolean(item.is_premium) ||
       Boolean(item.premium),
@@ -298,8 +376,14 @@ function parsePhone(
   phone: string,
   country: string,
 ) {
-  const clean = phone.replace(/[^\d+]/g, "");
-  const countryCode = country.toUpperCase();
+  const clean =
+    phone.replace(
+      /[^\d+]/g,
+      "",
+    );
+
+  const countryCode =
+    country.toUpperCase();
 
   if (!clean) {
     throw new Error(
@@ -307,12 +391,25 @@ function parsePhone(
     );
   }
 
-  if (countryCode === "FR") {
-    const nationalNumber = clean
-      .replace(/^\+?33/, "")
-      .replace(/^0/, "");
+  if (
+    countryCode === "FR"
+  ) {
+    const nationalNumber =
+      clean
+        .replace(
+          /^\+?33/,
+          "",
+        )
+        .replace(
+          /^0/,
+          "",
+        );
 
-    if (!/^\d{9}$/.test(nationalNumber)) {
+    if (
+      !/^\d{9}$/.test(
+        nationalNumber,
+      )
+    ) {
       throw new Error(
         "Numéro de téléphone français invalide.",
       );
@@ -321,15 +418,21 @@ function parsePhone(
     return {
       country_code: "+33",
       area_code:
-        nationalNumber.slice(0, 1),
+        nationalNumber.slice(
+          0,
+          1,
+        ),
       subscriber_number:
-        nationalNumber.slice(1),
+        nationalNumber.slice(
+          1,
+        ),
     };
   }
 
-  const international = clean.match(
-    /^\+(\d{1,3})(\d{4,})$/,
-  );
+  const international =
+    clean.match(
+      /^\+(\d{1,3})(\d{4,})$/,
+    );
 
   if (!international) {
     throw new Error(
@@ -338,7 +441,8 @@ function parsePhone(
   }
 
   return {
-    country_code: `+${international[1]}`,
+    country_code:
+      `+${international[1]}`,
     area_code: "",
     subscriber_number:
       international[2],
@@ -349,13 +453,16 @@ export async function createCustomer(
   contact: DomainContact,
 ) {
   const result =
-    await api<{ handle: string }>(
+    await api<{
+      handle: string;
+    }>(
       "/customers",
       {
         method: "POST",
         body: JSON.stringify({
           company_name:
-            contact.company || undefined,
+            contact.company ||
+            undefined,
 
           name: {
             first_name:
@@ -367,7 +474,8 @@ export async function createCustomer(
           },
 
           address: {
-            street: contact.street,
+            street:
+              contact.street,
             number:
               contact.number || "1",
             zipcode:
@@ -385,7 +493,8 @@ export async function createCustomer(
             contact.country,
           ),
 
-          email: contact.email,
+          email:
+            contact.email,
         }),
       },
     );
@@ -409,24 +518,26 @@ export async function registerDomain(
     extension,
   } = splitDomain(domain);
 
-  return api<any>("/domains", {
-    method: "POST",
-    body: JSON.stringify({
-      owner_handle: handle,
-      admin_handle: handle,
-      billing_handle: handle,
-      tech_handle: handle,
+  return api<any>(
+    "/domains",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        owner_handle: handle,
+        admin_handle: handle,
+        billing_handle: handle,
+        tech_handle: handle,
 
-      domain: {
-        name,
-        extension,
-      },
+        domain: {
+          name,
+          extension,
+        },
 
-      period: years,
-
-      autorenew: "on",
-    }),
-  });
+        period: years,
+        autorenew: "on",
+      }),
+    },
+  );
 }
 
 export async function findDomainByName(
@@ -438,7 +549,8 @@ export async function findDomainByName(
     extension,
   } = splitDomain(domain);
 
-  const result = await listDomains(name);
+  const result =
+    await listDomains(name);
 
   const domains =
     result?.results ??
@@ -451,52 +563,62 @@ export async function findDomainByName(
   }
 
   return (
-    domains.find((item: unknown) => {
-      if (
-        !item ||
-        typeof item !== "object"
-      ) {
-        return false;
-      }
+    domains.find(
+      (item: unknown) => {
+        if (
+          !item ||
+          typeof item !== "object"
+        ) {
+          return false;
+        }
 
-      const domainItem = item as {
-        domain?:
-          | string
-          | {
-              name?: string;
-              extension?: string;
-            };
-        domain_name?: string;
-        extension?: string;
-        name?: string;
-      };
+        const domainItem =
+          item as {
+            domain?:
+              | string
+              | {
+                  name?: string;
+                  extension?: string;
+                };
+            domain_name?: string;
+            extension?: string;
+            name?: string;
+          };
 
-      const itemName =
-        typeof domainItem.domain ===
-        "object"
-          ? domainItem.domain?.name
-          : domainItem.name;
+        const itemName =
+          typeof domainItem.domain ===
+          "object"
+            ? domainItem.domain?.name
+            : domainItem.name;
 
-      const itemExtension =
-        typeof domainItem.domain ===
-        "object"
-          ? domainItem.domain?.extension
-          : domainItem.extension;
+        const itemExtension =
+          typeof domainItem.domain ===
+          "object"
+            ? domainItem.domain?.extension
+            : domainItem.extension;
 
-      const fullDomain =
-        domainItem.domain_name ??
-        domainItem.domain;
+        const fullDomain =
+          domainItem.domain_name ??
+          domainItem.domain;
 
-      return (
-        (String(itemName || "")
-          .toLowerCase() === name &&
-          String(itemExtension || "")
-            .toLowerCase() ===
-            extension) ||
-        String(fullDomain || "")
-          .toLowerCase() === clean
-      );
-    }) ?? null
+        return (
+          (
+            String(
+              itemName || "",
+            ).toLowerCase() ===
+              name &&
+            String(
+              itemExtension || "",
+            ).toLowerCase() ===
+              extension
+          ) ||
+          String(
+            fullDomain || "",
+          ).toLowerCase() ===
+            clean
+        );
+      },
+    ) ?? null
   );
 }
 
@@ -529,7 +651,8 @@ export async function getDomain(
 export async function listDomains(
   domainNamePattern?: string,
 ) {
-  const params = new URLSearchParams();
+  const params =
+    new URLSearchParams();
 
   if (domainNamePattern) {
     params.set(
@@ -538,7 +661,10 @@ export async function listDomains(
     );
   }
 
-  params.set("limit", "100");
+  params.set(
+    "limit",
+    "100",
+  );
 
   return api<any>(
     `/domains?${params.toString()}`,
@@ -550,7 +676,10 @@ export async function listDomains(
 
 export async function updateDomain(
   domainId: number,
-  data: Record<string, unknown>,
+  data: Record<
+    string,
+    unknown
+  >,
 ) {
   return api<any>(
     `/domains/${domainId}`,
@@ -579,10 +708,13 @@ export async function getAuthCode(
 export async function getDnsZone(
   domain: string,
 ) {
-  const clean = cleanDomain(domain);
+  const clean =
+    cleanDomain(domain);
 
   return api<any>(
-    `/dns/zones/${encodeURIComponent(clean)}?with_records=true`,
+    `/dns/zones/${encodeURIComponent(
+      clean,
+    )}?with_records=true`,
     {
       method: "GET",
     },
@@ -592,10 +724,13 @@ export async function getDnsZone(
 export async function getDnsRecords(
   domain: string,
 ) {
-  const clean = cleanDomain(domain);
+  const clean =
+    cleanDomain(domain);
 
   return api<any>(
-    `/dns/zones/${encodeURIComponent(clean)}/records?limit=500`,
+    `/dns/zones/${encodeURIComponent(
+      clean,
+    )}/records?limit=500`,
     {
       method: "GET",
     },
@@ -606,32 +741,53 @@ export async function createDnsZone(
   domain: string,
   records: DnsRecord[] = [],
 ) {
-  const clean = cleanDomain(domain);
+  const {
+    name,
+    extension,
+  } = splitDomain(domain);
 
   const formattedRecords =
-    records.map((record) => ({
-      name: record.name,
-      ttl: record.ttl,
-      type: record.type,
-      value: record.value,
-      ...(record.prio !== undefined
-        ? {
-            prio: record.prio,
-          }
-        : record.priority !== undefined
+    records.map(
+      (record) => ({
+        ...(record.name &&
+        record.name !== "@"
           ? {
-              prio: record.priority,
+              name: record.name,
             }
           : {}),
-    }));
+
+        ttl: record.ttl,
+
+        type:
+          record.type.toUpperCase(),
+
+        value:
+          record.value,
+
+        ...(record.prio !==
+        undefined
+          ? {
+              prio: record.prio,
+            }
+          : record.priority !==
+                undefined
+            ? {
+                prio:
+                  record.priority,
+              }
+            : {}),
+      }),
+    );
 
   return api<any>(
     "/dns/zones",
     {
       method: "POST",
+
       body: JSON.stringify({
         domain: {
-          name: clean,
+          name,
+          extension,
         },
 
         type: "master",
@@ -647,7 +803,8 @@ export async function updateDnsZone(
   domain: string,
   records: DnsRecord[],
 ) {
-  const clean = cleanDomain(domain);
+  const clean =
+    cleanDomain(domain);
 
   const zone =
     await getDnsZone(clean);
@@ -663,32 +820,63 @@ export async function updateDnsZone(
   }
 
   const formattedRecords =
-    records.map((record) => ({
-      name: record.name,
-      ttl: record.ttl,
-      type: record.type,
-      value: record.value,
-      ...(record.prio !== undefined
-        ? {
-            prio: record.prio,
-          }
-        : record.priority !== undefined
+    records.map(
+      (record) => ({
+        ...(record.name &&
+        record.name !== "@"
           ? {
-              prio: record.priority,
+              name: record.name,
             }
           : {}),
-    }));
+
+        ttl: record.ttl,
+
+        type:
+          record.type.toUpperCase(),
+
+        value:
+          record.value,
+
+        ...(record.prio !==
+        undefined
+          ? {
+              prio: record.prio,
+            }
+          : record.priority !==
+                undefined
+            ? {
+                prio:
+                  record.priority,
+              }
+            : {}),
+      }),
+    );
+
+  if (
+    formattedRecords.length === 0
+  ) {
+    throw new Error(
+      "Aucun enregistrement DNS à ajouter.",
+    );
+  }
 
   return api<any>(
-    `/dns/zones/${encodeURIComponent(clean)}`,
+    `/dns/zones/${encodeURIComponent(
+      clean,
+    )}`,
     {
       method: "PUT",
+
       body: JSON.stringify({
         id: zoneId,
+
         name: clean,
+
         type: "master",
+
         records: {
-          add: formattedRecords,
+          add:
+            formattedRecords,
         },
       }),
     },
@@ -699,7 +887,8 @@ export async function deleteDnsRecord(
   domain: string,
   record: DnsRecord,
 ) {
-  const clean = cleanDomain(domain);
+  const clean =
+    cleanDomain(domain);
 
   const zone =
     await getDnsZone(clean);
@@ -715,29 +904,49 @@ export async function deleteDnsRecord(
   }
 
   const originalRecord = {
-    name: record.name,
+    ...(record.name &&
+    record.name !== "@"
+      ? {
+          name: record.name,
+        }
+      : {}),
+
     ttl: record.ttl,
-    type: record.type,
-    value: record.value,
-    ...(record.prio !== undefined
+
+    type:
+      record.type.toUpperCase(),
+
+    value:
+      record.value,
+
+    ...(record.prio !==
+    undefined
       ? {
           prio: record.prio,
         }
-      : record.priority !== undefined
+      : record.priority !==
+            undefined
         ? {
-            prio: record.priority,
+            prio:
+              record.priority,
           }
         : {}),
   };
 
   return api<any>(
-    `/dns/zones/${encodeURIComponent(clean)}`,
+    `/dns/zones/${encodeURIComponent(
+      clean,
+    )}`,
     {
       method: "PUT",
+
       body: JSON.stringify({
         id: zoneId,
+
         name: clean,
+
         type: "master",
+
         records: {
           remove: [
             originalRecord,

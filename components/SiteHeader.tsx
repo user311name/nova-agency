@@ -49,18 +49,10 @@ export default function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  /*
-   * Ferme automatiquement le menu mobile
-   * lorsqu'une nouvelle page est chargée.
-   */
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  /*
-   * Empêche le scroll de la page lorsque
-   * le menu mobile est ouvert.
-   */
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
 
@@ -70,12 +62,7 @@ export default function SiteHeader() {
   }, [open]);
 
   /*
-   * Pages possédant leur propre interface/header.
-   *
-   * IMPORTANT :
-   * L'espace client possède son propre header.
-   * On ne doit donc jamais afficher le header global
-   * par-dessus celui-ci.
+   * Pages possédant leur propre header/interface.
    */
   const isSuccessPage =
     pathname === "/success" ||
@@ -104,13 +91,17 @@ export default function SiteHeader() {
   }
 
   /*
-   * Pages utilisant le header premium.
+   * =========================================================
+   * HEADER PREMIUM
+   *
+   * IMPORTANT :
+   * /services n'est PAS ici.
+   * La page Services utilise le header classique.
+   * =========================================================
    */
   const isPremiumPage =
     pathname === "/domaines" ||
     pathname.startsWith("/domaines/") ||
-    pathname === "/services" ||
-    pathname.startsWith("/services/") ||
     pathname === "/emails" ||
     pathname.startsWith("/emails/") ||
     pathname === "/securite" ||
@@ -128,8 +119,6 @@ export default function SiteHeader() {
     return (
       <header className="premium-navbar">
         <div className="premium-navbar-inner">
-          {/* LOGO */}
-
           <Link
             href="/"
             className="premium-logo"
@@ -144,8 +133,6 @@ export default function SiteHeader() {
               priority
             />
           </Link>
-
-          {/* NAVIGATION DESKTOP */}
 
           <nav
             className="premium-nav"
@@ -172,8 +159,6 @@ export default function SiteHeader() {
             })}
           </nav>
 
-          {/* ACTIONS */}
-
           <div className="premium-navbar-actions">
             <button
               type="button"
@@ -199,8 +184,6 @@ export default function SiteHeader() {
               </span>
             </Link>
 
-            {/* MENU MOBILE */}
-
             <button
               type="button"
               className={`premium-menu-toggle ${
@@ -223,8 +206,6 @@ export default function SiteHeader() {
             </button>
           </div>
         </div>
-
-        {/* MENU MOBILE */}
 
         <div
           id="premium-mobile-navigation"
@@ -724,8 +705,6 @@ export default function SiteHeader() {
   return (
     <header className="navbar">
       <div className="navbar-inner">
-        {/* LOGO */}
-
         <Link
           href="/"
           className="logo"
@@ -740,8 +719,6 @@ export default function SiteHeader() {
             priority
           />
         </Link>
-
-        {/* NAVIGATION */}
 
         <nav
           className="main-nav"
@@ -758,6 +735,9 @@ export default function SiteHeader() {
                 key={link.href}
                 href={link.href}
                 className={active ? "active" : ""}
+                aria-current={
+                  active ? "page" : undefined
+                }
               >
                 <span>{link.label}</span>
 
@@ -771,8 +751,6 @@ export default function SiteHeader() {
             );
           })}
         </nav>
-
-        {/* ACTIONS */}
 
         <div className="navbar-actions">
           <Link
@@ -809,8 +787,6 @@ export default function SiteHeader() {
           </button>
         </div>
       </div>
-
-      {/* MENU MOBILE */}
 
       <div
         id="mobile-navigation"

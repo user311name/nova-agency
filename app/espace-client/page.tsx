@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./page.css";
 
 type DomainStatus = "Enregistrement" | "Actif";
@@ -10,6 +10,18 @@ type Domain = {
   name: string;
   status: DomainStatus;
   expiresAt?: string;
+};
+
+type ApiDomain = {
+  id: string;
+  domain: string;
+  status: string;
+  email: string;
+  expires_at?: string | null;
+  openprovider_id?: string | null;
+  stripe_session_id?: string | null;
+  user_id?: string | null;
+  created_at: string;
 };
 
 type StatCardProps = {
@@ -83,7 +95,13 @@ function MailIcon() {
       aria-hidden="true"
       className="client-svg"
     >
-      <rect x="3.5" y="5.5" width="17" height="13" rx="2" />
+      <rect
+        x="3.5"
+        y="5.5"
+        width="17"
+        height="13"
+        rx="2"
+      />
       <path d="m5 7 7 5.5L19 7" />
     </svg>
   );
@@ -130,18 +148,6 @@ function HeadsetIcon() {
   );
 }
 
-function CheckIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      className="client-svg"
-    >
-      <path d="m6.5 12.5 3.5 3.5 7.5-8" />
-    </svg>
-  );
-}
-
 function StatCard({
   label,
   value,
@@ -168,8 +174,125 @@ function StatCard({
   );
 }
 
+function normalizeDomainStatus(status: string): DomainStatus {
+  const normalized = status.toLowerCase();
+
+  if (
+    normalized === "active" ||
+    normalized === "actif" ||
+    normalized === "act"
+  ) {
+    return "Actif";
+  }
+
+  return "Enregistrement";
+}
+
+function formatExpirationDate(date?: string | null) {
+  if (!date) {
+    return undefined;
+  }
+
+  const parsed = new Date(date);
+
+  if (Number.isNaN(parsed.getTime())) {
+    return undefined;
+  }
+
+  return parsed.toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
 export default function EspaceClientPage() {
-  const [domains] = useState<Domain[]>([]);
+  const [domains, setDomains] = useState<Domain[]>([]);
+  const [loadingDomains, setLoadingDomains] = useState(true);
+  const [domainsError, setDomainsError] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadDomains() {
+      try {
+        setLoadingDomains(true);
+        setDomainsError("");
+
+        const response = await fetch(
+          "/api/domains/client/domains",
+          {
+            method: "GET",
+            cache: "no-store",
+          },
+        );
+
+        const data = await response.json();
+
+        if (cancelled) {
+          return;
+        }
+
+        if (response.status === 401) {
+          window.location.href =
+            "/connexion?next=/espace-client";
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(
+            data?.error ||
+              "Impossible de récupérer vos domaines.",
+          );
+        }
+
+        const apiDomains: ApiDomain[] = Array.isArray(
+          data?.domains,
+        )
+          ? data.domains
+          : [];
+
+        const mappedDomains: Domain[] = apiDomains.map(
+          (domain) => ({
+            name: domain.domain,
+            status: normalizeDomainStatus(domain.status),
+            expiresAt: formatExpirationDate(
+              domain.expires_at,
+            ),
+          }),
+        );
+
+        setDomains(mappedDomains);
+      } catch (error) {
+        if (cancelled) {
+          return;
+        }
+
+        console.error(
+          "CLIENT DASHBOARD DOMAINS ERROR:",
+          error,
+        );
+
+        setDomainsError(
+          error instanceof Error
+            ? error.message
+            : "Impossible de récupérer vos domaines.",
+        );
+
+        setDomains([]);
+      } finally {
+        if (!cancelled) {
+          setLoadingDomains(false);
+        }
+      }
+    }
+
+    loadDomains();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const hasDomains = domains.length > 0;
 
@@ -179,7 +302,10 @@ export default function EspaceClientPage() {
           BACKGROUND ATMOSPHERE
       ========================================================== */}
 
-      <div className="client-background" aria-hidden="true">
+      <div
+        className="client-background"
+        aria-hidden="true"
+      >
         <div className="client-orb client-orb-one" />
         <div className="client-orb client-orb-two" />
         <div className="client-grid-lines" />
@@ -191,20 +317,44 @@ export default function EspaceClientPage() {
 
       <header className="client-header-bar">
         <div className="client-header-inner">
-          <Link href="/" className="client-logo" aria-label="NOVA - Accueil">
+          <Link
+            href="/"
+            className="client-logo"
+            aria-label="NOVA - Accueil"
+          >
             NOV<span>A</span>
           </Link>
 
-          <nav className="client-navigation" aria-label="Navigation principale">
-            <Link href="/domaines">Domaines</Link>
-            <Link href="/hebergement">Hébergement</Link>
-            <Link href="/emails">Emails</Link>
-            <Link href="/securite">Sécurité</Link>
-            <Link href="/a-propos">À propos</Link>
+          <nav
+            className="client-navigation"
+            aria-label="Navigation principale"
+          >
+            <Link href="/espace-client/domaines">
+              Domaines
+            </Link>
+
+            <Link href="/espace-client/services">
+              Hébergement
+            </Link>
+
+            <Link href="/espace-client/emails">
+              Emails
+            </Link>
+
+            <Link href="/espace-client/securite">
+              Sécurité
+            </Link>
+
+            <Link href="/a-propos">
+              À propos
+            </Link>
           </nav>
 
           <div className="client-header-actions">
-            <Link href="/contact" className="client-support-link">
+            <Link
+              href="/contact"
+              className="client-support-link"
+            >
               Support
             </Link>
 
@@ -226,7 +376,7 @@ export default function EspaceClientPage() {
       <div className="client-shell">
         {/* =======================================================
             HERO
-        ======================================================== */}
+        ========================================================= */}
 
         <section className="client-hero">
           <div className="hero-copy">
@@ -242,18 +392,25 @@ export default function EspaceClientPage() {
             </h1>
 
             <p>
-              Retrouvez ici vos domaines, commandes et services NOVA.
+              Retrouvez ici vos domaines, commandes et services
+              NOVA.
               <br />
               Tout ce dont vous avez besoin, depuis un seul espace.
             </p>
 
             <div className="hero-actions">
-              <Link href="/domaines" className="primary-client-button">
+              <Link
+                href="/domaines"
+                className="primary-client-button"
+              >
                 <span>Acheter un domaine</span>
                 <ArrowIcon />
               </Link>
 
-              <Link href="/contact" className="secondary-client-button">
+              <Link
+                href="/contact"
+                className="secondary-client-button"
+              >
                 Besoin d&apos;aide ?
               </Link>
             </div>
@@ -261,7 +418,10 @@ export default function EspaceClientPage() {
 
           {/* HERO VISUAL */}
 
-          <div className="hero-visual" aria-hidden="true">
+          <div
+            className="hero-visual"
+            aria-hidden="true"
+          >
             <div className="hero-visual-glow" />
 
             <div className="hero-orbit hero-orbit-one" />
@@ -275,7 +435,9 @@ export default function EspaceClientPage() {
             </div>
 
             <div className="hero-floating-card hero-floating-card-top">
-              <span className="floating-label">STATUT</span>
+              <span className="floating-label">
+                STATUT
+              </span>
 
               <div className="floating-status">
                 <span />
@@ -284,29 +446,37 @@ export default function EspaceClientPage() {
             </div>
 
             <div className="hero-floating-card hero-floating-card-bottom">
-              <span className="floating-label">NOVA OS</span>
+              <span className="floating-label">
+                NOVA OS
+              </span>
+
               <strong>Votre espace.</strong>
-              <small>Tout est au même endroit.</small>
+
+              <small>
+                Tout est au même endroit.
+              </small>
             </div>
           </div>
         </section>
 
         {/* =======================================================
             DASHBOARD INTRO
-        ======================================================== */}
+        ========================================================= */}
 
         <section className="dashboard-section">
           <div className="dashboard-heading">
             <div>
-              <span className="section-label">TABLEAU DE BORD</span>
+              <span className="section-label">
+                TABLEAU DE BORD
+              </span>
 
               <h2>
                 Bienvenue chez <span>NOVA</span>
               </h2>
 
               <p>
-                Gérez vos services, suivez vos commandes et retrouvez vos
-                informations au même endroit.
+                Gérez vos services, suivez vos commandes et
+                retrouvez vos informations au même endroit.
               </p>
             </div>
 
@@ -323,11 +493,17 @@ export default function EspaceClientPage() {
           <div className="stats-grid">
             <StatCard
               label="Domaines"
-              value={hasDomains ? String(domains.length) : "0"}
+              value={
+                loadingDomains
+                  ? "—"
+                  : String(domains.length)
+              }
               description={
-                hasDomains
-                  ? "Domaines associés à votre compte"
-                  : "Aucun domaine actuellement"
+                loadingDomains
+                  ? "Chargement de vos domaines"
+                  : hasDomains
+                    ? "Domaines associés à votre compte"
+                    : "Aucun domaine actuellement"
               }
               icon="◎"
               href="/espace-client/domaines"
@@ -359,6 +535,39 @@ export default function EspaceClientPage() {
           </div>
 
           {/* =====================================================
+              DOMAIN ERROR
+          ====================================================== */}
+
+          {domainsError && (
+            <div
+              className="dashboard-card"
+              role="alert"
+              style={{
+                marginBottom: "24px",
+              }}
+            >
+              <div className="card-top">
+                <div>
+                  <span className="card-label">
+                    DOMAINES
+                  </span>
+
+                  <h3>Impossible de charger vos domaines</h3>
+                </div>
+              </div>
+
+              <p
+                style={{
+                  margin: 0,
+                  color: "rgba(255,255,255,0.65)",
+                }}
+              >
+                {domainsError}
+              </p>
+            </div>
+          )}
+
+          {/* =====================================================
               MAIN GRID
           ====================================================== */}
 
@@ -370,7 +579,10 @@ export default function EspaceClientPage() {
             <article className="dashboard-card domains-card">
               <div className="card-top">
                 <div>
-                  <span className="card-label">DOMAINES</span>
+                  <span className="card-label">
+                    DOMAINES
+                  </span>
+
                   <h3>Mes domaines</h3>
                 </div>
 
@@ -383,10 +595,39 @@ export default function EspaceClientPage() {
                 </Link>
               </div>
 
-              {hasDomains ? (
+              {loadingDomains ? (
+                <div className="domain-empty">
+                  <div className="empty-visual">
+                    <div className="empty-ring empty-ring-one" />
+                    <div className="empty-ring empty-ring-two" />
+
+                    <div className="empty-globe">
+                      <GlobeIcon />
+                    </div>
+                  </div>
+
+                  <div className="empty-content">
+                    <span className="empty-kicker">
+                      CHARGEMENT
+                    </span>
+
+                    <h4>
+                      Récupération de vos domaines
+                    </h4>
+
+                    <p>
+                      Nous récupérons les domaines associés
+                      à votre compte NOVA.
+                    </p>
+                  </div>
+                </div>
+              ) : hasDomains ? (
                 <div className="domain-list">
                   {domains.map((domain) => (
-                    <div className="domain-item" key={domain.name}>
+                    <div
+                      className="domain-item"
+                      key={domain.name}
+                    >
                       <div className="domain-item-main">
                         <div className="domain-globe">
                           <GlobeIcon />
@@ -405,6 +646,12 @@ export default function EspaceClientPage() {
                             <span />
                             {domain.status}
                           </span>
+
+                          {domain.expiresAt && (
+                            <small>
+                              Expire le {domain.expiresAt}
+                            </small>
+                          )}
                         </div>
                       </div>
 
@@ -432,16 +679,23 @@ export default function EspaceClientPage() {
                   </div>
 
                   <div className="empty-content">
-                    <span className="empty-kicker">VOTRE PREMIER DOMAINE</span>
+                    <span className="empty-kicker">
+                      VOTRE PREMIER DOMAINE
+                    </span>
 
-                    <h4>Aucun domaine pour le moment</h4>
+                    <h4>
+                      Aucun domaine pour le moment
+                    </h4>
 
                     <p>
-                      Vos domaines achetés apparaîtront automatiquement ici
-                      après votre commande.
+                      Vos domaines achetés apparaîtront
+                      automatiquement ici après votre commande.
                     </p>
 
-                    <Link href="/domaines" className="empty-button">
+                    <Link
+                      href="/domaines"
+                      className="empty-button"
+                    >
                       Acheter un domaine
                       <ArrowIcon />
                     </Link>
@@ -457,7 +711,10 @@ export default function EspaceClientPage() {
             <article className="dashboard-card order-card">
               <div className="card-top">
                 <div>
-                  <span className="card-label">COMMANDES</span>
+                  <span className="card-label">
+                    COMMANDES
+                  </span>
+
                   <h3>Mes commandes</h3>
                 </div>
 
@@ -479,12 +736,16 @@ export default function EspaceClientPage() {
                   <strong>Aucune commande</strong>
 
                   <p>
-                    Vos commandes et leur progression apparaîtront ici.
+                    Vos commandes et leur progression
+                    apparaîtront ici.
                   </p>
                 </div>
               </div>
 
-              <Link href="/domaines" className="text-action">
+              <Link
+                href="/domaines"
+                className="text-action"
+              >
                 Découvrir les services
                 <ArrowIcon />
               </Link>
@@ -497,7 +758,10 @@ export default function EspaceClientPage() {
             <article className="dashboard-card invoice-card">
               <div className="card-top">
                 <div>
-                  <span className="card-label">FACTURES</span>
+                  <span className="card-label">
+                    FACTURES
+                  </span>
+
                   <h3>Mes factures</h3>
                 </div>
 
@@ -519,12 +783,16 @@ export default function EspaceClientPage() {
                   <strong>Aucune facture</strong>
 
                   <p>
-                    Vos factures seront disponibles après vos achats.
+                    Vos factures seront disponibles après
+                    vos achats.
                   </p>
                 </div>
               </div>
 
-              <Link href="/espace-client/factures" className="text-action">
+              <Link
+                href="/espace-client/factures"
+                className="text-action"
+              >
                 Voir les factures
                 <ArrowIcon />
               </Link>
@@ -537,7 +805,10 @@ export default function EspaceClientPage() {
             <article className="dashboard-card services-card">
               <div className="card-top">
                 <div>
-                  <span className="card-label">SERVICES NOVA</span>
+                  <span className="card-label">
+                    SERVICES NOVA
+                  </span>
+
                   <h3>Mes services</h3>
                 </div>
 
@@ -551,40 +822,62 @@ export default function EspaceClientPage() {
               </div>
 
               <div className="service-list">
-                <Link href="/espace-client/domaines" className="service-item">
+                <Link
+                  href="/espace-client/domaines"
+                  className="service-item"
+                >
                   <div className="service-icon">
                     <GlobeIcon />
                   </div>
 
                   <div>
                     <strong>Domaines</strong>
-                    <span>Gérez vos noms de domaine</span>
+
+                    <span>
+                      Gérez vos noms de domaine
+                    </span>
                   </div>
 
                   <ArrowIcon />
                 </Link>
 
-                <Link href="/espace-client/emails" className="service-item">
+                <Link
+                  href="/espace-client/emails"
+                  className="service-item"
+                >
                   <div className="service-icon">
                     <MailIcon />
                   </div>
 
                   <div>
-                    <strong>E-mails professionnels</strong>
-                    <span>Vos boîtes professionnelles</span>
+                    <strong>
+                      E-mails professionnels
+                    </strong>
+
+                    <span>
+                      Vos boîtes professionnelles
+                    </span>
                   </div>
 
                   <ArrowIcon />
                 </Link>
 
-                <Link href="/espace-client/securite" className="service-item">
+                <Link
+                  href="/espace-client/securite"
+                  className="service-item"
+                >
                   <div className="service-icon">
                     <ShieldIcon />
                   </div>
 
                   <div>
-                    <strong>Sécurité &amp; SSL</strong>
-                    <span>Protection de vos services</span>
+                    <strong>
+                      Sécurité &amp; SSL
+                    </strong>
+
+                    <span>
+                      Protection de vos services
+                    </span>
                   </div>
 
                   <ArrowIcon />
@@ -600,59 +893,88 @@ export default function EspaceClientPage() {
           <section className="quick-section">
             <div className="quick-heading">
               <div>
-                <span className="section-label">ACCÈS RAPIDE</span>
-                <h2>Tout gérer depuis NOVA.</h2>
+                <span className="section-label">
+                  ACCÈS RAPIDE
+                </span>
+
+                <h2>
+                  Tout gérer depuis NOVA.
+                </h2>
               </div>
             </div>
 
             <div className="quick-grid">
-              <Link href="/espace-client/domaines" className="quick-card">
+              <Link
+                href="/espace-client/domaines"
+                className="quick-card"
+              >
                 <div className="quick-icon">
                   <GlobeIcon />
                 </div>
 
                 <div className="quick-content">
                   <span>Domaines</span>
-                  <strong>Gérer mes domaines</strong>
+
+                  <strong>
+                    Gérer mes domaines
+                  </strong>
                 </div>
 
                 <ArrowIcon />
               </Link>
 
-              <Link href="/espace-client/emails" className="quick-card">
+              <Link
+                href="/espace-client/emails"
+                className="quick-card"
+              >
                 <div className="quick-icon">
                   <MailIcon />
                 </div>
 
                 <div className="quick-content">
                   <span>Emails</span>
-                  <strong>Gérer mes e-mails</strong>
+
+                  <strong>
+                    Gérer mes e-mails
+                  </strong>
                 </div>
 
                 <ArrowIcon />
               </Link>
 
-              <Link href="/espace-client/securite" className="quick-card">
+              <Link
+                href="/espace-client/securite"
+                className="quick-card"
+              >
                 <div className="quick-icon">
                   <ShieldIcon />
                 </div>
 
                 <div className="quick-content">
                   <span>Sécurité</span>
-                  <strong>Protéger mes services</strong>
+
+                  <strong>
+                    Protéger mes services
+                  </strong>
                 </div>
 
                 <ArrowIcon />
               </Link>
 
-              <Link href="/espace-client/parametres" className="quick-card">
+              <Link
+                href="/espace-client/parametres"
+                className="quick-card"
+              >
                 <div className="quick-icon">
                   <SettingsIcon />
                 </div>
 
                 <div className="quick-content">
                   <span>Compte</span>
-                  <strong>Gérer mes paramètres</strong>
+
+                  <strong>
+                    Gérer mes paramètres
+                  </strong>
                 </div>
 
                 <ArrowIcon />
@@ -665,7 +987,10 @@ export default function EspaceClientPage() {
           ====================================================== */}
 
           <section className="client-support-card">
-            <div className="support-decoration" aria-hidden="true">
+            <div
+              className="support-decoration"
+              aria-hidden="true"
+            >
               <div />
               <div />
               <div />
@@ -676,17 +1001,24 @@ export default function EspaceClientPage() {
             </div>
 
             <div className="support-content">
-              <span className="section-label">SUPPORT NOVA</span>
+              <span className="section-label">
+                SUPPORT NOVA
+              </span>
 
-              <h2>Une question ? Nous sommes là.</h2>
+              <h2>
+                Une question ? Nous sommes là.
+              </h2>
 
               <p>
-                Notre équipe peut vous accompagner pour vos domaines,
-                services et commandes.
+                Notre équipe peut vous accompagner pour vos
+                domaines, services et commandes.
               </p>
             </div>
 
-            <Link href="/contact" className="support-button">
+            <Link
+              href="/contact"
+              className="support-button"
+            >
               Contacter NOVA
               <ArrowIcon />
             </Link>
@@ -700,14 +1032,25 @@ export default function EspaceClientPage() {
 
       <footer className="client-footer">
         <div className="client-footer-inner">
-          <Link href="/" className="footer-logo">
+          <Link
+            href="/"
+            className="footer-logo"
+          >
             NOV<span>A</span>
           </Link>
 
           <div className="footer-links">
-            <Link href="/conditions">Conditions</Link>
-            <Link href="/confidentialite">Confidentialité</Link>
-            <Link href="/contact">Support</Link>
+            <Link href="/conditions">
+              Conditions
+            </Link>
+
+            <Link href="/confidentialite">
+              Confidentialité
+            </Link>
+
+            <Link href="/contact">
+              Support
+            </Link>
           </div>
 
           <span className="footer-copy">

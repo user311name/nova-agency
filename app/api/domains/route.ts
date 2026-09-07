@@ -1,22 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function GET(
-  _request: NextRequest,
-) {
+export async function GET() {
   try {
-    /*
-     * ========================================================
-     * AUTHENTIFICATION
-     * ========================================================
-     */
-
-    const supabase =
-      await createSupabaseServerClient();
+    const supabase = await createSupabaseServerClient();
 
     const {
       data: { user },
@@ -29,20 +21,13 @@ export async function GET(
           error: "Vous devez être connecté.",
           code: "AUTH_REQUIRED",
         },
-        { status: 401 },
+        {
+          status: 401,
+        },
       );
     }
 
-    /*
-     * ========================================================
-     * DOMAINES DU COMPTE
-     * ========================================================
-     */
-
-    const {
-      data,
-      error,
-    } = await supabaseAdmin
+    const { data, error } = await supabaseAdmin
       .from("domains")
       .select(`
         id,
@@ -52,42 +37,37 @@ export async function GET(
         expires_at,
         openprovider_id,
         stripe_session_id,
-        amount,
-        currency,
         user_id,
         created_at
       `)
       .eq("user_id", user.id)
-      .order(
-        "created_at",
-        {
-          ascending: false,
-        },
-      );
+      .order("created_at", {
+        ascending: false,
+      });
 
     if (error) {
-      console.error(
-        "SUPABASE DOMAINS ERROR:",
-        error,
-      );
+      console.error("SUPABASE DOMAINS ERROR:", error);
 
       return NextResponse.json(
         {
-          error:
-            "Impossible de récupérer les domaines.",
+          error: "Impossible de récupérer vos domaines.",
         },
-        { status: 500 },
+        {
+          status: 500,
+        },
       );
     }
 
-    return NextResponse.json({
-      domains: data || [],
-    });
-  } catch (error) {
-    console.error(
-      "CLIENT DOMAINS API ERROR:",
-      error,
+    return NextResponse.json(
+      {
+        domains: data || [],
+      },
+      {
+        status: 200,
+      },
     );
+  } catch (error) {
+    console.error("CLIENT DOMAINS API ERROR:", error);
 
     return NextResponse.json(
       {
@@ -96,7 +76,9 @@ export async function GET(
             ? error.message
             : "Erreur serveur.",
       },
-      { status: 500 },
+      {
+        status: 500,
+      },
     );
   }
 }

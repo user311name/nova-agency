@@ -9,6 +9,17 @@
   background: #050505;
 }
 
+.about-page *,
+.about-page *::before,
+.about-page *::after {
+  box-sizing: border-box;
+}
+
+.about-page a {
+  color: inherit;
+}
+
+
 /* =========================================================
    HERO
 ========================================================= */
@@ -112,7 +123,7 @@
 }
 
 .about-hero h1 {
-  max-width: 880px;
+  max-width: 900px;
 
   margin: 0;
 
@@ -135,7 +146,7 @@
 }
 
 .about-intro {
-  max-width: 620px;
+  max-width: 650px;
 
   margin: 28px 0 0;
 
@@ -166,6 +177,7 @@
 
   pointer-events: none;
 }
+
 
 /* =========================================================
    HERO REASSURANCE
@@ -205,6 +217,7 @@
   letter-spacing: 0.4px;
 }
 
+
 /* =========================================================
    LABEL
 ========================================================= */
@@ -225,6 +238,7 @@
 .about-section-label span {
   color: #1769ff;
 }
+
 
 /* =========================================================
    VISION
@@ -297,6 +311,7 @@
 .about-copy p:last-child {
   margin-bottom: 0;
 }
+
 
 /* =========================================================
    APPROCHE
@@ -415,8 +430,9 @@
   line-height: 1.7;
 }
 
+
 /* =========================================================
-   VALUES
+   SERVICES / ÉCOSYSTÈME
 ========================================================= */
 
 .about-values {
@@ -492,12 +508,22 @@
 
   gap: 20px;
 
-  min-height: 190px;
+  min-height: 210px;
 
   padding: 30px;
 
   border-right: 1px solid #202020;
   border-bottom: 1px solid #202020;
+
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.value-card:hover {
+  background: rgba(23, 105, 255, 0.035);
+
+  border-color: #252d38;
 }
 
 .value-card > span {
@@ -530,6 +556,27 @@
   line-height: 1.7;
 }
 
+.value-card a {
+  display: inline-block;
+
+  margin-top: 18px;
+
+  color: #1769ff;
+
+  font-size: 11px;
+
+  letter-spacing: 0.3px;
+
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.value-card a:hover {
+  color: #6da0ff;
+}
+
+
 /* =========================================================
    GLOBAL
 ========================================================= */
@@ -543,6 +590,7 @@
       #070707
     );
 }
+
 
 /* =========================================================
    RASSURANCE
@@ -610,6 +658,7 @@
   margin-bottom: 0;
 }
 
+
 /* =========================================================
    FINAL
 ========================================================= */
@@ -664,6 +713,7 @@
 
 .about-final > div {
   position: relative;
+
   z-index: 1;
 }
 
@@ -713,9 +763,11 @@
 
 .about-final > a {
   position: relative;
+
   z-index: 2;
 
   display: inline-flex;
+
   align-items: center;
   justify-content: center;
 
@@ -734,6 +786,7 @@
   border-radius: 8px;
 
   font-size: 14px;
+
   font-weight: 500;
 
   text-decoration: none;
@@ -761,6 +814,7 @@
   outline-offset: 4px;
 }
 
+
 /* =========================================================
    TABLET
 ========================================================= */
@@ -774,6 +828,7 @@
 
   .about-hero-mark {
     right: 4%;
+
     font-size: 280px;
   }
 
@@ -784,6 +839,7 @@
   .about-vision-grid,
   .about-approach-grid {
     gap: 60px;
+
     padding-left: 30px;
   }
 
@@ -805,6 +861,7 @@
     padding: 50px;
   }
 }
+
 
 /* =========================================================
    MOBILE
@@ -864,6 +921,9 @@
     gap: 10px;
   }
 
+
+  /* VISION */
+
   .about-vision {
     padding: 75px 20px 80px;
   }
@@ -895,6 +955,9 @@
 
     line-height: 1.75;
   }
+
+
+  /* APPROCHE */
 
   .about-approach-inner {
     padding: 75px 20px 80px;
@@ -937,6 +1000,9 @@
   .approach-item p {
     font-size: 12.5px;
   }
+
+
+  /* VALUES */
 
   .about-values {
     padding: 75px 20px 80px;
@@ -988,9 +1054,8 @@
     font-size: 12.5px;
   }
 
-  /* =========================
-     RASSURANCE MOBILE
-  ========================= */
+
+  /* RASSURANCE */
 
   .about-reassurance {
     padding: 75px 20px 80px;
@@ -1026,9 +1091,8 @@
     line-height: 1.75;
   }
 
-  /* =========================
-     FINAL MOBILE
-  ========================= */
+
+  /* FINAL */
 
   .about-final {
     width: calc(100% - 40px);
@@ -1063,6 +1127,7 @@
   }
 }
 
+
 /* =========================================================
    PETITS ÉCRANS
 ========================================================= */
@@ -1088,6 +1153,7 @@
   .about-values,
   .about-reassurance {
     padding-left: 18px;
+
     padding-right: 18px;
   }
 
@@ -1102,14 +1168,29 @@
   }
 }
 
+
 /* =========================================================
    ACCESSIBILITÉ
 ========================================================= */
 
+.about-page a:focus-visible {
+  outline: 2px solid #1769ff;
+
+  outline-offset: 4px;
+}
+
 @media (prefers-reduced-motion: reduce) {
 
-  .about-final > a {
-    transition: none;
+  .about-page *,
+  .about-page *::before,
+  .about-page *::after {
+    scroll-behavior: auto !important;
+
+    transition-duration: 0.01ms !important;
+
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
   }
 
   .about-final > a:hover {

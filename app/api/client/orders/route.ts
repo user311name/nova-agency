@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import Stripe from "stripe";
+
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
@@ -13,22 +15,36 @@ type DatabaseStatus =
   | "unavailable"
   | string;
 
-function mapStatus(
-  status: DatabaseStatus,
-) {
+type OrderStatus =
+  | "paid"
+  | "pending"
+  | "failed"
+  | "refunded";
+
+function mapStatus(status: DatabaseStatus): OrderStatus {
   switch (status) {
     case "active":
       return "paid";
 
-    case "pending":
-      return "pending";
-
     case "failed":
       return "failed";
 
+    case "pending":
+    case "processing":
+    case "unavailable":
     default:
       return "pending";
   }
+}
+
+function getStripeClient() {
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+
+  if (!secretKey) {
+    return null;
+  }
+
+  return new Stripe(secretKey);
 }
 
 export async function GET(
@@ -37,7 +53,7 @@ export async function GET(
   try {
     /*
      * ========================================================
-     * AUTH
+     * AUTHENTIFICATION
      * ========================================================
      */
 
@@ -61,7 +77,13 @@ export async function GET(
 
     /*
      * ========================================================
-     * COMMANDES DU CLIENT
+     * RÉCUPÉRATION DES DOMAINES / COMMANDES
+     *
+     * La table domains contient les informations liées
+     * aux achats de domaines.
+     *
+     * On ne demande volontairement PAS amount/currency ici :
+     * ces colonnes ne sont pas présentes dans la table.
      * ========================================================
      */
 
@@ -73,8 +95,6 @@ export async function GET(
       .select(`
         id,
         domain,
-        amount,
-        currency,
         status,
         email,
         stripe_session_id,
@@ -104,36 +124,100 @@ export async function GET(
       );
     }
 
-    const orders = (data || []).map(
-      (order) => ({
-        id: order.id,
+    /*
+     * ========================================================
+     * STRIPE
+     *
+     * Le montant réel du paiement vient de Stripe.
+     * On utilise stripe_session_id enregistré avec le domaine.
+     * ========================================================
+     */
 
-        domain: order.domain,
+    const stripe = getStripeClient();
 
-        amount: Number(
-          order.amount || 0,
-        ),
+    const orders = await Promise.all(
+      (data || []).map(
+        async (order) => {
+          let amount = 0;
+          let currency = "EUR";
 
-        currency:
-          order.currency || "EUR",
+          if (
+            stripe &&
+            order.stripe_session_id
+          ) {
+            try {
+              const session =
+                await stripe.checkout.sessions.retrieve(
+                  order.stripe_session_id,
+                );
 
-        status: mapStatus(
-          order.status,
-        ),
+              if (
+                typeof session.amount_total ===
+                "number"
+              ) {
+                amount =
+                  session.amount_total / 100;
+              }
 
-        email: order.email,
+              if (
+                typeof session.currency ===
+                "string" &&
+                session.currency.trim() !== ""
+              ) {
+                currency =
+                  session.currency.toUpperCase();
+              }
+            } catch (stripeError) {
+              console.error(
+                "STRIPE ORDER ERROR:",
+                {
+                  sessionId:
+                    order.stripe_session_id,
+                  error: stripeError,
+                },
+              );
+            }
+          }
 
-        stripe_session_id:
-          order.stripe_session_id,
+          return {
+            id: order.id,
 
-        created_at:
-          order.created_at,
-      }),
+            domain: order.domain,
+
+            amount,
+
+            currency,
+
+            status: mapStatus(
+              order.status,
+            ),
+
+            email: order.email,
+
+            stripe_session_id:
+              order.stripe_session_id,
+
+            created_at:
+              order.created_at,
+          };
+        },
+      ),
     );
 
-    return NextResponse.json({
-      orders,
-    });
+    /*
+     * ========================================================
+     * RÉPONSE
+     * ========================================================
+     */
+
+    return NextResponse.json(
+      {
+        orders,
+      },
+      {
+        status: 200,
+      },
+    );
   } catch (error) {
     console.error(
       "CLIENT ORDERS API ERROR:",
@@ -147,7 +231,9 @@ export async function GET(
             ? error.message
             : "Erreur serveur.",
       },
-      { status: 500 },
+      {
+        status: 500,
+      },
     );
   }
 }

@@ -1,0 +1,487 @@
+.email-checkout-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 75% 20%,
+      rgba(132, 92, 255, 0.12),
+      transparent 28%
+    ),
+    #050507;
+  color: #fff;
+}
+
+.email-checkout-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.email-checkout-header-inner {
+  width: min(1280px, calc(100% - 40px));
+  min-height: 78px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.email-checkout-logo {
+  color: #fff;
+  text-decoration: none;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -0.06em;
+}
+
+.email-checkout-logo span {
+  color: #a487ff;
+}
+
+.email-checkout-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.email-checkout-back:hover {
+  color: #fff;
+}
+
+.email-checkout-main {
+  padding: 90px 0 120px;
+}
+
+.email-checkout-container {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.email-checkout-intro {
+  max-width: 760px;
+  margin-bottom: 60px;
+}
+
+.email-checkout-eyebrow {
+  color: #a487ff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.email-checkout-intro h1 {
+  margin: 22px 0;
+  font-size: clamp(48px, 6vw, 78px);
+  line-height: 0.95;
+  letter-spacing: -0.065em;
+}
+
+.email-checkout-intro h1 span {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.email-checkout-intro p {
+  max-width: 600px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.email-checkout-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.7fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.email-checkout-form,
+.email-summary {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.email-checkout-form {
+  padding: 38px;
+}
+
+.email-checkout-step {
+  display: flex;
+  gap: 17px;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.email-checkout-step > span {
+  color: #a487ff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.email-checkout-step small {
+  display: block;
+  color: rgba(255, 255, 255, 0.32);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.email-checkout-step h2 {
+  margin: 7px 0 0;
+  font-size: 22px;
+  letter-spacing: -0.035em;
+}
+
+.email-field {
+  display: block;
+  margin: 0 0 46px 31px;
+}
+
+.email-field > span {
+  display: block;
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.email-field > small {
+  display: block;
+  margin-top: 9px;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 10px;
+}
+
+.email-input-wrapper input,
+.email-address-input input {
+  width: 100%;
+  height: 55px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  outline: none;
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  padding: 0 17px;
+  font: inherit;
+  font-size: 14px;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.email-input-wrapper input:focus,
+.email-address-input:focus-within {
+  border-color: rgba(164, 135, 255, 0.7);
+  box-shadow: 0 0 0 4px rgba(164, 135, 255, 0.08);
+}
+
+.email-address-input {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.email-address-input input {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.email-address-input strong {
+  padding-right: 17px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.email-address-input strong span {
+  color: #a487ff;
+}
+
+.email-secure-payment {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 0 0 18px 31px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.email-secure-icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: rgba(164, 135, 255, 0.13);
+  color: #bba8ff;
+}
+
+.email-secure-payment strong {
+  display: block;
+  font-size: 12px;
+}
+
+.email-secure-payment span {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 10px;
+}
+
+.email-checkout-error {
+  margin: 15px 0 18px 31px;
+  padding: 13px 15px;
+  border: 1px solid rgba(255, 90, 90, 0.3);
+  border-radius: 12px;
+  background: rgba(255, 60, 60, 0.07);
+  color: #ffb1b1;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.email-checkout-button {
+  width: calc(100% - 31px);
+  min-height: 56px;
+  margin-left: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #050507;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  transition:
+    transform 180ms ease,
+    background 180ms ease;
+}
+
+.email-checkout-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #ececf0;
+}
+
+.email-checkout-button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.email-checkout-button svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* SUMMARY */
+
+.email-summary {
+  position: sticky;
+  top: 25px;
+  padding: 30px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(130, 91, 255, 0.15),
+      transparent 45%
+    ),
+    rgba(255, 255, 255, 0.04);
+}
+
+.email-summary-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.email-summary-top > span {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.email-summary-badge {
+  padding: 6px 9px;
+  border: 1px solid rgba(164, 135, 255, 0.25);
+  border-radius: 999px;
+  color: #bba8ff;
+  font-size: 8px;
+  font-weight: 900;
+}
+
+.email-summary h2 {
+  margin: 35px 0 7px;
+  font-size: 32px;
+  letter-spacing: -0.05em;
+}
+
+.email-summary > p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+}
+
+.email-summary-price {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin: 35px 0 25px;
+}
+
+.email-summary-price strong {
+  font-size: 42px;
+  letter-spacing: -0.06em;
+}
+
+.email-summary-price span {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 12px;
+}
+
+.email-summary-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.email-summary-list {
+  display: grid;
+  gap: 13px;
+  margin: 25px 0;
+}
+
+.email-summary-list div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 12px;
+}
+
+.email-summary-list svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: #a487ff;
+  stroke-width: 1.8;
+}
+
+.email-summary-domain {
+  padding: 17px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.email-summary-domain small {
+  display: block;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.email-summary-domain strong {
+  display: block;
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  word-break: break-word;
+}
+
+.email-summary-domain strong span {
+  color: #a487ff;
+}
+
+.email-summary-note {
+  margin-top: 18px;
+  color: rgba(255, 255, 255, 0.28);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+/* MOBILE */
+
+@media (max-width: 850px) {
+  .email-checkout-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .email-summary {
+    position: static;
+    order: -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .email-checkout-header-inner,
+  .email-checkout-container {
+    width: calc(100% - 30px);
+  }
+
+  .email-checkout-main {
+    padding: 55px 0 80px;
+  }
+
+  .email-checkout-intro {
+    margin-bottom: 35px;
+  }
+
+  .email-checkout-intro h1 {
+    font-size: 45px;
+  }
+
+  .email-checkout-form {
+    padding: 24px 18px;
+  }
+
+  .email-checkout-step {
+    gap: 12px;
+  }
+
+  .email-field,
+  .email-secure-payment {
+    margin-left: 0;
+  }
+
+  .email-checkout-button {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .email-address-input {
+    grid-template-columns: 1fr;
+  }
+
+  .email-address-input strong {
+    padding: 0 17px 14px;
+    font-size: 11px;
+  }
+
+  .email-summary {
+    padding: 24px;
+  }
+
+  .email-summary-price strong {
+    font-size: 36px;
+  }
+}

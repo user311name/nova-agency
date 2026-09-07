@@ -1,31 +1,52 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import Stripe from "stripe";
+
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+type DatabaseStatus = string;
+
+type InvoiceStatus =
+  | "paid"
+  | "pending"
+  | "failed"
+  | "refunded";
+
 function mapStatus(
-  status: string,
-) {
+  status: DatabaseStatus,
+): InvoiceStatus {
   switch (status) {
     case "active":
       return "paid";
 
-    case "pending":
-      return "pending";
-
     case "failed":
       return "failed";
+
+    case "pending":
+    case "processing":
+    case "unavailable":
+      return "pending";
 
     default:
       return "pending";
   }
 }
 
-export async function GET(
-  _request: NextRequest,
-) {
+function getStripeClient() {
+  const secretKey =
+    process.env.STRIPE_SECRET_KEY;
+
+  if (!secretKey) {
+    return null;
+  }
+
+  return new Stripe(secretKey);
+}
+
+export async function GET() {
   try {
     /*
      * ========================================================
@@ -44,7 +65,8 @@ export async function GET(
     if (authError || !user) {
       return NextResponse.json(
         {
-          error: "Vous devez être connecté.",
+          error:
+            "Vous devez être connecté.",
           code: "AUTH_REQUIRED",
         },
         { status: 401 },
@@ -53,11 +75,14 @@ export async function GET(
 
     /*
      * ========================================================
-     * RECUPERATION DES FACTURES
+     * RECUPERATION DES COMMANDES DU CLIENT
      * ========================================================
      *
-     * On récupère uniquement les commandes appartenant
-     * au compte actuellement connecté.
+     * IMPORTANT :
+     * On filtre uniquement avec user_id.
+     *
+     * Le client ne peut donc jamais demander
+     * les factures d'un autre utilisateur.
      */
 
     const {
@@ -68,8 +93,6 @@ export async function GET(
       .select(`
         id,
         domain,
-        amount,
-        currency,
         status,
         email,
         stripe_session_id,
@@ -99,39 +122,108 @@ export async function GET(
       );
     }
 
-    const invoices =
+    /*
+     * ========================================================
+     * STRIPE
+     * ========================================================
+     */
+
+    const stripe = getStripeClient();
+
+    /*
+     * ========================================================
+     * CONSTRUCTION DES FACTURES
+     * ========================================================
+     */
+
+    const invoices = await Promise.all(
       (data || []).map(
-        (invoice) => ({
-          id: invoice.id,
+        async (invoice) => {
+          let amount = 0;
+          let currency = "EUR";
 
-          domain:
-            invoice.domain,
+          /*
+           * On récupère le montant réel
+           * depuis Stripe.
+           */
 
-          amount: Number(
-            invoice.amount || 0,
-          ),
+          if (
+            stripe &&
+            invoice.stripe_session_id
+          ) {
+            try {
+              const session =
+                await stripe.checkout.sessions.retrieve(
+                  invoice.stripe_session_id,
+                );
 
-          currency:
-            invoice.currency || "EUR",
+              if (
+                typeof session.amount_total ===
+                "number"
+              ) {
+                amount =
+                  session.amount_total / 100;
+              }
 
-          status: mapStatus(
-            invoice.status,
-          ),
+              if (
+                typeof session.currency ===
+                  "string" &&
+                session.currency.trim() !== ""
+              ) {
+                currency =
+                  session.currency.toUpperCase();
+              }
+            } catch (stripeError) {
+              console.error(
+                "STRIPE INVOICE ERROR:",
+                {
+                  sessionId:
+                    invoice.stripe_session_id,
+                  error: stripeError,
+                },
+              );
+            }
+          }
 
-          email:
-            invoice.email,
+          return {
+            id: invoice.id,
 
-          stripe_session_id:
-            invoice.stripe_session_id,
+            domain:
+              invoice.domain,
 
-          created_at:
-            invoice.created_at,
-        }),
-      );
+            amount,
 
-    return NextResponse.json({
-      invoices,
-    });
+            currency,
+
+            status: mapStatus(
+              invoice.status,
+            ),
+
+            email:
+              invoice.email,
+
+            stripe_session_id:
+              invoice.stripe_session_id,
+
+            created_at:
+              invoice.created_at,
+          };
+        },
+      ),
+    );
+
+    /*
+     * ========================================================
+     * REPONSE
+     * ========================================================
+     */
+
+    return NextResponse.json(
+      {
+        invoices,
+      },
+      { status: 200 },
+    );
   } catch (error) {
     console.error(
       "CLIENT INVOICES API ERROR:",

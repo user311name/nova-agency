@@ -76,7 +76,7 @@ function formatDate(date: string) {
 
 function formatPrice(
   amount: number,
-  currency?: string | null
+  currency?: string | null,
 ) {
   const safeCurrency =
     typeof currency === "string" &&
@@ -115,84 +115,85 @@ export default function ClientOrdersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const rawEmail = window.localStorage.getItem(
-      "nova_client_email"
-    );
+  async function loadOrders() {
+    try {
+      setLoading(true);
+      setError("");
 
-    const clientEmail = String(rawEmail || "")
-      .trim()
-      .toLowerCase();
-
-    if (clientEmail === "") {
-      setLoading(false);
-      return;
-    }
-
-    setEmail(clientEmail);
-
-    async function loadOrders() {
-      try {
-        setLoading(true);
-        setError("");
-
-        const encodedEmail =
-          encodeURIComponent(String(clientEmail));
-
-        const apiUrl =
-          "/api/client/orders?email=" +
-          encodedEmail;
-
-        const response = await fetch(apiUrl, {
+      const response = await fetch(
+        "/api/client/orders",
+        {
           method: "GET",
           cache: "no-store",
-        });
+        },
+      );
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (!response.ok) {
-          throw new Error(
-            String(
-              data?.error ||
-                "Impossible de récupérer les commandes."
-            )
-          );
-        }
-
-        if (Array.isArray(data?.orders)) {
-          setOrders(data.orders);
-        } else {
-          setOrders([]);
-        }
-      } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Une erreur est survenue."
-        );
-      } finally {
-        setLoading(false);
+      if (response.status === 401) {
+        window.location.href =
+          "/connexion?next=/espace-client/commandes";
+        return;
       }
-    }
 
+      if (!response.ok) {
+        throw new Error(
+          String(
+            data?.error ||
+              "Impossible de récupérer les commandes.",
+          ),
+        );
+      }
+
+      if (Array.isArray(data?.orders)) {
+        setOrders(data.orders);
+
+        if (data.orders.length > 0) {
+          const firstEmail =
+            typeof data.orders[0]?.email === "string"
+              ? data.orders[0].email
+              : "";
+
+          setEmail(firstEmail);
+        }
+      } else {
+        setOrders([]);
+      }
+    } catch (err) {
+      console.error(
+        "CLIENT ORDERS PAGE ERROR:",
+        err,
+      );
+
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Une erreur est survenue.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
     loadOrders();
   }, []);
 
   const totalSpent = useMemo(() => {
     return orders
       .filter(
-        (order) => order.status === "paid"
+        (order) => order.status === "paid",
       )
       .reduce(
         (total, order) =>
           total + Number(order.amount || 0),
-        0
+        0,
       );
   }, [orders]);
 
   const paidOrders = useMemo(() => {
     return orders.filter(
-      (order) => order.status === "paid"
+      (order) => order.status === "paid",
     ).length;
   }, [orders]);
 
@@ -211,7 +212,7 @@ export default function ClientOrdersPage() {
             Domaines
           </Link>
 
-          <Link href="/hebergement">
+          <Link href="/services">
             Hébergement
           </Link>
 
@@ -273,7 +274,7 @@ export default function ClientOrdersPage() {
             </h1>
 
             <p>
-              Retrouvez ici l'ensemble de vos
+              Retrouvez ici l&apos;ensemble de vos
               commandes NOVA, leur statut et les
               informations de paiement.
             </p>
@@ -306,7 +307,10 @@ export default function ClientOrdersPage() {
 
             <div>
               <span>Total commandes</span>
-              <strong>{orders.length}</strong>
+
+              <strong>
+                {loading ? "—" : orders.length}
+              </strong>
             </div>
           </div>
 
@@ -317,7 +321,10 @@ export default function ClientOrdersPage() {
 
             <div>
               <span>Commandes payées</span>
-              <strong>{paidOrders}</strong>
+
+              <strong>
+                {loading ? "—" : paidOrders}
+              </strong>
             </div>
           </div>
 
@@ -330,10 +337,12 @@ export default function ClientOrdersPage() {
               <span>Total dépensé</span>
 
               <strong>
-                {formatPrice(
-                  totalSpent,
-                  "EUR"
-                )}
+                {loading
+                  ? "—"
+                  : formatPrice(
+                      totalSpent,
+                      "EUR",
+                    )}
               </strong>
             </div>
           </div>
@@ -352,8 +361,11 @@ export default function ClientOrdersPage() {
             </div>
 
             <span className="ordersCount">
-              {orders.length} commande
-              {orders.length > 1 ? "s" : ""}
+              {loading
+                ? "Chargement..."
+                : `${orders.length} commande${
+                    orders.length > 1 ? "s" : ""
+                  }`}
             </span>
           </div>
 
@@ -386,42 +398,15 @@ export default function ClientOrdersPage() {
 
               <button
                 type="button"
-                onClick={() =>
-                  window.location.reload()
-                }
+                onClick={loadOrders}
               >
                 Réessayer
               </button>
             </div>
           )}
 
-          {!loading && !error && !email && (
-            <div className="ordersState">
-              <div className="ordersStateIcon">
-                <ShoppingBagIcon />
-              </div>
-
-              <h3>
-                Connectez-vous à votre espace
-                client
-              </h3>
-
-              <p>
-                Votre compte client permettra
-                d'afficher automatiquement vos
-                commandes.
-              </p>
-
-              <Link href="/espace-client">
-                Retour à l'espace client
-                <ArrowIcon />
-              </Link>
-            </div>
-          )}
-
           {!loading &&
             !error &&
-            email &&
             orders.length === 0 && (
               <div className="ordersState">
                 <div className="ordersStateIcon">
@@ -472,7 +457,7 @@ export default function ClientOrdersPage() {
                           <span>•</span>
 
                           {formatDate(
-                            order.created_at
+                            order.created_at,
                           )}
                         </div>
                       </div>
@@ -482,8 +467,9 @@ export default function ClientOrdersPage() {
                       {order.status === "paid" && (
                         <span className="status paid">
                           <CheckIcon />
+
                           {statusLabel(
-                            order.status
+                            order.status,
                           )}
                         </span>
                       )}
@@ -491,8 +477,9 @@ export default function ClientOrdersPage() {
                       {order.status === "pending" && (
                         <span className="status pending">
                           <ClockIcon />
+
                           {statusLabel(
-                            order.status
+                            order.status,
                           )}
                         </span>
                       )}
@@ -500,7 +487,7 @@ export default function ClientOrdersPage() {
                       {order.status === "failed" && (
                         <span className="status failed">
                           {statusLabel(
-                            order.status
+                            order.status,
                           )}
                         </span>
                       )}
@@ -508,7 +495,7 @@ export default function ClientOrdersPage() {
                       {order.status === "refunded" && (
                         <span className="status refunded">
                           {statusLabel(
-                            order.status
+                            order.status,
                           )}
                         </span>
                       )}
@@ -517,17 +504,19 @@ export default function ClientOrdersPage() {
                     <div className="orderPrice">
                       {formatPrice(
                         Number(order.amount || 0),
-                        order.currency
+                        order.currency,
                       )}
                     </div>
 
-                    <button
-                      type="button"
+                    <Link
+                      href={`/espace-client/domaines/${encodeURIComponent(
+                        order.domain,
+                      )}`}
                       className="orderArrow"
-                      aria-label={`Voir la commande ${order.domain}`}
+                      aria-label={`Voir le domaine ${order.domain}`}
                     >
                       <ArrowIcon />
-                    </button>
+                    </Link>
                   </article>
                 ))}
               </div>
@@ -537,7 +526,7 @@ export default function ClientOrdersPage() {
         <section className="ordersCTA">
           <div>
             <span className="ordersEyebrow">
-              BESOIN D'AUTRE CHOSE ?
+              BESOIN D&apos;AUTRE CHOSE ?
             </span>
 
             <h2>

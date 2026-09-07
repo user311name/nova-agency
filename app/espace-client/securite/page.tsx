@@ -1,0 +1,392 @@
+import Link from "next/link";
+import "./page.css";
+
+const protections = [
+  {
+    number: "01",
+    title: "Protection des accès",
+    text: "Vos accès sensibles sont protégés afin de limiter les risques liés aux comptes et aux identifiants.",
+  },
+  {
+    number: "02",
+    title: "Sécurité du site",
+    text: "Votre environnement web est configuré avec des protections adaptées à votre activité et à votre niveau d'exposition.",
+  },
+  {
+    number: "03",
+    title: "Surveillance",
+    text: "Les éléments essentiels de votre infrastructure peuvent être suivis afin de détecter plus rapidement les anomalies.",
+  },
+  {
+    number: "04",
+    title: "Accompagnement",
+    text: "Vous disposez d'un interlocuteur pour comprendre les alertes, les actions à effectuer et les prochaines étapes.",
+  },
+];
+
+const layers = [
+  {
+    title: "Accès",
+    text: "Contrôle des comptes et des accès sensibles.",
+  },
+  {
+    title: "Infrastructure",
+    text: "Protection de l'environnement qui héberge votre présence en ligne.",
+  },
+  {
+    title: "Données",
+    text: "Réduction des risques autour des informations importantes.",
+  },
+  {
+    title: "Suivi",
+    text: "Une vision claire de l'état de vos services.",
+  },
+];
+
+export default function SecuritePage() {
+  return (
+    <main className="security-page">
+      {/* HEADER */}
+      <header className="security-header">
+        <div className="security-header-inner">
+          <Link href="/" className="security-logo" aria-label="NOVA - Accueil">
+            <span className="security-logo-mark">N</span>
+            <span className="security-logo-name">NOVA</span>
+          </Link>
+
+          <nav className="security-nav" aria-label="Navigation principale">
+            <Link href="/domaines">Domaines</Link>
+            <Link href="/hebergement">Hébergement</Link>
+            <Link href="/emails">Emails</Link>
+            <Link href="/securite" className="active">
+              Sécurité
+            </Link>
+            <Link href="/a-propos">À propos</Link>
+          </nav>
+
+          <Link href="/espace-client" className="security-client-button">
+            Espace client
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </header>
+
+      {/* HERO */}
+      <section className="security-hero">
+        <div className="security-container security-hero-grid">
+          <div className="security-hero-content">
+            <div className="security-eyebrow">
+              <span className="security-status-dot" />
+              PROTECTION NUMÉRIQUE
+            </div>
+
+            <h1>
+              Votre activité mérite
+              <br />
+              <span>une protection solide.</span>
+            </h1>
+
+            <p className="security-hero-text">
+              Un site, un domaine, des emails et des données représentent
+              votre activité. NOVA vous aide à protéger cet écosystème avec
+              une approche claire, moderne et adaptée à vos besoins.
+            </p>
+
+            <div className="security-hero-actions">
+              <Link href="/contact" className="security-button security-button-primary">
+                Protéger mes services
+                <span aria-hidden="true">→</span>
+              </Link>
+
+              <Link href="#protection" className="security-button security-button-secondary">
+                Découvrir la protection
+              </Link>
+            </div>
+
+            <div className="security-hero-note">
+              <span aria-hidden="true">✓</span>
+              Une protection pensée pour rester simple à comprendre.
+            </div>
+          </div>
+
+          <div className="security-visual" aria-hidden="true">
+            <div className="security-orbit security-orbit-one" />
+            <div className="security-orbit security-orbit-two" />
+            <div className="security-orbit security-orbit-three" />
+
+            <div className="security-shield">
+              <div className="security-shield-inner">
+                <svg viewBox="0 0 100 120" role="presentation">
+                  <path
+                    d="M50 7 L88 22 V55 C88 82 71 102 50 113 C29 102 12 82 12 55 V22 Z"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M31 59 L44 72 L70 43"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <div className="security-floating-card security-floating-card-top">
+              <span className="security-card-icon">✓</span>
+              <div>
+                <strong>Protection active</strong>
+                <small>Services surveillés</small>
+              </div>
+            </div>
+
+            <div className="security-floating-card security-floating-card-bottom">
+              <span className="security-card-mini-icon">N</span>
+              <div>
+                <strong>NOVA SECURITY</strong>
+                <small>Architecture protégée</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* INTRO */}
+      <section className="security-intro" id="protection">
+        <div className="security-container">
+          <div className="security-section-heading">
+            <span className="security-label">UNE APPROCHE PAR COUCHES</span>
+            <h2>
+              La sécurité ne doit pas
+              <br />
+              être <span>compliquée.</span>
+            </h2>
+            <p>
+              Nous organisons la protection autour des éléments essentiels de
+              votre environnement numérique. L'objectif : réduire les risques
+              sans vous noyer dans la technique.
+            </p>
+          </div>
+
+          <div className="security-layers">
+            {layers.map((layer, index) => (
+              <article className="security-layer" key={layer.title}>
+                <span className="security-layer-number">
+                  0{index + 1}
+                </span>
+
+                <div className="security-layer-line" />
+
+                <h3>{layer.title}</h3>
+                <p>{layer.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PROTECTIONS */}
+      <section className="security-protection-section">
+        <div className="security-container">
+          <div className="security-protection-heading">
+            <div>
+              <span className="security-label">PROTECTION NOVA</span>
+              <h2>
+                Les points essentiels
+                <br />
+                <span>sous contrôle.</span>
+              </h2>
+            </div>
+
+            <p>
+              Une vision globale permet d'éviter les angles morts et de
+              conserver un environnement numérique propre et maîtrisé.
+            </p>
+          </div>
+
+          <div className="security-protection-grid">
+            {protections.map((item) => (
+              <article className="security-protection-card" key={item.number}>
+                <div className="security-protection-top">
+                  <span>{item.number}</span>
+                  <span className="security-protection-symbol">↗</span>
+                </div>
+
+                <div className="security-card-divider" />
+
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECURITY CENTER */}
+      <section className="security-center-section">
+        <div className="security-container">
+          <div className="security-center-card">
+            <div className="security-center-copy">
+              <span className="security-label">ESPACE CLIENT</span>
+
+              <h2>
+                Gardez une vision claire
+                <br />
+                de vos <span>services.</span>
+              </h2>
+
+              <p>
+                Depuis votre espace client, vous pourrez retrouver vos
+                services NOVA au même endroit et accéder progressivement aux
+                outils de gestion disponibles pour votre environnement.
+              </p>
+
+              <Link href="/espace-client" className="security-button security-button-primary">
+                Ouvrir mon espace client
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+
+            <div className="security-center-interface" aria-hidden="true">
+              <div className="security-interface-header">
+                <div>
+                  <span className="security-interface-kicker">
+                    NOVA SECURITY
+                  </span>
+                  <strong>Centre de protection</strong>
+                </div>
+
+                <span className="security-interface-status">
+                  ● ACTIF
+                </span>
+              </div>
+
+              <div className="security-interface-list">
+                <div>
+                  <span className="interface-check">✓</span>
+                  <span>Accès</span>
+                  <strong>Protégé</strong>
+                </div>
+
+                <div>
+                  <span className="interface-check">✓</span>
+                  <span>Infrastructure</span>
+                  <strong>Protégée</strong>
+                </div>
+
+                <div>
+                  <span className="interface-check">✓</span>
+                  <span>Services</span>
+                  <strong>Opérationnels</strong>
+                </div>
+              </div>
+
+              <div className="security-interface-footer">
+                <span>Dernière vérification</span>
+                <strong>Configuration NOVA</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ-LIKE REASSURANCE */}
+      <section className="security-reassurance">
+        <div className="security-container">
+          <div className="security-reassurance-grid">
+            <div>
+              <span className="security-label">L'ESSENTIEL</span>
+              <h2>
+                Une sécurité
+                <br />
+                <span>compréhensible.</span>
+              </h2>
+            </div>
+
+            <div className="security-reassurance-text">
+              <p>
+                Vous n'avez pas besoin d'être expert en cybersécurité pour
+                comprendre ce qui protège votre activité.
+              </p>
+
+              <p>
+                NOVA privilégie une approche lisible : identifier les points
+                sensibles, mettre en place les protections adaptées et vous
+                expliquer clairement ce qui est fait.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="security-cta">
+        <div className="security-container">
+          <div className="security-cta-card">
+            <div>
+              <span className="security-label">PRÊT À PASSER À L'ACTION ?</span>
+
+              <h2>
+                Protégez votre présence
+                <br />
+                <span>numérique avec NOVA.</span>
+              </h2>
+
+              <p>
+                Parlons de vos domaines, de votre site, de vos emails et de
+                vos besoins en protection.
+              </p>
+            </div>
+
+            <Link href="/contact" className="security-button security-button-light">
+              Parler à NOVA
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="security-footer">
+        <div className="security-container security-footer-grid">
+          <div className="security-footer-brand">
+            <Link href="/" className="security-logo">
+              <span className="security-logo-mark">N</span>
+              <span className="security-logo-name">NOVA</span>
+            </Link>
+
+            <p>
+              Agence digitale premium.
+              <br />
+              Design, infrastructure et présence numérique.
+            </p>
+          </div>
+
+          <div className="security-footer-column">
+            <span>Services</span>
+            <Link href="/domaines">Domaines</Link>
+            <Link href="/hebergement">Hébergement</Link>
+            <Link href="/emails">Emails</Link>
+            <Link href="/securite">Sécurité</Link>
+          </div>
+
+          <div className="security-footer-column">
+            <span>NOVA</span>
+            <Link href="/a-propos">À propos</Link>
+            <Link href="/contact">Contact</Link>
+            <Link href="/faq">FAQ</Link>
+            <Link href="/espace-client">Espace client</Link>
+          </div>
+        </div>
+
+        <div className="security-container security-footer-bottom">
+          <span>© 2026 NOVA. Tous droits réservés.</span>
+          <span>Une présence numérique pensée pour durer.</span>
+        </div>
+      </footer>
+    </main>
+  );
+}

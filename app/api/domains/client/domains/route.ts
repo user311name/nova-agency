@@ -35,12 +35,8 @@ export async function GET(
 
     /*
      * ========================================================
-     * RECUPERATION DES DOMAINES
+     * DOMAINES DU COMPTE
      * ========================================================
-     *
-     * IMPORTANT :
-     * On utilise user_id.
-     * Le client ne peut plus choisir l'email à consulter.
      */
 
     const {
@@ -56,8 +52,6 @@ export async function GET(
         expires_at,
         openprovider_id,
         stripe_session_id,
-        amount,
-        currency,
         user_id,
         created_at
       `)
@@ -71,14 +65,14 @@ export async function GET(
 
     if (error) {
       console.error(
-        "SUPABASE CLIENT DOMAINS ERROR:",
+        "SUPABASE DOMAINS ERROR:",
         error,
       );
 
       return NextResponse.json(
         {
           error:
-            "Impossible de récupérer vos domaines.",
+            "Impossible de récupérer les domaines.",
         },
         { status: 500 },
       );

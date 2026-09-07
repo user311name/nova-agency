@@ -71,14 +71,17 @@ function formatDate(date: string) {
   }).format(parsedDate);
 }
 
-function formatPrice(amount: number, currency: string) {
+function formatPrice(
+  amount: number,
+  currency: string,
+) {
   const safeAmount = Number(amount) || 0;
   const safeCurrency = currency || "EUR";
 
   try {
     return new Intl.NumberFormat("fr-FR", {
       style: "currency",
-      currency: safeCurrency,
+      currency: safeCurrency.toUpperCase(),
     }).format(safeAmount);
   } catch {
     return `${safeAmount.toFixed(2)} €`;
@@ -109,86 +112,222 @@ export default function ClientInvoicesPage() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+
+  async function loadInvoices() {
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await fetch(
+        "/api/client/invoices",
+        {
+          method: "GET",
+          cache: "no-store",
+        },
+      );
+
+      const data: {
+        invoices?: Invoice[];
+        error?: string;
+      } = await response.json();
+
+      if (response.status === 401) {
+        window.location.href =
+          "/connexion?next=/espace-client/factures";
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          data.error ||
+            "Impossible de récupérer les factures.",
+        );
+      }
+
+      const receivedInvoices = Array.isArray(
+        data.invoices,
+      )
+        ? data.invoices
+        : [];
+
+      setInvoices(receivedInvoices);
+
+      if (receivedInvoices.length > 0) {
+        const firstEmail =
+          receivedInvoices[0]?.email;
+
+        if (
+          typeof firstEmail === "string" &&
+          firstEmail.trim() !== ""
+        ) {
+          setEmail(firstEmail);
+        }
+      }
+    } catch (err) {
+      console.error(
+        "CLIENT INVOICES PAGE ERROR:",
+        err,
+      );
+
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Une erreur est survenue.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
-    const storedEmail =
-      window.localStorage
-        .getItem("nova_client_email")
-        ?.trim() ?? "";
-
-    if (!storedEmail) {
-      setLoading(false);
-      return;
-    }
-
-    setEmail(storedEmail);
-
-    async function loadInvoices() {
-      try {
-        setError("");
-
-        const response = await fetch(
-          `/api/client/invoices?email=${encodeURIComponent(
-            storedEmail
-          )}`,
-          {
-            method: "GET",
-            cache: "no-store",
-          }
-        );
-
-        const data: {
-          invoices?: Invoice[];
-          error?: string;
-        } = await response.json();
-
-        if (!response.ok) {
-          throw new Error(
-            data.error ||
-              "Impossible de récupérer les factures."
-          );
-        }
-
-        setInvoices(
-          Array.isArray(data.invoices)
-            ? data.invoices
-            : []
-        );
-      } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Une erreur est survenue."
-        );
-      } finally {
-        setLoading(false);
-      }
-    }
-
     loadInvoices();
   }, []);
 
   const totalPaid = useMemo(() => {
     return invoices
-      .filter((invoice) => invoice.status === "paid")
+      .filter(
+        (invoice) =>
+          invoice.status === "paid",
+      )
       .reduce((total, invoice) => {
-        return total + (Number(invoice.amount) || 0);
+        return (
+          total +
+          (Number(invoice.amount) || 0)
+        );
       }, 0);
   }, [invoices]);
 
-  const paidCount = invoices.filter(
-    (invoice) => invoice.status === "paid"
-  ).length;
+  const paidCount = useMemo(() => {
+    return invoices.filter(
+      (invoice) =>
+        invoice.status === "paid",
+    ).length;
+  }, [invoices]);
+
+  async function downloadInvoice(
+    invoice: Invoice,
+  ) {
+    try {
+      setDownloadingId(invoice.id);
+
+      /*
+       * On ouvre notre route sécurisée.
+       *
+       * La route vérifie :
+       * - que le client est connecté
+       * - que la facture lui appartient
+       * - que le paiement est confirmé
+       * - puis récupère le document Stripe disponible
+       */
+      const response = await fetch(
+        `/api/client/orders/invoices/${encodeURIComponent(
+          invoice.id,
+        )}`,
+        {
+          method: "GET",
+          cache: "no-store",
+          redirect: "manual",
+        },
+      );
+
+      if (response.status === 401) {
+        window.location.href =
+          "/connexion?next=/espace-client/factures";
+        return;
+      }
+
+      /*
+       * Notre API peut répondre par une redirection
+       * vers le PDF ou le reçu Stripe.
+       *
+       * Le navigateur gère cette redirection lorsque
+       * l'URL est ouverte directement.
+       */
+      if (
+        response.type === "opaqueredirect" ||
+        response.status === 0 ||
+        response.status === 301 ||
+        response.status === 302 ||
+        response.status === 303 ||
+        response.status === 307 ||
+        response.status === 308
+      ) {
+        window.open(
+          `/api/client/orders/invoices/${encodeURIComponent(
+            invoice.id,
+          )}`,
+          "_blank",
+          "noopener,noreferrer",
+        );
+
+        return;
+      }
+
+      if (!response.ok) {
+        let message =
+          "Impossible de récupérer cette facture.";
+
+        try {
+          const data: {
+            error?: string;
+          } = await response.json();
+
+          if (data.error) {
+            message = data.error;
+          }
+        } catch {
+          // Réponse non JSON : on garde le message par défaut.
+        }
+
+        throw new Error(message);
+      }
+
+      /*
+       * Si jamais l'API renvoie directement un fichier,
+       * on le télécharge également.
+       */
+      const blob = await response.blob();
+
+      const blobUrl =
+        window.URL.createObjectURL(blob);
+
+      const link =
+        document.createElement("a");
+
+      link.href = blobUrl;
+      link.download = `facture-NOVA-${invoice.id
+        .slice(0, 8)
+        .toUpperCase()}.pdf`;
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (err) {
+      console.error(
+        "INVOICE DOWNLOAD ERROR:",
+        err,
+      );
+
+      window.alert(
+        err instanceof Error
+          ? err.message
+          : "Impossible de télécharger cette facture.",
+      );
+    } finally {
+      setDownloadingId(null);
+    }
+  }
 
   return (
     <main className="clientInvoicesPage">
-
       {/* =====================================================
           HEADER
-          ===================================================== */}
+      ===================================================== */}
 
       <header className="clientInvoicesHeader">
-
         <Link
           href="/"
           className="clientInvoicesLogo"
@@ -197,12 +336,11 @@ export default function ClientInvoicesPage() {
         </Link>
 
         <nav className="clientInvoicesNav">
-
           <Link href="/domaines">
             Domaines
           </Link>
 
-          <Link href="/hebergement">
+          <Link href="/services">
             Hébergement
           </Link>
 
@@ -217,11 +355,9 @@ export default function ClientInvoicesPage() {
           <Link href="/a-propos">
             À propos
           </Link>
-
         </nav>
 
         <div className="clientInvoicesHeaderRight">
-
           <Link
             href="/contact"
             className="invoiceSupport"
@@ -238,47 +374,33 @@ export default function ClientInvoicesPage() {
               ? email.charAt(0).toUpperCase()
               : "N"}
           </Link>
-
         </div>
-
       </header>
-
 
       {/* =====================================================
           CONTENT
-          ===================================================== */}
+      ===================================================== */}
 
       <section className="invoicesContainer">
-
         {/* BREADCRUMB */}
 
         <div className="invoicesBreadcrumb">
-
           <Link href="/espace-client">
             Espace client
           </Link>
 
           <span>/</span>
 
-          <span>
-            Mes factures
-          </span>
-
+          <span>Mes factures</span>
         </div>
-
 
         {/* HERO */}
 
         <div className="invoicesHero">
-
           <div className="invoicesHeroContent">
-
             <div className="invoicesBadge">
-
               <span />
-
               ESPACE CLIENT
-
             </div>
 
             <h1>
@@ -289,150 +411,111 @@ export default function ClientInvoicesPage() {
 
             <p>
               Retrouvez toutes vos factures NOVA,
-              vos paiements et l&apos;historique de vos achats
-              au même endroit.
+              vos paiements et l&apos;historique de
+              vos achats au même endroit.
             </p>
-
           </div>
 
-
           <div className="invoicesHeroVisual">
-
             <div className="invoiceGlow" />
 
             <div className="invoiceDocument">
-
               <div className="invoiceDocumentTop">
-
-                <span>
-                  NOVA
-                </span>
+                <span>NOVA</span>
 
                 <div className="invoiceDocumentDot" />
-
               </div>
 
               <div className="invoiceDocumentLines">
-
                 <i />
                 <i />
                 <i />
                 <i />
-
               </div>
 
               <div className="invoiceDocumentTotal">
+                <small>TOTAL</small>
 
-                <small>
-                  TOTAL
-                </small>
-
-                <strong>
-                  €
-                </strong>
-
+                <strong>€</strong>
               </div>
 
               <div className="invoiceDocumentCheck">
                 <CheckIcon />
               </div>
-
             </div>
 
             <div className="invoiceVerticalText">
               NOVA · DIGITAL SERVICES
             </div>
-
           </div>
-
         </div>
-
 
         {/* =====================================================
             STATS
-            ===================================================== */}
+        ===================================================== */}
 
         <div className="invoiceStats">
-
           <div className="invoiceStatCard">
-
             <div className="invoiceStatIcon">
               <FileIcon />
             </div>
 
             <div>
-
-              <span>
-                Total factures
-              </span>
+              <span>Total factures</span>
 
               <strong>
-                {invoices.length}
+                {loading
+                  ? "—"
+                  : invoices.length}
               </strong>
-
             </div>
-
           </div>
 
-
           <div className="invoiceStatCard">
-
             <div className="invoiceStatIcon">
               <CheckIcon />
             </div>
 
             <div>
-
-              <span>
-                Factures payées
-              </span>
+              <span>Factures payées</span>
 
               <strong>
-                {paidCount}
+                {loading
+                  ? "—"
+                  : paidCount}
               </strong>
-
             </div>
-
           </div>
 
-
           <div className="invoiceStatCard">
-
             <div className="invoiceStatIcon">
-
               <span className="euroSymbol">
                 €
               </span>
-
             </div>
 
             <div>
-
-              <span>
-                Total payé
-              </span>
+              <span>Total payé</span>
 
               <strong>
-                {formatPrice(totalPaid, "EUR")}
+                {loading
+                  ? "—"
+                  : formatPrice(
+                      totalPaid,
+                      "EUR",
+                    )}
               </strong>
-
             </div>
-
           </div>
-
         </div>
-
 
         {/* =====================================================
             FACTURES
-            ===================================================== */}
+        ===================================================== */}
 
         <section className="invoicesSection">
-
           <div className="invoicesSectionHeading">
-
             <div>
-
               <span className="invoiceEyebrow">
                 DOCUMENTS
               </span>
@@ -440,26 +523,23 @@ export default function ClientInvoicesPage() {
               <h2>
                 Toutes vos factures
               </h2>
-
             </div>
 
             <span className="invoiceCount">
-
-              {invoices.length} facture
-              {invoices.length > 1
-                ? "s"
-                : ""}
-
+              {loading
+                ? "Chargement..."
+                : `${invoices.length} facture${
+                    invoices.length > 1
+                      ? "s"
+                      : ""
+                  }`}
             </span>
-
           </div>
-
 
           {/* LOADING */}
 
           {loading && (
             <div className="invoiceState">
-
               <div className="invoiceLoader" />
 
               <h3>
@@ -469,236 +549,184 @@ export default function ClientInvoicesPage() {
               <p>
                 Nous récupérons vos documents.
               </p>
-
             </div>
           )}
-
 
           {/* ERROR */}
 
           {!loading && error && (
             <div className="invoiceState invoiceStateError">
-
               <div className="invoiceStateIcon">
                 !
               </div>
 
               <h3>
-                Impossible de charger vos factures
+                Impossible de charger vos
+                factures
               </h3>
 
-              <p>
-                {error}
-              </p>
+              <p>{error}</p>
 
               <button
                 type="button"
-                onClick={() =>
-                  window.location.reload()
-                }
+                onClick={loadInvoices}
               >
                 Réessayer
               </button>
-
             </div>
           )}
-
-
-          {/* NO EMAIL */}
-
-          {!loading &&
-            !error &&
-            !email && (
-              <div className="invoiceState">
-
-                <div className="invoiceStateIcon">
-                  <FileIcon />
-                </div>
-
-                <h3>
-                  Connectez-vous à votre espace client
-                </h3>
-
-                <p>
-                  Vos factures seront automatiquement
-                  disponibles une fois votre compte configuré.
-                </p>
-
-                <Link href="/espace-client">
-
-                  Retour à l&apos;espace client
-
-                  <ArrowIcon />
-
-                </Link>
-
-              </div>
-            )}
-
 
           {/* EMPTY */}
 
           {!loading &&
             !error &&
-            email &&
             invoices.length === 0 && (
               <div className="invoiceState">
-
                 <div className="invoiceStateIcon">
                   <FileIcon />
                 </div>
 
                 <h3>
-                  Aucune facture pour le moment
+                  Aucune facture pour le
+                  moment
                 </h3>
 
                 <p>
-                  Vos factures apparaîtront automatiquement
-                  après vos prochains achats.
+                  Vos factures apparaîtront
+                  automatiquement après vos
+                  prochains achats.
                 </p>
 
                 <Link href="/domaines">
-
                   Rechercher un domaine
-
                   <ArrowIcon />
-
                 </Link>
-
               </div>
             )}
-
 
           {/* LIST */}
 
           {!loading &&
             !error &&
             invoices.length > 0 && (
-
               <div className="invoiceList">
-
                 {invoices.map((invoice) => (
-
                   <article
                     className="invoiceRow"
                     key={invoice.id}
                   >
-
                     <div className="invoiceMain">
-
                       <div className="invoiceFileIcon">
                         <FileIcon />
                       </div>
 
                       <div className="invoiceInfo">
-
                         <div className="invoiceTitle">
-
-                          Facture — {invoice.domain}
-
+                          Facture —{" "}
+                          {invoice.domain}
                         </div>
 
                         <div className="invoiceMeta">
-
                           INV-
                           {invoice.id
                             .slice(0, 8)
                             .toUpperCase()}
 
-                          <span>
-                            •
-                          </span>
+                          <span>•</span>
 
                           {formatDate(
-                            invoice.created_at
+                            invoice.created_at,
                           )}
-
                         </div>
-
                       </div>
-
                     </div>
 
-
                     <div className="invoiceStatus">
-
                       <span
                         className={`invoiceStatusPill ${invoice.status}`}
                       >
-
-                        {invoice.status === "paid" && (
+                        {invoice.status ===
+                          "paid" && (
                           <CheckIcon />
                         )}
 
                         {statusLabel(
-                          invoice.status
+                          invoice.status,
                         )}
-
                       </span>
-
                     </div>
-
 
                     <div className="invoiceAmount">
-
                       {formatPrice(
-                        Number(invoice.amount) || 0,
-                        invoice.currency || "EUR"
+                        Number(
+                          invoice.amount,
+                        ) || 0,
+                        invoice.currency ||
+                          "EUR",
                       )}
-
                     </div>
 
-
-                    {invoice.status === "paid" ? (
-
+                    {invoice.status ===
+                    "paid" ? (
                       <button
                         type="button"
                         className="invoiceDownload"
-                        title="Télécharger la facture"
-                        onClick={() => {
-                          window.alert(
-                            "La génération PDF des factures sera activée prochainement."
-                          );
-                        }}
+                        title={
+                          downloadingId ===
+                          invoice.id
+                            ? "Ouverture du document..."
+                            : "Télécharger la facture"
+                        }
+                        aria-label={
+                          downloadingId ===
+                          invoice.id
+                            ? "Ouverture du document..."
+                            : `Télécharger la facture ${invoice.domain}`
+                        }
+                        disabled={
+                          downloadingId ===
+                          invoice.id
+                        }
+                        onClick={() =>
+                          downloadInvoice(
+                            invoice,
+                          )
+                        }
                       >
-
-                        <DownloadIcon />
-
+                        {downloadingId ===
+                        invoice.id ? (
+                          <span
+                            className="invoiceLoader"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <DownloadIcon />
+                        )}
                       </button>
-
                     ) : (
-
-                      <div className="invoiceDownloadDisabled">
-
+                      <div
+                        className="invoiceDownloadDisabled"
+                        aria-label="Téléchargement indisponible"
+                      >
                         <DownloadIcon />
-
                       </div>
-
                     )}
-
                   </article>
-
                 ))}
-
               </div>
-
             )}
-
         </section>
-
 
         {/* =====================================================
             INFO
-            ===================================================== */}
+        ===================================================== */}
 
         <section className="invoiceInfoPanel">
-
           <div className="invoiceInfoPanelIcon">
             <FileIcon />
           </div>
 
           <div>
-
             <span className="invoiceEyebrow">
               VOS DOCUMENTS
             </span>
@@ -708,58 +736,48 @@ export default function ClientInvoicesPage() {
             </h2>
 
             <p>
-              Chaque paiement effectué auprès de NOVA
-              sera associé à une facture dans votre espace client.
-              La génération PDF sera disponible prochainement.
+              Chaque paiement effectué auprès de
+              NOVA est associé à un document
+              accessible depuis votre espace
+              client. Lorsqu&apos;un document Stripe
+              est disponible, il peut être ouvert
+              directement depuis cette page.
             </p>
-
           </div>
-
         </section>
-
 
         {/* =====================================================
             CTA
-            ===================================================== */}
+        ===================================================== */}
 
         <section className="invoiceCTA">
-
           <div>
-
             <span className="invoiceEyebrow">
               BESOIN D&apos;UN SERVICE ?
             </span>
 
             <h2>
-
               Développez votre
               <br />
-
               <span>
                 présence digitale.
               </span>
-
             </h2>
 
             <p>
-              Domaines, hébergement, emails et sécurité :
-              tout votre environnement digital au même endroit.
+              Domaines, hébergement, emails et
+              sécurité : tout votre environnement
+              digital au même endroit.
             </p>
-
           </div>
 
-
           <div className="invoiceCTAActions">
-
             <Link
               href="/domaines"
               className="invoicePrimaryButton"
             >
-
               Trouver un domaine
-
               <ArrowIcon />
-
             </Link>
 
             <Link
@@ -768,20 +786,15 @@ export default function ClientInvoicesPage() {
             >
               Espace client
             </Link>
-
           </div>
-
         </section>
-
       </section>
-
 
       {/* =====================================================
           FOOTER
-          ===================================================== */}
+      ===================================================== */}
 
       <footer className="clientInvoicesFooter">
-
         <Link
           href="/"
           className="invoiceFooterLogo"
@@ -795,7 +808,6 @@ export default function ClientInvoicesPage() {
         </p>
 
         <div>
-
           <Link href="/mentions-legales">
             Mentions légales
           </Link>
@@ -807,11 +819,8 @@ export default function ClientInvoicesPage() {
           <Link href="/contact">
             Support
           </Link>
-
         </div>
-
       </footer>
-
     </main>
   );
 }

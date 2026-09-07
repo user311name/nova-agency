@@ -1,0 +1,1493 @@
+/* ============================================================
+   NOVA — ESPACE CLIENT / DOMAIN DETAILS
+   Premium dark domain management
+   ============================================================ */
+
+/* ============================================================
+   RESET LOCAL
+   ============================================================ */
+
+.domain-details-page,
+.domain-details-page * {
+  box-sizing: border-box;
+}
+
+.domain-details-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 78% 7%,
+      rgba(103, 77, 255, 0.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 8% 42%,
+      rgba(79, 57, 180, 0.08),
+      transparent 28%
+    ),
+    #050505;
+  color: #ffffff;
+  isolation: isolate;
+}
+
+.domain-details-page a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.domain-details-page button,
+.domain-details-page input {
+  font: inherit;
+}
+
+/* ============================================================
+   BACKGROUND
+   ============================================================ */
+
+.domain-details-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.domain-details-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.35;
+  animation: domainDetailsOrbFloat 14s ease-in-out infinite;
+}
+
+.domain-details-orb-one {
+  width: 500px;
+  height: 500px;
+  top: 2%;
+  right: -15%;
+  background: rgba(103, 78, 255, 0.15);
+}
+
+.domain-details-orb-two {
+  width: 430px;
+  height: 430px;
+  bottom: 8%;
+  left: -16%;
+  background: rgba(75, 54, 180, 0.11);
+  animation-delay: -6s;
+}
+
+.domain-details-grid-lines {
+  position: absolute;
+  inset: 0;
+  opacity: 0.055;
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.07) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.07) 1px,
+      transparent 1px
+    );
+  background-size: 90px 90px;
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    rgba(0, 0, 0, 0.55) 50%,
+    transparent 95%
+  );
+}
+
+@keyframes domainDetailsOrbFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, 28px, 0) scale(1.05);
+  }
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.domain-details-header {
+  position: relative;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+  background: rgba(5, 5, 5, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.domain-details-header-inner {
+  width: min(1400px, calc(100% - 48px));
+  min-height: 78px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+/* ============================================================
+   LOGO
+   ============================================================ */
+
+.domain-details-logo,
+.domain-details-footer-logo {
+  display: inline-flex;
+  align-items: center;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.domain-details-logo {
+  font-size: 25px;
+}
+
+.domain-details-logo span,
+.domain-details-footer-logo span {
+  color: #7d68ff;
+}
+
+.domain-details-logo:hover,
+.domain-details-footer-logo:hover {
+  opacity: 0.82;
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+
+.domain-details-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 29px;
+}
+
+.domain-details-navigation a {
+  position: relative;
+  color: #85858e;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 600;
+  transition: color 0.25s ease;
+}
+
+.domain-details-navigation a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -11px;
+  width: 0;
+  height: 1px;
+  background: #8c78ff;
+  transform: translateX(-50%);
+  transition: width 0.25s ease;
+}
+
+.domain-details-navigation a:hover,
+.domain-details-navigation a.active {
+  color: #ffffff;
+}
+
+.domain-details-navigation a:hover::after,
+.domain-details-navigation a.active::after {
+  width: 100%;
+}
+
+/* ============================================================
+   HEADER ACTIONS
+   ============================================================ */
+
+.domain-details-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.domain-details-support {
+  color: #7e7e87;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 600;
+  transition: color 0.25s ease;
+}
+
+.domain-details-support:hover {
+  color: #ffffff;
+}
+
+.domain-details-account {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 700;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.domain-details-account:hover {
+  transform: translateY(-2px);
+  border-color: rgba(132, 110, 255, 0.4);
+  background: rgba(119, 95, 255, 0.08);
+}
+
+/* ============================================================
+   SHELL
+   ============================================================ */
+
+.domain-details-shell {
+  position: relative;
+  z-index: 1;
+  width: min(1240px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+/* ============================================================
+   BREADCRUMB
+   ============================================================ */
+
+.domain-details-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding-top: 27px;
+  color: #51515a;
+  font-size: 10px;
+}
+
+.domain-details-breadcrumb a {
+  color: #777781;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.domain-details-breadcrumb a:hover {
+  color: #ffffff;
+}
+
+.domain-details-breadcrumb span {
+  color: #393940;
+}
+
+.domain-details-breadcrumb strong {
+  max-width: 260px;
+  overflow: hidden;
+  color: #a0a0a8;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.domain-details-hero {
+  min-height: 490px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  align-items: center;
+  gap: 70px;
+  padding: 75px 0 80px;
+}
+
+.domain-details-eyebrow {
+  display: block;
+  margin-bottom: 20px;
+  color: #696970;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.domain-details-title-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.domain-details-icon {
+  width: 67px;
+  height: 67px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(133, 112, 255, 0.18);
+  border-radius: 19px;
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      rgba(255, 255, 255, 0.08),
+      transparent 35%
+    ),
+    rgba(119, 95, 255, 0.055);
+  color: #a297ff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 0 45px rgba(108, 83, 255, 0.08);
+}
+
+.domain-details-svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.domain-details-icon .domain-details-svg {
+  width: 30px;
+  height: 30px;
+}
+
+.domain-details-title-row h1 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: clamp(38px, 5vw, 67px);
+  line-height: 0.95;
+  font-weight: 600;
+  letter-spacing: -0.065em;
+  overflow-wrap: anywhere;
+}
+
+.domain-details-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.domain-details-status > span {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.domain-details-status.active {
+  color: #72dba0;
+}
+
+.domain-details-status.active > span {
+  background: #72dba0;
+  box-shadow: 0 0 12px rgba(114, 219, 160, 0.8);
+}
+
+.domain-details-status.pending {
+  color: #a394ff;
+}
+
+.domain-details-status.pending > span {
+  background: #9c87ff;
+  box-shadow: 0 0 12px rgba(156, 135, 255, 0.8);
+}
+
+.domain-details-status.error {
+  color: #ff8585;
+}
+
+.domain-details-status.error > span {
+  background: #ff8585;
+  box-shadow: 0 0 12px rgba(255, 100, 100, 0.7);
+}
+
+.domain-details-intro {
+  max-width: 610px;
+  margin: 27px 0 0;
+  color: #85858e;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+/* ============================================================
+   HERO CARD
+   ============================================================ */
+
+.domain-details-hero-card {
+  position: relative;
+  min-height: 245px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 25px;
+  background:
+    radial-gradient(
+      circle at 75% 20%,
+      rgba(110, 86, 255, 0.12),
+      transparent 45%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.014)
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 30px 70px rgba(0, 0, 0, 0.3);
+}
+
+.domain-details-hero-card::before {
+  content: "";
+  position: absolute;
+  top: -90px;
+  right: -80px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(110, 86, 255, 0.09);
+  filter: blur(50px);
+}
+
+.domain-details-hero-card span {
+  position: relative;
+  z-index: 2;
+  color: #66666f;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.domain-details-hero-card strong {
+  position: relative;
+  z-index: 2;
+  margin-top: 15px;
+  color: #ffffff;
+  font-size: 35px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.domain-details-hero-card small {
+  position: relative;
+  z-index: 2;
+  margin-top: 9px;
+  color: #62626a;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   SECTION
+   ============================================================ */
+
+.domain-details-section {
+  margin-top: 45px;
+}
+
+.domain-details-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 23px;
+}
+
+.domain-details-section-heading span {
+  display: block;
+  margin-bottom: 9px;
+  color: #62626b;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.domain-details-section-heading h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 31px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+}
+
+/* ============================================================
+   INFO GRID
+   ============================================================ */
+
+.domain-details-info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 11px;
+}
+
+.domain-details-info-card {
+  min-height: 155px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.014)
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.035),
+    0 20px 50px rgba(0, 0, 0, 0.16);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.domain-details-info-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(133, 112, 255, 0.2);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(112, 88, 255, 0.025)
+    );
+}
+
+.domain-details-info-card > span {
+  margin-bottom: 12px;
+  color: #5f5f67;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.domain-details-info-card strong {
+  display: block;
+  color: #ddddE1;
+  font-size: 14px;
+  line-height: 1.35;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.domain-details-info-card small {
+  display: block;
+  margin-top: 8px;
+  color: #5e5e66;
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   TOOLS
+   ============================================================ */
+
+.domain-details-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.domain-details-tool {
+  position: relative;
+  min-height: 245px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 20px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.014)
+    );
+  color: #ffffff;
+  text-decoration: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.035),
+    0 20px 55px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.domain-details-tool::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  right: -80px;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: rgba(111, 86, 255, 0.1);
+  filter: blur(50px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.domain-details-tool:hover {
+  transform: translateY(-5px);
+  border-color: rgba(133, 112, 255, 0.22);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(111, 87, 255, 0.025)
+    );
+}
+
+.domain-details-tool:hover::before {
+  opacity: 1;
+}
+
+.domain-details-tool-icon {
+  position: relative;
+  z-index: 2;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(132, 111, 255, 0.15);
+  border-radius: 14px;
+  background: rgba(119, 95, 255, 0.045);
+  color: #a397ff;
+}
+
+.domain-details-tool-icon .domain-details-svg {
+  width: 20px;
+  height: 20px;
+}
+
+.domain-details-tool > span:not(.domain-details-tool-arrow) {
+  position: relative;
+  z-index: 2;
+  display: block;
+  margin-top: auto;
+  margin-bottom: 7px;
+  color: #62626b;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.domain-details-tool h3 {
+  position: relative;
+  z-index: 2;
+  margin: 0 35px 8px 0;
+  color: #e5e5e8;
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.domain-details-tool p {
+  position: relative;
+  z-index: 2;
+  max-width: 290px;
+  margin: 0;
+  color: #686870;
+  font-size: 9px;
+  line-height: 1.65;
+}
+
+.domain-details-tool-arrow {
+  position: absolute;
+  z-index: 3;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 50%;
+  color: #64646c;
+  font-size: 14px;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.domain-details-tool:hover .domain-details-tool-arrow {
+  color: #ffffff;
+  border-color: rgba(133, 112, 255, 0.25);
+  transform: translate(2px, -2px);
+}
+
+/* ============================================================
+   RENEWAL CTA
+   ============================================================ */
+
+.domain-details-renewal {
+  position: relative;
+  min-height: 345px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  margin-top: 75px;
+  padding: 50px 55px;
+  overflow: hidden;
+  border: 1px solid rgba(130, 108, 255, 0.15);
+  border-radius: 25px;
+  background:
+    radial-gradient(
+      circle at 20% 50%,
+      rgba(108, 83, 255, 0.11),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.012)
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.045),
+    0 30px 80px rgba(0, 0, 0, 0.23);
+}
+
+.domain-details-renewal-glow {
+  position: absolute;
+  left: 4%;
+  bottom: -160px;
+  width: 330px;
+  height: 330px;
+  border-radius: 50%;
+  background: rgba(102, 77, 255, 0.11);
+  filter: blur(85px);
+  pointer-events: none;
+}
+
+.domain-details-renewal-content {
+  position: relative;
+  z-index: 4;
+}
+
+.domain-details-renewal-content > span {
+  display: block;
+  color: #686870;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.domain-details-renewal-content h2 {
+  margin: 13px 0 13px;
+  color: #ffffff;
+  font-size: clamp(36px, 4.3vw, 58px);
+  line-height: 0.95;
+  font-weight: 600;
+  letter-spacing: -0.055em;
+}
+
+.domain-details-renewal-content p {
+  max-width: 500px;
+  margin: 0;
+  color: #73737c;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.domain-details-renewal-content p strong {
+  color: #b9b9c0;
+  font-weight: 600;
+}
+
+.domain-details-renewal-button {
+  min-height: 44px;
+  margin-top: 23px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #73737b;
+  font-size: 9px;
+  font-weight: 700;
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+/* ============================================================
+   RENEWAL VISUAL
+   ============================================================ */
+
+.domain-details-renewal-visual {
+  position: relative;
+  width: 275px;
+  height: 275px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.domain-renewal-ring {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 50%;
+}
+
+.domain-renewal-ring.ring-one {
+  width: 255px;
+  height: 255px;
+  animation: domainRenewalRotate 18s linear infinite;
+}
+
+.domain-renewal-ring.ring-two {
+  width: 190px;
+  height: 190px;
+  border-color: rgba(128, 106, 255, 0.15);
+  animation: domainRenewalRotateReverse 14s linear infinite;
+}
+
+.domain-renewal-ring.ring-three {
+  width: 125px;
+  height: 125px;
+  border-color: rgba(255, 255, 255, 0.055);
+}
+
+.domain-renewal-core {
+  position: relative;
+  z-index: 4;
+  width: 86px;
+  height: 86px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      rgba(255, 255, 255, 0.11),
+      rgba(100, 76, 240, 0.09) 45%,
+      rgba(0, 0, 0, 0.45)
+    );
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-shadow:
+    0 0 30px rgba(146, 127, 255, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 60px rgba(105, 81, 255, 0.12);
+  animation: domainRenewalCoreFloat 5s ease-in-out infinite;
+}
+
+@keyframes domainRenewalRotate {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes domainRenewalRotateReverse {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0);
+  }
+}
+
+@keyframes domainRenewalCoreFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+/* ============================================================
+   BACK
+   ============================================================ */
+
+.domain-details-back {
+  display: flex;
+  justify-content: center;
+  padding: 55px 0 95px;
+}
+
+.domain-details-back a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #65656e;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 700;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.domain-details-back a span {
+  font-size: 14px;
+  transition: transform 0.25s ease;
+}
+
+.domain-details-back a:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.domain-details-back a:hover span {
+  transform: translateX(-3px);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.domain-details-footer {
+  position: relative;
+  z-index: 5;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.domain-details-footer-inner {
+  width: min(1240px, calc(100% - 48px));
+  min-height: 105px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.domain-details-footer-logo {
+  font-size: 19px;
+}
+
+.domain-details-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.domain-details-footer-links a {
+  color: #5e5e67;
+  text-decoration: none;
+  font-size: 9px;
+  font-weight: 600;
+  transition: color 0.25s ease;
+}
+
+.domain-details-footer-links a:hover {
+  color: #ffffff;
+}
+
+.domain-details-footer-copy {
+  color: #45454d;
+  font-size: 9px;
+}
+
+/* ============================================================
+   LOADING
+   ============================================================ */
+
+.domain-details-loading {
+  min-height: calc(100vh - 79px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  color: #777781;
+}
+
+.domain-details-loading p {
+  margin: 0;
+  font-size: 11px;
+}
+
+.domain-details-spinner {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top-color: #8975ff;
+  border-radius: 50%;
+  animation: domainDetailsSpinner 0.9s linear infinite;
+}
+
+@keyframes domainDetailsSpinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================
+   ERROR
+   ============================================================ */
+
+.domain-details-error {
+  width: min(720px, calc(100% - 48px));
+  min-height: calc(100vh - 79px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.domain-details-error-label {
+  display: block;
+  margin-bottom: 15px;
+  color: #777781;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.domain-details-error h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(35px, 5vw, 58px);
+  line-height: 0.98;
+  font-weight: 600;
+  letter-spacing: -0.055em;
+}
+
+.domain-details-error p {
+  max-width: 530px;
+  margin: 20px 0 0;
+  color: #777781;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.domain-details-primary-button {
+  min-height: 45px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
+  padding: 0 19px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #050505;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: 700;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.domain-details-primary-button:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 15px 35px rgba(255, 255, 255, 0.09),
+    0 0 30px rgba(110, 86, 255, 0.08);
+}
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 1100px) {
+  .domain-details-navigation {
+    gap: 19px;
+  }
+
+  .domain-details-hero {
+    grid-template-columns: minmax(0, 1fr) 290px;
+    gap: 40px;
+  }
+
+  .domain-details-info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .domain-details-tools-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .domain-details-tool {
+    min-height: 215px;
+  }
+
+  .domain-details-renewal {
+    gap: 30px;
+    padding: 45px;
+  }
+
+  .domain-details-renewal-visual {
+    transform: scale(0.9);
+  }
+}
+
+/* ============================================================
+   TABLET SMALL
+   ============================================================ */
+
+@media (max-width: 850px) {
+  .domain-details-header-inner {
+    width: calc(100% - 32px);
+  }
+
+  .domain-details-navigation {
+    display: none;
+  }
+
+  .domain-details-shell {
+    width: calc(100% - 32px);
+  }
+
+  .domain-details-hero {
+    grid-template-columns: 1fr;
+    gap: 45px;
+    padding: 70px 0 65px;
+  }
+
+  .domain-details-hero-card {
+    width: min(100%, 460px);
+  }
+
+  .domain-details-renewal {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .domain-details-renewal-visual {
+    align-self: center;
+  }
+}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 620px) {
+  .domain-details-header-inner {
+    width: calc(100% - 28px);
+    min-height: 68px;
+  }
+
+  .domain-details-logo {
+    font-size: 21px;
+  }
+
+  .domain-details-support {
+    display: none;
+  }
+
+  .domain-details-account {
+    min-height: 36px;
+    padding: 0 12px;
+    font-size: 9px;
+  }
+
+  .domain-details-shell {
+    width: calc(100% - 28px);
+  }
+
+  .domain-details-breadcrumb {
+    padding-top: 21px;
+    font-size: 9px;
+  }
+
+  .domain-details-breadcrumb strong {
+    max-width: 145px;
+  }
+
+  .domain-details-hero {
+    gap: 32px;
+    padding: 58px 0 48px;
+  }
+
+  .domain-details-eyebrow {
+    font-size: 8px;
+  }
+
+  .domain-details-title-row {
+    align-items: flex-start;
+    gap: 13px;
+  }
+
+  .domain-details-icon {
+    width: 51px;
+    height: 51px;
+    border-radius: 14px;
+  }
+
+  .domain-details-icon .domain-details-svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .domain-details-title-row h1 {
+    margin-bottom: 9px;
+    font-size: clamp(31px, 9.5vw, 53px);
+    letter-spacing: -0.065em;
+  }
+
+  .domain-details-status {
+    font-size: 9px;
+  }
+
+  .domain-details-intro {
+    margin-top: 23px;
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  .domain-details-hero-card {
+    min-height: 190px;
+    padding: 25px;
+    border-radius: 20px;
+  }
+
+  .domain-details-hero-card strong {
+    font-size: 29px;
+  }
+
+  .domain-details-section {
+    margin-top: 35px;
+  }
+
+  .domain-details-section-heading {
+    margin-bottom: 17px;
+  }
+
+  .domain-details-section-heading h2 {
+    font-size: 27px;
+  }
+
+  .domain-details-info-grid {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .domain-details-info-card {
+    min-height: 125px;
+    padding: 20px;
+  }
+
+  .domain-details-info-card strong {
+    font-size: 13px;
+  }
+
+  .domain-details-tools-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .domain-details-tool {
+    min-height: 210px;
+    padding: 21px;
+  }
+
+  .domain-details-tool h3 {
+    font-size: 15px;
+  }
+
+  .domain-details-tool p {
+    font-size: 9px;
+  }
+
+  .domain-details-renewal {
+    min-height: auto;
+    gap: 30px;
+    margin-top: 55px;
+    padding: 31px 24px;
+    border-radius: 21px;
+  }
+
+  .domain-details-renewal-content h2 {
+    font-size: 38px;
+  }
+
+  .domain-details-renewal-content p {
+    font-size: 10px;
+  }
+
+  .domain-details-renewal-button {
+    width: 100%;
+    min-height: 45px;
+    font-size: 9px;
+  }
+
+  .domain-details-renewal-visual {
+    width: 220px;
+    height: 220px;
+  }
+
+  .domain-renewal-ring.ring-one {
+    width: 205px;
+    height: 205px;
+  }
+
+  .domain-renewal-ring.ring-two {
+    width: 153px;
+    height: 153px;
+  }
+
+  .domain-renewal-ring.ring-three {
+    width: 102px;
+    height: 102px;
+  }
+
+  .domain-renewal-core {
+    width: 73px;
+    height: 73px;
+    font-size: 15px;
+  }
+
+  .domain-details-back {
+    padding: 42px 0 70px;
+  }
+
+  .domain-details-footer-inner {
+    width: calc(100% - 28px);
+    min-height: 145px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 17px;
+  }
+
+  .domain-details-footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 11px 18px;
+  }
+
+  .domain-details-footer-copy {
+    font-size: 8px;
+  }
+}
+
+/* ============================================================
+   SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 390px) {
+  .domain-details-title-row {
+    gap: 10px;
+  }
+
+  .domain-details-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  .domain-details-icon .domain-details-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .domain-details-title-row h1 {
+    font-size: 29px;
+  }
+
+  .domain-details-intro {
+    font-size: 11px;
+  }
+
+  .domain-details-section-heading h2 {
+    font-size: 25px;
+  }
+
+  .domain-details-renewal {
+    padding: 27px 20px;
+  }
+
+  .domain-details-renewal-content h2 {
+    font-size: 34px;
+  }
+
+  .domain-details-renewal-visual {
+    width: 195px;
+    height: 195px;
+  }
+
+  .domain-renewal-ring.ring-one {
+    width: 180px;
+    height: 180px;
+  }
+
+  .domain-renewal-ring.ring-two {
+    width: 135px;
+    height: 135px;
+  }
+
+  .domain-renewal-ring.ring-three {
+    width: 90px;
+    height: 90px;
+  }
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .domain-details-page *,
+  .domain-details-page *::before,
+  .domain-details-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   FOCUS
+   ============================================================ */
+
+.domain-details-page a:focus-visible,
+.domain-details-page button:focus-visible {
+  outline: 2px solid #8d79ff;
+  outline-offset: 4px;
+}
+
+/* ============================================================
+   SELECTION
+   ============================================================ */
+
+.domain-details-page ::selection {
+  background: rgba(126, 104, 255, 0.35);
+  color: #ffffff;
+}

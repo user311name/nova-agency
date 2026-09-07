@@ -1,13 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./page.css";
 
-type DomainStatus = "Enregistrement" | "Actif";
+type DomainStatus = "Enregistrement" | "Actif" | "Erreur";
+
+type ApiDomain = {
+  id: string;
+  domain: string;
+  status: string | null;
+  email?: string | null;
+  expires_at?: string | null;
+  openprovider_id?: string | null;
+  stripe_session_id?: string | null;
+  user_id?: string | null;
+  created_at?: string | null;
+};
 
 type Domain = {
+  id: string;
   name: string;
   status: DomainStatus;
   expiresAt?: string;
@@ -76,7 +89,13 @@ function MailIcon() {
       aria-hidden="true"
       className="domains-client-svg"
     >
-      <rect x="3.5" y="5.5" width="17" height="13" rx="2" />
+      <rect
+        x="3.5"
+        y="5.5"
+        width="17"
+        height="13"
+        rx="2"
+      />
       <path d="M5 7l7 5.5L19 7" />
     </svg>
   );
@@ -107,19 +126,149 @@ function CheckIcon() {
   );
 }
 
+function normalizeStatus(status: string | null): DomainStatus {
+  const normalized = String(status || "").toLowerCase();
+
+  if (
+    normalized === "active" ||
+    normalized === "act" ||
+    normalized === "activated"
+  ) {
+    return "Actif";
+  }
+
+  if (
+    normalized === "failed" ||
+    normalized === "error" ||
+    normalized === "unavailable"
+  ) {
+    return "Erreur";
+  }
+
+  return "Enregistrement";
+}
+
+function formatExpiration(
+  date: string | null | undefined,
+) {
+  if (!date) {
+    return undefined;
+  }
+
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return undefined;
+  }
+
+  return parsedDate.toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
+
+function mapApiDomain(domain: ApiDomain): Domain {
+  return {
+    id: domain.id,
+    name: domain.domain,
+    status: normalizeStatus(domain.status),
+    expiresAt: formatExpiration(domain.expires_at),
+  };
+}
+
 export default function ClientDomainsPage() {
-  const [domains] = useState<Domain[]>([]);
+  const [domains, setDomains] = useState<Domain[]>([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  async function loadDomains() {
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await fetch(
+        "/api/domains/client/domains",
+        {
+          method: "GET",
+          credentials: "include",
+          cache: "no-store",
+        },
+      );
+
+      const text = await response.text();
+
+      let data: {
+        domains?: ApiDomain[];
+        error?: string;
+        code?: string;
+      } = {};
+
+      if (text.trim()) {
+        try {
+          data = JSON.parse(text);
+        } catch {
+          throw new Error(
+            "Le serveur a renvoyé une réponse invalide.",
+          );
+        }
+      }
+
+      if (response.status === 401) {
+        window.location.href =
+          "/connexion?next=/espace-client/domaines";
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          data.error ||
+            "Impossible de récupérer vos domaines.",
+        );
+      }
+
+      const apiDomains = Array.isArray(data.domains)
+        ? data.domains
+        : [];
+
+      setDomains(apiDomains.map(mapApiDomain));
+    } catch (err) {
+      console.error(
+        "CLIENT DOMAINS PAGE ERROR:",
+        err,
+      );
+
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Impossible de charger vos domaines.",
+      );
+
+      setDomains([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    loadDomains();
+  }, []);
 
   const hasDomains = domains.length > 0;
 
   const filteredDomains = domains.filter((domain) =>
-    domain.name.toLowerCase().includes(search.toLowerCase()),
+    domain.name
+      .toLowerCase()
+      .includes(search.toLowerCase()),
   );
 
   return (
     <main className="client-domains-page">
-      <div className="domains-background" aria-hidden="true">
+      <div
+        className="domains-background"
+        aria-hidden="true"
+      >
         <div className="domains-orb domains-orb-one" />
         <div className="domains-orb domains-orb-two" />
         <div className="domains-grid-lines" />
@@ -139,18 +288,35 @@ export default function ClientDomainsPage() {
             className="domains-client-navigation"
             aria-label="Navigation principale"
           >
-            <Link href="/domaines" className="active">
+            <Link
+              href="/espace-client/domaines"
+              className="active"
+            >
               Domaines
             </Link>
 
-            <Link href="/hebergement">Hébergement</Link>
-            <Link href="/emails">Emails</Link>
-            <Link href="/securite">Sécurité</Link>
-            <Link href="/a-propos">À propos</Link>
+            <Link href="/espace-client/services">
+              Hébergement
+            </Link>
+
+            <Link href="/espace-client/emails">
+              Emails
+            </Link>
+
+            <Link href="/espace-client/securite">
+              Sécurité
+            </Link>
+
+            <Link href="/a-propos">
+              À propos
+            </Link>
           </nav>
 
           <div className="domains-header-actions">
-            <Link href="/contact" className="domains-support-link">
+            <Link
+              href="/contact"
+              className="domains-support-link"
+            >
               Support
             </Link>
 
@@ -166,8 +332,12 @@ export default function ClientDomainsPage() {
 
       <div className="domains-client-shell">
         <div className="domains-breadcrumb">
-          <Link href="/espace-client">Espace client</Link>
+          <Link href="/espace-client">
+            Espace client
+          </Link>
+
           <span>/</span>
+
           <strong>Domaines</strong>
         </div>
 
@@ -185,12 +355,15 @@ export default function ClientDomainsPage() {
             </h1>
 
             <p>
-              Retrouvez et gérez tous vos noms de domaine depuis votre espace
-              NOVA.
+              Retrouvez et gérez tous vos noms de domaine
+              depuis votre espace NOVA.
             </p>
 
             <div className="domains-hero-actions">
-              <Link href="/domaines" className="domains-primary-button">
+              <Link
+                href="/domaines"
+                className="domains-primary-button"
+              >
                 Acheter un domaine
                 <ArrowIcon />
               </Link>
@@ -204,7 +377,10 @@ export default function ClientDomainsPage() {
             </div>
           </div>
 
-          <div className="domains-hero-visual" aria-hidden="true">
+          <div
+            className="domains-hero-visual"
+            aria-hidden="true"
+          >
             <div className="domains-hero-glow" />
 
             <div className="domains-planet">
@@ -221,7 +397,11 @@ export default function ClientDomainsPage() {
 
             <div className="domains-floating-card floating-card-one">
               <span>DOMAINES</span>
-              <strong>{domains.length}</strong>
+
+              <strong>
+                {loading ? "—" : domains.length}
+              </strong>
+
               <small>enregistré(s)</small>
             </div>
 
@@ -231,8 +411,13 @@ export default function ClientDomainsPage() {
               </div>
 
               <div>
-                <strong>Protection active</strong>
-                <small>SSL &amp; DNS</small>
+                <strong>
+                  Protection active
+                </strong>
+
+                <small>
+                  SSL &amp; DNS
+                </small>
               </div>
             </div>
           </div>
@@ -245,16 +430,24 @@ export default function ClientDomainsPage() {
                 VOTRE PORTEFEUILLE
               </span>
 
-              <h2>Mes domaines</h2>
+              <h2>
+                Mes domaines
+              </h2>
 
               <p>
-                Gérez vos domaines, leur sécurité et leurs paramètres.
+                Gérez vos domaines, leur sécurité et leurs
+                paramètres.
               </p>
             </div>
 
             <div className="domains-count">
-              <span>{domains.length}</span>
-              <small>domaine(s)</small>
+              <span>
+                {loading ? "—" : domains.length}
+              </span>
+
+              <small>
+                domaine(s)
+              </small>
             </div>
           </div>
 
@@ -266,9 +459,12 @@ export default function ClientDomainsPage() {
             <input
               type="search"
               value={search}
-              onChange={(event) => setSearch(event.target.value)}
+              onChange={(event) =>
+                setSearch(event.target.value)
+              }
               placeholder="Rechercher un domaine..."
               aria-label="Rechercher un domaine"
+              disabled={loading || !hasDomains}
             />
 
             {search && (
@@ -283,76 +479,7 @@ export default function ClientDomainsPage() {
             )}
           </div>
 
-          {hasDomains && filteredDomains.length > 0 ? (
-            <div className="domains-list">
-              {filteredDomains.map((domain) => (
-                <article
-                  className="client-domain-card"
-                  key={domain.name}
-                >
-                  <div className="client-domain-main">
-                    <div className="client-domain-icon">
-                      <GlobeIcon />
-                    </div>
-
-                    <div className="client-domain-information">
-                      <span className="domain-extension-label">
-                        NOM DE DOMAINE
-                      </span>
-
-                      <h3>{domain.name}</h3>
-
-                      <div
-                        className={
-                          domain.status === "Actif"
-                            ? "client-domain-status active"
-                            : "client-domain-status pending"
-                        }
-                      >
-                        <span />
-                        {domain.status}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="client-domain-details">
-                    <div className="domain-detail">
-                      <span>SSL</span>
-                      <strong>
-                        <CheckIcon />
-                        Actif
-                      </strong>
-                    </div>
-
-                    <div className="domain-detail">
-                      <span>DNS</span>
-                      <strong>
-                        <CheckIcon />
-                        Configuré
-                      </strong>
-                    </div>
-
-                    <div className="domain-detail">
-                      <span>Expiration</span>
-                      <strong>
-                        {domain.expiresAt ?? "En attente"}
-                      </strong>
-                    </div>
-                  </div>
-
-                  <Link
-                    href={`/espace-client/domaines/${encodeURIComponent(
-                      domain.name,
-                    )}`}
-                    className="client-domain-manage"
-                  >
-                    Gérer
-                    <ArrowIcon />
-                  </Link>
-                </article>
-              ))}
-            </div>
-          ) : (
+          {loading && (
             <section className="domains-empty-panel">
               <div className="domains-empty-visual">
                 <div className="empty-orbit empty-orbit-one" />
@@ -365,21 +492,217 @@ export default function ClientDomainsPage() {
               </div>
 
               <div className="domains-empty-content">
-                <span>VOTRE PORTEFEUILLE EST VIDE</span>
+                <span>
+                  CHARGEMENT
+                </span>
 
                 <h3>
-                  {search
-                    ? "Aucun domaine trouvé"
-                    : "Aucun domaine pour le moment"}
+                  Récupération de vos domaines
                 </h3>
 
                 <p>
-                  {search
-                    ? "Essayez avec un autre nom de domaine."
-                    : "Vos domaines achetés apparaîtront automatiquement ici après leur commande."}
+                  Nous récupérons les domaines associés à
+                  votre compte NOVA.
+                </p>
+              </div>
+            </section>
+          )}
+
+          {!loading && error && (
+            <section className="domains-empty-panel">
+              <div className="domains-empty-visual">
+                <div className="empty-orbit empty-orbit-one" />
+                <div className="empty-orbit empty-orbit-two" />
+                <div className="empty-orbit empty-orbit-three" />
+
+                <div className="empty-center">
+                  <ShieldIcon />
+                </div>
+              </div>
+
+              <div className="domains-empty-content">
+                <span>
+                  ERREUR
+                </span>
+
+                <h3>
+                  Impossible de charger vos domaines
+                </h3>
+
+                <p>
+                  {error}
                 </p>
 
-                {!search && (
+                <button
+                  type="button"
+                  className="domains-empty-button"
+                  onClick={loadDomains}
+                >
+                  Réessayer
+                  <ArrowIcon />
+                </button>
+              </div>
+            </section>
+          )}
+
+          {!loading &&
+            !error &&
+            hasDomains &&
+            filteredDomains.length > 0 && (
+              <div className="domains-list">
+                {filteredDomains.map((domain) => (
+                  <article
+                    className="client-domain-card"
+                    key={domain.id}
+                  >
+                    <div className="client-domain-main">
+                      <div className="client-domain-icon">
+                        <GlobeIcon />
+                      </div>
+
+                      <div className="client-domain-information">
+                        <span className="domain-extension-label">
+                          NOM DE DOMAINE
+                        </span>
+
+                        <h3>
+                          {domain.name}
+                        </h3>
+
+                        <div
+                          className={
+                            domain.status === "Actif"
+                              ? "client-domain-status active"
+                              : "client-domain-status pending"
+                          }
+                        >
+                          <span />
+
+                          {domain.status === "Erreur"
+                            ? "Problème"
+                            : domain.status}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="client-domain-details">
+                      <div className="domain-detail">
+                        <span>
+                          SSL
+                        </span>
+
+                        <strong>
+                          <CheckIcon />
+                          Actif
+                        </strong>
+                      </div>
+
+                      <div className="domain-detail">
+                        <span>
+                          DNS
+                        </span>
+
+                        <strong>
+                          <CheckIcon />
+                          Configuré
+                        </strong>
+                      </div>
+
+                      <div className="domain-detail">
+                        <span>
+                          Expiration
+                        </span>
+
+                        <strong>
+                          {domain.expiresAt ??
+                            "En attente"}
+                        </strong>
+                      </div>
+                    </div>
+
+                    <Link
+                      href={`/espace-client/domaines/${encodeURIComponent(
+                        domain.name,
+                      )}`}
+                      className="client-domain-manage"
+                    >
+                      Gérer
+                      <ArrowIcon />
+                    </Link>
+                  </article>
+                ))}
+              </div>
+            )}
+
+          {!loading &&
+            !error &&
+            hasDomains &&
+            filteredDomains.length === 0 && (
+              <section className="domains-empty-panel">
+                <div className="domains-empty-visual">
+                  <div className="empty-orbit empty-orbit-one" />
+                  <div className="empty-orbit empty-orbit-two" />
+                  <div className="empty-orbit empty-orbit-three" />
+
+                  <div className="empty-center">
+                    <SearchIcon />
+                  </div>
+                </div>
+
+                <div className="domains-empty-content">
+                  <span>
+                    RECHERCHE
+                  </span>
+
+                  <h3>
+                    Aucun domaine trouvé
+                  </h3>
+
+                  <p>
+                    Aucun de vos domaines ne correspond à
+                    « {search} ».
+                  </p>
+
+                  <button
+                    type="button"
+                    className="domains-empty-button"
+                    onClick={() => setSearch("")}
+                  >
+                    Effacer la recherche
+                    <ArrowIcon />
+                  </button>
+                </div>
+              </section>
+            )}
+
+          {!loading &&
+            !error &&
+            !hasDomains && (
+              <section className="domains-empty-panel">
+                <div className="domains-empty-visual">
+                  <div className="empty-orbit empty-orbit-one" />
+                  <div className="empty-orbit empty-orbit-two" />
+                  <div className="empty-orbit empty-orbit-three" />
+
+                  <div className="empty-center">
+                    <GlobeIcon />
+                  </div>
+                </div>
+
+                <div className="domains-empty-content">
+                  <span>
+                    VOTRE PORTEFEUILLE EST VIDE
+                  </span>
+
+                  <h3>
+                    Aucun domaine pour le moment
+                  </h3>
+
+                  <p>
+                    Vos domaines achetés apparaîtront
+                    automatiquement ici après leur commande.
+                  </p>
+
                   <Link
                     href="/domaines"
                     className="domains-empty-button"
@@ -387,10 +710,9 @@ export default function ClientDomainsPage() {
                     Trouver mon domaine
                     <ArrowIcon />
                   </Link>
-                )}
-              </div>
-            </section>
-          )}
+                </div>
+              </section>
+            )}
 
           <section className="domain-services-section">
             <div className="domains-dashboard-heading small">
@@ -399,10 +721,13 @@ export default function ClientDomainsPage() {
                   SERVICES ASSOCIÉS
                 </span>
 
-                <h2>Protection &amp; gestion</h2>
+                <h2>
+                  Protection &amp; gestion
+                </h2>
 
                 <p>
-                  Les outils essentiels pour protéger votre identité en ligne.
+                  Les outils essentiels pour protéger votre
+                  identité en ligne.
                 </p>
               </div>
             </div>
@@ -417,10 +742,17 @@ export default function ClientDomainsPage() {
                 </div>
 
                 <div className="domain-tool-content">
-                  <span>SÉCURITÉ</span>
-                  <h3>SSL &amp; Protection</h3>
+                  <span>
+                    SÉCURITÉ
+                  </span>
+
+                  <h3>
+                    SSL &amp; Protection
+                  </h3>
+
                   <p>
-                    Vérifiez la protection et la sécurité de vos domaines.
+                    Vérifiez la protection et la sécurité de
+                    vos domaines.
                   </p>
                 </div>
 
@@ -438,10 +770,17 @@ export default function ClientDomainsPage() {
                 </div>
 
                 <div className="domain-tool-content">
-                  <span>DNS</span>
-                  <h3>Configuration DNS</h3>
+                  <span>
+                    DNS
+                  </span>
+
+                  <h3>
+                    Configuration DNS
+                  </h3>
+
                   <p>
-                    Gérez les enregistrements DNS de vos domaines.
+                    Gérez les enregistrements DNS de vos
+                    domaines.
                   </p>
                 </div>
 
@@ -459,10 +798,17 @@ export default function ClientDomainsPage() {
                 </div>
 
                 <div className="domain-tool-content">
-                  <span>EMAILS</span>
-                  <h3>E-mails professionnels</h3>
+                  <span>
+                    EMAILS
+                  </span>
+
+                  <h3>
+                    E-mails professionnels
+                  </h3>
+
                   <p>
-                    Créez et gérez vos adresses e-mail professionnelles.
+                    Créez et gérez vos adresses e-mail
+                    professionnelles.
                   </p>
                 </div>
 
@@ -488,22 +834,31 @@ export default function ClientDomainsPage() {
               </h2>
 
               <p>
-                Trouvez un nom de domaine disponible et construisez votre
-                présence en ligne avec NOVA.
+                Trouvez un nom de domaine disponible et
+                construisez votre présence en ligne avec
+                NOVA.
               </p>
 
-              <Link href="/domaines" className="domains-cta-button">
+              <Link
+                href="/domaines"
+                className="domains-cta-button"
+              >
                 Rechercher un domaine
                 <ArrowIcon />
               </Link>
             </div>
 
-            <div className="domains-cta-visual" aria-hidden="true">
+            <div
+              className="domains-cta-visual"
+              aria-hidden="true"
+            >
               <div className="cta-ring cta-ring-one" />
               <div className="cta-ring cta-ring-two" />
               <div className="cta-ring cta-ring-three" />
 
-              <div className="cta-letter">N</div>
+              <div className="cta-letter">
+                N
+              </div>
             </div>
           </section>
         </section>
@@ -511,14 +866,25 @@ export default function ClientDomainsPage() {
 
       <footer className="domains-client-footer">
         <div className="domains-footer-inner">
-          <Link href="/" className="domains-footer-logo">
+          <Link
+            href="/"
+            className="domains-footer-logo"
+          >
             NOV<span>A</span>
           </Link>
 
           <div className="domains-footer-links">
-            <Link href="/conditions">Conditions</Link>
-            <Link href="/confidentialite">Confidentialité</Link>
-            <Link href="/contact">Support</Link>
+            <Link href="/conditions">
+              Conditions
+            </Link>
+
+            <Link href="/confidentialite">
+              Confidentialité
+            </Link>
+
+            <Link href="/contact">
+              Support
+            </Link>
           </div>
 
           <span className="domains-footer-copy">

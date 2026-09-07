@@ -1,826 +1,587 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
 import "./page.css";
 
-type Domain = {
-  id: string;
-  domain: string;
-  status: string;
-  email: string;
-  expires_at: string | null;
-  openprovider_id: string | null;
-  created_at: string;
-};
-
-function GlobeIcon() {
+function ArrowIcon() {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M3 12h18" />
-      <path d="M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9S9.5 5.5 12 3Z" />
-    </svg>
-  );
-}
-
-function MailIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <rect x="3" y="5" width="18" height="14" rx="2" />
-      <path d="m4 7 8 6 8-6" />
-    </svg>
-  );
-}
-
-function ShieldIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 3 20 6v5c0 5-3.2 8.5-8 10-4.8-1.5-8-5-8-10V6l8-3Z" />
-      <path d="m8.5 12 2.2 2.2 4.8-5" />
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="client-svg"
+    >
+      <path d="M7 17L17 7" />
+      <path d="M8 7h9v9" />
     </svg>
   );
 }
 
 function ServerIcon() {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="client-svg"
+    >
       <rect x="4" y="4" width="16" height="6" rx="1.5" />
       <rect x="4" y="14" width="16" height="6" rx="1.5" />
-      <path d="M8 7h.01" />
-      <path d="M8 17h.01" />
-      <path d="M12 7h5" />
-      <path d="M12 17h5" />
+      <path d="M7 7h.01" />
+      <path d="M7 17h.01" />
+      <path d="M10 7h6" />
+      <path d="M10 17h6" />
     </svg>
   );
 }
 
-function ArrowIcon() {
+function GlobeIcon() {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M5 12h13" />
-      <path d="m13 6 6 6-6 6" />
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="client-svg"
+    >
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M3.8 12h16.4" />
+      <path d="M12 3.5c2.25 2.25 3.45 5.1 3.45 8.5S14.25 18.25 12 20.5" />
+      <path d="M12 3.5C9.75 5.75 8.55 8.6 8.55 12S9.75 18.25 12 20.5" />
     </svg>
   );
 }
 
-function CheckIcon() {
+function ShieldIcon() {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="m5 12 4 4L19 6" />
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="client-svg"
+    >
+      <path d="M12 3.5 19 6v5.3c0 4.55-2.8 7.75-7 9.2-4.2-1.45-7-4.65-7-9.2V6l7-2.5Z" />
+      <path d="m8.7 12 2.15 2.15L15.6 9.4" />
     </svg>
   );
 }
 
-function SettingsIcon() {
+function MailIcon() {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="3" />
-      <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.41 1.41-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V20h-2v-.09a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-1.41-1.41.06-.06A1.7 1.7 0 0 0 9.4 15a1.7 1.7 0 0 0-1.56-1.03H7v-2h.84A1.7 1.7 0 0 0 9.4 11a1.7 1.7 0 0 0-.34-1.88L9 9.06l1.41-1.41.06.06A1.7 1.7 0 0 0 12.35 8.05 1.7 1.7 0 0 0 13.38 6.5V6h2v.5a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 1.41 1.41-.06.06A1.7 1.7 0 0 0 19.4 11a1.7 1.7 0 0 0 1.56 1.03H21v2h-.04A1.7 1.7 0 0 0 19.4 15Z" />
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="client-svg"
+    >
+      <rect
+        x="3.5"
+        y="5.5"
+        width="17"
+        height="13"
+        rx="2"
+      />
+      <path d="m5 7 7 5.5L19 7" />
     </svg>
   );
-}
-
-function formatDate(date: string | null) {
-  if (!date) return "—";
-
-  const parsedDate = new Date(date);
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return "—";
-  }
-
-  return new Intl.DateTimeFormat("fr-FR", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(parsedDate);
-}
-
-function getDomainStatus(status: string) {
-  const normalizedStatus = status.toLowerCase();
-
-  if (
-    normalizedStatus === "active" ||
-    normalizedStatus === "act" ||
-    normalizedStatus === "registered"
-  ) {
-    return {
-      label: "Actif",
-      className: "active",
-    };
-  }
-
-  if (
-    normalizedStatus === "pending" ||
-    normalizedStatus === "req" ||
-    normalizedStatus === "processing"
-  ) {
-    return {
-      label: "En cours",
-      className: "pending",
-    };
-  }
-
-  return {
-    label: "À vérifier",
-    className: "neutral",
-  };
 }
 
 export default function ClientServicesPage() {
-  const [domains, setDomains] = useState<Domain[]>([]);
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const storedEmail =
-      window.localStorage.getItem("nova_client_email")?.trim() || "";
-
-    if (!storedEmail) {
-      setLoading(false);
-      return;
-    }
-
-    setEmail(storedEmail);
-
-    async function loadDomains() {
-      try {
-        setError("");
-
-        const response = await fetch(
-          `/api/client/domains?email=${encodeURIComponent(storedEmail)}`,
-          {
-            method: "GET",
-            cache: "no-store",
-          }
-        );
-
-        const data: unknown = await response.json();
-
-        if (!response.ok) {
-          const message =
-            typeof data === "object" &&
-            data !== null &&
-            "error" in data &&
-            typeof data.error === "string"
-              ? data.error
-              : "Impossible de récupérer vos services.";
-
-          throw new Error(message);
-        }
-
-        const receivedDomains =
-          typeof data === "object" &&
-          data !== null &&
-          "domains" in data &&
-          Array.isArray(data.domains)
-            ? data.domains
-            : [];
-
-        setDomains(receivedDomains as Domain[]);
-      } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Une erreur est survenue."
-        );
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    void loadDomains();
-  }, []);
-
-  const activeDomains = useMemo(() => {
-    return domains.filter((domain) => {
-      const status = domain.status.toLowerCase();
-
-      return (
-        status === "active" ||
-        status === "act" ||
-        status === "registered"
-      );
-    }).length;
-  }, [domains]);
-
   return (
-    <main className="clientServicesPage">
-      {/* =====================================================
-          HEADER
-          ===================================================== */}
+    <main className="client-page">
+      <div
+        className="client-background"
+        aria-hidden="true"
+      >
+        <div className="client-orb client-orb-one" />
+        <div className="client-orb client-orb-two" />
+        <div className="client-grid-lines" />
+      </div>
 
-      <header className="clientServicesHeader">
-        <Link
-          href="/"
-          className="clientServicesLogo"
-        >
-          NOV<span>A</span>
-        </Link>
-
-        <nav className="clientServicesNav">
-          <Link href="/domaines">
-            Domaines
-          </Link>
-
-          <Link href="/hebergement">
-            Hébergement
-          </Link>
-
-          <Link href="/emails">
-            Emails
-          </Link>
-
-          <Link href="/securite">
-            Sécurité
-          </Link>
-
-          <Link href="/a-propos">
-            À propos
-          </Link>
-        </nav>
-
-        <div className="clientServicesHeaderRight">
+      <header className="client-header-bar">
+        <div className="client-header-inner">
           <Link
-            href="/contact"
-            className="serviceSupport"
+            href="/"
+            className="client-logo"
+            aria-label="NOVA - Accueil"
           >
-            Support
+            NOV<span>A</span>
           </Link>
 
-          <Link
-            href="/espace-client"
-            className="serviceAvatar"
-            aria-label="Espace client"
+          <nav
+            className="client-navigation"
+            aria-label="Navigation principale"
           >
-            {email
-              ? email.charAt(0).toUpperCase()
-              : "N"}
-          </Link>
+            <Link href="/espace-client/domaines">
+              Domaines
+            </Link>
+
+            <Link
+              href="/espace-client/services"
+              aria-current="page"
+            >
+              Hébergement
+            </Link>
+
+            <Link href="/espace-client/emails">
+              Emails
+            </Link>
+
+            <Link href="/espace-client/securite">
+              Sécurité
+            </Link>
+
+            <Link href="/a-propos">
+              À propos
+            </Link>
+          </nav>
+
+          <div className="client-header-actions">
+            <Link
+              href="/contact"
+              className="client-support-link"
+            >
+              Support
+            </Link>
+
+            <Link
+              href="/espace-client"
+              className="client-avatar"
+              aria-label="Retour à mon espace client"
+            >
+              <span>NC</span>
+            </Link>
+          </div>
         </div>
       </header>
 
-      {/* =====================================================
-          CONTENT
-          ===================================================== */}
-
-      <div className="servicesContainer">
-        {/* BREADCRUMB */}
-
-        <div className="servicesBreadcrumb">
-          <Link href="/espace-client">
-            Espace client
-          </Link>
-
-          <span>/</span>
-
-          <span>
-            Mes services
-          </span>
-        </div>
-
-        {/* HERO */}
-
-        <section className="servicesHero">
-          <div className="servicesHeroContent">
-            <div className="servicesBadge">
-              <span />
-              ESPACE CLIENT
+      <div className="client-shell">
+        <section className="client-hero">
+          <div className="hero-copy">
+            <div className="client-badge">
+              <span className="badge-dot" />
+              HÉBERGEMENT NOVA
             </div>
 
             <h1>
-              Mes
+              Votre hébergement.
               <br />
-              <span>services.</span>
+              <span>Simple. Rapide. Fiable.</span>
             </h1>
 
             <p>
-              Gérez l'ensemble de vos services NOVA
-              depuis un seul espace. Domaines, emails,
-              hébergement et sécurité.
+              Retrouvez ici vos solutions d&apos;hébergement
+              et gérez vos services NOVA depuis un seul espace.
             </p>
+
+            <div className="hero-actions">
+              <Link
+                href="/services"
+                className="primary-client-button"
+              >
+                <span>Découvrir l&apos;hébergement</span>
+                <ArrowIcon />
+              </Link>
+
+              <Link
+                href="/contact"
+                className="secondary-client-button"
+              >
+                Besoin d&apos;aide ?
+              </Link>
+            </div>
           </div>
 
-          <div className="servicesHeroVisual">
-            <div className="servicesGlow" />
+          <div
+            className="hero-visual"
+            aria-hidden="true"
+          >
+            <div className="hero-visual-glow" />
 
-            <div className="servicesOrb">
-              <div className="orbRing orbRingOne" />
-              <div className="orbRing orbRingTwo" />
-              <div className="orbRing orbRingThree" />
+            <div className="hero-orbit hero-orbit-one" />
+            <div className="hero-orbit hero-orbit-two" />
+            <div className="hero-orbit hero-orbit-three" />
 
-              <div className="orbCore">
-                N
+            <div className="hero-core">
+              <div className="hero-core-inner">
+                <ServerIcon />
               </div>
             </div>
 
-            <div className="servicesVerticalText">
-              NOVA · DIGITAL INFRASTRUCTURE
+            <div className="hero-floating-card hero-floating-card-top">
+              <span className="floating-label">
+                INFRASTRUCTURE
+              </span>
+
+              <div className="floating-status">
+                <span />
+                Opérationnelle
+              </div>
+            </div>
+
+            <div className="hero-floating-card hero-floating-card-bottom">
+              <span className="floating-label">
+                NOVA OS
+              </span>
+
+              <strong>
+                Votre infrastructure.
+              </strong>
+
+              <small>
+                Performante et sécurisée.
+              </small>
             </div>
           </div>
         </section>
 
-        {/* STATS */}
-
-        <section className="servicesStats">
-          <div className="serviceStat">
-            <div className="serviceStatIcon">
-              <GlobeIcon />
-            </div>
-
+        <section className="dashboard-section">
+          <div className="dashboard-heading">
             <div>
-              <span>
-                Domaines
-              </span>
-
-              <strong>
-                {loading ? "—" : domains.length}
-              </strong>
-            </div>
-          </div>
-
-          <div className="serviceStat">
-            <div className="serviceStatIcon">
-              <CheckIcon />
-            </div>
-
-            <div>
-              <span>
-                Services actifs
-              </span>
-
-              <strong>
-                {loading ? "—" : activeDomains}
-              </strong>
-            </div>
-          </div>
-
-          <div className="serviceStat">
-            <div className="serviceStatIcon">
-              <ShieldIcon />
-            </div>
-
-            <div>
-              <span>
-                Infrastructure
-              </span>
-
-              <strong>
-                NOVA
-              </strong>
-            </div>
-          </div>
-        </section>
-
-        {/* SERVICES */}
-
-        <section className="servicesSection">
-          <div className="servicesSectionHeading">
-            <div>
-              <span className="servicesEyebrow">
-                VOTRE INFRASTRUCTURE
+              <span className="section-label">
+                MES SERVICES
               </span>
 
               <h2>
-                Tous vos services
+                Gérez votre infrastructure
+                <span> NOVA.</span>
               </h2>
+
+              <p>
+                Retrouvez vos services essentiels et accédez
+                rapidement à leur gestion.
+              </p>
+            </div>
+
+            <div className="dashboard-status">
+              <span className="status-dot" />
+              <span>Infrastructure sécurisée</span>
             </div>
           </div>
 
-          <div className="servicesGrid">
-            {/* DOMAINES */}
+          <div className="dashboard-grid">
+            <article className="dashboard-card services-card">
+              <div className="card-top">
+                <div>
+                  <span className="card-label">
+                    HÉBERGEMENT WEB
+                  </span>
 
-            <Link
-              href="/espace-client/domaines"
-              className="serviceCard serviceCardFeatured"
-            >
-              <div className="serviceCardTop">
-                <div className="serviceIcon">
-                  <GlobeIcon />
+                  <h3>
+                    Hébergement NOVA
+                  </h3>
                 </div>
 
-                <span className="serviceArrow">
+                <div className="card-round-action">
                   <ArrowIcon />
-                </span>
+                </div>
               </div>
 
-              <div className="serviceCardContent">
-                <span className="serviceCardLabel">
-                  DOMAINE
-                </span>
+              <div className="service-list">
+                <div className="service-item">
+                  <div className="service-icon">
+                    <ServerIcon />
+                  </div>
 
-                <h3>
-                  Vos domaines
-                </h3>
+                  <div>
+                    <strong>
+                      Serveurs performants
+                    </strong>
 
-                <p>
-                  Gérez vos noms de domaine,
-                  leur statut et leurs informations.
-                </p>
+                    <span>
+                      Une infrastructure pensée pour
+                      la rapidité et la stabilité.
+                    </span>
+                  </div>
+                </div>
+
+                <div className="service-item">
+                  <div className="service-icon">
+                    <GlobeIcon />
+                  </div>
+
+                  <div>
+                    <strong>
+                      Disponibilité
+                    </strong>
+
+                    <span>
+                      Votre site reste accessible
+                      à tout moment.
+                    </span>
+                  </div>
+                </div>
+
+                <div className="service-item">
+                  <div className="service-icon">
+                    <ShieldIcon />
+                  </div>
+
+                  <div>
+                    <strong>
+                      Sécurité intégrée
+                    </strong>
+
+                    <span>
+                      Protection de votre infrastructure
+                      et de vos données.
+                    </span>
+                  </div>
+                </div>
               </div>
 
-              <div className="serviceCardFooter">
-                <span>
-                  {loading
-                    ? "Chargement..."
-                    : `${domains.length} domaine${
-                        domains.length > 1
-                          ? "s"
-                          : ""
-                      }`}
-                </span>
+              <Link
+                href="/services"
+                className="text-action"
+              >
+                Voir les offres
+                <ArrowIcon />
+              </Link>
+            </article>
 
-                <span className="serviceOnline">
-                  <i />
-                  Disponible
-                </span>
+            <article className="dashboard-card domains-card">
+              <div className="card-top">
+                <div>
+                  <span className="card-label">
+                    EMAILS
+                  </span>
+
+                  <h3>
+                    E-mails professionnels
+                  </h3>
+                </div>
+
+                <Link
+                  href="/espace-client/emails"
+                  className="card-round-action"
+                  aria-label="Gérer mes emails"
+                >
+                  <ArrowIcon />
+                </Link>
               </div>
-            </Link>
 
-            {/* EMAILS */}
-
-            <Link
-              href="/espace-client/emails"
-              className="serviceCard"
-            >
-              <div className="serviceCardTop">
-                <div className="serviceIcon">
+              <div className="order-empty">
+                <div className="order-empty-icon">
                   <MailIcon />
                 </div>
 
-                <span className="serviceArrow">
-                  <ArrowIcon />
-                </span>
+                <div>
+                  <strong>
+                    Vos boîtes professionnelles
+                  </strong>
+
+                  <p>
+                    Créez et gérez vos adresses e-mail
+                    professionnelles depuis votre espace client.
+                  </p>
+                </div>
               </div>
 
-              <div className="serviceCardContent">
-                <span className="serviceCardLabel">
-                  COMMUNICATION
-                </span>
+              <Link
+                href="/espace-client/emails"
+                className="text-action"
+              >
+                Gérer mes e-mails
+                <ArrowIcon />
+              </Link>
+            </article>
 
-                <h3>
-                  Emails professionnels
-                </h3>
+            <article className="dashboard-card invoice-card">
+              <div className="card-top">
+                <div>
+                  <span className="card-label">
+                    SÉCURITÉ
+                  </span>
 
-                <p>
-                  Créez et gérez vos adresses
-                  email professionnelles.
-                </p>
-              </div>
-
-              <div className="serviceCardFooter">
-                <span>
-                  À configurer
-                </span>
-
-                <span className="serviceComing">
-                  Bientôt disponible
-                </span>
-              </div>
-            </Link>
-
-            {/* HÉBERGEMENT */}
-
-            <Link
-              href="/espace-client/hebergement"
-              className="serviceCard"
-            >
-              <div className="serviceCardTop">
-                <div className="serviceIcon">
-                  <ServerIcon />
+                  <h3>
+                    Protection NOVA
+                  </h3>
                 </div>
 
-                <span className="serviceArrow">
+                <Link
+                  href="/espace-client/securite"
+                  className="card-round-action"
+                  aria-label="Gérer ma sécurité"
+                >
                   <ArrowIcon />
-                </span>
+                </Link>
               </div>
 
-              <div className="serviceCardContent">
-                <span className="serviceCardLabel">
-                  INFRASTRUCTURE
-                </span>
-
-                <h3>
-                  Hébergement web
-                </h3>
-
-                <p>
-                  Hébergez votre site sur une
-                  infrastructure performante.
-                </p>
-              </div>
-
-              <div className="serviceCardFooter">
-                <span>
-                  Aucun hébergement
-                </span>
-
-                <span className="serviceComing">
-                  Disponible bientôt
-                </span>
-              </div>
-            </Link>
-
-            {/* SÉCURITÉ */}
-
-            <Link
-              href="/espace-client/securite"
-              className="serviceCard"
-            >
-              <div className="serviceCardTop">
-                <div className="serviceIcon">
+              <div className="invoice-empty">
+                <div className="invoice-icon">
                   <ShieldIcon />
                 </div>
 
-                <span className="serviceArrow">
-                  <ArrowIcon />
-                </span>
+                <div>
+                  <strong>
+                    Sécurité &amp; SSL
+                  </strong>
+
+                  <p>
+                    Retrouvez les protections disponibles
+                    pour vos services NOVA.
+                  </p>
+                </div>
               </div>
 
-              <div className="serviceCardContent">
-                <span className="serviceCardLabel">
-                  PROTECTION
-                </span>
-
-                <h3>
-                  Sécurité
-                </h3>
-
-                <p>
-                  Protégez votre infrastructure
-                  et vos services numériques.
-                </p>
-              </div>
-
-              <div className="serviceCardFooter">
-                <span>
-                  Protection NOVA
-                </span>
-
-                <span className="serviceOnline">
-                  <i />
-                  Active
-                </span>
-              </div>
-            </Link>
+              <Link
+                href="/espace-client/securite"
+                className="text-action"
+              >
+                Gérer la sécurité
+                <ArrowIcon />
+              </Link>
+            </article>
           </div>
         </section>
 
-        {/* DOMAIN LIST */}
-
-        <section className="serviceDomainsSection">
-          <div className="servicesSectionHeading">
+        <section className="quick-section">
+          <div className="quick-heading">
             <div>
-              <span className="servicesEyebrow">
-                SERVICES CONNECTÉS
+              <span className="section-label">
+                ACCÈS RAPIDE
               </span>
 
               <h2>
-                Vos domaines
+                Tout gérer depuis NOVA.
               </h2>
             </div>
+          </div>
 
+          <div className="quick-grid">
             <Link
               href="/espace-client/domaines"
-              className="servicesViewAll"
+              className="quick-card"
             >
-              Voir tous
+              <div className="quick-icon">
+                <GlobeIcon />
+              </div>
+
+              <div className="quick-content">
+                <span>Domaines</span>
+                <strong>
+                  Gérer mes domaines
+                </strong>
+              </div>
+
+              <ArrowIcon />
+            </Link>
+
+            <Link
+              href="/espace-client/emails"
+              className="quick-card"
+            >
+              <div className="quick-icon">
+                <MailIcon />
+              </div>
+
+              <div className="quick-content">
+                <span>Emails</span>
+                <strong>
+                  Gérer mes e-mails
+                </strong>
+              </div>
+
+              <ArrowIcon />
+            </Link>
+
+            <Link
+              href="/espace-client/securite"
+              className="quick-card"
+            >
+              <div className="quick-icon">
+                <ShieldIcon />
+              </div>
+
+              <div className="quick-content">
+                <span>Sécurité</span>
+                <strong>
+                  Protéger mes services
+                </strong>
+              </div>
+
+              <ArrowIcon />
+            </Link>
+
+            <Link
+              href="/espace-client"
+              className="quick-card"
+            >
+              <div className="quick-icon">
+                <ServerIcon />
+              </div>
+
+              <div className="quick-content">
+                <span>Espace client</span>
+                <strong>
+                  Retour au tableau de bord
+                </strong>
+              </div>
+
               <ArrowIcon />
             </Link>
           </div>
-
-          {/* LOADING */}
-
-          {loading && (
-            <div className="servicesLoading">
-              <div className="servicesLoader" />
-
-              <span>
-                Chargement de vos services...
-              </span>
-            </div>
-          )}
-
-          {/* ERROR */}
-
-          {!loading && error && (
-            <div className="servicesError">
-              <div className="servicesErrorIcon">
-                !
-              </div>
-
-              <div>
-                <strong>
-                  Impossible de charger vos services
-                </strong>
-
-                <p>
-                  {error}
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => {
-                  window.location.reload();
-                }}
-              >
-                Réessayer
-              </button>
-            </div>
-          )}
-
-          {/* NO EMAIL */}
-
-          {!loading &&
-            !error &&
-            !email && (
-              <div className="servicesEmpty">
-                <div className="servicesEmptyIcon">
-                  <GlobeIcon />
-                </div>
-
-                <h3>
-                  Connectez-vous à votre espace client
-                </h3>
-
-                <p>
-                  Vos services apparaîtront ici
-                  une fois votre compte configuré.
-                </p>
-
-                <Link href="/espace-client">
-                  Retour à l'espace client
-                  <ArrowIcon />
-                </Link>
-              </div>
-            )}
-
-          {/* EMPTY */}
-
-          {!loading &&
-            !error &&
-            email &&
-            domains.length === 0 && (
-              <div className="servicesEmpty">
-                <div className="servicesEmptyIcon">
-                  <GlobeIcon />
-                </div>
-
-                <h3>
-                  Aucun domaine pour le moment
-                </h3>
-
-                <p>
-                  Lorsque vous achèterez un domaine
-                  chez NOVA, il apparaîtra automatiquement
-                  dans cette section.
-                </p>
-
-                <Link href="/domaines">
-                  Rechercher un domaine
-                  <ArrowIcon />
-                </Link>
-              </div>
-            )}
-
-          {/* DOMAIN LIST */}
-
-          {!loading &&
-            !error &&
-            domains.length > 0 && (
-              <div className="serviceDomainList">
-                {domains.map((domain) => {
-                  const status = getDomainStatus(
-                    domain.status
-                  );
-
-                  return (
-                    <Link
-                      href="/espace-client/domaines"
-                      className="serviceDomainRow"
-                      key={domain.id}
-                    >
-                      <div className="serviceDomainMain">
-                        <div className="serviceDomainIcon">
-                          <GlobeIcon />
-                        </div>
-
-                        <div>
-                          <strong>
-                            {domain.domain}
-                          </strong>
-
-                          <span>
-                            Ajouté le{" "}
-                            {formatDate(
-                              domain.created_at
-                            )}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div
-                        className={`serviceDomainStatus ${status.className}`}
-                      >
-                        <i />
-                        {status.label}
-                      </div>
-
-                      <div className="serviceDomainExpiry">
-                        <span>
-                          Expiration
-                        </span>
-
-                        <strong>
-                          {formatDate(
-                            domain.expires_at
-                          )}
-                        </strong>
-                      </div>
-
-                      <span className="serviceDomainArrow">
-                        <ArrowIcon />
-                      </span>
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
         </section>
 
-        {/* CTA */}
+        <section className="client-support-card">
+          <div
+            className="support-decoration"
+            aria-hidden="true"
+          >
+            <div />
+            <div />
+            <div />
+          </div>
 
-        <section className="servicesCTA">
-          <div className="servicesCTAGlow" />
+          <div className="support-icon">
+            <ShieldIcon />
+          </div>
 
-          <div className="servicesCTAContent">
-            <span className="servicesEyebrow">
-              BESOIN D'ALLER PLUS LOIN ?
+          <div className="support-content">
+            <span className="section-label">
+              SUPPORT NOVA
             </span>
 
             <h2>
-              Construisez votre
-              <br />
-              <span>
-                infrastructure digitale.
-              </span>
+              Une question sur votre hébergement ?
             </h2>
 
             <p>
-              Développez votre présence en ligne
-              avec l'écosystème NOVA.
+              Notre équipe peut vous accompagner pour
+              votre infrastructure, vos domaines et vos services.
             </p>
           </div>
 
-          <div className="servicesCTAActions">
-            <Link
-              href="/domaines"
-              className="servicesPrimaryButton"
-            >
-              Trouver un domaine
-              <ArrowIcon />
-            </Link>
-
-            <Link
-              href="/contact"
-              className="servicesSecondaryButton"
-            >
-              Contacter NOVA
-            </Link>
-          </div>
+          <Link
+            href="/contact"
+            className="support-button"
+          >
+            Contacter NOVA
+            <ArrowIcon />
+          </Link>
         </section>
       </div>
 
-      {/* FOOTER */}
-
-      <footer className="clientServicesFooter">
-        <Link
-          href="/"
-          className="servicesFooterLogo"
-        >
-          NOV<span>A</span>
-        </Link>
-
-        <p>
-          © {new Date().getFullYear()} NOVA.
-          Tous droits réservés.
-        </p>
-
-        <div>
-          <Link href="/mentions-legales">
-            Mentions légales
+      <footer className="client-footer">
+        <div className="client-footer-inner">
+          <Link
+            href="/"
+            className="footer-logo"
+          >
+            NOV<span>A</span>
           </Link>
 
-          <Link href="/confidentialite">
-            Confidentialité
-          </Link>
+          <div className="footer-links">
+            <Link href="/conditions">
+              Conditions
+            </Link>
 
-          <Link href="/contact">
-            Support
-          </Link>
+            <Link href="/confidentialite">
+              Confidentialité
+            </Link>
+
+            <Link href="/contact">
+              Support
+            </Link>
+          </div>
+
+          <span className="footer-copy">
+            © {new Date().getFullYear()} NOVA
+          </span>
         </div>
       </footer>
     </main>

@@ -490,10 +490,16 @@
 
   .client-mobile-menu {
     display: none;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
     inset: 72px 0 0;
   }
 
   .client-mobile-menu.is-open {
     display: block;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
   }
 }

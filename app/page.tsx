@@ -532,7 +532,7 @@ export default function Home() {
             >
               <div className="portfolio-image">
                 <Image
-                  src="/projets/boulangerie-1.png"
+                  src="/projets/Boulangerie-1.png"
                   alt="Projet Boulangerie"
                   fill
                   sizes="(max-width: 700px) 100vw, 33vw"

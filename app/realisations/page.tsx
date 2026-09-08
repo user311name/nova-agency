@@ -17,17 +17,17 @@ type Project = {
 };
 
 const projects: Project[] = [
-  {
-    number: "01",
-    title: "BOULANGERIE",
-    category: "SITE PREMIUM • BOULANGERIE & PÂTISSERIE",
-    description:
-      "Projet concept pensé pour valoriser une boulangerie à travers une identité digitale chaleureuse, une présentation élégante des créations et une interface d’administration permettant de gérer les contenus du site.",
-    image: "/projets/boulangerie-1.png",
-    href: "/realisations/boulangerie",
-    year: "2026",
-    tags: ["SITE PREMIUM", "BOULANGERIE"],
-  },
+{
+      number: "01",
+      title: "BOULANGERIE",
+      category: "SITE PREMIUM • BOULANGERIE & PÂTISSERIE",
+      description:
+        "Projet concept pensé pour valoriser une boulangerie à travers une identité digitale chaleureuse, une présentation élégante des créations et une interface d’administration permettant de gérer les contenus du site.",
+      image: "/projets/Boulangerie-1.png",
+      href: "/realisations/boulangerie",
+      year: "2026",
+      tags: ["SITE PREMIUM", "BOULANGERIE"],
+    },
   {
     number: "02",
     title: "NOIR BARBER",

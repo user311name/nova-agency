@@ -291,7 +291,9 @@ export default function SiteHeader() {
                 href="/espace-client"
                 className="premium-client-button"
               >
-                <span>Espace client</span>
+                <span>
+                  Espace client
+                </span>
 
                 <span className="premium-client-arrow">
                   →
@@ -322,7 +324,13 @@ export default function SiteHeader() {
             </div>
           </div>
 
-          <style jsx>{`
+          <style jsx global>{`
+            /*
+             * =====================================================
+             * HEADER PREMIUM
+             * =====================================================
+             */
+
             .premium-navbar {
               position: relative;
               z-index: 100000;
@@ -389,7 +397,7 @@ export default function SiteHeader() {
                 translateX(-1px);
             }
 
-            .premium-logo :global(img) {
+            .premium-logo img {
               display: block;
 
               width: 108px;
@@ -558,6 +566,12 @@ export default function SiteHeader() {
                 translateX(2px);
             }
 
+            /*
+             * =====================================================
+             * BOUTON MENU
+             * =====================================================
+             */
+
             .premium-menu-toggle {
               display: none;
 
@@ -633,14 +647,13 @@ export default function SiteHeader() {
              * =====================================================
              * MENU MOBILE PREMIUM
              *
-             * IMPORTANT :
-             * Le menu est hors du header dans le JSX.
-             * Les sélecteurs :global() permettent au styled-jsx
-             * de réellement appliquer le CSS à ce menu.
+             * LE POINT IMPORTANT :
+             * Le menu est un élément fixed GLOBAL.
+             * Il n'est pas limité par le header.
              * =====================================================
              */
 
-            :global(.premium-mobile-menu) {
+            .premium-mobile-menu {
               position: fixed !important;
 
               top: 0 !important;
@@ -650,47 +663,46 @@ export default function SiteHeader() {
 
               z-index: 99999 !important;
 
+              display: flex !important;
+              flex-direction: column;
+
               width: 100vw !important;
               height: 100dvh !important;
+              min-height: 100dvh !important;
 
               box-sizing: border-box;
 
-              display: flex;
-              flex-direction: column;
-
               padding:
-                105px
+                96px
                 24px
                 max(30px, env(safe-area-inset-bottom))
                 24px;
 
-              overflow-y: auto;
+              overflow-y: auto !important;
               overflow-x: hidden;
 
               overscroll-behavior: contain;
-
               -webkit-overflow-scrolling: touch;
 
               background:
                 radial-gradient(
-                  circle at 85% 14%,
-                  rgba(149, 101, 255, 0.16),
+                  circle at 85% 12%,
+                  rgba(149, 101, 255, 0.18),
                   transparent 30%
                 ),
                 radial-gradient(
-                  circle at 10% 80%,
-                  rgba(149, 101, 255, 0.07),
-                  transparent 28%
+                  circle at 8% 82%,
+                  rgba(149, 101, 255, 0.08),
+                  transparent 30%
                 ),
                 #05050a;
 
               opacity: 0;
               visibility: hidden;
-
               pointer-events: none;
 
               transform:
-                translateY(-10px);
+                translate3d(0, -12px, 0);
 
               transition:
                 opacity 220ms ease,
@@ -698,114 +710,81 @@ export default function SiteHeader() {
                 visibility 220ms ease;
             }
 
-            :global(.premium-mobile-menu.is-open) {
-              opacity: 1;
-              visibility: visible;
-
-              pointer-events: auto;
+            .premium-mobile-menu.is-open {
+              opacity: 1 !important;
+              visibility: visible !important;
+              pointer-events: auto !important;
 
               transform:
-                translateY(0);
+                translate3d(0, 0, 0);
             }
 
-            :global(.premium-mobile-glow) {
+            .premium-mobile-glow {
               position: absolute;
 
-              top: 80px;
-              right: -160px;
+              top: 55px;
+              right: -170px;
 
-              width: 400px;
-              height: 400px;
+              width: 430px;
+              height: 430px;
 
               border-radius: 50%;
 
               background:
-                rgba(123, 67, 235, 0.12);
+                rgba(126, 71, 230, 0.13);
 
-              filter: blur(80px);
+              filter: blur(90px);
 
               pointer-events: none;
             }
 
-            :global(.premium-mobile-top) {
+            .premium-mobile-top {
               position: relative;
               z-index: 2;
 
               display: flex;
+              align-items: center;
               justify-content: space-between;
 
-              margin-bottom: 20px;
-              padding-bottom: 15px;
+              margin-bottom: 12px;
+              padding-bottom: 14px;
 
               border-bottom: 1px solid
                 rgba(255, 255, 255, 0.07);
 
               color:
-                rgba(255, 255, 255, 0.3);
+                rgba(255, 255, 255, 0.32);
 
               font-size: 8px;
+              font-weight: 600;
 
               letter-spacing:
                 0.16em;
             }
 
-            :global(.premium-mobile-home) {
+            .premium-mobile-home,
+            .premium-mobile-menu nav a {
               position: relative;
               z-index: 2;
 
               display: grid;
 
               grid-template-columns:
-                35px
+                34px
                 minmax(0, 1fr)
                 auto;
 
               align-items: center;
 
-              gap: 15px;
+              gap: 14px;
 
-              min-height: 70px;
-
-              border-bottom: 1px solid
-                rgba(255, 255, 255, 0.06);
-
-              color:
-                rgba(255, 255, 255, 0.52);
-
-              text-decoration: none;
-            }
-
-            :global(.premium-mobile-home:hover) {
-              color: #ffffff;
-            }
-
-            :global(.premium-mobile-menu nav) {
-              position: relative;
-              z-index: 2;
-
-              display: flex;
-              flex-direction: column;
-            }
-
-            :global(.premium-mobile-menu nav a) {
-              display: grid;
-
-              grid-template-columns:
-                35px
-                minmax(0, 1fr)
-                auto;
-
-              align-items: center;
-
-              gap: 15px;
-
-              min-height: 70px;
+              min-height: 68px;
 
               border-bottom: 1px solid
-                rgba(255, 255, 255, 0.06);
+                rgba(255, 255, 255, 0.065);
 
               color:
-                rgba(255, 255, 255, 0.52);
+                rgba(255, 255, 255, 0.58);
 
               text-decoration: none;
 
@@ -814,64 +793,59 @@ export default function SiteHeader() {
                 padding-left 180ms ease;
             }
 
-            :global(
-              .premium-mobile-menu nav a:hover
-            ),
-            :global(
-              .premium-mobile-menu nav a.active
-            ) {
+            .premium-mobile-home:hover,
+            .premium-mobile-menu nav a:hover,
+            .premium-mobile-menu nav a.active {
               color: #ffffff;
             }
 
-            :global(
-              .premium-mobile-menu nav a:hover
-            ) {
+            .premium-mobile-home:hover,
+            .premium-mobile-menu nav a:hover {
               padding-left: 4px;
             }
 
-            :global(.premium-mobile-number) {
-              color: #8f5ef2;
+            .premium-mobile-number {
+              color: #9565ff;
 
               font-size: 9px;
+              font-weight: 600;
 
               letter-spacing:
                 0.08em;
             }
 
-            :global(.premium-mobile-label) {
-              font-size: 20px;
+            .premium-mobile-label {
+              min-width: 0;
 
+              font-size: 20px;
               font-weight: 600;
 
               line-height: 1.15;
+
+              white-space: nowrap;
             }
 
-            :global(.premium-mobile-arrow) {
-              color: #9869ff;
+            .premium-mobile-arrow {
+              color: #a473ff;
 
               font-size: 17px;
+              line-height: 1;
 
               transition:
                 transform 180ms ease;
             }
 
-            :global(
-              .premium-mobile-home:hover
-              .premium-mobile-arrow
-            ),
-            :global(
-              .premium-mobile-menu nav a:hover
-              .premium-mobile-arrow
-            ),
-            :global(
-              .premium-mobile-menu nav a.active
-              .premium-mobile-arrow
-            ) {
+            .premium-mobile-home:hover
+              .premium-mobile-arrow,
+            .premium-mobile-menu nav a:hover
+              .premium-mobile-arrow,
+            .premium-mobile-menu nav a.active
+              .premium-mobile-arrow {
               transform:
                 translateX(3px);
             }
 
-            :global(.premium-mobile-client) {
+            .premium-mobile-client {
               position: relative;
               z-index: 2;
 
@@ -879,17 +853,17 @@ export default function SiteHeader() {
               align-items: center;
               justify-content: space-between;
 
-              margin-top: 25px;
+              margin-top: 22px;
 
               padding: 16px 18px;
 
               border: 1px solid
-                rgba(145, 94, 245, 0.25);
+                rgba(150, 100, 255, 0.25);
 
               border-radius: 12px;
 
               background:
-                rgba(123, 69, 226, 0.09);
+                rgba(126, 71, 230, 0.09);
 
               color: #ffffff;
 
@@ -904,16 +878,22 @@ export default function SiteHeader() {
                 transform 180ms ease;
             }
 
-            :global(.premium-mobile-client:hover) {
+            .premium-mobile-client:hover {
               background:
-                rgba(123, 69, 226, 0.16);
+                rgba(126, 71, 230, 0.16);
 
               border-color:
-                rgba(145, 94, 245, 0.4);
+                rgba(150, 100, 255, 0.42);
 
               transform:
                 translateY(-1px);
             }
+
+            /*
+             * =====================================================
+             * RESPONSIVE
+             * =====================================================
+             */
 
             @media (max-width: 1050px) {
               .premium-navbar-inner {
@@ -940,6 +920,10 @@ export default function SiteHeader() {
               }
 
               .premium-navbar-inner {
+                position: relative;
+
+                z-index: 100001;
+
                 min-height: 72px;
 
                 width:
@@ -960,9 +944,7 @@ export default function SiteHeader() {
                 display: none;
               }
 
-              :global(.premium-mobile-menu) {
-                display: flex !important;
-
+              .premium-mobile-menu {
                 position: fixed !important;
 
                 top: 0 !important;
@@ -974,11 +956,13 @@ export default function SiteHeader() {
                 height: 100dvh !important;
 
                 z-index: 99999 !important;
+
+                display: flex !important;
               }
             }
 
             @media (max-width: 480px) {
-              .premium-logo :global(img) {
+              .premium-logo img {
                 width: 92px;
               }
 
@@ -998,12 +982,12 @@ export default function SiteHeader() {
                 height: 37px;
               }
 
-              :global(.premium-mobile-menu) {
+              .premium-mobile-menu {
                 padding-left: 18px;
                 padding-right: 18px;
               }
 
-              :global(.premium-mobile-label) {
+              .premium-mobile-label {
                 font-size: 19px;
               }
             }
@@ -1011,24 +995,20 @@ export default function SiteHeader() {
             @media (
               prefers-reduced-motion: reduce
             ) {
-              :global(.premium-mobile-menu) {
-                transition:
-                  none !important;
-              }
-
-              :global(.premium-mobile-menu *) {
-                transition:
-                  none !important;
+              .premium-mobile-menu,
+              .premium-mobile-menu * {
+                transition: none !important;
               }
             }
           `}</style>
         </header>
 
-        {/* =====================================================
-            MENU MOBILE PREMIUM
-            IMPORTANT : hors du header pour éviter les problèmes
-            de backdrop-filter / stacking context.
-            ===================================================== */}
+        {/*
+         * ==========================================================
+         * MENU MOBILE PREMIUM
+         * HORS DU HEADER
+         * ==========================================================
+         */}
 
         <div
           id="premium-mobile-navigation"
@@ -1040,14 +1020,21 @@ export default function SiteHeader() {
           <div className="premium-mobile-glow" />
 
           <div className="premium-mobile-top">
-            <span>NOVA / NAVIGATION</span>
-            <span>MENU</span>
+            <span>
+              NOVA / NAVIGATION
+            </span>
+
+            <span>
+              MENU
+            </span>
           </div>
 
           <Link
             href="/"
             className="premium-mobile-home"
-            onClick={() => setOpen(false)}
+            onClick={() =>
+              setOpen(false)
+            }
           >
             <span className="premium-mobile-number">
               00
@@ -1065,10 +1052,13 @@ export default function SiteHeader() {
             </span>
           </Link>
 
-          <nav aria-label="Navigation mobile premium">
+          <nav
+            aria-label="Navigation mobile premium"
+          >
             {premiumLinks
               .filter(
-                (link) => link.href !== "/domaines"
+                (link) =>
+                  link.href !== "/domaines"
               )
               .map((link, index) => {
                 const active = isActive(
@@ -1081,15 +1071,18 @@ export default function SiteHeader() {
                     key={`${link.href}-${link.label}`}
                     href={link.href}
                     className={
-                      active ? "active" : ""
+                      active
+                        ? "active"
+                        : ""
                     }
-                    onClick={() => setOpen(false)}
+                    onClick={() =>
+                      setOpen(false)
+                    }
                   >
                     <span className="premium-mobile-number">
-                      {String(index + 1).padStart(
-                        2,
-                        "0"
-                      )}
+                      {String(
+                        index + 1
+                      ).padStart(2, "0")}
                     </span>
 
                     <span className="premium-mobile-label">
@@ -1110,13 +1103,17 @@ export default function SiteHeader() {
           <Link
             href="/espace-client"
             className="premium-mobile-client"
-            onClick={() => setOpen(false)}
+            onClick={() =>
+              setOpen(false)
+            }
           >
             <span>
               Accéder à mon espace client
             </span>
 
-            <span>↗</span>
+            <span>
+              ↗
+            </span>
           </Link>
         </div>
       </>
@@ -1137,7 +1134,9 @@ export default function SiteHeader() {
           href="/"
           className="logo"
           aria-label="NOVA — Accueil"
-          onClick={() => setOpen(false)}
+          onClick={() =>
+            setOpen(false)
+          }
         >
           <Image
             src="/logo-nova.png"
@@ -1163,7 +1162,9 @@ export default function SiteHeader() {
                 key={link.href}
                 href={link.href}
                 className={
-                  active ? "active" : ""
+                  active
+                    ? "active"
+                    : ""
                 }
               >
                 <span>

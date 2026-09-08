@@ -2955,28 +2955,28 @@
       0.01ms !important;
   }
 }/* =========================================================
-   NOVA — CORRECTION MENU PREMIUM MOBILE
-   Le menu doit sortir du contenant du header
+   NOVA — MOBILE MENU DISPLAY FIX
+   UNIQUEMENT AFFICHAGE — NE MODIFIE PAS LE CONTENU
    ========================================================= */
 
 @media (max-width: 800px) {
 
-  /* IMPORTANT :
-     Le backdrop-filter du header créait un contenant
-     pour le position: fixed du menu.
-  */
-
+  /* Le header reste au-dessus */
   .premium-navbar {
     position: relative !important;
     z-index: 2147483646 !important;
 
-    overflow: visible !important;
-
+    /*
+      IMPORTANT :
+      le backdrop-filter du header enfermait le menu fixed
+      dans son propre contexte.
+    */
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
 
-    filter: none !important;
+    overflow: visible !important;
     transform: none !important;
+    filter: none !important;
     perspective: none !important;
     contain: none !important;
     will-change: auto !important;
@@ -2987,10 +2987,10 @@
     z-index: 2147483647 !important;
   }
 
-  /* =======================================================
-     MENU
-     ======================================================= */
-
+  /*
+     MENU MOBILE :
+     vrai panneau plein écran sous le header
+  */
   .premium-mobile-menu {
     position: fixed !important;
 
@@ -3003,7 +3003,6 @@
     height: calc(100dvh - 72px) !important;
 
     margin: 0 !important;
-
     box-sizing: border-box !important;
 
     display: block !important;
@@ -3015,6 +3014,11 @@
 
     padding: 30px 24px 40px !important;
 
+    /*
+      On garde l'ambiance premium existante.
+      On force simplement le panneau à être opaque
+      et indépendant de la page derrière.
+    */
     background:
       radial-gradient(
         circle at 75% 10%,
@@ -3025,7 +3029,6 @@
 
     opacity: 0 !important;
     visibility: hidden !important;
-
     pointer-events: none !important;
 
     transform: translate3d(0, -10px, 0) !important;
@@ -3036,211 +3039,21 @@
       visibility 180ms ease !important;
   }
 
-  /* =======================================================
+  /*
      MENU OUVERT
-     ======================================================= */
-
+  */
   .premium-mobile-menu.is-open {
     opacity: 1 !important;
-
     visibility: visible !important;
-
     pointer-events: auto !important;
 
     transform: translate3d(0, 0, 0) !important;
   }
 
-  /* =======================================================
-     CONTENU
-     ======================================================= */
-
-  .premium-mobile-menu nav {
-    position: relative !important;
-
-    z-index: 3 !important;
-
-    display: flex !important;
-
-    flex-direction: column !important;
-
-    width: 100% !important;
-  }
-
-  .premium-mobile-menu nav a {
-    position: relative !important;
-
-    display: grid !important;
-
-    grid-template-columns: 35px minmax(0, 1fr) auto !important;
-
-    align-items: center !important;
-
-    gap: 15px !important;
-
-    width: 100% !important;
-
-    min-height: 70px !important;
-
-    box-sizing: border-box !important;
-
-    border-bottom:
-      1px solid rgba(255, 255, 255, 0.06) !important;
-
-    color:
-      rgba(255, 255, 255, 0.52) !important;
-
-    text-decoration: none !important;
-  }
-
-  .premium-mobile-menu nav a.active {
-    color: #ffffff !important;
-  }
-
-  /* =======================================================
-     NUMEROS
-     ======================================================= */
-
-  .premium-mobile-number {
-    color: #8f5ef2 !important;
-
-    font-size: 9px !important;
-  }
-
-  /* =======================================================
-     LABELS
-     ======================================================= */
-
-  .premium-mobile-label {
-    min-width: 0 !important;
-
-    color: inherit !important;
-
-    font-size: 20px !important;
-
-    font-weight: 600 !important;
-
-    line-height: 1.2 !important;
-
-    white-space: nowrap !important;
-
-    overflow: hidden !important;
-
-    text-overflow: ellipsis !important;
-  }
-
-  /* =======================================================
-     FLECHES
-     ======================================================= */
-
-  .premium-mobile-arrow {
-    color: #9869ff !important;
-
-    font-size: 17px !important;
-  }
-
-  /* =======================================================
-     HAUT DU MENU
-     ======================================================= */
-
-  .premium-mobile-top {
-    position: relative !important;
-
-    z-index: 3 !important;
-
-    display: flex !important;
-
-    align-items: center !important;
-
-    justify-content: space-between !important;
-
-    width: 100% !important;
-
-    margin-bottom: 25px !important;
-
-    padding-bottom: 15px !important;
-
-    border-bottom:
-      1px solid rgba(255, 255, 255, 0.07) !important;
-
-    color:
-      rgba(255, 255, 255, 0.3) !important;
-
-    font-size: 8px !important;
-
-    letter-spacing: 0.16em !important;
-  }
-
-  /* =======================================================
-     BOUTON ESPACE CLIENT
-     ======================================================= */
-
-  .premium-mobile-client {
-    position: relative !important;
-
-    z-index: 3 !important;
-
-    display: flex !important;
-
-    align-items: center !important;
-
-    justify-content: space-between !important;
-
-    width: 100% !important;
-
-    margin-top: 25px !important;
-
-    padding: 16px 18px !important;
-
-    box-sizing: border-box !important;
-
-    border:
-      1px solid rgba(145, 94, 245, 0.25) !important;
-
-    border-radius: 12px !important;
-
-    background:
-      rgba(123, 69, 226, 0.09) !important;
-
-    color: #ffffff !important;
-
-    font-size: 11px !important;
-
-    font-weight: 600 !important;
-
-    text-decoration: none !important;
-  }
-
-  /* =======================================================
-     LUEUR
-     ======================================================= */
-
-  .premium-mobile-glow {
-    position: absolute !important;
-
-    top: 80px !important;
-
-    right: -160px !important;
-
-    width: 400px !important;
-
-    height: 400px !important;
-
-    border-radius: 50% !important;
-
-    background:
-      rgba(123, 67, 235, 0.12) !important;
-
-    filter: blur(80px) !important;
-
-    pointer-events: none !important;
-
-    z-index: 1 !important;
-  }
-
-  /* =======================================================
-     EMPECHE LE SITE DERRIERE DE DEFILEr
-     ======================================================= */
-
+  /*
+     Empêche la page derrière de défiler
+     lorsque le menu est ouvert.
+  */
   html:has(.premium-mobile-menu.is-open) {
     overflow: hidden !important;
   }
@@ -3252,25 +3065,17 @@
 
 
 /* =========================================================
-   PETITS TELEPHONES
+   PETITS ÉCRANS
    ========================================================= */
 
 @media (max-width: 480px) {
 
   .premium-mobile-menu {
     top: 72px !important;
-
     height: calc(100dvh - 72px) !important;
 
     padding:
-      25px 18px 30px !important;
+      26px 20px 34px !important;
   }
 
-  .premium-mobile-menu nav a {
-    min-height: 66px !important;
-  }
-
-  .premium-mobile-label {
-    font-size: 19px !important;
-  }
 }

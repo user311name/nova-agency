@@ -1,8 +1,23 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useEffect } from "react";
+import { createBrowserClient } from "@supabase/ssr";
+import { FormEvent, useMemo, useState } from "react";
 import Link from "next/link";
 import "./page.css";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabasePublishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+
+if (!supabaseUrl) {
+  throw new Error("NEXT_PUBLIC_SUPABASE_URL manquante.");
+}
+
+if (!supabasePublishableKey) {
+  throw new Error("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY manquante.");
+}
+
+const supabase = createBrowserClient(supabaseUrl, supabasePublishableKey);
 
 type DomainResult = {
   domain: string;
@@ -432,19 +447,6 @@ export default function DomainesPage() {
       `}</style>
 
       <main className="domainsPage">
-
-        {/* =========================================================
-            RETOUR VERS LE NOVA NORMAL
-            ========================================================= */}
-
-        <Link
-          href="/"
-          className="domainsReturnNova"
-          aria-label="Retour à NOVA"
-        >
-          <span className="domainsReturnNovaArrow">←</span>
-          <span>Retour à NOVA</span>
-        </Link>
 
         {/* ================= HERO ================= */}
 

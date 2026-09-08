@@ -1,6 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkDomain } from "@/lib/openprovider";
 
+const NOVA_PRICES: Record<string, number> = {
+  fr: 19.9,
+  com: 24.9,
+  io: 49.9,
+};
+
+function getNovaPrice(domain: string, resellerPrice: number) {
+  const ext = domain.split(".").pop();
+  const extension: string = ext ?? "";
+  return NOVA_PRICES[extension] ?? resellerPrice + 8;
+}
+
 export async function GET(request: NextRequest) {
   try {
     const domain = request.nextUrl.searchParams
@@ -52,7 +64,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const novaPrice = result.resellerPrice + 5;
+    const novaPrice = getNovaPrice(result.domain, result.resellerPrice);
 
     return NextResponse.json({
       success: true,

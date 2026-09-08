@@ -336,13 +336,13 @@ export default function EspaceClientPage() {
             </p>
 
 <div className="hero-actions">
-                <Link
-                  href="/espace-client/domaines"
-                  className="primary-client-button"
-                >
-                  <span>Acheter un domaine</span>
-                  <ArrowIcon />
-                </Link>
+<Link
+                   href="/domaines"
+                   className="primary-client-button"
+                 >
+                   <span>Acheter un domaine</span>
+                   <ArrowIcon />
+                 </Link>
 
                 <Link
                   href="/"
@@ -616,13 +616,13 @@ export default function EspaceClientPage() {
                       automatiquement ici après votre commande.
                     </p>
 
-                    <Link
-                      href="/espace-client/domaines"
-                      className="empty-button"
-                    >
-                      Acheter un domaine
-                      <ArrowIcon />
-                    </Link>
+<Link
+                       href="/domaines"
+                       className="empty-button"
+                     >
+                       Acheter un domaine
+                       <ArrowIcon />
+                     </Link>
                   </div>
                 </div>
               )}

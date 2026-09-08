@@ -1,5 +1,22 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import "./page.css";
+
+type Email = {
+  id: string;
+  domain: string;
+  email_address: string;
+  email_prefix: string;
+  plan: string;
+  billing_period: string;
+  amount: number;
+  currency: string;
+  status: string;
+  stripe_session_id?: string;
+  created_at: string;
+};
 
 type EmailPlan = {
   id: "essential" | "business" | "team";
@@ -20,7 +37,7 @@ const plans: EmailPlan[] = [
     name: "Essentiel",
     description:
       "Pour une activité indépendante ou une petite entreprise.",
-    price: "14,90 €",
+    price: "9,90 €",
     mailboxes: "1 boîte mail",
     storage: "15 Go de stockage",
     features: [
@@ -36,7 +53,7 @@ const plans: EmailPlan[] = [
     name: "Business",
     description:
       "Pour une entreprise qui souhaite plusieurs adresses.",
-    price: "39,90 €",
+    price: "14,90 €",
     mailboxes: "3 boîtes mail",
     storage: "45 Go de stockage",
     features: [
@@ -54,7 +71,7 @@ const plans: EmailPlan[] = [
     name: "Équipe",
     description:
       "Pour les équipes qui veulent une identité professionnelle complète.",
-    price: "59,90 €",
+    price: "129 € / an",
     mailboxes: "5 boîtes mail",
     storage: "75 Go de stockage",
     features: [
@@ -88,7 +105,6 @@ function ArrowIcon() {
         stroke="currentColor"
         strokeWidth="1.6"
         strokeLinecap="round"
-        strokeLinejoin="round"
       />
     </svg>
   );
@@ -204,20 +220,103 @@ function SmartphoneIcon() {
 }
 
 export default function EmailsPage() {
+  const [emails, setEmails] = useState<Email[] | null>(null);
+
+  useEffect(() => {
+    async function fetchEmails() {
+      const res = await fetch("/api/emails/client/emails", {
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setEmails(data.emails);
+      }
+    }
+    fetchEmails();
+  }, []);
+
+  function getStatusLabel(status: string) {
+    if (status === "pending") {
+      return "Activation en cours";
+    }
+    return status || "Non défini";
+  }
+
+  function getPlanName(plan: string) {
+    const names: Record<string, string> = {
+      essential: "Essentiel",
+      business: "Business",
+      team: "Équipe",
+    };
+    return names[plan] || plan;
+  }
+
+  function getBillingPeriodLabel(period: string) {
+    if (period === "annual") {
+      return "Annuel";
+    }
+    return "Mensuel";
+  }
+
   return (
     <main className="emails-page">
+      {/* =====================================================
+          EMAILS ENREGISTRÉS
+      ===================================================== */}
+
+      {emails !== null && emails.length > 0 && (
+        <section className="emails-registered">
+          <div className="emails-container">
+            <h2>Vos emails</h2>
+
+            <div className="emails-registered-grid">
+              {emails.map((email) => {
+                const statusLabel = getStatusLabel(email.status);
+                return (
+                  <div
+                    key={email.id}
+                    className="emails-registered-item"
+                  >
+                    <div className="emails-registered-address">
+                      <strong>
+                        {email.email_prefix}
+                      </strong>
+                      <span>
+                        @{email.domain}
+                      </span>
+                    </div>
+
+                    <div className="emails-registered-details">
+                      <div>
+                        <strong>{getPlanName(email.plan)}</strong>
+                      </div>
+
+                      <div>
+                        <strong>{getBillingPeriodLabel(
+                          email.billing_period
+                        )}</strong>
+                        <span>{email.amount} €</span>
+                      </div>
+
+                      <div>
+                        <span>{statusLabel}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* =====================================================
           HERO
       ===================================================== */}
-
       <section className="emails-hero">
         <div className="emails-container">
-
           <div className="emails-hero-grid">
-
             <div className="emails-hero-copy">
-
               <div className="emails-eyebrow">
                 <span className="emails-eyebrow-dot" />
                 EMAILS PROFESSIONNELS NOVA
@@ -262,45 +361,30 @@ export default function EmailsPage() {
                   <CheckIcon />
                   Adresse professionnelle
                 </span>
-
                 <span>
                   <CheckIcon />
                   Protection anti-spam
                 </span>
-
                 <span>
                   <CheckIcon />
                   Accès mobile
                 </span>
               </div>
-
             </div>
 
             <div className="emails-hero-visual">
-
               <div className="emails-glow emails-glow-one" />
               <div className="emails-glow emails-glow-two" />
 
               <div className="emails-mail-card">
-
-                <div className="emails-mail-card-top">
-                  <div className="emails-mail-icon">
-                    <MailIcon />
-                  </div>
-
-                  <div className="emails-mail-secure">
-                    <span />
-                    SECURE
-                    <br />
-                    MAIL
-                  </div>
+                <div className="emails-mail-icon">
+                  <MailIcon />
                 </div>
 
                 <div className="emails-mail-content">
-
-                  <span className="emails-mail-label">
+                  <div className="emails-mail-label">
                     NOUVEAU MESSAGE
-                  </span>
+                  </div>
 
                   <strong>
                     contact@votreentreprise.fr
@@ -309,26 +393,14 @@ export default function EmailsPage() {
                   <div className="emails-mail-line large" />
                   <div className="emails-mail-line" />
                   <div className="emails-mail-line short" />
-
                 </div>
 
                 <div className="emails-mail-footer">
                   <span>PROTECTED</span>
                   <strong>NOVA</strong>
                 </div>
-
               </div>
-
-              <div className="emails-floating-card">
-                <span>MESSAGERIE</span>
-                <strong>PROFESSIONNELLE</strong>
-                <small>
-                  contact@votreentreprise.fr
-                </small>
-              </div>
-
             </div>
-
           </div>
         </div>
       </section>
@@ -336,53 +408,42 @@ export default function EmailsPage() {
       {/* =====================================================
           QUICK STATS
       ===================================================== */}
-
       <section className="emails-stats">
         <div className="emails-container">
-
           <div className="emails-stats-grid">
-
             <div className="emails-stat">
               <span>MESSAGES</span>
               <strong>24</strong>
             </div>
-
             <div className="emails-stat">
               <span>STOCKAGE</span>
               <strong>8,4 Go</strong>
             </div>
-
             <div className="emails-stat">
               <span>PROTECTION</span>
               <strong>ACTIVE</strong>
             </div>
-
             <div className="emails-stat">
               <span>ACCÈS</span>
               <strong>WEB + MOBILE</strong>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* =====================================================
           WHY
       ===================================================== */}
-
       <section
         id="pourquoi"
         className="emails-why"
       >
         <div className="emails-container">
-
           <div className="emails-section-number">
             01 / POURQUOI UNE ADRESSE PRO ?
           </div>
 
           <div className="emails-why-grid">
-
             <div>
               <h2>
                 Plus qu'une boîte mail.
@@ -408,26 +469,20 @@ export default function EmailsPage() {
                 directement liée à votre domaine.
               </p>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* =====================================================
           BENEFITS
       ===================================================== */}
-
       <section className="emails-benefits">
         <div className="emails-container">
-
           <div className="emails-benefits-heading">
-
             <div>
               <div className="emails-section-number">
                 02 / L'ESSENTIEL
               </div>
-
               <h2>
                 Pensée pour votre
                 <br />
@@ -440,16 +495,13 @@ export default function EmailsPage() {
               dans son apparence et pensée pour accompagner
               votre activité.
             </p>
-
           </div>
 
           <div className="emails-benefits-grid">
-
             <article className="emails-benefit-card">
               <div className="emails-benefit-icon">
                 <MailIcon />
               </div>
-
               <span>01</span>
 
               <h3>
@@ -469,7 +521,6 @@ export default function EmailsPage() {
               <div className="emails-benefit-icon">
                 <ShieldIcon />
               </div>
-
               <span>02</span>
 
               <h3>
@@ -489,7 +540,6 @@ export default function EmailsPage() {
               <div className="emails-benefit-icon">
                 <SmartphoneIcon />
               </div>
-
               <span>03</span>
 
               <h3>
@@ -499,260 +549,169 @@ export default function EmailsPage() {
               </h3>
 
               <p>
-                Consultez et gérez vos messages depuis
-                votre ordinateur, votre navigateur ou
-                votre téléphone.
+                Consultez vos emails depuis votre ordinateur,
+                votre tablette ou votre smartphone.
               </p>
             </article>
-
           </div>
-
         </div>
       </section>
 
       {/* =====================================================
-          OFFERS
+          OFFRES
       ===================================================== */}
-
       <section
         id="offres"
         className="emails-offers"
       >
         <div className="emails-container">
-
-          <div className="emails-offers-heading">
-
-            <div>
-              <div className="emails-section-number">
-                03 / NOS OFFRES
-              </div>
-
-              <h2>
-                Choisissez la formule
-                <br />
-                <span>adaptée à votre activité.</span>
-              </h2>
-            </div>
-
-            <p>
-              Une boîte pour commencer ou plusieurs adresses
-              pour toute votre équipe.
-            </p>
-
+          <div className="emails-section-number">
+            03 / NOS OFFRES
           </div>
 
-          <div className="emails-plans-grid">
+          <h2>
+            Choisissez votre
+            <br />
+            formule.
+          </h2>
 
+          <div className="emails-offers-grid">
             {plans.map((plan) => (
               <article
                 key={plan.id}
-                className={
-                  plan.popular
-                    ? "emails-plan emails-plan-popular"
-                    : "emails-plan"
-                }
+                className="emails-offer-card"
+                data-plan={plan.id}
               >
+                <div className="emails-offer-icon">
+                  <MailIcon />
+                </div>
 
-                {plan.popular && (
-                  <div className="emails-popular-badge">
-                    <span className="emails-popular-dot" />
-                    LE PLUS CHOISI
-                  </div>
-                )}
-
-                <div className="emails-plan-top">
-
-                  <div className="emails-plan-number">
-                    {plan.number}
-                  </div>
-
-                  <div className="emails-plan-icon">
-                    <MailIcon />
-                  </div>
-
-                  <div className="emails-plan-title">
-                    <span>
-                      {plan.popular
-                        ? "SIGNATURE"
-                        : plan.name.toUpperCase()}
-                    </span>
-
+                <div className="emails-offer-content">
+                  <div className="emails-offer-header">
                     <h3>{plan.name}</h3>
+                    <span className="emails-offer-badge">
+                      {plan.popular ? "Le plus choisi" : ""}
+                    </span>
                   </div>
 
+                  <p className="emails-offer-description">
+                    {plan.description}
+                  </p>
+
+                  <div className="emails-offer-details">
+                    <div className="emails-offer-detail">
+                      <span>Boîtes mail</span>
+                      <strong>{plan.mailboxes}</strong>
+                    </div>
+
+                    <div className="emails-offer-detail">
+                      <span>Stockage</span>
+                      <strong>{plan.storage}</strong>
+                    </div>
+                  </div>
+
+                  <div className="emails-offer-price">
+                    <strong>{plan.price}</strong>
+                    <span>/ mois</span>
+                    {plan.id === "team" && (
+                      <>
+                        <span> / an</span>
+                      </>
+                    )}
+                  </div>
+
+                  <div className="emails-offer-features">
+                    {plan.features.map((feature, index) => (
+                      <div
+                        key={index}
+                        className="emails-offer-feature"
+                      >
+                        <span>✓</span>
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="emails-offer-actions">
+                    <Link
+                      href={`/espace-client/emails/acheter?plan=${plan.id}`}
+                      className="emails-offer-button"
+                    >
+                      Configurer et acheter
+                    </Link>
+                  </div>
                 </div>
-
-                <p className="emails-plan-description">
-                  {plan.description}
-                </p>
-
-                <div className="emails-plan-price">
-                  <strong>{plan.price}</strong>
-                  <span>/ an</span>
-                </div>
-
-                <div className="emails-plan-divider" />
-
-                <ul className="emails-plan-features">
-
-                  {plan.features.map((feature) => (
-                    <li key={feature}>
-                      <CheckIcon />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-
-                </ul>
-
-                <Link
-                  href={`/espace-client/emails/acheter?plan=${plan.id}`}
-                  className={
-                    plan.popular
-                      ? "emails-plan-button emails-plan-button-primary"
-                      : "emails-plan-button"
-                  }
-                >
-                  <span>
-                    Acheter cette offre
-                  </span>
-
-                  <ArrowIcon />
-                </Link>
-
               </article>
             ))}
 
-          </div>
-
-          <div className="emails-offers-reassurance">
-            <span>✓</span>
-            Paiement sécurisé. Votre adresse est créée
-            sur votre propre domaine.
-          </div>
-
-        </div>
-      </section>
-
-      {/* =====================================================
-          FINAL CTA
-      ===================================================== */}
-
-      <section className="emails-final-cta">
-        <div className="emails-container">
-
-          <div className="emails-final-inner">
-
-            <div className="emails-final-glow" />
-
-            <div className="emails-section-number">
-              04 / PASSEZ À L'ÉTAPE SUIVANTE
+            <div className="emails-offers-note">
+              <p>
+                Tous les prix sont indiqués en euros toutes taxes
+                comprises. Facturation mensuelle ou annuelle selon
+                l'option sélectionnée.
+              </p>
             </div>
-
-            <h2>
-              Votre prochaine adresse
-              <br />
-              <span>commence ici.</span>
-            </h2>
-
-            <p>
-              Choisissez votre formule et créez une adresse
-              professionnelle qui correspond réellement
-              à votre activité.
-            </p>
-
-            <a
-              href="#offres"
-              className="emails-final-button"
-            >
-              Choisir ma formule
-              <ArrowIcon />
-            </a>
-
           </div>
-
         </div>
       </section>
 
       {/* =====================================================
           FOOTER
       ===================================================== */}
-
       <footer className="emails-footer">
         <div className="emails-container">
+          <div className="emails-footer-inner">
+            <div className="emails-footer-top">
+              <div className="emails-footer-links">
+                <div>
+                  <span>EXPLORER</span>
 
-          <div className="emails-footer-top">
+                  <Link href="/espace-client/domaines">
+                    Domaines
+                  </Link>
 
-            <div>
-              <Link
-                href="/"
-                className="emails-footer-logo"
-              >
-                NOV<span>A</span>
-              </Link>
+                  <Link href="/espace-client/services">
+                    Hébergement
+                  </Link>
 
-              <p>
-                Messagerie professionnelle.
-                <br />
-                Simple. Sérieuse. NOVA.
-              </p>
-            </div>
+                  <Link href="/espace-client/securite">
+                    Sécurité
+                  </Link>
+                </div>
 
-            <div className="emails-footer-links">
+                <div>
+                  <span>CONTACT</span>
 
-              <div>
-                <span>EXPLORER</span>
+                  <Link href="/contact">
+                    Nous contacter
+                  </Link>
 
-                <Link href="/espace-client/domaines">
-                  Domaines
-                </Link>
-
-                <Link href="/espace-client/services">
-                  Hébergement
-                </Link>
-
-                <Link href="/espace-client/securite">
-                  Sécurité
-                </Link>
+                  <Link href="/faq">
+                    FAQ
+                  </Link>
+                </div>
               </div>
 
-              <div>
-                <span>CONTACT</span>
+              <div className="emails-footer-bottom">
+                <span>
+                  © {new Date().getFullYear()} NOVA.
+                  Tous droits réservés.
+                </span>
 
-                <Link href="/contact">
-                  Nous contacter
-                </Link>
+                <div>
+                  <Link href="/mentions-legales">
+                    Mentions légales
+                  </Link>
 
-                <Link href="/faq">
-                  FAQ
-                </Link>
+                  <Link href="/contact">
+                    Contact
+                  </Link>
+                </div>
               </div>
-
             </div>
-
           </div>
-
-          <div className="emails-footer-bottom">
-
-            <span>
-              © {new Date().getFullYear()} NOVA.
-              Tous droits réservés.
-            </span>
-
-            <div>
-              <Link href="/mentions-legales">
-                Mentions légales
-              </Link>
-
-              <Link href="/contact">
-                Contact
-              </Link>
-            </div>
-
-          </div>
-
         </div>
       </footer>
-
     </main>
   );
 }

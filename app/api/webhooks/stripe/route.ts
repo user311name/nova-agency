@@ -97,9 +97,14 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    await processDomainOrder(
-      event.data.object as Stripe.Checkout.Session,
-    );
+    const session = event.data.object as Stripe.Checkout.Session;
+    const type = session.metadata?.type;
+
+    if (type === "professional_email") {
+      await processEmailOrder(session);
+    } else {
+      await processDomainOrder(session);
+    }
 
     return NextResponse.json({
       received: true,
@@ -108,18 +113,12 @@ export async function POST(request: NextRequest) {
     const message = getErrorMessage(error);
 
     console.error(
-      "DOMAIN PROVISIONING ERROR:",
+      "PROVISIONING ERROR:",
       {
         eventId: event.id,
         message,
       },
     );
-
-    /*
-     * Stripe doit recevoir une erreur afin
-     * de pouvoir relancer automatiquement
-     * le webhook.
-     */
 
     return NextResponse.json(
       {
@@ -390,8 +389,22 @@ async function processDomainOrder(
       stripeSessionId: session.id,
     });
 
-    throw error;
-  }
+/*
+   * IMPORTANT :
+   * on conserve l'erreur afin que Stripe
+   * puisse relancer le webhook.
+   */
+
+  await saveEmailOrder({
+    domain,
+    email,
+    userId,
+    status: "failed",
+    stripeSessionId: session.id,
+  });
+
+  throw error;
+}
 }
 
 /*
@@ -789,15 +802,210 @@ function extractExpirationDate(
 }
 
 /*
- * ============================================================
- * ERREUR
- * ============================================================
- */
+   * ============================================================
+   * ERREUR
+   * ============================================================
+   */
 
-function getErrorMessage(
-  error: unknown,
-) {
-  return error instanceof Error
-    ? error.message
-    : "Erreur inconnue lors de l'enregistrement du domaine.";
-}
+   function getErrorMessage(
+     error: unknown,
+   ) {
+     return error instanceof Error
+       ? error.message
+       : "Erreur inconnue lors de l'enregistrement.";
+   }
+
+   /*
+   * ============================================================
+   * TRAITEMENT EMAIL
+   * ============================================================
+   */
+
+   async function processEmailOrder(
+     session: Stripe.Checkout.Session,
+   ) {
+     if (session.payment_status !== "paid") {
+       throw new Error(
+         "Le paiement Stripe n'est pas confirmé.",
+       );
+     }
+
+     if (
+       session.metadata?.type !==
+       "professional_email"
+     ) {
+       return;
+     }
+
+     const emailAddress = session.metadata.email_address?.trim().toLowerCase();
+     const emailPrefix = session.metadata.email_prefix?.trim().toLowerCase();
+     const domain = session.metadata.domain?.trim().toLowerCase();
+     const plan = session.metadata.plan;
+     const billingPeriod = session.metadata.billing_period || "monthly";
+     const metadataUserId = session.metadata.user_id?.trim();
+     const amount = parseFloat(session.metadata.amount) || 0;
+
+     if (!emailAddress || !domain || !plan) {
+       throw new Error(
+         "Métadonnées email incomplètes.",
+       );
+     }
+
+     /*
+      * RÉCUPÉRATION user_id
+      */
+     let userId: string | null = null;
+
+     if (metadataUserId) {
+       userId = metadataUserId;
+     } else {
+       const customerEmail = session.customer_details?.email?.trim().toLowerCase();
+       if (customerEmail) {
+         userId = await findUserIdByEmail(customerEmail);
+       }
+     }
+
+     if (!userId) {
+       throw new Error(
+         "Aucun utilisateur trouvé pour cette commande email.",
+       );
+     }
+
+     /*
+      * VÉRIFICATION DOMAINE APPARTIENT AU CLIENT
+      */
+     const { data: domainRow, error: domainErr } = await supabaseAdmin
+       .from("domains")
+       .select("id, domain, status")
+       .eq("domain", domain)
+       .eq("user_id", userId)
+       .maybeSingle();
+
+     if (domainErr) {
+       throw new Error("Erreur vérification domaine.");
+     }
+
+     if (!domainRow) {
+       throw new Error("Le domaine n'appartient pas à ce compte.");
+     }
+
+     if (domainRow.status !== "active") {
+       throw new Error("Le domaine n'est pas actif.");
+     }
+
+     /*
+      * IDÉMPOTENCE — même Stripe session ne traite qu'une fois
+      */
+     const existingOrder = await getEmailOrderBySession(session.id);
+
+     if (existingOrder) {
+       console.log(
+         "EMAIL ORDER ALREADY EXIST:",
+         session.id,
+       );
+       return;
+     }
+
+     /*
+      * VÉRIFICATION ADRESSE DÉJÀ EXISTANTE
+      */
+     const { data: existingEmail } = await supabaseAdmin
+       .from("emails")
+       .select("id")
+       .eq("email_address", emailAddress)
+       .maybeSingle();
+
+     if (existingEmail) {
+       throw new Error(
+         "Cette adresse email existe déjà.",
+       );
+     }
+
+     /*
+      * ENREGISTREMENT COMMANDE (statut pending)
+      */
+     const { error: insertErr } = await supabaseAdmin
+       .from("emails")
+       .insert({
+         user_id: userId,
+         domain,
+         email_prefix: emailPrefix,
+         email_address: emailAddress,
+         plan,
+         billing_period: billingPeriod,
+         amount,
+         currency: "EUR",
+         stripe_session_id: session.id,
+         status: "pending",
+       });
+
+     if (insertErr) {
+       throw new Error(
+         `Erreur Supabase : ${insertErr.message}`,
+       );
+     }
+
+     console.log(
+       "EMAIL ORDER SAVED PENDING:",
+       {
+         emailAddress,
+         userId,
+         sessionId: session.id,
+       },
+     );
+   }
+
+   async function getEmailOrderBySession(
+     stripeSessionId: string,
+   ) {
+     const { data, error } = await supabaseAdmin
+       .from("emails")
+       .select("id, status")
+       .eq("stripe_session_id", stripeSessionId)
+       .maybeSingle();
+
+     if (error) {
+       throw new Error(
+         `Erreur Supabase : ${error.message}`,
+       );
+     }
+
+     return data;
+   }
+
+   async function saveEmailOrder({
+     domain,
+     email,
+     userId,
+     status,
+     stripeSessionId,
+   }: {
+     domain: string;
+     email: string;
+     userId: string;
+     status: string;
+     stripeSessionId: string;
+   }) {
+     const existing = await getEmailOrderBySession(
+       stripeSessionId,
+     );
+
+     const values = {
+       user_id: userId,
+       domain,
+       email_address: email,
+       status,
+       stripe_session_id: stripeSessionId,
+     };
+
+     if (existing) {
+       await supabaseAdmin
+         .from("emails")
+         .update(values)
+         .eq("stripe_session_id", stripeSessionId);
+     } else {
+       await supabaseAdmin
+         .from("emails")
+         .insert(values);
+     }
+   }

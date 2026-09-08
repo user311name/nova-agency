@@ -1282,3 +1282,96 @@
     gap: 35px;
   }
 }
+
+/* =========================================================
+   EMAILS ENREGISTRÉS
+   ========================================================= */
+
+.emails-registered {
+  padding: 60px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.emails-registered h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #fff;
+}
+
+.emails-registered-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 800px;
+}
+
+.emails-registered-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  transition: background 0.2s ease;
+}
+
+.emails-registered-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.emails-registered-address {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+}
+
+.emails-registered-address strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.emails-registered-address span {
+  color: #9a9aa5;
+}
+
+.emails-registered-details {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  font-size: 14px;
+  color: #9a9aa5;
+}
+
+.emails-registered-details div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.emails-registered-details strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.emails-registered-details span {
+  color: #9a9aa5;
+}
+
+.emails-registered-details div:last-child {
+  color: #f5a623;
+}
+
+@media (max-width: 720px) {
+  .emails-registered-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .emails-registered-details {
+    gap: 16px;
+  }
+}

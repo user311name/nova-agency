@@ -9,7 +9,7 @@ const plans = {
   essential: {
     id: "essential",
     name: "Essentiel",
-    price: "14,90 €",
+    price: "9,90 €",
     mailboxes: 1,
     storage: 15,
     description: "Une adresse professionnelle pour démarrer.",
@@ -17,7 +17,7 @@ const plans = {
   business: {
     id: "business",
     name: "Business",
-    price: "39,90 €",
+    price: "14,90 €",
     mailboxes: 3,
     storage: 45,
     description:
@@ -26,7 +26,7 @@ const plans = {
   team: {
     id: "team",
     name: "Équipe",
-    price: "59,90 €",
+    price: "129 € / an",
     mailboxes: 5,
     storage: 75,
     description:

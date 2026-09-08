@@ -16,29 +16,48 @@ function getStripe() {
   return new Stripe(secretKey);
 }
 
+const NOVA_PRICES: Record<string, number> = {
+  fr: 19.9,
+  com: 24.9,
+  io: 49.9,
+};
+
+function getNovaPrice(domain: string, resellerPrice: number) {
+  const ext = domain.split(".").pop();
+  const extension: string = ext ?? "";
+  return NOVA_PRICES[extension] ?? resellerPrice + 8;
+}
+
 export async function POST(request: NextRequest) {
   try {
     /*
      * ========================================================
-     * AUTHENTIFICATION
+     * AUTHENTIFICATION (OPTIONNELLE)
+     * L'achat peut se faire sans compte.
+     * Si l'utilisateur est connecté, on attache la commande à son compte.
+     * Sinon, on crée un session anonyme.
      * ========================================================
      */
 
     const supabase = await createSupabaseServerClient();
 
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
+    let user: { id: string; email?: string | null } | null = null;
 
-    if (authError || !user) {
-      return NextResponse.json(
-        {
-          error: "Vous devez être connecté pour acheter un domaine.",
-          code: "AUTH_REQUIRED",
-        },
-        { status: 401 },
-      );
+    try {
+      const {
+        data: { user: supabaseUser },
+        error: authError,
+      } = await supabase.auth.getUser();
+
+      if (!authError && supabaseUser) {
+        user = {
+          id: supabaseUser.id,
+          email: supabaseUser.email || null,
+        };
+      }
+    } catch {
+      // Utilisateur non connecté — on continue
+      user = null;
     }
 
     /*
@@ -95,7 +114,7 @@ export async function POST(request: NextRequest) {
      */
 
     const novaPrice = Number(
-      (result.resellerPrice + 5).toFixed(2),
+      getNovaPrice(domain, result.resellerPrice).toFixed(2),
     );
 
     const amount = Math.round(novaPrice * 100);
@@ -151,25 +170,26 @@ export async function POST(request: NextRequest) {
 
         /*
          * ====================================================
-         * IMPORTANT
-         * L'utilisateur Supabase est maintenant attaché
-         * à la session Stripe.
+         * METADATA
+         * Si l'utilisateur est connecté, on attache son ID.
+         * Sinon, on laisse user_id vide (achat anonyme).
          * ====================================================
          */
 
         metadata: {
           product: "domain_registration",
           domain,
-          user_id: user.id,
+          ...(user ? { user_id: user.id } : {}),
         },
 
         /*
-         * L'email du compte est également conservé
-         * comme référence secondaire.
+         * L'email du compte est conservé comme référence secondaire.
+         * Si l'utilisateur n'est pas connecté, on utilise l'email
+         * saisi plus tard dans le formulaire Stripe.
          */
 
         customer_email:
-          user.email || undefined,
+          user?.email || undefined,
 
         success_url:
           `${site}/domaines/succes?session_id={CHECKOUT_SESSION_ID}`,

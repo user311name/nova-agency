@@ -289,7 +289,7 @@ function SuccessHeader() {
         </nav>
 
         <Link
-          href="/espace-client"
+          href="/connexion?redirect=/espace-client"
           className="successClientButton"
         >
           Espace client
@@ -395,7 +395,7 @@ export default async function DomainSuccessPage({
 
   /* =======================================================
      NO SESSION
-  ======================================================= */
+   ======================================================= */
 
   if (!sessionId) {
     return (
@@ -795,7 +795,7 @@ export default async function DomainSuccessPage({
 
           <div className="actionsGrid">
             <Link
-              href="/espace-client"
+              href="/connexion?redirect=/espace-client"
               className="actionCard"
             >
               <div className="actionIcon">
@@ -819,7 +819,7 @@ export default async function DomainSuccessPage({
             </Link>
 
             <Link
-              href="/espace-client"
+              href="/connexion?redirect=/espace-client"
               className="actionCard"
             >
               <div className="actionIcon">
@@ -843,7 +843,7 @@ export default async function DomainSuccessPage({
             </Link>
 
             <Link
-              href="/espace-client"
+              href="/connexion?redirect=/espace-client"
               className="actionCard"
             >
               <div className="actionIcon">
@@ -867,7 +867,7 @@ export default async function DomainSuccessPage({
             </Link>
 
             <Link
-              href="/espace-client"
+              href="/connexion?redirect=/espace-client"
               className="actionCard"
             >
               <div className="actionIcon">
@@ -919,7 +919,7 @@ export default async function DomainSuccessPage({
               </p>
 
               <Link
-                href="/espace-client"
+                href="/connexion?redirect=/espace-client"
                 className="lightButton"
               >
                 Ouvrir mon espace client
@@ -1011,7 +1011,7 @@ export default async function DomainSuccessPage({
             </Link>
 
             <Link
-              href="/espace-client"
+              href="/connexion?redirect=/espace-client"
               className="clientButton"
             >
               Accéder à mon espace client

@@ -154,7 +154,7 @@ export default function Home() {
             <div className="hero-actions">
               <ArrowLink href="/devis">Démarrer un projet</ArrowLink>
 
-              <ArrowLink href="/espace-client/domaines">
+              <ArrowLink href="/domaines">
                 Acheter un domaine
               </ArrowLink>
 

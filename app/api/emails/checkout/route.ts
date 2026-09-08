@@ -21,12 +21,13 @@ type CheckoutBody = {
   plan?: string;
   domain?: string;
   emailPrefix?: string;
+  billingPeriod?: string;
 };
 
 const PRICE_PER_PLAN: Record<string, number> = {
-  essential: 14.9,
-  business: 39.9,
-  team: 59.9,
+  essential: 9.9,
+  business: 14.9,
+  team: 129.0,
 };
 
 const PLAN_NAMES: Record<string, string> = {
@@ -38,7 +39,7 @@ const PLAN_NAMES: Record<string, string> = {
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as CheckoutBody;
-    const { plan, domain, emailPrefix } = body;
+    const { plan, domain, emailPrefix, billingPeriod = "monthly" } = body;
 
     if (!plan || !domain || !emailPrefix) {
       return NextResponse.json(
@@ -69,6 +70,60 @@ export async function POST(request: Request) {
       );
     }
 
+    // Vérifier la propriété du domaine
+    const { data: domainData, error: domainError } = await supabaseAdmin
+      .from("domains")
+      .select("id, domain, status, user_id")
+      .eq("domain", domain)
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (domainError) {
+      console.error("DOMAIN CHECK ERROR:", domainError);
+      return NextResponse.json(
+        { error: "Impossible de vérifier le domaine." },
+        { status: 500 },
+      );
+    }
+
+    if (!domainData) {
+      return NextResponse.json(
+        { error: "Ce domaine n'appartient pas à votre compte NOVA." },
+        { status: 403 },
+      );
+    }
+
+    if (domainData.status !== "active") {
+      return NextResponse.json(
+        { error: "Ce domaine n'est pas encore actif." },
+        { status: 400 },
+      );
+    }
+
+    // Vérifier la disponibilité de l'adresse email
+    const emailAddress = `${emailPrefix}@${domain}`;
+    const { data: existingEmail, error: emailCheckError } = await supabaseAdmin
+      .from("emails")
+      .select("id")
+      .eq("email_address", emailAddress)
+      .maybeSingle();
+
+    if (emailCheckError) {
+      console.error("EMAIL CHECK ERROR:", emailCheckError);
+      return NextResponse.json(
+        { error: "Impossible de vérifier la disponibilité de l'email." },
+        { status: 500 },
+      );
+    }
+
+    if (existingEmail) {
+      return NextResponse.json(
+        { error: "Cette adresse email existe déjà." },
+        { status: 409 },
+      );
+    }
+
+    // Créer la commande
     const { data: order, error: insertError } = await supabaseAdmin
       .from("orders")
       .insert({
@@ -77,6 +132,8 @@ export async function POST(request: Request) {
         plan,
         domain,
         email_prefix: emailPrefix,
+        email_address: emailAddress,
+        billing_period: billingPeriod,
         amount: price,
         currency: "EUR",
         status: "pending",
@@ -113,10 +170,14 @@ export async function POST(request: Request) {
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/espace-client/emails/acheter`,
       metadata: {
         order_id: order.id,
-        type: "email",
-        plan,
+        type: "professional_email",
+        user_id: user.id,
         domain,
         email_prefix: emailPrefix,
+        email_address: emailAddress,
+        plan,
+        billing_period: billingPeriod,
+        amount: price,
       },
     });
 

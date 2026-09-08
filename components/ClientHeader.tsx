@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import "./ClientHeader.css";
 
 const clientLinks = [
@@ -46,6 +47,23 @@ function isActive(pathname: string, href: string) {
 
 export default function ClientHeader() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
     <header className="nova-client-header">
@@ -63,27 +81,27 @@ export default function ClientHeader() {
           className="nova-client-nav"
           aria-label="Navigation de l'espace client"
         >
-            {clientLinks.map((link) => {
-                const active = isActive(
-                  pathname,
-                  link.href
-                );
+          {clientLinks.map((link) => {
+            const active = isActive(
+              pathname,
+              link.href
+            );
 
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={
-                      active
-                        ? "nova-client-nav-link active"
-                        : "nova-client-nav-link"
-                    }
-                  >
-                    <span className="nav-link-icon">{link.icon}</span>
-                    <span className="nav-link-label">{link.label}</span>
-                  </Link>
-                );
-              })}
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={
+                  active
+                    ? "nova-client-nav-link active"
+                    : "nova-client-nav-link"
+                }
+              >
+                <span className="nav-link-icon">{link.icon}</span>
+                <span className="nav-link-label">{link.label}</span>
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="nova-client-actions">
@@ -107,14 +125,86 @@ export default function ClientHeader() {
 
         <button
           type="button"
-          className="nova-client-mobile-button"
-          aria-label="Ouvrir le menu"
-          aria-expanded="false"
+          className={`nova-client-mobile-button ${
+            open ? "is-open" : ""
+          }`}
+          aria-label={
+            open
+              ? "Fermer le menu"
+              : "Ouvrir le menu"
+          }
+          aria-expanded={open}
+          aria-controls="client-mobile-navigation"
+          onClick={() =>
+            setOpen((value) => !value)
+          }
         >
+          <span />
           <span />
           <span />
         </button>
 
+      </div>
+
+      <div
+        id="client-mobile-navigation"
+        className={`client-mobile-menu ${
+          open ? "is-open" : ""
+        }`}
+        aria-hidden={!open}
+      >
+        <div className="client-mobile-glow" />
+
+        <div className="client-mobile-top">
+          <span>NOVA / NAVIGATION</span>
+          <span>MENU</span>
+        </div>
+
+        <nav aria-label="Navigation mobile client">
+          {clientLinks.map((link, index) => {
+            const active = isActive(
+              pathname,
+              link.href
+            );
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={active ? "active" : ""}
+                onClick={() => setOpen(false)}
+              >
+                <span className="client-mobile-number">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <span className="client-mobile-icon">
+                  {link.icon}
+                </span>
+
+                <span className="client-mobile-label">
+                  {link.label}
+                </span>
+
+                <span
+                  className="client-mobile-arrow"
+                  aria-hidden="true"
+                >
+                  →
+                </span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        <Link
+          href="/contact"
+          className="client-mobile-cta"
+          onClick={() => setOpen(false)}
+        >
+          <span>Contacter le support</span>
+          <span aria-hidden="true">↗</span>
+        </Link>
       </div>
     </header>
   );

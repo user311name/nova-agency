@@ -6,6 +6,18 @@ const stripe = new Stripe(
   process.env.STRIPE_SECRET_KEY!,
 );
 
+const NOVA_PRICES: Record<string, number> = {
+  fr: 19.9,
+  com: 24.9,
+  io: 49.9,
+};
+
+function getNovaPrice(domain: string, resellerPrice: number) {
+  const ext = domain.split(".").pop();
+  const extension: string = ext ?? "";
+  return NOVA_PRICES[extension] ?? resellerPrice + 8;
+}
+
 export async function POST(
   request: NextRequest,
 ) {
@@ -49,9 +61,8 @@ export async function POST(
       );
     }
 
-    // Prix Nova = prix fournisseur + 5 €
-    const novaPrice =
-      result.resellerPrice + 5;
+    // Prix Nova selon la grille tarifaire
+    const novaPrice = getNovaPrice(domain, result.resellerPrice);
 
     const amount = Math.round(
       novaPrice * 100,

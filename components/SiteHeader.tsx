@@ -647,9 +647,7 @@ export default function SiteHeader() {
              * =====================================================
              * MENU MOBILE PREMIUM
              *
-             * LE POINT IMPORTANT :
-             * Le menu est un élément fixed GLOBAL.
-             * Il n'est pas limité par le header.
+             * LE MENU EST UN ELEMENT FIXE GLOBAL.
              * =====================================================
              */
 
@@ -916,7 +914,14 @@ export default function SiteHeader() {
               .premium-navbar {
                 min-height: 72px;
 
-                z-index: 100000;
+                z-index: 2147483646;
+
+                overflow: visible;
+                transform: none;
+                filter: none;
+                perspective: none;
+                contain: none;
+                will-change: auto;
               }
 
               .premium-navbar-inner {
@@ -937,31 +942,70 @@ export default function SiteHeader() {
               .premium-menu-toggle {
                 display: block;
 
-                z-index: 100002;
+                z-index: 2147483647;
               }
 
               .premium-language {
                 display: none;
               }
 
+              /*
+               * ===================================================
+               * CORRECTION AFFICHAGE MOBILE
+               * Le menu commence sous le header et prend
+               * toute la hauteur restante de l'écran.
+               * ===================================================
+               */
+
               .premium-mobile-menu {
                 position: fixed !important;
 
-                top: 0 !important;
+                top: 72px !important;
                 right: 0 !important;
                 bottom: 0 !important;
                 left: 0 !important;
 
                 width: 100vw !important;
-                height: 100dvh !important;
+                height:
+                  calc(100dvh - 72px) !important;
 
-                z-index: 99999 !important;
+                min-height:
+                  calc(100dvh - 72px) !important;
+
+                z-index: 2147483640 !important;
 
                 display: flex !important;
+
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
+
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+              }
+
+              .premium-mobile-menu.is-open {
+                opacity: 1 !important;
+                visibility: visible !important;
+                pointer-events: auto !important;
               }
             }
 
             @media (max-width: 480px) {
+              .premium-navbar {
+                min-height: 72px;
+              }
+
+              .premium-mobile-menu {
+                top: 72px !important;
+
+                height:
+                  calc(100dvh - 72px) !important;
+
+                min-height:
+                  calc(100dvh - 72px) !important;
+              }
+
               .premium-logo img {
                 width: 92px;
               }

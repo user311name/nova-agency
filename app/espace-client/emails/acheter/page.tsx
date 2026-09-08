@@ -59,7 +59,7 @@ function ArrowIcon() {
         strokeLinejoin="round"
       />
     </svg>
-);
+  );
 }
 
 export default function EmailPurchasePage() {
@@ -193,14 +193,6 @@ function EmailPurchasePageContent() {
       </div>
 
       <div className="email-purchase-container">
-        <Link
-          href="/emails"
-          className="email-purchase-back"
-        >
-          <span>←</span>
-          Retour aux offres email
-        </Link>
-
         <div className="email-purchase-layout">
           <section className="email-purchase-content">
             <div className="email-purchase-eyebrow">

@@ -66,7 +66,9 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(430px, 0.9fr);
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(430px, 0.9fr);
   gap: 40px;
   align-items: center;
 }
@@ -231,7 +233,7 @@
 
 .emails-mail-card {
   position: absolute;
-  top: 90px;
+  top: 70px;
   right: 45px;
   width: 390px;
   height: 460px;
@@ -265,14 +267,9 @@
   pointer-events: none;
 }
 
-.emails-mail-card-top {
+.emails-mail-icon {
   position: relative;
   z-index: 2;
-  display: flex;
-  justify-content: space-between;
-}
-
-.emails-mail-icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -285,6 +282,10 @@
 }
 
 .emails-mail-secure {
+  position: absolute;
+  z-index: 2;
+  top: 30px;
+  right: 28px;
   color: rgba(255, 255, 255, 0.85);
   font-size: 8px;
   font-weight: 900;
@@ -306,8 +307,9 @@
 .emails-mail-content {
   position: absolute;
   top: 145px;
-  left: 42px;
   right: 42px;
+  left: 42px;
+  z-index: 2;
 }
 
 .emails-mail-label {
@@ -346,6 +348,7 @@
   right: 30px;
   bottom: 27px;
   left: 30px;
+  z-index: 2;
   display: flex;
   justify-content: space-between;
   padding-top: 18px;
@@ -367,7 +370,8 @@
 .emails-floating-card {
   position: absolute;
   right: 0;
-  bottom: 32px;
+  bottom: 20px;
+  z-index: 5;
   width: 235px;
   padding: 21px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -390,6 +394,7 @@
 .emails-floating-card strong {
   display: block;
   font-size: 14px;
+  line-height: 1.3;
 }
 
 .emails-floating-card small {
@@ -397,6 +402,7 @@
   margin-top: 12px;
   color: rgba(255, 255, 255, 0.3);
   font-size: 8px;
+  line-height: 1.5;
 }
 
 /* =========================================================
@@ -453,8 +459,7 @@
 
 .emails-why h2,
 .emails-benefits h2,
-.emails-offers h2,
-.emails-final-inner h2 {
+.emails-offers h2 {
   margin: 0;
   font-size: clamp(42px, 5vw, 70px);
   line-height: 0.94;
@@ -463,8 +468,7 @@
 
 .emails-why h2 span,
 .emails-benefits h2 span,
-.emails-offers h2 span,
-.emails-final-inner h2 span {
+.emails-offers h2 span {
   color: rgba(255, 255, 255, 0.3);
 }
 
@@ -597,50 +601,56 @@
   font-size: clamp(45px, 5vw, 70px);
 }
 
-.emails-plans-grid {
+.emails-offers-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 13px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
   margin-top: 65px;
 }
 
-.emails-plan {
+.emails-offer-card {
   position: relative;
   display: flex;
-  min-height: 540px;
+  min-width: 0;
+  min-height: 600px;
   flex-direction: column;
-  padding: 25px 22px 22px;
+  padding: 28px 24px 24px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 18px;
+  border-radius: 22px;
   background:
     linear-gradient(
       145deg,
       rgba(80, 61, 123, 0.18),
       rgba(255, 255, 255, 0.018)
     );
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.025);
   transition:
     transform 0.25s ease,
     border-color 0.25s ease,
     box-shadow 0.25s ease;
 }
 
-.emails-plan:hover {
-  transform: translateY(-5px);
-  border-color: rgba(167, 134, 255, 0.3);
+.emails-offer-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(167, 134, 255, 0.35);
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.25),
+    0 0 35px rgba(100, 60, 220, 0.08);
 }
 
-.emails-plan-popular {
-  border-color: rgba(137, 94, 255, 0.72);
+.emails-offer-card-featured {
+  border-color: rgba(137, 94, 255, 0.75);
   background:
     radial-gradient(
-      circle at 70% 0%,
-      rgba(113, 71, 218, 0.35),
+      circle at 75% 0%,
+      rgba(113, 71, 218, 0.34),
       transparent 45%
     ),
     linear-gradient(
       145deg,
-      rgba(75, 51, 132, 0.42),
+      rgba(75, 51, 132, 0.44),
       rgba(18, 16, 25, 0.98)
     );
   box-shadow:
@@ -648,19 +658,21 @@
     inset 0 1px rgba(255, 255, 255, 0.06);
 }
 
-.emails-plan-popular::before {
+.emails-offer-card-featured::before {
   content: "";
   position: absolute;
   inset: -1px;
+  z-index: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(
-    135deg,
-    rgba(166, 127, 255, 0.8),
-    transparent 35%,
-    transparent 65%,
-    rgba(118, 73, 255, 0.55)
-  );
+  background:
+    linear-gradient(
+      135deg,
+      rgba(166, 127, 255, 0.8),
+      transparent 35%,
+      transparent 65%,
+      rgba(118, 73, 255, 0.55)
+    );
   mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
@@ -668,15 +680,20 @@
   pointer-events: none;
 }
 
-.emails-popular-badge {
+.emails-offer-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.emails-offer-badge {
   position: absolute;
-  top: 13px;
-  right: 13px;
-  display: flex;
+  top: 17px;
+  right: 17px;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  min-height: 25px;
-  padding: 0 10px;
+  gap: 7px;
+  min-height: 27px;
+  padding: 0 11px;
   border: 1px solid rgba(181, 151, 255, 0.75);
   border-radius: 999px;
   background: linear-gradient(
@@ -685,139 +702,191 @@
     #a078ff
   );
   color: #fff;
-  font-size: 6px;
+  font-size: 7px;
   font-weight: 900;
   letter-spacing: 0.1em;
   box-shadow:
-    0 0 22px rgba(123, 76, 255, 0.58),
-    0 0 50px rgba(123, 76, 255, 0.2);
+    0 0 22px rgba(123, 76, 255, 0.58);
 }
 
-.emails-popular-dot {
-  width: 4px;
-  height: 4px;
+.emails-offer-badge span {
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: #fff;
   box-shadow:
     0 0 8px rgba(255, 255, 255, 0.95);
 }
 
-.emails-plan-top {
+.emails-offer-top {
   display: flex;
   align-items: center;
-  gap: 13px;
+  justify-content: space-between;
+  gap: 15px;
 }
 
-.emails-plan-number {
+.emails-offer-number {
   color: #a786ff;
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 900;
 }
 
-.emails-plan-icon {
+.emails-offer-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 35px;
-  height: 35px;
+  width: 42px;
+  height: 42px;
   border: 1px solid rgba(158, 123, 255, 0.3);
-  border-radius: 9px;
+  border-radius: 11px;
   color: #a786ff;
   background: rgba(255, 255, 255, 0.025);
 }
 
-.emails-plan-title span {
+.emails-offer-header {
+  margin-top: 28px;
+}
+
+.emails-offer-label {
   display: block;
-  margin-bottom: 3px;
-  color: rgba(255, 255, 255, 0.25);
-  font-size: 6px;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-}
-
-.emails-plan-title h3 {
-  margin: 0;
-  font-size: 15px;
-  letter-spacing: -0.025em;
-}
-
-.emails-plan-description {
-  min-height: 44px;
-  margin: 27px 0 0;
-  color: rgba(255, 255, 255, 0.32);
-  font-size: 8px;
-  line-height: 1.55;
-}
-
-.emails-plan-price {
-  display: flex;
-  align-items: baseline;
-  gap: 5px;
-  margin-top: 33px;
-}
-
-.emails-plan-price strong {
-  font-size: 31px;
-  letter-spacing: -0.06em;
-}
-
-.emails-plan-price span {
+  margin-bottom: 7px;
   color: rgba(255, 255, 255, 0.25);
   font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
 }
 
-.emails-plan-divider {
+.emails-offer-header h3 {
+  margin: 0;
+  font-size: 29px;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.emails-offer-description {
+  min-height: 52px;
+  margin: 18px 0 0;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.emails-offer-price {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-top: 28px;
+}
+
+.emails-offer-price strong {
+  font-size: 38px;
+  line-height: 1;
+  letter-spacing: -0.065em;
+}
+
+.emails-offer-price span {
+  color: rgba(255, 255, 255, 0.32);
+  font-size: 10px;
+}
+
+.emails-offer-divider {
   height: 1px;
-  margin: 20px 0;
+  margin: 24px 0;
   background: rgba(255, 255, 255, 0.09);
 }
 
-.emails-plan-features {
+.emails-offer-details {
   display: grid;
-  gap: 13px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
-.emails-plan-features li {
+.emails-offer-details > div {
+  padding: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.emails-offer-details span {
+  display: block;
+  margin-bottom: 7px;
+  color: rgba(255, 255, 255, 0.23);
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 0.11em;
+}
+
+.emails-offer-details strong {
+  display: block;
+  color: #fff;
+  font-size: 10px;
+}
+
+.emails-offer-features {
+  display: grid;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.emails-offer-feature {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: rgba(255, 255, 255, 0.43);
-  font-size: 8px;
+  gap: 9px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 10px;
+  line-height: 1.4;
 }
 
-.emails-plan-features svg {
-  flex: 0 0 auto;
+.emails-feature-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(167, 134, 255, 0.22);
+  border-radius: 50%;
   color: #a786ff;
+  background: rgba(167, 134, 255, 0.06);
 }
 
-.emails-plan-button {
+.emails-feature-check svg {
+  width: 12px;
+  height: 12px;
+}
+
+.emails-offer-actions {
+  margin-top: auto;
+  padding-top: 28px;
+}
+
+.emails-offer-button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 47px;
-  margin-top: auto;
-  padding: 0 15px;
+  min-height: 54px;
+  padding: 0 17px;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
   color: #fff;
   text-decoration: none;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 800;
   transition:
     background 0.2s ease,
     border-color 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.emails-plan-button:hover {
-  border-color: rgba(167, 134, 255, 0.5);
-  background: rgba(255, 255, 255, 0.04);
+.emails-offer-button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(167, 134, 255, 0.55);
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.emails-plan-button-primary {
+.emails-offer-button-primary {
   border-color: transparent;
   background: linear-gradient(
     100deg,
@@ -825,28 +894,30 @@
     #9b75ff
   );
   box-shadow:
-    0 8px 25px rgba(104, 59, 255, 0.28);
+    0 10px 30px rgba(104, 59, 255, 0.28);
 }
 
-.emails-plan-button-primary:hover {
+.emails-offer-button-primary:hover {
   border-color: transparent;
   background: linear-gradient(
     100deg,
     #7d51ff,
     #a27fff
   );
-  transform: translateY(-2px);
   box-shadow:
-    0 13px 35px rgba(104, 59, 255, 0.42);
+    0 15px 38px rgba(104, 59, 255, 0.42);
 }
 
 .emails-offers-reassurance {
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 6px;
-  margin-top: 20px;
-  color: rgba(255, 255, 255, 0.2);
-  font-size: 8px;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 24px;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 9px;
+  text-align: center;
 }
 
 .emails-offers-reassurance span {
@@ -854,83 +925,170 @@
 }
 
 /* =========================================================
-   FINAL CTA
+   REGISTERED EMAILS
    ========================================================= */
 
-.emails-final-cta {
-  padding: 0 0 130px;
-}
-
-.emails-final-inner {
-  position: relative;
-  padding: 90px 60px;
-  overflow: hidden;
-  border: 1px solid rgba(157, 121, 255, 0.18);
-  border-radius: 24px;
+.emails-registered {
+  padding: 55px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background:
     radial-gradient(
-      circle at 70% 0%,
-      rgba(100, 60, 200, 0.25),
-      transparent 45%
-    ),
-    linear-gradient(
-      140deg,
-      rgba(45, 32, 75, 0.5),
-      rgba(15, 13, 20, 0.95)
+      circle at 20% 0%,
+      rgba(100, 60, 200, 0.08),
+      transparent 30%
     );
 }
 
-.emails-final-glow {
-  position: absolute;
-  right: 8%;
-  bottom: -150px;
-  width: 350px;
-  height: 350px;
-  border-radius: 50%;
-  background: rgba(106, 63, 221, 0.12);
-  filter: blur(70px);
+.emails-registered-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 28px;
 }
 
-.emails-final-inner h2 {
-  position: relative;
-  z-index: 2;
-  margin-top: 25px;
-  font-size: clamp(45px, 5vw, 72px);
+.emails-registered-heading h2 {
+  margin: 12px 0 0;
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -0.05em;
 }
 
-.emails-final-inner > p {
-  position: relative;
-  z-index: 2;
-  max-width: 500px;
-  margin: 25px 0 30px;
-  color: rgba(255, 255, 255, 0.38);
-  font-size: 12px;
-  line-height: 1.7;
+.emails-registered-count {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 10px;
+  font-weight: 800;
 }
 
-.emails-final-button {
-  position: relative;
-  z-index: 2;
+.emails-registered-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.emails-registered-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 20px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.035);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.emails-registered-item:hover {
+  border-color: rgba(167, 134, 255, 0.25);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.emails-registered-main {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.emails-registered-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 43px;
+  height: 43px;
+  border: 1px solid rgba(167, 134, 255, 0.2);
+  border-radius: 11px;
+  color: #a786ff;
+  background: rgba(167, 134, 255, 0.05);
+}
+
+.emails-registered-address {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.emails-registered-address strong {
+  color: #fff;
+  font-size: 15px;
+}
+
+.emails-registered-address span {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 14px;
+}
+
+.emails-registered-details {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.emails-registered-detail {
+  display: grid;
+  gap: 5px;
+}
+
+.emails-registered-detail > span {
+  color: rgba(255, 255, 255, 0.22);
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.emails-registered-detail strong {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 10px;
+}
+
+.emails-status {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  min-height: 50px;
-  padding: 0 20px;
+  gap: 7px;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 999px;
-  background: #fff;
-  color: #08080a;
-  text-decoration: none;
-  font-size: 10px;
-  font-weight: 900;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  font-size: 8px;
+  font-weight: 800;
 }
 
-.emails-final-button:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 12px 30px rgba(255, 255, 255, 0.12);
+.emails-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.emails-status.is-active {
+  color: #b8f7d0;
+  border-color: rgba(80, 220, 135, 0.2);
+  background: rgba(80, 220, 135, 0.06);
+}
+
+.emails-status.is-active .emails-status-dot {
+  background: #65e89a;
+  box-shadow: 0 0 10px rgba(101, 232, 154, 0.8);
+}
+
+.emails-status.is-pending {
+  color: #d2c2ff;
+  border-color: rgba(167, 134, 255, 0.2);
+  background: rgba(167, 134, 255, 0.06);
+}
+
+.emails-status.is-pending .emails-status-dot {
+  background: #a786ff;
+  box-shadow: 0 0 10px rgba(167, 134, 255, 0.8);
+}
+
+.emails-status.is-failed {
+  color: #ffb3b3;
+  border-color: rgba(255, 90, 90, 0.2);
+  background: rgba(255, 90, 90, 0.06);
+}
+
+.emails-status.is-failed .emails-status-dot {
+  background: #ff6666;
 }
 
 /* =========================================================
@@ -951,7 +1109,6 @@
 
 .emails-footer-logo {
   color: #fff;
-  text-decoration: none;
   font-size: 24px;
   font-weight: 900;
   letter-spacing: -0.06em;
@@ -991,6 +1148,7 @@
   color: rgba(255, 255, 255, 0.43);
   text-decoration: none;
   font-size: 9px;
+  transition: color 0.2s ease;
 }
 
 .emails-footer-links a:hover {
@@ -1015,6 +1173,41 @@
 .emails-footer-bottom a {
   color: inherit;
   text-decoration: none;
+}
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.emails-loading {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(167, 134, 255, 0.2);
+  border-radius: 50%;
+  background: rgba(5, 5, 7, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.emails-loading span {
+  width: 9px;
+  height: 9px;
+  border: 1px solid rgba(167, 134, 255, 0.3);
+  border-top-color: #a786ff;
+  border-radius: 50%;
+  animation: emails-loading-spin 0.8s linear infinite;
+}
+
+@keyframes emails-loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* =========================================================
@@ -1043,12 +1236,15 @@
     gap: 25px;
   }
 
-  .emails-plans-grid {
+  .emails-offers-grid {
     grid-template-columns: 1fr;
+    max-width: 650px;
+    margin-right: auto;
+    margin-left: auto;
   }
 
-  .emails-plan {
-    min-height: 500px;
+  .emails-offer-card {
+    min-height: 0;
   }
 }
 
@@ -1107,8 +1303,8 @@
 
   .emails-mail-content {
     top: 105px;
-    left: 25px;
     right: 25px;
+    left: 25px;
   }
 
   .emails-mail-content strong {
@@ -1147,8 +1343,7 @@
 
   .emails-why h2,
   .emails-benefits h2,
-  .emails-offers h2,
-  .emails-final-inner h2 {
+  .emails-offers h2 {
     font-size: 43px;
   }
 
@@ -1173,34 +1368,48 @@
     padding: 50px 0 100px;
   }
 
-  .emails-plans-grid {
+  .emails-offers-grid {
     gap: 14px;
     margin-top: 40px;
   }
 
-  .emails-plan {
-    min-height: auto;
+  .emails-offer-card {
     padding: 25px 20px 20px;
   }
 
-  .emails-plan-description {
+  .emails-offer-description {
     min-height: auto;
   }
 
-  .emails-plan-price {
-    margin-top: 28px;
+  .emails-offer-price {
+    margin-top: 25px;
   }
 
-  .emails-plan-features {
-    margin-bottom: 35px;
+  .emails-registered {
+    padding: 40px 0;
   }
 
-  .emails-final-cta {
-    padding-bottom: 90px;
+  .emails-registered-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
   }
 
-  .emails-final-inner {
-    padding: 55px 25px;
+  .emails-registered-item {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .emails-registered-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .emails-status {
+    justify-self: start;
   }
 
   .emails-footer-top {
@@ -1265,113 +1474,23 @@
 
   .emails-why h2,
   .emails-benefits h2,
-  .emails-offers h2,
-  .emails-final-inner h2 {
+  .emails-offers h2 {
     font-size: 37px;
   }
 
-  .emails-plan-price strong {
-    font-size: 29px;
+  .emails-offer-price strong {
+    font-size: 31px;
   }
 
-  .emails-final-inner {
-    padding: 45px 20px;
+  .emails-offer-details {
+    grid-template-columns: 1fr;
+  }
+
+  .emails-registered-details {
+    grid-template-columns: 1fr;
   }
 
   .emails-footer-links {
     gap: 35px;
-  }
-}
-
-/* =========================================================
-   EMAILS ENREGISTRÉS
-   ========================================================= */
-
-.emails-registered {
-  padding: 60px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.emails-registered h2 {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 30px;
-  color: #fff;
-}
-
-.emails-registered-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 800px;
-}
-
-.emails-registered-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  transition: background 0.2s ease;
-}
-
-.emails-registered-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.emails-registered-address {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 16px;
-}
-
-.emails-registered-address strong {
-  color: #fff;
-  font-weight: 600;
-}
-
-.emails-registered-address span {
-  color: #9a9aa5;
-}
-
-.emails-registered-details {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  font-size: 14px;
-  color: #9a9aa5;
-}
-
-.emails-registered-details div {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.emails-registered-details strong {
-  color: #fff;
-  font-weight: 600;
-}
-
-.emails-registered-details span {
-  color: #9a9aa5;
-}
-
-.emails-registered-details div:last-child {
-  color: #f5a623;
-}
-
-@media (max-width: 720px) {
-  .emails-registered-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .emails-registered-details {
-    gap: 16px;
   }
 }

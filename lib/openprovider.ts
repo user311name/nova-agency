@@ -926,11 +926,11 @@ export async function deleteDnsRecord(
         }
       : record.priority !==
             undefined
-        ? {
-            prio:
-              record.priority,
-          }
-        : {}),
+          ? {
+              prio:
+                record.priority,
+            }
+          : {}),
   };
 
   return api<any>(
@@ -955,4 +955,107 @@ export async function deleteDnsRecord(
       }),
     },
   );
+}
+
+/* =========================================================
+   EMAIL SOLUTION OPENPROVIDER
+   ========================================================= */
+
+export type EmailAccount = {
+  id: number;
+  username: string;
+  email: string;
+  domain: string;
+  plan: string;
+  status: string;
+  mailbox_size?: number;
+  created_at?: string;
+};
+
+export type EmailAccountResult = {
+  id: number;
+  username: string;
+  email: string;
+  domain: string;
+  plan: string;
+  status: string;
+};
+
+export async function createEmailAccount({
+  email,
+  plan,
+  mailboxSize = 15,
+}: {
+  email: string;
+  plan: string;
+  mailboxSize?: number;
+}): Promise<EmailAccountResult> {
+  const { name, extension } = splitDomain(email);
+  const [localPart] = email.split("@");
+
+  const result = await api<EmailAccountResult>(
+    "/email/accounts",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        username: localPart,
+        domain: `${name}.${extension}`,
+        plan,
+        mailbox_size: mailboxSize,
+      }),
+    },
+  );
+
+  return {
+    id: result.id,
+    username: result.username,
+    email: result.email,
+    domain: result.domain,
+    plan: result.plan,
+    status: result.status,
+  };
+}
+
+export async function getEmailStatus(
+  email: string,
+): Promise<string> {
+  const result = await api<EmailAccount>(
+    `/email/accounts?email=${encodeURIComponent(email)}`,
+    {
+      method: "GET",
+    },
+  );
+
+  return result.status || "pending";
+}
+
+export async function ensureEmailDomain({
+  domain,
+}: {
+  domain: string;
+}): Promise<{ id: number; name: string; extension: string }> {
+  const { name, extension } = splitDomain(domain);
+
+  const result = await api<{
+    id: number;
+    name: string;
+    extension: string;
+  }>(
+    "/email/domains",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        domain: {
+          name,
+          extension,
+        },
+      }),
+    },
+  );
+
+  return {
+    id: result.id,
+    name: result.name,
+    extension: result.extension,
+  };
 }

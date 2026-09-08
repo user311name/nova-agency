@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS emails (
 CREATE INDEX IF NOT EXISTS emails_user_id_idx ON emails(user_id);
 CREATE INDEX IF NOT EXISTS emails_domain_idx ON emails(domain);
 CREATE UNIQUE INDEX IF NOT EXISTS emails_stripe_session_id_key ON emails(stripe_session_id) WHERE stripe_session_id IS NOT NULL;
+CREATE UNIQUE INDEX IF NOT EXISTS emails_email_address_key ON emails(email_address);
 CREATE INDEX IF NOT EXISTS emails_status_idx ON emails(status);
 
 ALTER TABLE emails ENABLE ROW LEVEL SECURITY;

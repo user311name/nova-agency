@@ -4,6 +4,8 @@ import Stripe from "stripe";
 import {
   checkDomain,
   createCustomer,
+  createEmailAccount,
+  ensureEmailDomain,
   findDomainByName,
   registerDomain,
 } from "@/lib/openprovider";
@@ -921,38 +923,75 @@ function extractExpirationDate(
        );
      }
 
-     /*
-      * ENREGISTREMENT COMMANDE (statut pending)
-      */
-     const { error: insertErr } = await supabaseAdmin
-       .from("emails")
-       .insert({
-         user_id: userId,
-         domain,
-         email_prefix: emailPrefix,
-         email_address: emailAddress,
-         plan,
-         billing_period: billingPeriod,
-         amount,
-         currency: "EUR",
-         stripe_session_id: session.id,
-         status: "pending",
-       });
+/*
+       * ENREGISTREMENT COMMANDE AVEC PROVISIONNING OPENPROVIDER
+       */
+      try {
+        /*
+         * 1. Assurer que le domaine existe dans le service email
+         */
+        await ensureEmailDomain({
+          domain,
+        });
 
-     if (insertErr) {
-       throw new Error(
-         `Erreur Supabase : ${insertErr.message}`,
-       );
-     }
+        /*
+         * 2. Créer la boîte email
+         */
+        const emailAccount = await createEmailAccount({
+          email: emailAddress,
+          plan,
+          mailboxSize:
+            plan === "essential" ? 15 :
+            plan === "business" ? 45 :
+            plan === "team" ? 75 : 15,
+        });
 
-     console.log(
-       "EMAIL ORDER SAVED PENDING:",
-       {
-         emailAddress,
-         userId,
-         sessionId: session.id,
-       },
-     );
+        /*
+         * 3. Mettre à jour la commande avec provider_id et statut active
+         */
+        await saveEmailOrder({
+          domain,
+          email: emailAddress,
+          userId,
+          status: "active",
+          stripeSessionId: session.id,
+        });
+
+        console.log(
+          "EMAIL ACCOUNT CREATED:",
+          {
+            email: emailAddress,
+            userId,
+            providerId: emailAccount.id,
+            sessionId: session.id,
+          },
+        );
+      } catch (error) {
+        /*
+         * Si l'API email échoue, on conserve la commande en pending
+         * pour qu'un support technique puisse la traiter plus tard.
+         */
+        await saveEmailOrder({
+          domain,
+          email: emailAddress,
+          userId,
+          status: "pending",
+          stripeSessionId: session.id,
+        });
+
+        console.error(
+          "EMAIL ACCOUNT CREATION ERROR:",
+          {
+            email: emailAddress,
+            error:
+              error instanceof Error
+                ? error.message
+                : String(error),
+          },
+        );
+
+        throw error;
+      }
    }
 
    async function getEmailOrderBySession(

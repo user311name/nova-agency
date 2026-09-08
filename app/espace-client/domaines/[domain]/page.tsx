@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import "./page.css";
@@ -148,6 +148,7 @@ function ShieldIcon() {
 
 export default function DomainDetailsPage() {
   const params = useParams();
+  const pathname = usePathname();
 
   const domainParam = Array.isArray(params?.domain)
     ? params.domain[0]
@@ -336,43 +337,97 @@ export default function DomainDetailsPage() {
       <div className="domain-details-shell">
         <header className="domain-details-header">
           <div className="domain-details-header-inner">
-            <Link href="/espace-client/domaines" className="domain-details-link">
-              <a>←</a>
-              Mes domaines
+            <Link href="/espace-client/domaines" className="domain-details-logo">
+              NOV<span>A</span>
             </Link>
 
-            <Link href="/espace-client" className="domain-details-return-nova">
-              Retour NOVA
-            </Link>
+            <nav className="domain-details-navigation" aria-label="Navigation espace client">
+              {(() => {
+                const currentPath = usePathname();
+                return (
+                  <>
+                    <Link href="/espace-client/domaines" className={currentPath === "/espace-client/domaines" || currentPath?.startsWith("/espace-client/domaines/") ? "active" : ""}>
+                      Domaines
+                    </Link>
+                    <Link href="/espace-client/services" className={currentPath === "/espace-client/services" || currentPath?.startsWith("/espace-client/services/") ? "active" : ""}>
+                      Hébergement
+                    </Link>
+                    <Link href="/espace-client/emails" className={currentPath === "/espace-client/emails" || currentPath?.startsWith("/espace-client/emails/") ? "active" : ""}>
+                      Emails
+                    </Link>
+                    <Link href="/espace-client/securite" className={currentPath === "/espace-client/securite" || currentPath?.startsWith("/espace-client/securite/") ? "active" : ""}>
+                      Sécurité
+                    </Link>
+                  </>
+                );
+              })()}
+            </nav>
 
-            <button
-              className={`domain-details-mobile-toggle ${mobileMenuOpen ? "is-open" : ""}`}
-              onClick={() => setMobileMenuOpen((o) => !o)}
-              aria-label="Menu"
-            >
-              <span />
-              <span />
-              <span />
-            </button>
+            <div className="domain-details-header-actions">
+              <Link href="/contact" className="domain-details-support">
+                Support
+              </Link>
+              <Link href="/espace-client/parametres" className="domain-details-account">
+                NC
+              </Link>
+              <Link href="/espace-client" className="domain-details-return-nova">
+                Retour NOVA
+              </Link>
+              <button
+                className={`domain-details-mobile-toggle ${mobileMenuOpen ? "is-open" : ""}`}
+                onClick={() => setMobileMenuOpen((o) => !o)}
+                aria-label={mobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+                aria-expanded={mobileMenuOpen}
+                aria-controls="domain-details-mobile-navigation"
+              >
+                <span />
+                <span />
+                <span />
+              </button>
+            </div>
           </div>
         </header>
 
-        <div className={`domain-details-mobile-menu ${mobileMenuOpen ? "is-open" : ""}`}>
+        <div
+          id="domain-details-mobile-navigation"
+          className={`domain-details-mobile-menu ${mobileMenuOpen ? "is-open" : ""}`}
+          aria-hidden={!mobileMenuOpen}
+        >
+          <div className="domain-details-mobile-glow" />
+          <div className="domain-details-mobile-top">
+            <span>NOVA / NAVIGATION</span>
+            <span>MENU</span>
+          </div>
           <nav>
             <Link href="/espace-client/domaines" onClick={() => setMobileMenuOpen(false)}>
-              Domaines
+              <span className="domain-details-mobile-number">01</span>
+              <span className="domain-details-mobile-label">Domaines</span>
+              <span className="domain-details-mobile-arrow" aria-hidden="true">→</span>
             </Link>
             <Link href="/espace-client/services" onClick={() => setMobileMenuOpen(false)}>
-              Hébergement
+              <span className="domain-details-mobile-number">02</span>
+              <span className="domain-details-mobile-label">Hébergement</span>
+              <span className="domain-details-mobile-arrow" aria-hidden="true">→</span>
             </Link>
             <Link href="/espace-client/emails" onClick={() => setMobileMenuOpen(false)}>
-              Emails
+              <span className="domain-details-mobile-number">03</span>
+              <span className="domain-details-mobile-label">Emails</span>
+              <span className="domain-details-mobile-arrow" aria-hidden="true">→</span>
             </Link>
             <Link href="/espace-client/securite" onClick={() => setMobileMenuOpen(false)}>
-              Sécurité
+              <span className="domain-details-mobile-number">04</span>
+              <span className="domain-details-mobile-label">Sécurité</span>
+              <span className="domain-details-mobile-arrow" aria-hidden="true">→</span>
+            </Link>
+            <Link href="/espace-client/parametres" onClick={() => setMobileMenuOpen(false)}>
+              <span className="domain-details-mobile-number">05</span>
+              <span className="domain-details-mobile-label">Paramètres</span>
+              <span className="domain-details-mobile-arrow" aria-hidden="true">→</span>
             </Link>
             <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-              Support
+              <span className="domain-details-mobile-number">06</span>
+              <span className="domain-details-mobile-label">Support</span>
+              <span className="domain-details-mobile-arrow" aria-hidden="true">→</span>
             </Link>
           </nav>
         </div>

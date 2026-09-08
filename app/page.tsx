@@ -154,9 +154,13 @@ export default function Home() {
             <div className="hero-actions">
               <ArrowLink href="/devis">Démarrer un projet</ArrowLink>
 
-              <ArrowLink href="/domaines">
-                Acheter un domaine
-              </ArrowLink>
+              <Link href="/domaines" className="domain-hero-button">
+                <span>Acheter un domaine</span>
+
+                <span className="domain-hero-arrow" aria-hidden="true">
+                  <ArrowIcon />
+                </span>
+              </Link>
 
               <ArrowLink href="/realisations" variant="secondary">
                 Voir nos réalisations
@@ -258,7 +262,7 @@ export default function Home() {
           </div>
 
           <div className="intro-content">
-            <p className="micro-label">Plus qu'un site web</p>
+            <p className="micro-label">Plus qu&apos;un site web</p>
 
             <h2>
               Une présence digitale
@@ -438,7 +442,7 @@ export default function Home() {
 
                 <p>
                   Une architecture propre et évolutive pour les projets qui
-                  demandent plus qu'un simple site.
+                  demandent plus qu&apos;un simple site.
                 </p>
 
                 <div className="tag-list">
@@ -479,7 +483,7 @@ export default function Home() {
               <h2 className="section-title">
                 Quelques projets.
                 <br />
-                <span>Beaucoup d'ambition.</span>
+                <span>Beaucoup d&apos;ambition.</span>
               </h2>
             </div>
 
@@ -610,7 +614,7 @@ export default function Home() {
               <h2 className="section-title">
                 Choisissez votre
                 <br />
-                <span>niveau d'impact.</span>
+                <span>niveau d&apos;impact.</span>
               </h2>
             </div>
 
@@ -632,7 +636,7 @@ export default function Home() {
 
               <p className="offer-description">
                 Pour lancer ou moderniser votre présence en ligne avec
-                l'essentiel, sans compromis sur l'image.
+                l&apos;essentiel, sans compromis sur l&apos;image.
               </p>
 
               <ul>
@@ -645,10 +649,7 @@ export default function Home() {
               <Link href="/devis" className="offer-link">
                 <span>Parler du projet</span>
 
-                <span
-                  className="offer-link-arrow"
-                  aria-hidden="true"
-                >
+                <span className="offer-link-arrow" aria-hidden="true">
                   <ArrowIcon />
                 </span>
               </Link>
@@ -667,23 +668,20 @@ export default function Home() {
 
               <p className="offer-description">
                 Une expérience plus poussée, avec davantage de travail sur
-                l'identité, l'expérience et les détails.
+                l&apos;identité, l&apos;expérience et les détails.
               </p>
 
               <ul>
                 <li>Direction artistique</li>
                 <li>UX / UI sur mesure</li>
                 <li>Animations</li>
-                <li>SEO & performance</li>
+                <li>SEO &amp; performance</li>
               </ul>
 
               <Link href="/devis" className="offer-link">
                 <span>Parler du projet</span>
 
-                <span
-                  className="offer-link-arrow"
-                  aria-hidden="true"
-                >
+                <span className="offer-link-arrow" aria-hidden="true">
                   <ArrowIcon />
                 </span>
               </Link>
@@ -713,10 +711,7 @@ export default function Home() {
               <Link href="/devis" className="offer-link">
                 <span>Parler du projet</span>
 
-                <span
-                  className="offer-link-arrow"
-                  aria-hidden="true"
-                >
+                <span className="offer-link-arrow" aria-hidden="true">
                   <ArrowIcon />
                 </span>
               </Link>
@@ -737,7 +732,7 @@ export default function Home() {
             <h2 className="section-title">
               Simple dans
               <br />
-              <span>l'approche.</span>
+              <span>l&apos;approche.</span>
             </h2>
 
             <p>
@@ -770,10 +765,7 @@ export default function Home() {
                 </span>
               </div>
 
-              <span
-                className="method-arrow"
-                aria-hidden="true"
-              >
+              <span className="method-arrow" aria-hidden="true">
                 <ArrowIcon />
               </span>
             </div>
@@ -797,10 +789,7 @@ export default function Home() {
                 </span>
               </div>
 
-              <span
-                className="method-arrow"
-                aria-hidden="true"
-              >
+              <span className="method-arrow" aria-hidden="true">
                 <ArrowIcon />
               </span>
             </div>
@@ -824,10 +813,7 @@ export default function Home() {
                 </span>
               </div>
 
-              <span
-                className="method-arrow"
-                aria-hidden="true"
-              >
+              <span className="method-arrow" aria-hidden="true">
                 <ArrowIcon />
               </span>
             </div>
@@ -852,10 +838,7 @@ export default function Home() {
                 </span>
               </div>
 
-              <span
-                className="method-arrow"
-                aria-hidden="true"
-              >
+              <span className="method-arrow" aria-hidden="true">
                 <ArrowIcon />
               </span>
             </div>
@@ -899,12 +882,12 @@ export default function Home() {
 
             <p>
               NOVA est une agence digitale indépendante qui privilégie une
-              approche simple : créer moins de bruit et plus d'impact.
+              approche simple : créer moins de bruit et plus d&apos;impact.
             </p>
 
             <p>
               Chaque projet est pensé avec une attention particulière portée
-              au design, à la performance et à l'expérience utilisateur.
+              au design, à la performance et à l&apos;expérience utilisateur.
             </p>
 
             <div className="about-stats">
@@ -965,8 +948,8 @@ export default function Home() {
               <p>
                 Le budget dépend du type de site, du nombre de pages, du niveau
                 de personnalisation et des fonctionnalités souhaitées. Le plus
-                simple est de nous présenter votre projet afin d'obtenir une
-                estimation adaptée.
+                simple est de nous présenter votre projet afin d&apos;obtenir
+                une estimation adaptée.
               </p>
             </details>
 
@@ -980,8 +963,8 @@ export default function Home() {
 
               <p>
                 La durée varie selon le projet. Un site vitrine peut être
-                réalisé rapidement, tandis qu'un projet plus complexe demande
-                davantage de conception, de développement et de tests.
+                réalisé rapidement, tandis qu&apos;un projet plus complexe
+                demande davantage de conception, de développement et de tests.
               </p>
             </details>
 
@@ -1010,8 +993,8 @@ export default function Home() {
 
               <p>
                 Oui. Nous pouvons repenser la structure, le design,
-                l'expérience utilisateur et les performances d'un site
-                existant.
+                l&apos;expérience utilisateur et les performances d&apos;un
+                site existant.
               </p>
             </details>
 
@@ -1084,7 +1067,7 @@ export default function Home() {
             <p>
               Agence digitale indépendante.
               <br />
-              Design, développement & performance.
+              Design, développement &amp; performance.
             </p>
           </div>
 

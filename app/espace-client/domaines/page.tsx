@@ -4,8 +4,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import "./page.css";
 
-
-
 type DomainStatus = "Enregistrement" | "Actif" | "Erreur";
 
 type ApiDomain = {
@@ -314,7 +312,7 @@ export default function ClientDomainsPage() {
               </Link>
 
               <Link
-                href="/espace-client"
+                href="/"
                 className="domains-return-nova"
               >
                 ← Retour NOVA

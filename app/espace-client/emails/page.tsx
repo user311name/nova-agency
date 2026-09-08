@@ -24,6 +24,7 @@ type EmailPlan = {
   name: string;
   description: string;
   price: string;
+  period: string;
   mailboxes: string;
   storage: string;
   features: string[];
@@ -38,6 +39,7 @@ const plans: EmailPlan[] = [
     description:
       "Pour une activité indépendante ou une petite entreprise.",
     price: "9,90 €",
+    period: "/ mois",
     mailboxes: "1 boîte mail",
     storage: "15 Go de stockage",
     features: [
@@ -54,6 +56,7 @@ const plans: EmailPlan[] = [
     description:
       "Pour une entreprise qui souhaite plusieurs adresses.",
     price: "14,90 €",
+    period: "/ mois",
     mailboxes: "3 boîtes mail",
     storage: "45 Go de stockage",
     features: [
@@ -71,7 +74,8 @@ const plans: EmailPlan[] = [
     name: "Équipe",
     description:
       "Pour les équipes qui veulent une identité professionnelle complète.",
-    price: "129 € / an",
+    price: "129 €",
+    period: "/ an",
     mailboxes: "5 boîtes mail",
     storage: "75 Go de stockage",
     features: [
@@ -219,44 +223,90 @@ function SmartphoneIcon() {
   );
 }
 
+function getStatusLabel(status: string) {
+  if (status === "pending") {
+    return "Activation en cours";
+  }
+
+  if (status === "active") {
+    return "Actif";
+  }
+
+  if (status === "failed") {
+    return "Échec";
+  }
+
+  return status || "Non défini";
+}
+
+function getStatusClass(status: string) {
+  if (status === "active") {
+    return "is-active";
+  }
+
+  if (status === "failed") {
+    return "is-failed";
+  }
+
+  return "is-pending";
+}
+
+function getPlanName(plan: string) {
+  const names: Record<string, string> = {
+    essential: "Essentiel",
+    business: "Business",
+    team: "Équipe",
+  };
+
+  return names[plan] || plan;
+}
+
+function getBillingPeriodLabel(period: string) {
+  if (period === "annual") {
+    return "Annuel";
+  }
+
+  return "Mensuel";
+}
+
 export default function EmailsPage() {
   const [emails, setEmails] = useState<Email[] | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
+
     async function fetchEmails() {
-      const res = await fetch("/api/emails/client/emails", {
-        credentials: "include",
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setEmails(data.emails);
+      try {
+        const res = await fetch("/api/emails/client/emails", {
+          credentials: "include",
+          cache: "no-store",
+        });
+
+        const data = await res.json();
+
+        if (!cancelled && res.ok) {
+          setEmails(Array.isArray(data.emails) ? data.emails : []);
+        }
+      } catch (error) {
+        console.error("EMAILS CLIENT FETCH ERROR:", error);
+
+        if (!cancelled) {
+          setEmails([]);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     }
+
     fetchEmails();
-  }, []);
 
-  function getStatusLabel(status: string) {
-    if (status === "pending") {
-      return "Activation en cours";
-    }
-    return status || "Non défini";
-  }
-
-  function getPlanName(plan: string) {
-    const names: Record<string, string> = {
-      essential: "Essentiel",
-      business: "Business",
-      team: "Équipe",
+    return () => {
+      cancelled = true;
     };
-    return names[plan] || plan;
-  }
-
-  function getBillingPeriodLabel(period: string) {
-    if (period === "annual") {
-      return "Annuel";
-    }
-    return "Mensuel";
-  }
+  }, []);
 
   return (
     <main className="emails-page">
@@ -267,39 +317,70 @@ export default function EmailsPage() {
       {emails !== null && emails.length > 0 && (
         <section className="emails-registered">
           <div className="emails-container">
-            <h2>Vos emails</h2>
+            <div className="emails-registered-heading">
+              <div>
+                <div className="emails-section-number">
+                  VOS SERVICES
+                </div>
+
+                <h2>Vos adresses email</h2>
+              </div>
+
+              <span className="emails-registered-count">
+                {emails.length}{" "}
+                {emails.length > 1 ? "adresses" : "adresse"}
+              </span>
+            </div>
 
             <div className="emails-registered-grid">
               {emails.map((email) => {
                 const statusLabel = getStatusLabel(email.status);
+
                 return (
                   <div
                     key={email.id}
                     className="emails-registered-item"
                   >
-                    <div className="emails-registered-address">
-                      <strong>
-                        {email.email_prefix}
-                      </strong>
-                      <span>
-                        @{email.domain}
-                      </span>
+                    <div className="emails-registered-main">
+                      <div className="emails-registered-icon">
+                        <MailIcon />
+                      </div>
+
+                      <div className="emails-registered-address">
+                        <strong>{email.email_prefix}</strong>
+                        <span>@{email.domain}</span>
+                      </div>
                     </div>
 
                     <div className="emails-registered-details">
-                      <div>
-                        <strong>{getPlanName(email.plan)}</strong>
+                      <div className="emails-registered-detail">
+                        <span>FORMULE</span>
+                        <strong>
+                          {getPlanName(email.plan)}
+                        </strong>
                       </div>
 
-                      <div>
-                        <strong>{getBillingPeriodLabel(
-                          email.billing_period
-                        )}</strong>
-                        <span>{email.amount} €</span>
+                      <div className="emails-registered-detail">
+                        <span>FACTURATION</span>
+                        <strong>
+                          {getBillingPeriodLabel(
+                            email.billing_period,
+                          )}
+                        </strong>
                       </div>
 
-                      <div>
-                        <span>{statusLabel}</span>
+                      <div className="emails-registered-detail">
+                        <span>PRIX</span>
+                        <strong>{email.amount} €</strong>
+                      </div>
+
+                      <div
+                        className={`emails-status ${getStatusClass(
+                          email.status,
+                        )}`}
+                      >
+                        <span className="emails-status-dot" />
+                        {statusLabel}
                       </div>
                     </div>
                   </div>
@@ -313,6 +394,7 @@ export default function EmailsPage() {
       {/* =====================================================
           HERO
       ===================================================== */}
+
       <section className="emails-hero">
         <div className="emails-container">
           <div className="emails-hero-grid">
@@ -361,10 +443,12 @@ export default function EmailsPage() {
                   <CheckIcon />
                   Adresse professionnelle
                 </span>
+
                 <span>
                   <CheckIcon />
                   Protection anti-spam
                 </span>
+
                 <span>
                   <CheckIcon />
                   Accès mobile
@@ -372,13 +456,18 @@ export default function EmailsPage() {
               </div>
             </div>
 
-            <div className="emails-hero-visual">
+            <div className="emails-hero-visual" aria-hidden="true">
               <div className="emails-glow emails-glow-one" />
               <div className="emails-glow emails-glow-two" />
 
               <div className="emails-mail-card">
                 <div className="emails-mail-icon">
                   <MailIcon />
+                </div>
+
+                <div className="emails-mail-secure">
+                  <span />
+                  PROTECTED
                 </div>
 
                 <div className="emails-mail-content">
@@ -396,9 +485,17 @@ export default function EmailsPage() {
                 </div>
 
                 <div className="emails-mail-footer">
-                  <span>PROTECTED</span>
+                  <span>PROFESSIONAL EMAIL</span>
                   <strong>NOVA</strong>
                 </div>
+              </div>
+
+              <div className="emails-floating-card">
+                <span>IDENTITÉ PROFESSIONNELLE</span>
+                <strong>contact@votreentreprise.fr</strong>
+                <small>
+                  Une adresse à votre nom, sur votre domaine.
+                </small>
               </div>
             </div>
           </div>
@@ -408,21 +505,25 @@ export default function EmailsPage() {
       {/* =====================================================
           QUICK STATS
       ===================================================== */}
+
       <section className="emails-stats">
         <div className="emails-container">
           <div className="emails-stats-grid">
             <div className="emails-stat">
-              <span>MESSAGES</span>
-              <strong>24</strong>
+              <span>ADRESSE</span>
+              <strong>PRO</strong>
             </div>
+
             <div className="emails-stat">
               <span>STOCKAGE</span>
-              <strong>8,4 Go</strong>
+              <strong>JUSQU&apos;À 75 GO</strong>
             </div>
+
             <div className="emails-stat">
               <span>PROTECTION</span>
               <strong>ACTIVE</strong>
             </div>
+
             <div className="emails-stat">
               <span>ACCÈS</span>
               <strong>WEB + MOBILE</strong>
@@ -434,6 +535,7 @@ export default function EmailsPage() {
       {/* =====================================================
           WHY
       ===================================================== */}
+
       <section
         id="pourquoi"
         className="emails-why"
@@ -446,7 +548,7 @@ export default function EmailsPage() {
           <div className="emails-why-grid">
             <div>
               <h2>
-                Plus qu'une boîte mail.
+                Plus qu&apos;une boîte mail.
                 <br />
                 <span>Une identité.</span>
               </h2>
@@ -465,7 +567,7 @@ export default function EmailsPage() {
               <p>
                 Elle participe directement à la perception
                 de votre entreprise. NOVA vous permet de
-                disposer d'une messagerie professionnelle
+                disposer d&apos;une messagerie professionnelle
                 directement liée à votre domaine.
               </p>
             </div>
@@ -476,13 +578,15 @@ export default function EmailsPage() {
       {/* =====================================================
           BENEFITS
       ===================================================== */}
+
       <section className="emails-benefits">
         <div className="emails-container">
           <div className="emails-benefits-heading">
             <div>
               <div className="emails-section-number">
-                02 / L'ESSENTIEL
+                02 / L&apos;ESSENTIEL
               </div>
+
               <h2>
                 Pensée pour votre
                 <br />
@@ -502,6 +606,7 @@ export default function EmailsPage() {
               <div className="emails-benefit-icon">
                 <MailIcon />
               </div>
+
               <span>01</span>
 
               <h3>
@@ -521,6 +626,7 @@ export default function EmailsPage() {
               <div className="emails-benefit-icon">
                 <ShieldIcon />
               </div>
+
               <span>02</span>
 
               <h3>
@@ -540,6 +646,7 @@ export default function EmailsPage() {
               <div className="emails-benefit-icon">
                 <SmartphoneIcon />
               </div>
+
               <span>03</span>
 
               <h3>
@@ -560,6 +667,7 @@ export default function EmailsPage() {
       {/* =====================================================
           OFFRES
       ===================================================== */}
+
       <section
         id="offres"
         className="emails-offers"
@@ -569,88 +677,119 @@ export default function EmailsPage() {
             03 / NOS OFFRES
           </div>
 
-          <h2>
-            Choisissez votre
-            <br />
-            formule.
-          </h2>
+          <div className="emails-offers-heading">
+            <div>
+              <h2>
+                Choisissez votre
+                <br />
+                <span>formule.</span>
+              </h2>
+            </div>
+
+            <p>
+              Choisissez l&apos;offre adaptée à votre activité.
+              La configuration de votre adresse se fait ensuite
+              depuis votre espace client.
+            </p>
+          </div>
 
           <div className="emails-offers-grid">
             {plans.map((plan) => (
               <article
                 key={plan.id}
-                className="emails-offer-card"
-                data-plan={plan.id}
+                className={`emails-offer-card ${
+                  plan.popular
+                    ? "emails-offer-card-featured"
+                    : ""
+                }`}
               >
-                <div className="emails-offer-icon">
-                  <MailIcon />
+                {plan.popular && (
+                  <div className="emails-offer-badge">
+                    <span />
+                    LE PLUS CHOISI
+                  </div>
+                )}
+
+                <div className="emails-offer-top">
+                  <span className="emails-offer-number">
+                    {plan.number}
+                  </span>
+
+                  <div className="emails-offer-icon">
+                    <MailIcon />
+                  </div>
                 </div>
 
-                <div className="emails-offer-content">
-                  <div className="emails-offer-header">
-                    <h3>{plan.name}</h3>
-                    <span className="emails-offer-badge">
-                      {plan.popular ? "Le plus choisi" : ""}
+                <div className="emails-offer-header">
+                  <div>
+                    <span className="emails-offer-label">
+                      EMAIL PROFESSIONNEL
                     </span>
+
+                    <h3>{plan.name}</h3>
+                  </div>
+                </div>
+
+                <p className="emails-offer-description">
+                  {plan.description}
+                </p>
+
+                <div className="emails-offer-price">
+                  <strong>{plan.price}</strong>
+                  <span>{plan.period}</span>
+                </div>
+
+                <div className="emails-offer-divider" />
+
+                <div className="emails-offer-details">
+                  <div>
+                    <span>BOÎTES MAIL</span>
+                    <strong>{plan.mailboxes}</strong>
                   </div>
 
-                  <p className="emails-offer-description">
-                    {plan.description}
-                  </p>
-
-                  <div className="emails-offer-details">
-                    <div className="emails-offer-detail">
-                      <span>Boîtes mail</span>
-                      <strong>{plan.mailboxes}</strong>
-                    </div>
-
-                    <div className="emails-offer-detail">
-                      <span>Stockage</span>
-                      <strong>{plan.storage}</strong>
-                    </div>
+                  <div>
+                    <span>STOCKAGE</span>
+                    <strong>{plan.storage}</strong>
                   </div>
+                </div>
 
-                  <div className="emails-offer-price">
-                    <strong>{plan.price}</strong>
-                    <span>/ mois</span>
-                    {plan.id === "team" && (
-                      <>
-                        <span> / an</span>
-                      </>
-                    )}
-                  </div>
-
-                  <div className="emails-offer-features">
-                    {plan.features.map((feature, index) => (
-                      <div
-                        key={index}
-                        className="emails-offer-feature"
-                      >
-                        <span>✓</span>
-                        <span>{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="emails-offer-actions">
-                    <Link
-                      href={`/espace-client/emails/acheter?plan=${plan.id}`}
-                      className="emails-offer-button"
+                <div className="emails-offer-features">
+                  {plan.features.map((feature) => (
+                    <div
+                      key={feature}
+                      className="emails-offer-feature"
                     >
-                      Configurer et acheter
-                    </Link>
-                  </div>
+                      <span className="emails-feature-check">
+                        <CheckIcon />
+                      </span>
+
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="emails-offer-actions">
+                  <Link
+                    href={`/espace-client/emails/acheter?plan=${plan.id}`}
+                    className={`emails-offer-button ${
+                      plan.popular
+                        ? "emails-offer-button-primary"
+                        : ""
+                    }`}
+                  >
+                    <span>Configurer et acheter</span>
+                    <ArrowIcon />
+                  </Link>
                 </div>
               </article>
             ))}
+          </div>
 
-            <div className="emails-offers-note">
-              <p>
-                Tous les prix sont indiqués en euros toutes taxes
-                comprises. Facturation mensuelle ou annuelle selon
-                l'option sélectionnée.
-              </p>
-            </div>
+          <div className="emails-offers-reassurance">
+            <span>✓</span>
+            Paiement sécurisé par Stripe
+            <span>•</span>
+            Configuration depuis votre espace client
           </div>
         </div>
       </section>
@@ -658,60 +797,77 @@ export default function EmailsPage() {
       {/* =====================================================
           FOOTER
       ===================================================== */}
+
       <footer className="emails-footer">
         <div className="emails-container">
-          <div className="emails-footer-inner">
-            <div className="emails-footer-top">
-              <div className="emails-footer-links">
-                <div>
-                  <span>EXPLORER</span>
-
-                  <Link href="/espace-client/domaines">
-                    Domaines
-                  </Link>
-
-                  <Link href="/espace-client/services">
-                    Hébergement
-                  </Link>
-
-                  <Link href="/espace-client/securite">
-                    Sécurité
-                  </Link>
-                </div>
-
-                <div>
-                  <span>CONTACT</span>
-
-                  <Link href="/contact">
-                    Nous contacter
-                  </Link>
-
-                  <Link href="/faq">
-                    FAQ
-                  </Link>
-                </div>
+          <div className="emails-footer-top">
+            <div>
+              <div className="emails-footer-logo">
+                NOVA<span>.</span>
               </div>
 
-              <div className="emails-footer-bottom">
-                <span>
-                  © {new Date().getFullYear()} NOVA.
-                  Tous droits réservés.
-                </span>
+              <p>
+                Messagerie professionnelle.
+                <br />
+                Votre identité, votre domaine.
+              </p>
+            </div>
 
-                <div>
-                  <Link href="/mentions-legales">
-                    Mentions légales
-                  </Link>
+            <div className="emails-footer-links">
+              <div>
+                <span>ESPACE CLIENT</span>
 
-                  <Link href="/contact">
-                    Contact
-                  </Link>
-                </div>
+                <Link href="/espace-client/domaines">
+                  Domaines
+                </Link>
+
+                <Link href="/espace-client/emails">
+                  Emails
+                </Link>
+
+                <Link href="/espace-client/services">
+                  Hébergement
+                </Link>
               </div>
+
+              <div>
+                <span>CONTACT</span>
+
+                <Link href="/contact">
+                  Nous contacter
+                </Link>
+
+                <Link href="/faq">
+                  FAQ
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="emails-footer-bottom">
+            <span>
+              © {new Date().getFullYear()} NOVA.
+              Tous droits réservés.
+            </span>
+
+            <div>
+              <Link href="/mentions-legales">
+                Mentions légales
+              </Link>
+
+              <Link href="/contact">
+                Contact
+              </Link>
             </div>
           </div>
         </div>
       </footer>
+
+      {loading && (
+        <div className="emails-loading" aria-hidden="true">
+          <span />
+        </div>
+      )}
     </main>
   );
 }

@@ -411,11 +411,15 @@ export default function SiteHeader() {
         <style jsx>{`
           .premium-navbar {
             position: relative;
-            z-index: 9999;
+            z-index: 100000;
+            isolation: isolate;
+
             width: 100%;
             min-height: 82px;
+
             border-bottom: 1px solid
               rgba(255, 255, 255, 0.06);
+
             background:
               radial-gradient(
                 circle at 50% -100%,
@@ -423,20 +427,27 @@ export default function SiteHeader() {
                 transparent 55%
               ),
               rgba(5, 5, 10, 0.96);
+
             box-shadow:
               0 18px 50px rgba(0, 0, 0, 0.25),
               inset 0 -1px 0
                 rgba(155, 102, 255, 0.025);
+
             backdrop-filter: blur(20px);
           }
 
           .premium-navbar-inner {
+            position: relative;
+            z-index: 100001;
+
             width: min(
               1320px,
               calc(100% - 68px)
             );
+
             min-height: 82px;
             margin: 0 auto;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -447,7 +458,9 @@ export default function SiteHeader() {
             display: flex;
             align-items: center;
             flex-shrink: 0;
+
             text-decoration: none;
+
             transition:
               opacity 180ms ease,
               transform 180ms ease;
@@ -469,18 +482,23 @@ export default function SiteHeader() {
             display: flex;
             align-items: center;
             justify-content: center;
+
             gap: 32px;
             margin-left: auto;
           }
 
           .premium-nav a {
             position: relative;
+
             color: rgba(255, 255, 255, 0.43);
+
             font-size: 10px;
             font-weight: 500;
             line-height: 1;
+
             text-decoration: none;
             white-space: nowrap;
+
             transition:
               color 180ms ease,
               transform 180ms ease;
@@ -493,15 +511,21 @@ export default function SiteHeader() {
 
           .premium-nav a::after {
             content: "";
+
             position: absolute;
             left: 50%;
             bottom: -12px;
+
             width: 0;
             height: 1px;
+
             transform: translateX(-50%);
+
             background: #9565ff;
+
             box-shadow:
               0 0 8px rgba(149, 101, 255, 0.8);
+
             transition: width 180ms ease;
           }
 
@@ -513,6 +537,7 @@ export default function SiteHeader() {
           .premium-navbar-actions {
             display: flex;
             align-items: center;
+
             gap: 10px;
             flex-shrink: 0;
           }
@@ -520,15 +545,22 @@ export default function SiteHeader() {
           .premium-language {
             display: inline-flex;
             align-items: center;
+
             gap: 5px;
+
             min-height: 34px;
             padding: 0 8px;
+
             border: 0;
             outline: none;
+
             background: transparent;
+
             color: rgba(255, 255, 255, 0.38);
+
             font: inherit;
             font-size: 9px;
+
             cursor: pointer;
           }
 
@@ -541,17 +573,27 @@ export default function SiteHeader() {
             display: inline-flex;
             align-items: center;
             justify-content: center;
+
             gap: 8px;
+
             min-height: 38px;
             padding: 0 15px;
+
             border: 1px solid
               rgba(150, 100, 255, 0.24);
+
             border-radius: 10px;
-            background: rgba(126, 71, 230, 0.08);
+
+            background:
+              rgba(126, 71, 230, 0.08);
+
             color: rgba(255, 255, 255, 0.72);
+
             font-size: 9px;
             font-weight: 600;
+
             text-decoration: none;
+
             transition:
               transform 180ms ease,
               background 180ms ease,
@@ -561,17 +603,22 @@ export default function SiteHeader() {
 
           .premium-client-button:hover {
             transform: translateY(-1px);
+
             border-color:
               rgba(150, 100, 255, 0.45);
+
             background:
               rgba(126, 71, 230, 0.15);
+
             color: #ffffff;
           }
 
           .premium-client-arrow {
             color: #a473ff;
             font-size: 12px;
-            transition: transform 180ms ease;
+
+            transition:
+              transform 180ms ease;
           }
 
           .premium-client-button:hover
@@ -581,25 +628,38 @@ export default function SiteHeader() {
 
           .premium-menu-toggle {
             display: none;
+
             position: relative;
+            z-index: 100002;
+
             width: 40px;
             height: 40px;
+
             padding: 0;
+
             border: 1px solid
               rgba(255, 255, 255, 0.09);
+
             border-radius: 10px;
+
             background:
               rgba(255, 255, 255, 0.025);
+
             cursor: pointer;
           }
 
           .premium-menu-toggle span {
             position: absolute;
-            left: 11px;
-            width: 17px;
-            height: 1px;
-            background:
-              rgba(255, 255, 255, 0.7);
+
+            left: 10px;
+
+            width: 20px;
+            height: 2px;
+
+            border-radius: 999px;
+
+            background: #ffffff;
+
             transition:
               transform 180ms ease,
               opacity 180ms ease,
@@ -607,7 +667,7 @@ export default function SiteHeader() {
           }
 
           .premium-menu-toggle span:nth-child(1) {
-            top: 13px;
+            top: 12px;
           }
 
           .premium-menu-toggle span:nth-child(2) {
@@ -615,7 +675,7 @@ export default function SiteHeader() {
           }
 
           .premium-menu-toggle span:nth-child(3) {
-            top: 25px;
+            top: 26px;
           }
 
           .premium-menu-toggle.is-open
@@ -637,11 +697,17 @@ export default function SiteHeader() {
 
           .premium-mobile-menu {
             position: fixed;
+
             inset: 82px 0 0;
-            z-index: 9998;
+
+            z-index: 99999;
+
             display: none;
+
             padding: 30px 24px;
+
             overflow-y: auto;
+
             background:
               radial-gradient(
                 circle at 70% 10%,
@@ -649,9 +715,12 @@ export default function SiteHeader() {
                 transparent 35%
               ),
               #07060d;
+
             opacity: 0;
             pointer-events: none;
+
             transform: translateY(-10px);
+
             transition:
               opacity 180ms ease,
               transform 180ms ease;
@@ -665,27 +734,38 @@ export default function SiteHeader() {
 
           .premium-mobile-glow {
             position: absolute;
+
             top: 80px;
             right: -160px;
+
             width: 400px;
             height: 400px;
+
             border-radius: 50%;
+
             background:
               rgba(123, 67, 235, 0.12);
+
             filter: blur(80px);
+
             pointer-events: none;
           }
 
           .premium-mobile-top {
             position: relative;
             z-index: 2;
+
             display: flex;
             justify-content: space-between;
+
             margin-bottom: 25px;
             padding-bottom: 15px;
+
             border-bottom: 1px solid
               rgba(255, 255, 255, 0.07);
+
             color: rgba(255, 255, 255, 0.3);
+
             font-size: 8px;
             letter-spacing: 0.16em;
           }
@@ -693,15 +773,23 @@ export default function SiteHeader() {
           .premium-mobile-home {
             position: relative;
             z-index: 2;
+
             display: grid;
+
             grid-template-columns:
               35px 1fr auto;
+
             align-items: center;
+
             gap: 15px;
+
             min-height: 70px;
+
             border-bottom: 1px solid
               rgba(255, 255, 255, 0.06);
+
             color: rgba(255, 255, 255, 0.52);
+
             text-decoration: none;
           }
 
@@ -712,20 +800,28 @@ export default function SiteHeader() {
           .premium-mobile-menu nav {
             position: relative;
             z-index: 2;
+
             display: flex;
             flex-direction: column;
           }
 
           .premium-mobile-menu nav a {
             display: grid;
+
             grid-template-columns:
               35px 1fr auto;
+
             align-items: center;
+
             gap: 15px;
+
             min-height: 70px;
+
             border-bottom: 1px solid
               rgba(255, 255, 255, 0.06);
+
             color: rgba(255, 255, 255, 0.52);
+
             text-decoration: none;
           }
 
@@ -751,19 +847,27 @@ export default function SiteHeader() {
           .premium-mobile-client {
             position: relative;
             z-index: 2;
+
             display: flex;
             align-items: center;
             justify-content: space-between;
+
             margin-top: 25px;
             padding: 16px 18px;
+
             border: 1px solid
               rgba(145, 94, 245, 0.25);
+
             border-radius: 12px;
+
             background:
               rgba(123, 69, 226, 0.09);
+
             color: #ffffff;
+
             font-size: 11px;
             font-weight: 600;
+
             text-decoration: none;
           }
 
@@ -787,9 +891,13 @@ export default function SiteHeader() {
           @media (max-width: 800px) {
             .premium-navbar {
               min-height: 72px;
+              z-index: 100000;
             }
 
             .premium-navbar-inner {
+              position: relative;
+              z-index: 100001;
+
               min-height: 72px;
               width: calc(100% - 30px);
             }
@@ -800,11 +908,15 @@ export default function SiteHeader() {
 
             .premium-menu-toggle {
               display: block;
+              z-index: 100002;
             }
 
             .premium-mobile-menu {
               display: block;
+
               inset: 72px 0 0;
+
+              z-index: 99999;
             }
 
             .premium-language {

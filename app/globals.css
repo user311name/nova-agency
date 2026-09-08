@@ -103,7 +103,7 @@ img {
 
 .navbar {
   position: fixed;
-  z-index: 1000;
+  z-index: 100000;
 
   top: 0;
   left: 0;
@@ -117,6 +117,7 @@ img {
 
 .navbar-inner {
   position: relative;
+  z-index: 100001;
 
   width: min(1380px, 100%);
   min-height: 72px;
@@ -301,7 +302,7 @@ img {
 
 .menu-toggle {
   position: relative;
-  z-index: 1010;
+  z-index: 100002;
 
   display: none;
 
@@ -329,8 +330,8 @@ img {
 .menu-toggle span {
   display: block;
 
-  width: 19px;
-  height: 1.5px;
+  width: 21px;
+  height: 2px;
 
   border-radius: 999px;
 
@@ -343,8 +344,8 @@ img {
 }
 
 .menu-toggle.is-open span:nth-child(1) {
-  width: 20px;
-  transform: translateY(6.5px) rotate(45deg);
+  width: 21px;
+  transform: translateY(7px) rotate(45deg);
 }
 
 .menu-toggle.is-open span:nth-child(2) {
@@ -353,8 +354,8 @@ img {
 }
 
 .menu-toggle.is-open span:nth-child(3) {
-  width: 20px;
-  transform: translateY(-6.5px) rotate(-45deg);
+  width: 21px;
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* =========================================================
@@ -363,7 +364,7 @@ img {
 
 .mobile-menu {
   position: fixed;
-  z-index: 999;
+  z-index: 99999;
 
   inset: 0;
 
@@ -435,6 +436,7 @@ img {
 
 .mobile-menu-top {
   position: relative;
+  z-index: 2;
 
   display: flex;
   justify-content: space-between;
@@ -454,6 +456,7 @@ img {
 
 .mobile-menu nav {
   position: relative;
+  z-index: 2;
 
   margin-top: 10px;
 }
@@ -520,6 +523,7 @@ img {
 
 .mobile-cta {
   position: relative;
+  z-index: 2;
 
   display: flex;
   align-items: center;
@@ -564,9 +568,13 @@ img {
 @media (max-width: 820px) {
   .navbar {
     padding: 10px 12px;
+    z-index: 100000;
   }
 
   .navbar-inner {
+    position: relative;
+    z-index: 100001;
+
     min-height: 62px;
 
     padding: 6px 7px 6px 13px;
@@ -587,6 +595,16 @@ img {
   }
 
   .menu-toggle {
+    display: flex;
+    z-index: 100002;
+  }
+
+  .mobile-menu {
+    position: fixed;
+    z-index: 99999;
+
+    inset: 0;
+
     display: flex;
   }
 }
@@ -611,6 +629,8 @@ img {
   }
 
   .mobile-menu {
+    z-index: 99999;
+
     padding-left: 18px;
     padding-right: 18px;
   }
@@ -636,9 +656,11 @@ img {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
-}/* =========================================================
+}
+
+/* =========================================================
    NOVA — COOKIE BANNER
-   ========================================================= */
+========================================================= */
 
 .cookie-banner {
   position: fixed;

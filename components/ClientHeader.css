@@ -308,7 +308,6 @@
 }
 
 .client-mobile-menu.is-open {
-  display: block;
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
@@ -316,10 +315,10 @@
 
 .client-mobile-glow {
   position: absolute;
-  top: 80px;
-  right: -80px;
-  width: 320px;
-  height: 320px;
+  top: 60px;
+  right: -40px;
+  width: 260px;
+  height: 260px;
   border-radius: 50%;
 
   background:
@@ -365,9 +364,9 @@
 
 .client-mobile-menu nav a {
   display: grid;
-  grid-template-columns: 35px auto minmax(0, 1fr) auto;
+  grid-template-columns: 35px minmax(0, 1fr) auto;
   align-items: center;
-  gap: 12px;
+  gap: 15px;
 
   min-height: 70px;
   min-width: 0;
@@ -428,6 +427,7 @@
   padding: 16px 18px;
   max-width: 100%;
   min-width: 0;
+  width: 100%;
 
   border: 1px solid rgba(145, 94, 245, 0.25);
   border-radius: 12px;
@@ -519,7 +519,7 @@
   }
 
   .client-mobile-menu {
-    display: none;
+    display: block;
     opacity: 0;
     pointer-events: none;
     transform: translateY(-10px);
@@ -529,7 +529,6 @@
   }
 
   .client-mobile-menu.is-open {
-    display: block;
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);

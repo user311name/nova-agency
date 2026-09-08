@@ -1,7 +1,8 @@
 .email-purchase-page {
   position: relative;
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background:
     radial-gradient(circle at 75% 20%, rgba(126, 87, 255, 0.16), transparent 34%),
     radial-gradient(circle at 15% 80%, rgba(91, 57, 180, 0.12), transparent 32%),
@@ -24,18 +25,18 @@
 }
 
 .email-purchase-orb-one {
-  width: 420px;
-  height: 420px;
-  top: -180px;
-  right: -80px;
+  width: 320px;
+  height: 320px;
+  top: -100px;
+  right: -60px;
   background: rgba(126, 87, 255, 0.34);
 }
 
 .email-purchase-orb-two {
-  width: 360px;
-  height: 360px;
-  bottom: -160px;
-  left: -120px;
+  width: 280px;
+  height: 280px;
+  bottom: -100px;
+  left: -80px;
   background: rgba(94, 54, 190, 0.25);
 }
 
@@ -424,6 +425,9 @@
   align-items: baseline;
   gap: 6px;
   margin-top: 8px;
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
 }
 
 .email-purchase-plan-price strong {
@@ -431,11 +435,16 @@
   line-height: 1;
   font-weight: 500;
   letter-spacing: -0.04em;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .email-purchase-plan-price span {
   color: rgba(255, 255, 255, 0.38);
   font-size: 12px;
+  flex-shrink: 0;
 }
 
 .email-purchase-plan > p {
@@ -450,6 +459,8 @@
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-top: 22px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .email-purchase-plan-stats div {
@@ -457,6 +468,9 @@
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 11px;
   background: rgba(255, 255, 255, 0.025);
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .email-purchase-plan-stats span {
@@ -521,6 +535,8 @@
 
 .email-purchase-preview-address strong {
   display: block;
+  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
   color: rgba(255, 255, 255, 0.78);
   font-size: 13px;

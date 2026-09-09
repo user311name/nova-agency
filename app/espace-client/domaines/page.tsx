@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import "./page.css";
 
 type DomainStatus = "Enregistrement" | "Actif" | "Erreur";
@@ -181,6 +181,11 @@ export default function ClientDomainsPage() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [addDomainOpen, setAddDomainOpen] = useState(false);
+  const [newDomain, setNewDomain] = useState("");
+  const [addingDomain, setAddingDomain] = useState(false);
+  const [addDomainError, setAddDomainError] = useState("");
+  const [addDomainSuccess, setAddDomainSuccess] = useState("");
 
   async function loadDomains() {
     try {
@@ -250,6 +255,66 @@ export default function ClientDomainsPage() {
     }
   }
 
+  async function handleAddDomain(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const domain = newDomain.trim();
+
+    if (!domain) {
+      setAddDomainError("Veuillez saisir un nom de domaine.");
+      return;
+    }
+
+    try {
+      setAddingDomain(true);
+      setAddDomainError("");
+      setAddDomainSuccess("");
+
+      const response = await fetch("/api/domains/client/domains", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ domain }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 401) {
+        window.location.href =
+          `/connexion?next=${encodeURIComponent("/espace-client/domaines")}`;
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          data?.error || "Impossible d'ajouter le domaine.",
+        );
+      }
+
+      setAddDomainSuccess(
+        "Votre domaine a été ajouté à votre espace client.",
+      );
+      setNewDomain("");
+
+      await loadDomains();
+
+      setTimeout(() => {
+        setAddDomainOpen(false);
+        setAddDomainSuccess("");
+      }, 1000);
+    } catch (err) {
+      setAddDomainError(
+        err instanceof Error
+          ? err.message
+          : "Impossible d'ajouter le domaine.",
+      );
+    } finally {
+      setAddingDomain(false);
+    }
+  }
+
   useEffect(() => {
     loadDomains();
   }, []);
@@ -303,12 +368,24 @@ export default function ClientDomainsPage() {
             </p>
 
             <div className="domains-hero-actions">
-              <Link
-                href="/espace-client/domaines"
+              <button
+                type="button"
                 className="domains-primary-button"
+                onClick={() => {
+                  setAddDomainOpen(true);
+                  setAddDomainError("");
+                  setAddDomainSuccess("");
+                }}
+              >
+                + Ajouter un domaine
+                <ArrowIcon />
+              </button>
+
+              <Link
+                href="/domaines"
+                className="domains-return-nova"
               >
                 Acheter un domaine
-                <ArrowIcon />
               </Link>
 
               <Link
@@ -806,6 +883,213 @@ export default function ClientDomainsPage() {
           </section>
         </section>
       </div>
+
+      {addDomainOpen && (
+        <div
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setAddDomainOpen(false);
+            }
+          }}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 9999,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "24px",
+            background: "rgba(0, 0, 0, 0.78)",
+            backdropFilter: "blur(18px)",
+          }}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="add-domain-title"
+            style={{
+              width: "100%",
+              maxWidth: "520px",
+              padding: "34px",
+              borderRadius: "24px",
+              border: "1px solid rgba(255,255,255,0.12)",
+              background:
+                "linear-gradient(145deg, rgba(24,24,30,0.98), rgba(10,10,14,0.98))",
+              boxShadow: "0 30px 100px rgba(0,0,0,0.6)",
+              boxSizing: "border-box",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                justifyContent: "space-between",
+                gap: "20px",
+                marginBottom: "28px",
+              }}
+            >
+              <div>
+                <span
+                  style={{
+                    display: "block",
+                    fontSize: "10px",
+                    letterSpacing: "0.18em",
+                    color: "#999",
+                    marginBottom: "10px",
+                  }}
+                >
+                  DOMAINE EXISTANT
+                </span>
+
+                <h2
+                  id="add-domain-title"
+                  style={{
+                    margin: 0,
+                    color: "#fff",
+                    fontSize: "30px",
+                    letterSpacing: "-0.04em",
+                  }}
+                >
+                  Ajouter un domaine
+                </h2>
+
+                <p
+                  style={{
+                    margin: "10px 0 0",
+                    color: "#888",
+                    fontSize: "14px",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  Vous avez acheté votre domaine ailleurs ?
+                  Ajoutez-le à votre espace NOVA.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setAddDomainOpen(false)}
+                aria-label="Fermer"
+                style={{
+                  width: "38px",
+                  height: "38px",
+                  flexShrink: 0,
+                  borderRadius: "50%",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  background: "rgba(255,255,255,0.05)",
+                  color: "#fff",
+                  cursor: "pointer",
+                  fontSize: "20px",
+                }}
+              >
+                ×
+              </button>
+            </div>
+
+            <form onSubmit={handleAddDomain}>
+              <label
+                htmlFor="nova-domain"
+                style={{
+                  display: "block",
+                  marginBottom: "10px",
+                  color: "#aaa",
+                  fontSize: "12px",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                }}
+              >
+                Nom de domaine
+              </label>
+
+              <input
+                id="nova-domain"
+                type="text"
+                value={newDomain}
+                onChange={(event) => {
+                  setNewDomain(event.target.value);
+                  setAddDomainError("");
+                  setAddDomainSuccess("");
+                }}
+                placeholder="agency-nova.fr"
+                autoComplete="off"
+                disabled={addingDomain}
+                style={{
+                  width: "100%",
+                  height: "56px",
+                  boxSizing: "border-box",
+                  padding: "0 18px",
+                  borderRadius: "14px",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  outline: "none",
+                  background: "rgba(255,255,255,0.045)",
+                  color: "#fff",
+                  fontSize: "16px",
+                }}
+              />
+
+              {addDomainError && (
+                <p
+                  style={{
+                    margin: "12px 0 0",
+                    color: "#ff7777",
+                    fontSize: "13px",
+                  }}
+                >
+                  {addDomainError}
+                </p>
+              )}
+
+              {addDomainSuccess && (
+                <p
+                  style={{
+                    margin: "12px 0 0",
+                    color: "#72e6a0",
+                    fontSize: "13px",
+                  }}
+                >
+                  ✓ {addDomainSuccess}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                disabled={addingDomain}
+                style={{
+                  width: "100%",
+                  height: "56px",
+                  marginTop: "22px",
+                  border: 0,
+                  borderRadius: "14px",
+                  background: "#fff",
+                  color: "#080808",
+                  fontWeight: 700,
+                  fontSize: "14px",
+                  cursor: addingDomain ? "wait" : "pointer",
+                  opacity: addingDomain ? 0.65 : 1,
+                }}
+              >
+                {addingDomain
+                  ? "Ajout en cours..."
+                  : "Ajouter le domaine"}
+              </button>
+
+              <p
+                style={{
+                  margin: "16px 0 0",
+                  textAlign: "center",
+                  color: "#666",
+                  fontSize: "11px",
+                  lineHeight: 1.5,
+                }}
+              >
+                Cette fonction associe votre domaine existant
+                à votre espace client NOVA.
+              </p>
+            </form>
+          </div>
+        </div>
+      )}
 
       <footer className="domains-client-footer">
         <div className="domains-footer-inner">

@@ -520,6 +520,63 @@ export default function DomainesPage() {
                 </div>
               )}
 
+              {searched && results.length > 0 && (
+                <div className="domainsHeroResultWrap">
+                  <div className="domainsHeroResultLine" />
+
+                  <article className="domainsHeroResult">
+                    <div className="domainsHeroResultOrb">
+                      <div className="domainsHeroResultOrbInner">
+                        <GlobeIcon />
+                      </div>
+                    </div>
+
+                    <div className="domainsHeroResultInfo">
+                      <div className="domainsHeroResultStatus">
+                        <span />
+                        {results[0].available
+                          ? "DOMAINE DISPONIBLE"
+                          : "DOMAINE INDISPONIBLE"}
+                      </div>
+
+                      <div className="domainsHeroResultName">
+                        {results[0].domain}
+                      </div>
+
+                      <div className="domainsHeroResultMeta">
+                        {results[0].available
+                          ? "Prêt à devenir votre identité en ligne"
+                          : "Ce domaine n'est pas disponible"}
+                      </div>
+                    </div>
+
+                    <div className="domainsHeroResultPrice">
+                      {formatPrice(
+                        results[0].price,
+                        results[0].currency
+                      )}
+                      {results[0].available && <small>/ an</small>}
+                    </div>
+
+                    {results[0].available && (
+                      <button
+                        type="button"
+                        className="domainsHeroResultButton"
+                        onClick={() => handlePurchase(results[0])}
+                        disabled={buyingDomain === results[0].domain}
+                      >
+                        {buyingDomain === results[0].domain
+                          ? "Chargement..."
+                          : "Ajouter au panier"}
+                        <span>
+                          <ArrowIcon />
+                        </span>
+                      </button>
+                    )}
+                  </article>
+                </div>
+              )}
+
               <div className="domainsHeroMeta">
 
                 <div className="domainsHeroMetaItem">
@@ -597,7 +654,13 @@ export default function DomainesPage() {
 
         {/* ================= RESULTS ================= */}
 
-        <section className="domainsSection">
+        <section
+          className={`domainsSection ${
+            searched && results.length > 0
+              ? "domainsSectionHasHeroResult"
+              : ""
+          }`}
+        >
 
           <div className="domainsSectionHead">
 

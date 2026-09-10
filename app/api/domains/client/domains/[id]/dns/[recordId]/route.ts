@@ -5,6 +5,7 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 import {
   deleteDnsRecord,
   getDnsRecords,
+  type DnsRecord,
 } from "@/lib/openprovider";
 
 export const runtime = "nodejs";
@@ -537,19 +538,8 @@ export async function DELETE(
     // CONSTRUCTION DU DNS ORIGINAL
     // ========================================================
 
-    const originalRecord: {
-      name?: string;
-      type: string;
-      value: string;
-      ttl: number;
-      prio?: number;
-    } = {
-      ...(openProviderName
-        ? {
-            name:
-              openProviderName,
-          }
-        : {}),
+    const originalRecord: DnsRecord = {
+      name: openProviderName ?? "",
 
       type:
         String(

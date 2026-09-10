@@ -70,6 +70,7 @@ export async function GET() {
           status,
           email,
           expires_at,
+          openprovider_id,
           user_id,
           created_at
         `,
@@ -124,7 +125,7 @@ export async function GET() {
 }
 
 // ========================================================
-// POST — AJOUTER UN DOMAINE EXISTANT
+// POST — AJOUTER / ASSOCIER UN DOMAINE EXISTANT
 // ========================================================
 
 export async function POST(request: Request) {
@@ -158,7 +159,9 @@ export async function POST(request: Request) {
       );
     }
 
-    let body: { domain?: string };
+    let body: {
+      domain?: string;
+    };
 
     try {
       body = await request.json();
@@ -172,7 +175,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const domain = normalizeDomain(String(body.domain || ""));
+    const domain = normalizeDomain(
+      String(body.domain || ""),
+    );
 
     if (!domain) {
       return NextResponse.json(
@@ -195,10 +200,25 @@ export async function POST(request: Request) {
       );
     }
 
+    // ========================================================
+    // VÉRIFICATION GLOBALE
+    // ========================================================
+
     const { data: existingDomain, error: existingError } =
       await supabaseAdmin
         .from("domains")
-        .select("id, user_id, domain")
+        .select(
+          `
+            id,
+            user_id,
+            domain,
+            status,
+            email,
+            expires_at,
+            openprovider_id,
+            created_at
+          `,
+        )
         .ilike("domain", domain)
         .maybeSingle();
 
@@ -220,6 +240,10 @@ export async function POST(request: Request) {
       );
     }
 
+    // ========================================================
+    // DOMAINE DÉJÀ ASSOCIÉ
+    // ========================================================
+
     if (existingDomain) {
       if (existingDomain.user_id === user.id) {
         return NextResponse.json(
@@ -227,6 +251,7 @@ export async function POST(request: Request) {
             error:
               "Ce domaine est déjà présent dans votre espace client.",
             code: "DOMAIN_ALREADY_YOURS",
+            domain: existingDomain,
           },
           { status: 409 },
         );
@@ -242,13 +267,29 @@ export async function POST(request: Request) {
       );
     }
 
+    // ========================================================
+    // ASSOCIATION D'UN DOMAINE ACHETÉ AILLEURS
+    //
+    // IMPORTANT :
+    // On ne lance PAS registerDomain().
+    // On ne lance PAS de checkout.
+    // Le domaine est simplement rattaché au compte client.
+    // ========================================================
+
     const { data: insertedDomain, error: insertError } =
       await supabaseAdmin
         .from("domains")
         .insert({
           domain,
           user_id: user.id,
+
+          // Un domaine externe déjà possédé est immédiatement
+          // disponible dans l'espace client.
           status: "active",
+
+          // Aucun identifiant OpenProvider de registrar n'est
+          // inventé pour un domaine acheté ailleurs.
+          openprovider_id: null,
         })
         .select(
           `
@@ -257,6 +298,7 @@ export async function POST(request: Request) {
             status,
             email,
             expires_at,
+            openprovider_id,
             user_id,
             created_at
           `,
@@ -274,7 +316,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error:
-            "Impossible d'ajouter ce domaine à votre espace client.",
+            "Impossible d'associer ce domaine à votre espace client.",
           code: "DOMAIN_INSERT_ERROR",
         },
         { status: 500 },
@@ -285,7 +327,8 @@ export async function POST(request: Request) {
       {
         success: true,
         domain: insertedDomain,
-        message: "Domaine ajouté à votre espace client.",
+        message:
+          "Domaine existant associé à votre espace client.",
       },
       {
         status: 201,

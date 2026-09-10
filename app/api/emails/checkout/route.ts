@@ -36,22 +36,48 @@ const PLAN_NAMES: Record<string, string> = {
   team: "Équipe",
 };
 
+function cleanDomain(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/^https?:\/\//, "")
+    .replace(/^www\./, "")
+    .replace(/\/.*$/, "");
+}
+
+function cleanEmailPrefix(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "")
+    .replace(/[^a-z0-9._-]/g, "");
+}
+
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as CheckoutBody;
-    const { plan, domain, emailPrefix, billingPeriod = "monthly" } = body;
+
+    const plan = body.plan;
+    const domain = cleanDomain(body.domain ?? "");
+    const emailPrefix = cleanEmailPrefix(body.emailPrefix ?? "");
+    const billingPeriod = body.billingPeriod ?? "monthly";
 
     if (!plan || !domain || !emailPrefix) {
       return NextResponse.json(
-        { error: "Plan, domaine et préfixe email sont requis." },
+        {
+          error: "Plan, domaine et préfixe email sont requis.",
+        },
         { status: 400 },
       );
     }
 
     const price = PRICE_PER_PLAN[plan];
+
     if (price === undefined) {
       return NextResponse.json(
-        { error: "Plan invalide." },
+        {
+          error: "Plan invalide.",
+        },
         { status: 400 },
       );
     }
@@ -65,109 +91,187 @@ export async function POST(request: Request) {
 
     if (authError || !user) {
       return NextResponse.json(
-        { error: "Non authentifié." },
+        {
+          error: "Non authentifié.",
+        },
         { status: 401 },
       );
     }
 
-    // Vérifier la propriété du domaine
-    const { data: domainData, error: domainError } = await supabaseAdmin
-      .from("domains")
-      .select("id, domain, status, user_id")
-      .eq("domain", domain)
-      .eq("user_id", user.id)
-      .maybeSingle();
+    /*
+     * =========================================================
+     * VÉRIFICATION DU DOMAINE
+     * =========================================================
+     *
+     * Le domaine peut avoir été :
+     *
+     * - acheté via NOVA
+     * - associé manuellement au compte NOVA
+     *
+     * Dans les deux cas, il suffit que le domaine appartienne
+     * au compte connecté et qu'il soit actif.
+     */
+
+    const { data: domainRows, error: domainError } =
+      await supabaseAdmin
+        .from("domains")
+        .select("id, domain, status, user_id")
+        .eq("user_id", user.id)
+        .eq("domain", domain)
+        .limit(1);
 
     if (domainError) {
       console.error("DOMAIN CHECK ERROR:", domainError);
+
       return NextResponse.json(
-        { error: "Impossible de vérifier le domaine." },
+        {
+          error: "Impossible de vérifier le domaine.",
+          code: "DOMAIN_CHECK_ERROR",
+        },
         { status: 500 },
       );
     }
 
+    const domainData = domainRows?.[0] ?? null;
+
     if (!domainData) {
       return NextResponse.json(
-        { error: "Ce domaine n'appartient pas à votre compte NOVA." },
+        {
+          error:
+            "Ce domaine n'appartient pas à votre compte NOVA.",
+          code: "DOMAIN_NOT_FOUND",
+        },
         { status: 403 },
       );
     }
 
     if (domainData.status !== "active") {
       return NextResponse.json(
-        { error: "Ce domaine n'est pas encore actif." },
+        {
+          error: "Ce domaine n'est pas encore actif.",
+          code: "DOMAIN_NOT_ACTIVE",
+        },
         { status: 400 },
       );
     }
 
-    // Vérifier la disponibilité de l'adresse email
+    /*
+     * =========================================================
+     * VÉRIFICATION DE LA DISPONIBILITÉ DE L'EMAIL
+     * =========================================================
+     */
+
     const emailAddress = `${emailPrefix}@${domain}`;
-    const { data: existingEmail, error: emailCheckError } = await supabaseAdmin
-      .from("emails")
-      .select("id")
-      .eq("email_address", emailAddress)
-      .maybeSingle();
+
+    const { data: existingEmails, error: emailCheckError } =
+      await supabaseAdmin
+        .from("emails")
+        .select("id")
+        .eq("email_address", emailAddress)
+        .limit(1);
 
     if (emailCheckError) {
       console.error("EMAIL CHECK ERROR:", emailCheckError);
+
       return NextResponse.json(
-        { error: "Impossible de vérifier la disponibilité de l'email." },
+        {
+          error:
+            "Impossible de vérifier la disponibilité de l'email.",
+          code: "EMAIL_CHECK_ERROR",
+          details:
+            process.env.NODE_ENV === "development"
+              ? emailCheckError.message
+              : undefined,
+        },
         { status: 500 },
       );
     }
 
-    if (existingEmail) {
+    if (existingEmails && existingEmails.length > 0) {
       return NextResponse.json(
-        { error: "Cette adresse email existe déjà." },
+        {
+          error: "Cette adresse email existe déjà.",
+          code: "EMAIL_ALREADY_EXISTS",
+        },
         { status: 409 },
       );
     }
 
-    // Créer la commande
-    const { data: order, error: insertError } = await supabaseAdmin
-      .from("orders")
-      .insert({
-        user_id: user.id,
-        type: "email",
-        plan,
-        domain,
-        email_prefix: emailPrefix,
-        email_address: emailAddress,
-        billing_period: billingPeriod,
-        amount: price,
-        currency: "EUR",
-        status: "pending",
-      })
-      .select()
-      .single();
+    /*
+     * =========================================================
+     * CRÉATION DE LA COMMANDE
+     * =========================================================
+     */
+
+    const { data: order, error: insertError } =
+      await supabaseAdmin
+        .from("orders")
+        .insert({
+          user_id: user.id,
+          type: "email",
+          plan,
+          domain,
+          email_prefix: emailPrefix,
+          email_address: emailAddress,
+          billing_period: billingPeriod,
+          amount: price,
+          currency: "EUR",
+          status: "pending",
+        })
+        .select()
+        .single();
 
     if (insertError || !order) {
       console.error("INSERT ORDER ERROR:", insertError);
+
       return NextResponse.json(
-        { error: "Impossible de créer la commande." },
+        {
+          error: "Impossible de créer la commande.",
+          code: "ORDER_CREATE_ERROR",
+        },
         { status: 500 },
       );
     }
 
+    /*
+     * =========================================================
+     * STRIPE
+     * =========================================================
+     */
+
     const stripe = getStripe();
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
+
       line_items: [
         {
           quantity: 1,
+
           price_data: {
             currency: "eur",
+
             product_data: {
               name: `Email NOVA — ${PLAN_NAMES[plan] ?? plan}`,
-              description: `${emailPrefix}@${domain}`,
+              description: emailAddress,
             },
+
             unit_amount: Math.round(price * 100),
           },
         },
       ],
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/espace-client/emails/success?order=${order.id}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/espace-client/emails/acheter`,
+
+      success_url: `${
+        process.env.NEXT_PUBLIC_SITE_URL ||
+        "http://localhost:3000"
+      }/espace-client/emails/success?order=${order.id}`,
+
+      cancel_url: `${
+        process.env.NEXT_PUBLIC_SITE_URL ||
+        "http://localhost:3000"
+      }/espace-client/emails/acheter`,
+
       metadata: {
         order_id: order.id,
         type: "professional_email",
@@ -181,16 +285,38 @@ export async function POST(request: Request) {
       },
     });
 
-    await supabaseAdmin
-      .from("orders")
-      .update({ stripe_session_id: session.id })
-      .eq("id", order.id);
+    /*
+     * =========================================================
+     * ENREGISTRER LA SESSION STRIPE
+     * =========================================================
+     */
 
-    return NextResponse.json({ url: session.url });
+    const { error: stripeUpdateError } =
+      await supabaseAdmin
+        .from("orders")
+        .update({
+          stripe_session_id: session.id,
+        })
+        .eq("id", order.id);
+
+    if (stripeUpdateError) {
+      console.error(
+        "STRIPE SESSION UPDATE ERROR:",
+        stripeUpdateError,
+      );
+    }
+
+    return NextResponse.json({
+      url: session.url,
+    });
   } catch (err) {
     console.error("EMAIL CHECKOUT ERROR:", err);
+
     return NextResponse.json(
-      { error: "Une erreur est survenue lors du paiement." },
+      {
+        error:
+          "Une erreur est survenue lors du paiement.",
+      },
       { status: 500 },
     );
   }

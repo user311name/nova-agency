@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import "./ClientHeader.css";
 
@@ -66,85 +66,100 @@ export default function ClientHeader() {
   }, [open]);
 
   return (
-    <header className="nova-client-header">
-      <div className="nova-client-header-inner">
-
-        <Link
-          href="/espace-client"
-          className="nova-client-logo"
-          aria-label="NOVA - Espace client"
-        >
-          NOV<span>A</span>
-        </Link>
-
-        <nav
-          className="nova-client-nav"
-          aria-label="Navigation de l'espace client"
-        >
-          {clientLinks.map((link) => {
-            const active = isActive(
-              pathname,
-              link.href
-            );
-
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={
-                  active
-                    ? "nova-client-nav-link active"
-                    : "nova-client-nav-link"
-                }
-              >
-                <span className="nav-link-icon">{link.icon}</span>
-                <span className="nav-link-label">{link.label}</span>
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="nova-client-actions">
+    <>
+      <header className="nova-client-header">
+        <div className="nova-client-header-inner">
 
           <Link
-            href="/contact"
-            className="nova-client-support"
+            href="/espace-client"
+            className="nova-client-logo"
+            aria-label="NOVA - Espace client"
           >
-            Support
+            NOV<span>A</span>
           </Link>
 
-          <Link
-            href="/espace-client/parametres"
-            className="nova-client-avatar"
-            aria-label="Paramètres du compte"
+          <nav
+            className="nova-client-nav"
+            aria-label="Navigation de l'espace client"
           >
-            NC
-          </Link>
+            {clientLinks.map((link) => {
+              const active = isActive(
+                pathname,
+                link.href
+              );
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={
+                    active
+                      ? "nova-client-nav-link active"
+                      : "nova-client-nav-link"
+                  }
+                >
+                  <span className="nav-link-icon">
+                    {link.icon}
+                  </span>
+
+                  <span className="nav-link-label">
+                    {link.label}
+                  </span>
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="nova-client-actions">
+
+            <Link
+              href="/contact"
+              className="nova-client-support"
+            >
+              Support
+            </Link>
+
+            <Link
+              href="/espace-client/parametres"
+              className="nova-client-avatar"
+              aria-label="Paramètres du compte"
+            >
+              NC
+            </Link>
+
+          </div>
+
+          <button
+            type="button"
+            className={`nova-client-mobile-button ${
+              open ? "is-open" : ""
+            }`}
+            aria-label={
+              open
+                ? "Fermer le menu"
+                : "Ouvrir le menu"
+            }
+            aria-expanded={open}
+            aria-controls="client-mobile-navigation"
+            onClick={() =>
+              setOpen((value) => !value)
+            }
+          >
+            <span />
+            <span />
+            <span />
+          </button>
 
         </div>
+      </header>
 
-        <button
-          type="button"
-          className={`nova-client-mobile-button ${
-            open ? "is-open" : ""
-          }`}
-          aria-label={
-            open
-              ? "Fermer le menu"
-              : "Ouvrir le menu"
-          }
-          aria-expanded={open}
-          aria-controls="client-mobile-navigation"
-          onClick={() =>
-            setOpen((value) => !value)
-          }
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-
-      </div>
+      {open && (
+        <div
+          className="client-mobile-backdrop"
+          aria-hidden="true"
+          onClick={() => setOpen(false)}
+        />
+      )}
 
       <div
         id="client-mobile-navigation"
@@ -206,6 +221,6 @@ export default function ClientHeader() {
           <span aria-hidden="true">↗</span>
         </Link>
       </div>
-    </header>
+    </>
   );
 }

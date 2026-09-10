@@ -32,6 +32,7 @@ type OpenproviderRecord = {
   ip?: string;
   ttl?: number;
   prio?: number;
+  priority?: number;
 };
 
 function decodeRecordId(
@@ -43,9 +44,13 @@ function decodeRecordId(
       "base64url",
     ).toString("utf8");
 
-    const parsed = JSON.parse(json);
+    const parsed =
+      JSON.parse(json);
 
-    if (!parsed || typeof parsed !== "object") {
+    if (
+      !parsed ||
+      typeof parsed !== "object"
+    ) {
       return null;
     }
 
@@ -59,7 +64,8 @@ function decodeRecordId(
         ? parsed.value
         : "";
 
-    const ttl = Number(parsed.ttl);
+    const ttl =
+      Number(parsed.ttl);
 
     if (
       !type ||
@@ -85,7 +91,9 @@ function decodeRecordId(
         parsed.priority === null ||
         parsed.priority === undefined
           ? null
-          : Number(parsed.priority),
+          : Number(
+              parsed.priority,
+            ),
     };
   } catch {
     return null;
@@ -95,9 +103,15 @@ function decodeRecordId(
 function normalizeName(
   value: unknown,
 ): string {
-  const name = String(value ?? "").trim();
+  const name =
+    String(
+      value ?? "",
+    ).trim();
 
-  if (!name || name === "@") {
+  if (
+    !name ||
+    name === "@"
+  ) {
     return "@";
   }
 
@@ -109,7 +123,9 @@ function normalizeName(
 function normalizeValue(
   value: unknown,
 ): string {
-  return String(value ?? "").trim();
+  return String(
+    value ?? "",
+  ).trim();
 }
 
 function recordsMatch(
@@ -117,31 +133,41 @@ function recordsMatch(
   target: DecodedRecord,
 ): boolean {
   const recordType =
-    String(record.type ?? "").toUpperCase();
+    String(
+      record.type ?? "",
+    ).toUpperCase();
 
-  const recordValue = normalizeValue(
-    record.value ?? record.ip ?? "",
-  );
+  const recordValue =
+    normalizeValue(
+      record.value ??
+        record.ip ??
+        "",
+    );
 
-  const recordName = normalizeName(
-    record.name,
-  );
+  const recordName =
+    normalizeName(
+      record.name,
+    );
 
-  const targetName = normalizeName(
-    target.name,
-  );
+  const targetName =
+    normalizeName(
+      target.name,
+    );
 
-  const recordTtl = Number(record.ttl);
+  const recordTtl =
+    Number(record.ttl);
 
-  const targetTtl = Number(
-    target.ttl,
-  );
+  const targetTtl =
+    Number(target.ttl);
 
   const recordPriority =
     record.prio !== undefined &&
     record.prio !== null
       ? Number(record.prio)
-      : null;
+      : record.priority !== undefined &&
+          record.priority !== null
+        ? Number(record.priority)
+        : null;
 
   const targetPriority =
     target.priority !== undefined &&
@@ -152,12 +178,105 @@ function recordsMatch(
   return (
     recordType === target.type &&
     recordValue ===
-      normalizeValue(target.value) &&
-    recordName === targetName &&
-    recordTtl === targetTtl &&
-    recordPriority === targetPriority
+      normalizeValue(
+        target.value,
+      ) &&
+    recordName ===
+      targetName &&
+    recordTtl ===
+      targetTtl &&
+    recordPriority ===
+      targetPriority
   );
 }
+
+/**
+ * OpenProvider attend pour "name" uniquement
+ * le label du sous-domaine.
+ *
+ * Exemples :
+ *
+ * agency-nova.fr
+ *   -> pas de name
+ *
+ * www.agency-nova.fr
+ *   -> name: "www"
+ *
+ * mail.agency-nova.fr
+ *   -> name: "mail"
+ *
+ * Si OpenProvider retourne déjà "www",
+ * on conserve "www".
+ */
+function normalizeOpenProviderRecordName(
+  recordName: unknown,
+  domainName: string,
+): string | undefined {
+  const raw =
+    String(
+      recordName ?? "",
+    )
+      .trim()
+      .replace(/\.$/, "")
+      .toLowerCase();
+
+  const cleanDomain =
+    String(
+      domainName ?? "",
+    )
+      .trim()
+      .replace(/^https?:\/\//, "")
+      .replace(/^www\./, "")
+      .replace(/\/.*$/, "")
+      .replace(/\.$/, "")
+      .toLowerCase();
+
+  if (
+    !raw ||
+    raw === "@"
+  ) {
+    return undefined;
+  }
+
+  // Record à la racine du domaine.
+  if (
+    raw === cleanDomain
+  ) {
+    return undefined;
+  }
+
+  // OpenProvider peut retourner un FQDN complet.
+  // On le transforme en simple label relatif.
+  const suffix =
+    `.${cleanDomain}`;
+
+  if (
+    raw.endsWith(suffix)
+  ) {
+    const relative =
+      raw.slice(
+        0,
+        -suffix.length,
+      );
+
+    if (
+      !relative ||
+      relative === "@"
+    ) {
+      return undefined;
+    }
+
+    return relative;
+  }
+
+  // Si OpenProvider retourne déjà
+  // le nom relatif, on le conserve.
+  return raw;
+}
+
+// ========================================================
+// DELETE — SUPPRIMER UN ENREGISTREMENT DNS
+// ========================================================
 
 export async function DELETE(
   _request: Request,
@@ -169,7 +288,10 @@ export async function DELETE(
       recordId,
     } = await context.params;
 
-    if (!id || !recordId) {
+    if (
+      !id ||
+      !recordId
+    ) {
       return NextResponse.json(
         {
           error:
@@ -185,9 +307,13 @@ export async function DELETE(
     const {
       data: { user },
       error: authError,
-    } = await supabase.auth.getUser();
+    } =
+      await supabase.auth.getUser();
 
-    if (authError || !user) {
+    if (
+      authError ||
+      !user
+    ) {
       return NextResponse.json(
         {
           error:
@@ -204,12 +330,14 @@ export async function DELETE(
     } =
       await supabaseAdmin
         .from("domains")
-        .select(`
-          id,
-          domain,
-          user_id,
-          status
-        `)
+        .select(
+          `
+            id,
+            domain,
+            user_id,
+            status
+          `,
+        )
         .eq("id", id)
         .eq("user_id", user.id)
         .maybeSingle();
@@ -232,14 +360,71 @@ export async function DELETE(
     if (!domain) {
       return NextResponse.json(
         {
-          error: "Domaine introuvable.",
+          error:
+            "Domaine introuvable.",
         },
         { status: 404 },
       );
     }
 
+    const status =
+      String(
+        domain.status ?? "",
+      )
+        .trim()
+        .toLowerCase();
+
+    if (
+      status !== "active"
+    ) {
+      if (
+        status === "pending" ||
+        status === "processing"
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "La configuration DNS sera disponible dès que votre domaine sera activé.",
+            code:
+              "DOMAIN_ACTIVATION_PENDING",
+            status,
+          },
+          { status: 409 },
+        );
+      }
+
+      if (
+        status === "failed"
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "La configuration DNS n'est pas disponible car l'activation de votre domaine n'est pas finalisée.",
+            code:
+              "DOMAIN_ACTIVATION_FAILED",
+            status,
+          },
+          { status: 409 },
+        );
+      }
+
+      return NextResponse.json(
+        {
+          error:
+            "La configuration DNS sera disponible dès que votre domaine sera actif.",
+          code:
+            "DOMAIN_NOT_ACTIVE",
+          status:
+            status || "unknown",
+        },
+        { status: 409 },
+      );
+    }
+
     const target =
-      decodeRecordId(recordId);
+      decodeRecordId(
+        recordId,
+      );
 
     if (!target) {
       return NextResponse.json(
@@ -251,7 +436,13 @@ export async function DELETE(
       );
     }
 
-    if (target.type === "SOA") {
+    // ========================================================
+    // PROTECTION DES ENREGISTREMENTS SYSTÈME
+    // ========================================================
+
+    if (
+      target.type === "SOA"
+    ) {
       return NextResponse.json(
         {
           error:
@@ -261,6 +452,22 @@ export async function DELETE(
       );
     }
 
+    if (
+      target.type === "NS"
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Les enregistrements NS principaux ne peuvent pas être supprimés.",
+        },
+        { status: 400 },
+      );
+    }
+
+    // ========================================================
+    // RÉCUPÉRATION DES DNS ACTUELS
+    // ========================================================
+
     const rawResult =
       await getDnsRecords(
         domain.domain,
@@ -268,7 +475,9 @@ export async function DELETE(
 
     const records: OpenproviderRecord[] =
       Array.isArray(rawResult)
-        ? (rawResult as OpenproviderRecord[])
+        ? (
+            rawResult as OpenproviderRecord[]
+          )
         : Array.isArray(
               (
                 rawResult as {
@@ -296,11 +505,12 @@ export async function DELETE(
             : [];
 
     const matchingRecord =
-      records.find((record) =>
-        recordsMatch(
-          record,
-          target,
-        ),
+      records.find(
+        (record) =>
+          recordsMatch(
+            record,
+            target,
+          ),
       );
 
     if (!matchingRecord) {
@@ -313,13 +523,38 @@ export async function DELETE(
       );
     }
 
-    const originalRecord = {
-      name:
-        matchingRecord.name ?? "",
+    // ========================================================
+    // NOM OPENPROVIDER CORRECT
+    // ========================================================
+
+    const openProviderName =
+      normalizeOpenProviderRecordName(
+        matchingRecord.name,
+        domain.domain,
+      );
+
+    // ========================================================
+    // CONSTRUCTION DU DNS ORIGINAL
+    // ========================================================
+
+    const originalRecord: {
+      name?: string;
+      type: string;
+      value: string;
+      ttl: number;
+      prio?: number;
+    } = {
+      ...(openProviderName
+        ? {
+            name:
+              openProviderName,
+          }
+        : {}),
 
       type:
         String(
-          matchingRecord.type ?? "",
+          matchingRecord.type ??
+            "",
         ).toUpperCase(),
 
       value:
@@ -333,17 +568,53 @@ export async function DELETE(
         Number(
           matchingRecord.ttl,
         ) || target.ttl,
-
-      ...(matchingRecord.prio !==
-        undefined &&
-      matchingRecord.prio !== null
-        ? {
-            prio: Number(
-              matchingRecord.prio,
-            ),
-          }
-        : {}),
     };
+
+    const matchingPriority =
+      matchingRecord.prio !==
+        undefined &&
+      matchingRecord.prio !==
+        null
+        ? Number(
+            matchingRecord.prio,
+          )
+        : matchingRecord.priority !==
+              undefined &&
+            matchingRecord.priority !==
+              null
+          ? Number(
+              matchingRecord.priority,
+            )
+          : undefined;
+
+    if (
+      matchingPriority !==
+        undefined &&
+      Number.isFinite(
+        matchingPriority,
+      )
+    ) {
+      originalRecord.prio =
+        matchingPriority;
+    }
+
+    // ========================================================
+    // DEBUG TEMPORAIRE OPENPROVIDER
+    // ========================================================
+
+    console.log(
+      "CLIENT DNS DELETE OPENPROVIDER PAYLOAD:",
+      {
+        domain:
+          domain.domain,
+        record:
+          originalRecord,
+      },
+    );
+
+    // ========================================================
+    // SUPPRESSION OPENPROVIDER
+    // ========================================================
 
     await deleteDnsRecord(
       domain.domain,

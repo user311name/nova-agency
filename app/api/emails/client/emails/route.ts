@@ -42,16 +42,21 @@ export async function GET() {
         provider_id,
         created_at,
         updated_at
-      `
+      `,
       )
       .eq("user_id", user.id)
       .order("created_at", { ascending: false });
 
     if (error) {
-      console.error("CLIENT EMAILS FETCH ERROR:", error);
+      console.error(
+        "CLIENT EMAILS FETCH ERROR:",
+        error,
+      );
+
       return NextResponse.json(
         {
-          error: "Impossible de récupérer vos emails.",
+          error:
+            "Impossible de récupérer vos emails.",
           code: "EMAILS_FETCH_ERROR",
         },
         { status: 500 },
@@ -59,7 +64,9 @@ export async function GET() {
     }
 
     return NextResponse.json(
-      { emails: data ?? [] },
+      {
+        emails: data ?? [],
+      },
       {
         status: 200,
         headers: {
@@ -68,7 +75,11 @@ export async function GET() {
       },
     );
   } catch (err) {
-    console.error("CLIENT EMAILS API ERROR:", err);
+    console.error(
+      "CLIENT EMAILS API ERROR:",
+      err,
+    );
+
     return NextResponse.json(
       {
         error: "Erreur serveur.",

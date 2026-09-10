@@ -391,20 +391,6 @@ async function processDomainOrder(
       stripeSessionId: session.id,
     });
 
-/*
-   * IMPORTANT :
-   * on conserve l'erreur afin que Stripe
-   * puisse relancer le webhook.
-   */
-
-  await saveEmailOrder({
-    domain,
-    email,
-    userId,
-    status: "failed",
-    stripeSessionId: session.id,
-  });
-
   throw error;
 }
 }
@@ -952,9 +938,19 @@ function extractExpirationDate(
         await saveEmailOrder({
           domain,
           email: emailAddress,
+          emailPrefix,
           userId,
+          plan,
+          billingPeriod,
+          amount,
+          currency: (session.currency || "eur").toUpperCase(),
           status: "active",
           stripeSessionId: session.id,
+          providerId:
+            emailAccount?.id !== undefined &&
+            emailAccount?.id !== null
+              ? String(emailAccount.id)
+              : null,
         });
 
         console.log(
@@ -974,9 +970,15 @@ function extractExpirationDate(
         await saveEmailOrder({
           domain,
           email: emailAddress,
+          emailPrefix,
           userId,
+          plan,
+          billingPeriod,
+          amount,
+          currency: (session.currency || "eur").toUpperCase(),
           status: "pending",
           stripeSessionId: session.id,
+          providerId: null,
         });
 
         console.error(
@@ -1015,15 +1017,27 @@ function extractExpirationDate(
    async function saveEmailOrder({
      domain,
      email,
+     emailPrefix,
      userId,
+     plan,
+     billingPeriod,
+     amount,
+     currency,
      status,
      stripeSessionId,
+     providerId,
    }: {
      domain: string;
      email: string;
+     emailPrefix: string;
      userId: string;
+     plan: string;
+     billingPeriod: string;
+     amount: number;
+     currency: string;
      status: string;
      stripeSessionId: string;
+     providerId?: string | null;
    }) {
      const existing = await getEmailOrderBySession(
        stripeSessionId,
@@ -1032,19 +1046,37 @@ function extractExpirationDate(
      const values = {
        user_id: userId,
        domain,
+       email_prefix: emailPrefix,
        email_address: email,
+       plan,
+       billing_period: billingPeriod,
+       amount,
+       currency,
        status,
        stripe_session_id: stripeSessionId,
+       provider_id: providerId ?? null,
      };
 
      if (existing) {
-       await supabaseAdmin
+       const { error } = await supabaseAdmin
          .from("emails")
          .update(values)
          .eq("stripe_session_id", stripeSessionId);
+
+       if (error) {
+         throw new Error(
+           `Erreur Supabase lors de la mise à jour de la commande email : ${error.message}`,
+         );
+       }
      } else {
-       await supabaseAdmin
+       const { error } = await supabaseAdmin
          .from("emails")
          .insert(values);
+
+       if (error) {
+         throw new Error(
+           `Erreur Supabase lors de la création de la commande email : ${error.message}`,
+         );
+       }
      }
    }

@@ -355,9 +355,9 @@ export async function POST(request: Request) {
      * On réutilise un customer existant si l'utilisateur
      * en possède déjà un.
      *
-     * Pour le moment, on récupère l'ID via metadata/order
-     * si disponible. Stripe peut aussi créer automatiquement
-     * le customer avec customer_creation.
+     * Stripe crée automatiquement le Customer nécessaire
+     * à l'abonnement. customer_creation n'est donc pas utilisé
+     * ici car cette option est réservée au mode payment.
      */
 
     const session = await stripe.checkout.sessions.create({
@@ -376,11 +376,6 @@ export async function POST(request: Request) {
           quantity: 1,
         },
       ],
-
-      /*
-       * Stripe crée un Customer pour l'abonnement.
-       */
-      customer_creation: "always",
 
       /*
        * Permet à Stripe de demander l'adresse de facturation.

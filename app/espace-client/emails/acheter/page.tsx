@@ -343,7 +343,9 @@ function EmailPurchasePageContent() {
                   {selectedPlan.price}
                 </strong>
 
-                <span>/ an</span>
+                <span>
+                  {selectedPlanId === "team" ? "/ an" : "/ mois"}
+                </span>
               </div>
 
               <p>

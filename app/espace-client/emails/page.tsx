@@ -232,6 +232,14 @@ function getStatusLabel(status: string) {
     return "Actif";
   }
 
+  if (status === "past_due") {
+    return "Paiement à régulariser";
+  }
+
+  if (status === "canceled") {
+    return "Résilié";
+  }
+
   if (status === "failed") {
     return "Échec";
   }
@@ -244,7 +252,7 @@ function getStatusClass(status: string) {
     return "is-active";
   }
 
-  if (status === "failed") {
+  if (status === "failed" || status === "past_due" || status === "canceled") {
     return "is-failed";
   }
 
@@ -262,7 +270,7 @@ function getPlanName(plan: string) {
 }
 
 function getBillingPeriodLabel(period: string) {
-  if (period === "annual") {
+  if (period === "annual" || period === "yearly") {
     return "Annuel";
   }
 

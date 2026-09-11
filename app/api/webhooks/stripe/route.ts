@@ -92,20 +92,79 @@ export async function POST(request: NextRequest) {
    * ==========================================================
    */
 
-  if (event.type !== "checkout.session.completed") {
-    return NextResponse.json({
-      received: true,
-    });
-  }
-
   try {
-    const session = event.data.object as Stripe.Checkout.Session;
-    const type = session.metadata?.type;
+    switch (event.type) {
+      case "checkout.session.completed": {
+        const session = event.data.object as Stripe.Checkout.Session;
+        const type = session.metadata?.type;
 
-    if (type === "professional_email") {
-      await processEmailOrder(session);
-    } else {
-      await processDomainOrder(session);
+        if (type === "professional_email") {
+          await processEmailOrder(session);
+          await syncSubscriptionFromCheckout(session);
+        } else {
+          await processDomainOrder(session);
+        }
+
+        break;
+      }
+
+      case "customer.subscription.created":
+      case "customer.subscription.updated": {
+        const subscription = event.data.object as Stripe.Subscription;
+
+        if (subscription.metadata?.type === "professional_email") {
+          await syncSubscription(subscription);
+        }
+
+        break;
+      }
+
+      case "customer.subscription.deleted": {
+        const subscription = event.data.object as Stripe.Subscription;
+
+        if (subscription.metadata?.type === "professional_email") {
+          await syncSubscription(subscription);
+        }
+
+        break;
+      }
+
+      case "invoice.paid": {
+        const invoice = event.data.object as Stripe.Invoice;
+        const subscriptionId = getInvoiceSubscriptionId(invoice);
+
+        if (subscriptionId) {
+          const subscription = await getStripe().subscriptions.retrieve(
+            subscriptionId,
+          );
+
+          if (subscription.metadata?.type === "professional_email") {
+            await syncSubscription(subscription);
+          }
+        }
+
+        break;
+      }
+
+      case "invoice.payment_failed": {
+        const invoice = event.data.object as Stripe.Invoice;
+        const subscriptionId = getInvoiceSubscriptionId(invoice);
+
+        if (subscriptionId) {
+          const subscription = await getStripe().subscriptions.retrieve(
+            subscriptionId,
+          );
+
+          if (subscription.metadata?.type === "professional_email") {
+            await syncSubscription(subscription, "past_due");
+          }
+        }
+
+        break;
+      }
+
+      default:
+        break;
     }
 
     return NextResponse.json({
@@ -129,6 +188,168 @@ export async function POST(request: NextRequest) {
       { status: 500 },
     );
   }
+}
+
+/*
+ * ============================================================
+ * ABONNEMENTS EMAIL STRIPE
+ * ============================================================
+ */
+
+function getStripeObjectId(value: unknown): string | null {
+  if (!value) return null;
+
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (typeof value === "object" && "id" in value) {
+    const id = (value as { id?: unknown }).id;
+    return typeof id === "string" ? id : null;
+  }
+
+  return null;
+}
+
+function getInvoiceSubscriptionId(
+  invoice: Stripe.Invoice,
+): string | null {
+  const rawInvoice = invoice as unknown as {
+    subscription?: unknown;
+    parent?: {
+      subscription_details?: {
+        subscription?: unknown;
+      };
+    };
+  };
+
+  return getStripeObjectId(
+    rawInvoice.parent?.subscription_details?.subscription ??
+      rawInvoice.subscription,
+  );
+}
+
+async function syncSubscriptionFromCheckout(
+  session: Stripe.Checkout.Session,
+) {
+  const subscriptionId = getStripeObjectId(session.subscription);
+
+  if (!subscriptionId) {
+    throw new Error(
+      "Abonnement Stripe absent de la session Checkout.",
+    );
+  }
+
+  const subscription = await getStripe().subscriptions.retrieve(
+    subscriptionId,
+  );
+
+  await syncSubscription(subscription);
+}
+
+async function syncSubscription(
+  subscription: Stripe.Subscription,
+  forcedStatus?: string,
+) {
+  const metadata = subscription.metadata || {};
+
+  if (metadata.type !== "professional_email") {
+    return;
+  }
+
+  const userId = metadata.user_id?.trim();
+  const plan = metadata.plan?.trim();
+  const billingPeriod =
+    metadata.billing_period?.trim() || "monthly";
+  const amount = parseFloat(metadata.amount || "0") || 0;
+
+  const customerId = getStripeObjectId(
+    subscription.customer,
+  );
+
+  if (!userId || !plan || !customerId) {
+    throw new Error(
+      "Métadonnées abonnement Stripe incomplètes.",
+    );
+  }
+
+  const status = forcedStatus || subscription.status;
+
+  const { error } = await supabaseAdmin
+    .from("subscriptions")
+    .upsert(
+      {
+        user_id: userId,
+        stripe_customer_id: customerId,
+        stripe_subscription_id: subscription.id,
+        plan,
+        status,
+        price: amount,
+        currency: "EUR",
+        current_period_start:
+          subscription.items.data[0]?.current_period_start
+            ? new Date(
+                subscription.items.data[0].current_period_start * 1000,
+              ).toISOString()
+            : null,
+        current_period_end:
+          subscription.items.data[0]?.current_period_end
+            ? new Date(
+                subscription.items.data[0].current_period_end * 1000,
+              ).toISOString()
+            : null,
+        cancel_at_period_end:
+          subscription.cancel_at_period_end,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "stripe_subscription_id" },
+    );
+
+  if (error) {
+    throw new Error(
+      `Erreur Supabase abonnement : ${error.message}`,
+    );
+  }
+
+  const emailAddress = metadata.email_address
+    ?.trim()
+    .toLowerCase();
+
+  if (emailAddress) {
+    const emailStatus =
+      status === "active" || status === "trialing"
+        ? "active"
+        : status === "past_due"
+          ? "past_due"
+          : status === "canceled" || status === "unpaid"
+            ? "canceled"
+            : "pending";
+
+    const { error: emailError } = await supabaseAdmin
+      .from("emails")
+      .update({
+        status: emailStatus,
+      })
+      .eq("email_address", emailAddress);
+
+    if (emailError) {
+      throw new Error(
+        `Erreur Supabase email abonnement : ${emailError.message}`,
+      );
+    }
+  }
+
+  console.log(
+    "STRIPE EMAIL SUBSCRIPTION SYNCED:",
+    {
+      subscriptionId: subscription.id,
+      userId,
+      plan,
+      status,
+      billingPeriod,
+      cancelAtPeriodEnd: subscription.cancel_at_period_end,
+    },
+  );
 }
 
 /*

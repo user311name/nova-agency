@@ -124,20 +124,33 @@ export const viewport: Viewport = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "NOVA",
-  url: siteUrl,
-  description:
-    "Agence digitale spécialisée dans la création de sites internet modernes, rapides et sur mesure.",
-  publisher: {
-    "@type": "Organization",
-    name: "NOVA",
-    url: siteUrl,
-    logo: {
-      "@type": "ImageObject",
-      url: `${siteUrl}/logo-nova.png`,
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      name: "NOVA",
+      url: siteUrl,
+      description:
+        "NOVA est une agence digitale spécialisée dans la création de sites internet modernes, rapides et sur mesure.",
+      inLanguage: "fr-FR",
+      publisher: {
+        "@id": `${siteUrl}/#organization`,
+      },
     },
-  },
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "NOVA",
+      url: siteUrl,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/LG-Nova.png`,
+      },
+      image: `${siteUrl}/LG-Nova.png`,
+      description:
+        "NOVA est une agence digitale spécialisée dans la création de sites internet, le développement web, la refonte de sites, le design web et le SEO.",
+    },
+  ],
 };
 
 export default function RootLayout({

@@ -53,6 +53,11 @@ const gallery = [
   },
 ];
 
+const communicationImage = {
+  image: "/projets/boulangerie-identite-visuelle.png",
+  alt: "Identité visuelle et supports de communication pour une boulangerie",
+};
+
 export default function BoulangeriePage() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [activeImage, setActiveImage] = useState<string | null>(null);
@@ -257,6 +262,95 @@ export default function BoulangeriePage() {
                 </div>
               </article>
             ))}
+          </div>
+        </section>
+
+        {/* IDENTITÉ VISUELLE & COMMUNICATION */}
+        <section className="project-communication">
+          <div className="project-communication-heading">
+            <div className="project-section-number">02 /</div>
+
+            <div className="project-communication-title">
+              <p className="project-label">IDENTITÉ & COMMUNICATION</p>
+
+              <h2>
+                Une image pensée
+                <br />
+                pour exister <span>partout.</span>
+              </h2>
+
+              <p className="project-communication-intro">
+                Une identité ne s’arrête pas au site internet. NOVA peut
+                concevoir et décliner l’univers visuel d’une entreprise sur
+                l’ensemble de ses supports, afin de créer une communication
+                cohérente, reconnaissable et professionnelle.
+              </p>
+            </div>
+          </div>
+
+          <div className="project-communication-content">
+            <button
+              type="button"
+              className="project-image-button project-communication-image-button"
+              onClick={() =>
+                openLightbox(
+                  communicationImage.image,
+                  communicationImage.alt
+                )
+              }
+              aria-label="Agrandir l'identité visuelle et les supports de communication"
+            >
+              <div className="project-image-frame project-communication-image-frame">
+                <img
+                  src={communicationImage.image}
+                  alt={communicationImage.alt}
+                />
+
+                <span className="project-image-overlay">
+                  <span>AGRANDIR</span>
+                  <ArrowIcon />
+                </span>
+              </div>
+            </button>
+
+            <div className="project-communication-copy">
+              <p className="project-label">DU DIGITAL AU PHYSIQUE</p>
+
+              <h3>
+                Une identité
+                <br />
+                <span>cohérente sur tous les supports.</span>
+              </h3>
+
+              <p>
+                Pour ce projet, l’univers de la boulangerie peut être décliné
+                bien au-delà du site internet. NOVA peut créer une véritable
+                identité visuelle et l’adapter à chaque point de contact avec
+                les clients.
+              </p>
+
+              <p>
+                Flyers, affiches, cartes de visite, packaging, sachets,
+                tabliers, véhicules, autocollants, vitrines, enseignes ou
+                réseaux sociaux : chaque support reprend les mêmes codes pour
+                construire une image forte et immédiatement identifiable.
+              </p>
+
+              <div className="project-communication-tags">
+                <span>SITE INTERNET</span>
+                <span>FLYERS</span>
+                <span>AFFICHES</span>
+                <span>CARTES DE VISITE</span>
+                <span>PACKAGING</span>
+                <span>SACHETS</span>
+                <span>TABLIERS</span>
+                <span>VÉHICULES</span>
+                <span>AUTOCOLLANTS</span>
+                <span>VITRINES</span>
+                <span>ENSEIGNES</span>
+                <span>RÉSEAUX SOCIAUX</span>
+              </div>
+            </div>
           </div>
         </section>
 

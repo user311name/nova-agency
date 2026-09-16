@@ -185,6 +185,91 @@ export default function SiteTraiteurPage() {
         </div>
       </section>
 
+      <section
+        className="project-communication"
+        aria-labelledby="project-communication-title"
+      >
+        <div className="project-communication-heading">
+          <div className="project-communication-index">02</div>
+
+          <div className="project-communication-title">
+            <p className="section-label">IDENTITÉ VISUELLE & COMMUNICATION</p>
+
+            <h2 id="project-communication-title">
+              Une image pensée
+              <span> jusque dans les moindres détails.</span>
+            </h2>
+
+            <p className="project-communication-intro">
+              Chez NOVA, nous ne créons pas uniquement votre site internet.
+              Nous pouvons également décliner votre identité et votre
+              communication sur l’ensemble de vos supports : logo, flyer,
+              menu, tablier, packaging, autocollants, marquage de véhicule
+              et supports digitaux.
+            </p>
+          </div>
+        </div>
+
+        <div className="project-communication-content">
+          <button
+            type="button"
+            className="feature-image project-communication-image-button"
+            onClick={() =>
+              setSelectedImage("/projets/traiteur-identite-visuelle.png")
+            }
+            aria-label="Agrandir la planche d'identité visuelle et de communication du projet Traiteur"
+          >
+            <Image
+              src="/projets/traiteur-identite-visuelle.png"
+              alt="Identité visuelle Traiteur — logo, flyer, tablier, marquage de camion, packaging et supports de communication"
+              width={1536}
+              height={1024}
+              sizes="(max-width: 900px) calc(100vw - 32px), 70vw"
+            />
+
+            <span className="image-shade" />
+            <span className="image-label">IDENTITÉ / COMMUNICATION</span>
+
+            <span className="image-expand" aria-hidden="true">
+              <ExternalArrowIcon />
+            </span>
+          </button>
+
+          <div className="project-communication-copy">
+            <p className="section-label">UNE IDENTITÉ COHÉRENTE</p>
+
+            <h3>
+              Du <span>digital</span> au terrain.
+            </h3>
+
+            <p>
+              Une identité forte doit rester reconnaissable partout où votre
+              entreprise est visible. Nous pouvons créer un univers graphique
+              cohérent et le décliner sur vos différents supports de
+              communication.
+            </p>
+
+            <p>
+              L’objectif : que votre logo, vos couleurs, vos typographies et
+              votre direction artistique racontent la même histoire sur votre
+              site, vos flyers, vos menus, vos vêtements professionnels ou
+              encore votre véhicule.
+            </p>
+
+            <div className="project-communication-tags">
+              <span>LOGO</span>
+              <span>FLYER</span>
+              <span>MENU</span>
+              <span>TABLIER</span>
+              <span>CAMION</span>
+              <span>AUTOCOLLANT</span>
+              <span>PACKAGING</span>
+              <span>SUPPORTS DIGITAUX</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="project-gallery">
         <div className="gallery-heading">
           <div>

@@ -6,25 +6,46 @@ export const metadata: Metadata = {
   title: "Acheter un nom de domaine | Domaines NOVA",
 
   description:
-    "Recherchez et achetez votre nom de domaine avec NOVA. Vérifiez la disponibilité de votre domaine et construisez votre présence en ligne avec une adresse professionnelle.",
+    "Recherchez, vérifiez la disponibilité et achetez votre nom de domaine avec NOVA. Trouvez une adresse professionnelle en .fr, .com et autres extensions pour votre site internet.",
 
   keywords: [
     "acheter un nom de domaine",
     "achat nom de domaine",
     "nom de domaine",
     "acheter domaine",
-    "domaine internet",
-    "domaine .fr",
-    "domaine .com",
+    "acheter domaine internet",
+    "nom de domaine internet",
     "nom de domaine professionnel",
+    "nom de domaine entreprise",
     "réserver un nom de domaine",
+    "réservation nom de domaine",
     "vérifier disponibilité domaine",
+    "vérifier disponibilité nom de domaine",
+    "disponibilité nom de domaine",
+    "domaine .fr",
+    "nom de domaine .fr",
+    "domaine .com",
+    "nom de domaine .com",
+    "acheter domaine .fr",
+    "acheter domaine .com",
+    "adresse web professionnelle",
+    "adresse internet professionnelle",
+    "domaine pour site internet",
+    "domaine pour entreprise",
     "agence web",
+    "agence digitale",
+    "création site internet",
+    "création site web",
     "NOVA",
+    "NOVA agence web",
+    "NOVA agence digitale",
   ],
 
   alternates: {
     canonical: `${siteUrl}/domaines`,
+    languages: {
+      "fr-FR": `${siteUrl}/domaines`,
+    },
   },
 
   openGraph: {
@@ -32,9 +53,12 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: `${siteUrl}/domaines`,
     siteName: "NOVA",
-    title: "Acheter un nom de domaine | NOVA",
+
+    title: "Acheter un nom de domaine | Domaines NOVA",
+
     description:
-      "Recherchez, vérifiez et achetez votre nom de domaine avec NOVA. Une adresse professionnelle pour votre présence en ligne.",
+      "Recherchez, vérifiez et achetez votre nom de domaine avec NOVA. Choisissez une adresse professionnelle pour votre entreprise et votre site internet.",
+
     images: [
       {
         url: "/LG-Nova.png",
@@ -47,15 +71,19 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Acheter un nom de domaine | NOVA",
+
+    title: "Acheter un nom de domaine | Domaines NOVA",
+
     description:
-      "Recherchez et achetez votre nom de domaine avec NOVA.",
+      "Recherchez et achetez votre nom de domaine avec NOVA. Vérifiez sa disponibilité et choisissez votre adresse professionnelle.",
+
     images: ["/LG-Nova.png"],
   },
 
   robots: {
     index: true,
     follow: true,
+
     googleBot: {
       index: true,
       follow: true,

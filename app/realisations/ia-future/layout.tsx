@@ -7,34 +7,48 @@ export const metadata: Metadata = {
   title: "IA Future — Création de site web & IA | NOVA",
 
   description:
-    "Découvrez IA Future, un projet digital conçu par NOVA autour de l'intelligence artificielle et des nouvelles technologies. Une expérience web moderne, immersive et accessible.",
+    "Découvrez IA Future, un projet digital conçu par NOVA autour de l'intelligence artificielle et des nouvelles technologies. Une expérience web moderne, immersive, responsive et accessible.",
 
   keywords: [
     "IA Future",
     "intelligence artificielle",
     "site web intelligence artificielle",
-    "site internet IA",
+    "site internet intelligence artificielle",
     "site web IA",
+    "site internet IA",
     "création site IA",
+    "création site internet IA",
     "création site internet",
     "création site web",
+    "création site vitrine",
     "site web moderne",
     "site web sur mesure",
+    "site internet professionnel",
     "expérience digitale",
     "expérience immersive",
+    "expérience utilisateur",
     "technologie",
     "nouvelles technologies",
+    "web design",
     "design web",
     "UX UI",
     "interface web",
     "développement web",
+    "site responsive",
+    "site mobile",
     "agence web",
     "agence digitale",
+    "création site internet professionnel",
     "NOVA",
+    "NOVA agence web",
+    "NOVA agence digitale",
   ],
 
   alternates: {
     canonical: `${siteUrl}/realisations/ia-future`,
+    languages: {
+      "fr-FR": `${siteUrl}/realisations/ia-future`,
+    },
   },
 
   openGraph: {
@@ -42,9 +56,12 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: `${siteUrl}/realisations/ia-future`,
     siteName: "NOVA",
+
     title: "IA Future — Création de site web & IA | NOVA",
+
     description:
       "Découvrez IA Future, un concept digital conçu par NOVA autour de l'intelligence artificielle, des nouvelles technologies et d'une expérience web immersive.",
+
     images: [
       {
         url: "/projets/site-ia.png",
@@ -57,9 +74,12 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
+
     title: "IA Future — Création de site web & IA | NOVA",
+
     description:
       "Découvrez le projet IA Future conçu par NOVA autour de l'intelligence artificielle et des nouvelles technologies.",
+
     images: ["/projets/site-ia.png"],
   },
 

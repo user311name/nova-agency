@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     "création site agence digitale",
     "création site internet",
     "création site web",
+    "création site vitrine",
     "site internet professionnel",
     "site web professionnel",
     "site vitrine agence",
@@ -29,16 +30,23 @@ export const metadata: Metadata = {
     "expérience digitale",
     "expérience utilisateur",
     "site responsive",
+    "site mobile",
     "développement web",
     "site web moderne",
     "site web premium",
-    "conversion",
     "présence digitale",
+    "conversion",
+    "agence création site internet",
     "NOVA",
+    "NOVA agence web",
+    "NOVA agence digitale",
   ],
 
   alternates: {
     canonical: `${siteUrl}/realisations/nova-assist`,
+    languages: {
+      "fr-FR": `${siteUrl}/realisations/nova-assist`,
+    },
   },
 
   openGraph: {
@@ -46,9 +54,12 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: `${siteUrl}/realisations/nova-assist`,
     siteName: "NOVA",
+
     title: "NOVA Assist — Création de site web & agence digitale | NOVA",
+
     description:
       "Découvrez NOVA Assist, un concept digital conçu par NOVA autour du web design, de l'UX/UI et d'une expérience digitale pensée pour présenter une agence moderne.",
+
     images: [
       {
         url: "/projets/nova-assist.png",
@@ -61,9 +72,12 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
+
     title: "NOVA Assist — Création de site web & agence digitale | NOVA",
+
     description:
       "Découvrez le projet NOVA Assist conçu autour du design web, de l'UX/UI et d'une expérience digitale professionnelle.",
+
     images: ["/projets/nova-assist.png"],
   },
 

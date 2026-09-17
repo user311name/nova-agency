@@ -16,17 +16,22 @@ export const metadata: Metadata = {
   },
 
   description:
-    "NOVA est une agence digitale spécialisée dans la création de sites internet modernes, rapides et sur mesure. Sites vitrines, refonte de sites web, développement et SEO.",
+    "NOVA est une agence digitale spécialisée dans la création de sites internet modernes, rapides et sur mesure. Création de sites web, sites vitrines, refonte, développement web, web design et référencement SEO.",
 
   applicationName: "NOVA",
 
   keywords: [
     "NOVA",
+    "NOVA agence digitale",
+    "NOVA agence web",
     "agence web",
     "agence digitale",
+    "agence digitale France",
     "création de site internet",
     "création de site web",
+    "créateur de site internet",
     "création site vitrine",
+    "création site professionnel",
     "site vitrine",
     "site internet professionnel",
     "site web professionnel",
@@ -35,13 +40,19 @@ export const metadata: Metadata = {
     "refonte site internet",
     "refonte site web",
     "développement web",
+    "développement site internet",
     "web design",
     "design web",
+    "UX UI",
     "SEO",
     "référencement naturel",
+    "référencement Google",
+    "optimisation SEO",
     "performance web",
     "site responsive",
     "site mobile",
+    "site internet entreprise",
+    "site internet professionnel entreprise",
   ],
 
   authors: [
@@ -53,11 +64,13 @@ export const metadata: Metadata = {
 
   creator: "NOVA",
   publisher: "NOVA",
-
   category: "technology",
 
   alternates: {
     canonical: siteUrl,
+    languages: {
+      "fr-FR": siteUrl,
+    },
   },
 
   verification: {
@@ -79,7 +92,7 @@ export const metadata: Metadata = {
     title: "NOVA — Agence digitale & création de sites web",
 
     description:
-      "NOVA est une agence digitale spécialisée dans la création de sites internet modernes, rapides et sur mesure. Sites vitrines, refonte, développement et SEO.",
+      "NOVA accompagne les entreprises dans la création de sites internet, la refonte de sites web, le développement sur mesure, le web design et le référencement SEO.",
 
     images: [
       {
@@ -129,26 +142,74 @@ const jsonLd = {
       "@type": "WebSite",
       "@id": `${siteUrl}/#website`,
       name: "NOVA",
+      alternateName: "NOVA Agence Digitale",
       url: siteUrl,
       description:
-        "NOVA est une agence digitale spécialisée dans la création de sites internet modernes, rapides et sur mesure.",
+        "NOVA est une agence digitale spécialisée dans la création de sites internet, la création de sites web sur mesure, la refonte, le développement web, le web design et le référencement naturel.",
       inLanguage: "fr-FR",
       publisher: {
         "@id": `${siteUrl}/#organization`,
       },
     },
+
+    {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/#webpage`,
+      url: siteUrl,
+      name: "NOVA — Agence digitale & création de sites web",
+      description:
+        "Agence digitale spécialisée dans la création de sites internet, sites vitrines, refonte de sites web, développement sur mesure, web design et SEO.",
+      isPartOf: {
+        "@id": `${siteUrl}/#website`,
+      },
+      about: {
+        "@id": `${siteUrl}/#organization`,
+      },
+      inLanguage: "fr-FR",
+    },
+
     {
       "@type": "Organization",
       "@id": `${siteUrl}/#organization`,
       name: "NOVA",
+      alternateName: "NOVA Agence Digitale",
       url: siteUrl,
+
       logo: {
         "@type": "ImageObject",
         url: `${siteUrl}/LG-Nova.png`,
       },
+
       image: `${siteUrl}/LG-Nova.png`,
+
       description:
-        "NOVA est une agence digitale spécialisée dans la création de sites internet, le développement web, la refonte de sites, le design web et le SEO.",
+        "NOVA est une agence digitale spécialisée dans la création de sites internet modernes, rapides et sur mesure, la refonte de sites web, le développement, le web design et le référencement naturel SEO.",
+
+      knowsAbout: [
+        "Création de site internet",
+        "Création de site web",
+        "Création de site vitrine",
+        "Site internet professionnel",
+        "Site web sur mesure",
+        "Agence web",
+        "Agence digitale",
+        "Refonte de site internet",
+        "Refonte de site web",
+        "Développement web",
+        "Développement sur mesure",
+        "Web design",
+        "UX UI",
+        "Référencement naturel",
+        "SEO",
+        "Performance web",
+        "Optimisation mobile",
+        "Site responsive",
+      ],
+
+      areaServed: {
+        "@type": "Country",
+        name: "France",
+      },
     },
   ],
 };

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Création de site internet & agence web | NOVA",
 
   description:
-    "NOVA est une agence web spécialisée dans la création de sites internet et de sites web sur mesure. Sites vitrines, refonte, développement web, SEO et performance.",
+    "NOVA est une agence digitale spécialisée dans la création de sites internet professionnels et de sites web sur mesure. Sites vitrines, refonte, développement web, web design, SEO et performance.",
 
   keywords: [
     "création de site internet",
@@ -18,26 +18,39 @@ export const metadata: Metadata = {
     "agence de création de site internet",
     "créateur de site internet",
     "création site vitrine",
+    "site vitrine",
     "site vitrine professionnel",
     "site web professionnel",
+    "site internet professionnel",
     "site internet sur mesure",
     "site web sur mesure",
+    "création site sur mesure",
     "développement web",
     "développement site internet",
     "refonte site internet",
     "refonte site web",
+    "web design",
     "design web",
     "UX UI",
     "SEO",
     "référencement naturel",
+    "référencement Google",
+    "optimisation SEO",
     "performance web",
     "site responsive",
     "site internet mobile",
+    "site mobile",
+    "site internet entreprise",
     "NOVA",
+    "NOVA agence web",
+    "NOVA agence digitale",
   ],
 
   alternates: {
     canonical: `${siteUrl}/services`,
+    languages: {
+      "fr-FR": `${siteUrl}/services`,
+    },
   },
 
   openGraph: {
@@ -45,9 +58,12 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: `${siteUrl}/services`,
     siteName: "NOVA",
+
     title: "Création de site internet & agence web | NOVA",
+
     description:
-      "Création de sites internet modernes, rapides et sur mesure. NOVA accompagne les entreprises dans leur présence digitale, leur développement web et leur SEO.",
+      "NOVA crée des sites internet professionnels, modernes et sur mesure : sites vitrines, refonte, développement web, web design et référencement SEO.",
+
     images: [
       {
         url: "/LG-Nova.png",
@@ -60,15 +76,19 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
+
     title: "Création de site internet & agence web | NOVA",
+
     description:
-      "NOVA crée des sites internet modernes, rapides et sur mesure pour les entreprises.",
+      "NOVA crée des sites internet professionnels, modernes et sur mesure pour les entreprises, indépendants et marques.",
+
     images: ["/LG-Nova.png"],
   },
 
   robots: {
     index: true,
     follow: true,
+
     googleBot: {
       index: true,
       follow: true,

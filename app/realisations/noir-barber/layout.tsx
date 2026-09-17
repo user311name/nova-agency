@@ -15,28 +15,38 @@ export const metadata: Metadata = {
     "site internet barber",
     "site vitrine barber",
     "création site barber",
-    "création site internet",
-    "création site web",
+    "création site internet barber",
+    "création site web barber",
     "site web coiffure",
     "site internet coiffeur",
     "site web professionnel",
     "site vitrine professionnel",
     "site web sur mesure",
+    "création site sur mesure",
     "réservation en ligne",
     "site réservation",
+    "prise de rendez-vous en ligne",
+    "site barber professionnel",
     "web design",
     "design web",
     "UX UI",
     "expérience digitale",
     "site responsive",
+    "site mobile",
     "développement web",
     "agence web",
     "agence digitale",
+    "création site internet professionnel",
     "NOVA",
+    "NOVA agence web",
+    "NOVA agence digitale",
   ],
 
   alternates: {
     canonical: `${siteUrl}/realisations/noir-barber`,
+    languages: {
+      "fr-FR": `${siteUrl}/realisations/noir-barber`,
+    },
   },
 
   openGraph: {
@@ -44,9 +54,12 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: `${siteUrl}/realisations/noir-barber`,
     siteName: "NOVA",
+
     title: "Noir Barber — Création de site web pour barber | NOVA",
+
     description:
       "Découvrez Noir Barber, un concept digital premium conçu par NOVA pour un barber moderne, avec présentation des services et parcours de réservation.",
+
     images: [
       {
         url: "/projets/barber-home.png",
@@ -59,9 +72,12 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
+
     title: "Noir Barber — Création de site web pour barber | NOVA",
+
     description:
       "Découvrez le projet Noir Barber conçu par NOVA : identité premium, UX/UI, web design et réservation.",
+
     images: ["/projets/barber-home.png"],
   },
 

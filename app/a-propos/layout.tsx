@@ -6,24 +6,42 @@ export const metadata: Metadata = {
   title: "À propos de NOVA | Agence web & digitale",
 
   description:
-    "Découvrez NOVA, agence web et digitale spécialisée dans la création de sites internet modernes, rapides et sur mesure pour les entreprises.",
+    "Découvrez NOVA, agence web et digitale spécialisée dans la création de sites internet professionnels, modernes, rapides et sur mesure pour les entreprises, indépendants et marques.",
 
   keywords: [
     "NOVA agence web",
     "NOVA agence digitale",
     "agence web",
     "agence digitale",
+    "agence création site internet",
     "création site internet",
     "création site web",
+    "création site vitrine",
+    "site internet professionnel",
+    "site web professionnel",
     "site internet sur mesure",
+    "site web sur mesure",
+    "création site sur mesure",
     "développement web",
+    "développement site internet",
+    "web design",
     "design web",
+    "UX UI",
+    "expérience digitale",
     "SEO",
-    "agence création site internet",
+    "référencement naturel",
+    "performance web",
+    "site responsive",
+    "site mobile",
+    "agence digitale France",
+    "NOVA",
   ],
 
   alternates: {
     canonical: `${siteUrl}/a-propos`,
+    languages: {
+      "fr-FR": `${siteUrl}/a-propos`,
+    },
   },
 
   openGraph: {
@@ -31,9 +49,12 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: `${siteUrl}/a-propos`,
     siteName: "NOVA",
+
     title: "À propos de NOVA | Agence web & digitale",
+
     description:
-      "Découvrez NOVA et notre approche de la création de sites internet et des expériences digitales sur mesure.",
+      "Découvrez NOVA, agence web et digitale spécialisée dans la création de sites internet modernes, professionnels et sur mesure.",
+
     images: [
       {
         url: "/LG-Nova.png",
@@ -46,15 +67,19 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
+
     title: "À propos de NOVA | Agence web & digitale",
+
     description:
-      "Découvrez NOVA, agence spécialisée dans la création de sites internet modernes et sur mesure.",
+      "Découvrez NOVA, agence spécialisée dans la création de sites internet modernes, professionnels et sur mesure.",
+
     images: ["/LG-Nova.png"],
   },
 
   robots: {
     index: true,
     follow: true,
+
     googleBot: {
       index: true,
       follow: true,

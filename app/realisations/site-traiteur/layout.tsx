@@ -13,12 +13,14 @@ export const metadata: Metadata = {
     "site web traiteur",
     "site internet traiteur",
     "création site traiteur",
+    "création site internet traiteur",
     "site vitrine traiteur",
     "site web restauration",
     "site internet restauration",
     "création site restaurant",
     "création site internet",
     "création site web",
+    "création site vitrine",
     "site web professionnel",
     "site vitrine professionnel",
     "site web sur mesure",
@@ -30,14 +32,22 @@ export const metadata: Metadata = {
     "expérience utilisateur",
     "site responsive",
     "site mobile",
+    "site internet mobile",
     "présentation prestations",
+    "site pour traiteur",
+    "site pour restaurant",
     "agence web",
     "agence digitale",
     "NOVA",
+    "NOVA agence web",
+    "NOVA agence digitale",
   ],
 
   alternates: {
     canonical: `${siteUrl}/realisations/site-traiteur`,
+    languages: {
+      "fr-FR": `${siteUrl}/realisations/site-traiteur`,
+    },
   },
 
   openGraph: {
@@ -45,9 +55,12 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: `${siteUrl}/realisations/site-traiteur`,
     siteName: "NOVA",
+
     title: "Traiteur — Création de site web | NOVA",
+
     description:
       "Découvrez un concept de site web créé par NOVA pour une activité de traiteur, avec une direction artistique élégante et une expérience digitale pensée pour présenter les prestations.",
+
     images: [
       {
         url: "/projets/Site-traiteur.png",
@@ -60,9 +73,12 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
+
     title: "Traiteur — Création de site web | NOVA",
+
     description:
       "Découvrez le projet Traiteur conçu par NOVA autour du web design, de l'expérience digitale et de la présentation des prestations.",
+
     images: ["/projets/Site-traiteur.png"],
   },
 

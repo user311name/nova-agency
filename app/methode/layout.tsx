@@ -6,26 +6,48 @@ export const metadata: Metadata = {
   title: "Notre méthode de création web | NOVA",
 
   description:
-    "Découvrez la méthode NOVA pour créer un site internet : stratégie, conception, design, développement, optimisation SEO et mise en ligne.",
+    "Découvrez la méthode NOVA pour créer un site internet professionnel : stratégie, conception, UX/UI, web design, développement, optimisation SEO, performance et mise en ligne.",
 
   keywords: [
     "méthode création site internet",
+    "méthode création site web",
     "processus création site web",
+    "processus création site internet",
+    "étapes création site internet",
     "création site internet",
     "création site web",
+    "création site vitrine",
+    "site web professionnel",
+    "site internet professionnel",
+    "site web sur mesure",
+    "création site sur mesure",
     "développement web",
+    "développement site internet",
+    "web design",
     "design web",
     "UX UI",
+    "UX UI design",
+    "expérience utilisateur",
+    "expérience digitale",
     "SEO",
     "référencement naturel",
-    "site web sur mesure",
+    "optimisation SEO",
+    "performance web",
+    "site responsive",
+    "site mobile",
     "agence web",
     "agence digitale",
+    "agence création site internet",
     "NOVA",
+    "NOVA agence web",
+    "NOVA agence digitale",
   ],
 
   alternates: {
     canonical: `${siteUrl}/methode`,
+    languages: {
+      "fr-FR": `${siteUrl}/methode`,
+    },
   },
 
   openGraph: {
@@ -33,9 +55,12 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     url: `${siteUrl}/methode`,
     siteName: "NOVA",
+
     title: "Notre méthode de création web | NOVA",
+
     description:
-      "Une méthode claire pour concevoir des sites internet modernes, performants et adaptés aux objectifs de chaque projet.",
+      "Découvrez comment NOVA conçoit des sites internet professionnels, modernes et sur mesure, de la stratégie à la mise en ligne, avec une attention portée au design, aux performances et au SEO.",
+
     images: [
       {
         url: "/LG-Nova.png",
@@ -48,15 +73,19 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
+
     title: "Notre méthode de création web | NOVA",
+
     description:
-      "Découvrez comment NOVA conçoit des sites internet modernes et sur mesure.",
+      "Découvrez comment NOVA conçoit des sites internet modernes, performants et sur mesure.",
+
     images: ["/LG-Nova.png"],
   },
 
   robots: {
     index: true,
     follow: true,
+
     googleBot: {
       index: true,
       follow: true,

@@ -7414,3 +7414,106 @@
   mix-blend-mode: normal;
   background: transparent;
 }
+
+/* =========================================================
+   POURQUOI NOVA — ARROW ICONS
+   ========================================================= */
+
+.nova-why-card-arrow {
+  position: static;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 34px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 1px solid rgba(111,152,255,.18);
+  border-radius: 10px;
+  color: var(--nova-blue-light);
+  background: rgba(111,152,255,.045);
+  line-height: 0;
+  transform: none;
+  transition:
+    transform .3s cubic-bezier(.2,.75,.2,1),
+    border-color .3s ease,
+    background .3s ease,
+    box-shadow .3s ease;
+}
+
+.nova-why-card-arrow .external-arrow-svg {
+  display: block;
+  width: 15px;
+  height: 15px;
+  min-width: 15px;
+  min-height: 15px;
+  margin: 0;
+  overflow: visible;
+}
+
+.nova-why-card-arrow .external-arrow-svg {
+  width: 15px;
+  height: 15px;
+}
+
+.nova-why-card:hover .nova-why-card-arrow {
+  transform: translate(2px,-2px);
+  border-color: rgba(111,152,255,.34);
+  background: rgba(111,152,255,.075);
+  box-shadow: 0 0 24px rgba(111,152,255,.08);
+}
+
+@media (max-width: 520px) {
+  .nova-why-card-arrow {
+    position: static;
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+    padding: 0;
+    border-radius: 9px;
+  }
+
+  .nova-why-card-arrow .external-arrow-svg {
+    width: 13px;
+    height: 13px;
+    min-width: 13px;
+    min-height: 13px;
+  }
+}
+
+/* FINAL OVERRIDE — WHY NOVA ARROW
+   Keeps the SVG inside the top-right control on every viewport. */
+.nova-why-card-top > .nova-why-card-arrow {
+  position: static !important;
+  right: auto !important;
+  bottom: auto !important;
+  top: auto !important;
+  transform: none;
+  overflow: hidden;
+}
+
+.nova-why-card-top > .nova-why-card-arrow .external-arrow-svg {
+  display: block;
+  width: 15px;
+  height: 15px;
+  overflow: visible;
+}
+
+.nova-why-card:hover .nova-why-card-top > .nova-why-card-arrow {
+  transform: translate(2px,-2px);
+}
+
+@media (max-width: 520px) {
+  .nova-why-card-top > .nova-why-card-arrow {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+  }
+
+  .nova-why-card-top > .nova-why-card-arrow .external-arrow-svg {
+    width: 13px;
+    height: 13px;
+  }
+}

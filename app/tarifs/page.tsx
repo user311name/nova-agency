@@ -541,7 +541,12 @@ export default function TarifsPage() {
               </p>
             </div>
             <Link className={styles["tarifs-cta"]} href="/devis">
-              Demander un devis ↗
+              Demander un devis<span className={styles["nova-inline-arrow"]} aria-hidden="true">
+                  <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 14L14 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    <path d="M7 4H14V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
             </Link>
           </div>
         </div>

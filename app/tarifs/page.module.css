@@ -2127,3 +2127,50 @@
   .pricing-card-details summary { min-height: 39px; font-size: 9px; }
 
 }
+
+/* =========================================================
+   NOVA — ARROWS / MOBILE SAFE
+   Replaces text/emoji-like arrows with real SVG icons.
+   ========================================================= */
+
+.nova-inline-arrow {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-left: 10px;
+  flex: 0 0 34px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 50%;
+  vertical-align: middle;
+  transition:
+    transform .3s ease,
+    border-color .3s ease,
+    background .3s ease;
+}
+
+.nova-inline-arrow svg {
+  width: 15px;
+  height: 15px;
+  display: block;
+}
+
+.tarifs-cta:hover .nova-inline-arrow {
+  transform: translate(2px,-2px);
+  border-color: rgba(255,255,255,.35);
+  background: rgba(255,255,255,.08);
+}
+
+@media (max-width: 520px) {
+  .nova-inline-arrow {
+    width: 31px;
+    height: 31px;
+    flex-basis: 31px;
+    margin-left: 8px;
+  }
+
+  .nova-inline-arrow svg {
+    width: 14px;
+    height: 14px;
+  }
+}

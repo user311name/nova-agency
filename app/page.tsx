@@ -366,11 +366,22 @@ function ExternalArrowIcon() {
 
 
 
-      <path d="M7 17 17 7" />
-
-
-
-      <path d="M9 7h8v8" />
+      <path
+        d="M7 17 17 7"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9 7h8v8"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
 
 
 

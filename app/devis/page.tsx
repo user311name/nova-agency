@@ -5,11 +5,14 @@ import Link from "next/link";
 import "./page.css";
 
 const projectOptions = [
-  "Site vitrine",
-  "E-commerce",
-  "Portfolio",
-  "Réservation",
-  "Site personnalisé",
+  "Site Essentiel",
+  "Site Premium",
+  "Site Sur mesure",
+  "Refonte de site",
+  "Identité visuelle",
+  "Supports de communication",
+  "Nom de domaine",
+  "Autre projet",
 ];
 
 const needsOptions = [
@@ -194,31 +197,49 @@ export default function Devis() {
     }
 
     const brief = `
+
 NOUVELLE DEMANDE DE DEVIS — NOVA
 
 CONTACT
+
 Nom : ${name}
+
 Email : ${email}
+
 Entreprise : ${company || "Non renseignée"}
+
 Téléphone : ${phone || "Non renseigné"}
 
+
 PROJET
+
 Type : ${project.join(", ") || "Non renseigné"}
 
+
 BESOINS
+
 ${needs.join(", ") || "Non renseigné"}
 
+
 STYLE
+
 ${style.join(", ") || "Non renseigné"}
 
+
 BUDGET
+
 ${budget || "Non renseigné"}
 
+
 DATE SOUHAITÉE
+
 ${launchDate || "Non renseignée"}
 
+
 MESSAGE
+
 ${message || "Aucun message"}
+
     `.trim();
 
     try {

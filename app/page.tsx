@@ -2,11 +2,23 @@
 
 
 
+
+
+
+
 import Link from "next/link";
 
 
 
+
+
+
+
 import type { ReactNode } from "react";
+
+
+
+
 
 
 
@@ -18,7 +30,19 @@ import "./page.css";
 
 
 
+
+
+
+
+
+
+
+
 /* =========================================================
+
+
+
+
 
 
 
@@ -26,7 +50,19 @@ import "./page.css";
 
 
 
+
+
+
+
 \\========================================================= */
+
+
+
+
+
+
+
+
 
 
 
@@ -38,7 +74,15 @@ function ComputerIcon() {
 
 
 
+
+
+
+
   return (
+
+
+
+
 
 
 
@@ -46,7 +90,15 @@ function ComputerIcon() {
 
 
 
+
+
+
+
       <rect x="3" y="4" width="18" height="13" rx="2" />
+
+
+
+
 
 
 
@@ -54,7 +106,15 @@ function ComputerIcon() {
 
 
 
+
+
+
+
     </svg>
+
+
+
+
 
 
 
@@ -62,7 +122,19 @@ function ComputerIcon() {
 
 
 
+
+
+
+
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -74,7 +146,15 @@ function PhoneIcon() {
 
 
 
+
+
+
+
   return (
+
+
+
+
 
 
 
@@ -82,7 +162,15 @@ function PhoneIcon() {
 
 
 
+
+
+
+
       <rect x="7" y="2.5" width="10" height="19" rx="2" />
+
+
+
+
 
 
 
@@ -90,7 +178,15 @@ function PhoneIcon() {
 
 
 
+
+
+
+
     </svg>
+
+
+
+
 
 
 
@@ -98,7 +194,19 @@ function PhoneIcon() {
 
 
 
+
+
+
+
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -110,7 +218,15 @@ function CodeIcon() {
 
 
 
+
+
+
+
   return (
+
+
+
+
 
 
 
@@ -118,7 +234,15 @@ function CodeIcon() {
 
 
 
+
+
+
+
       <path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" />
+
+
+
+
 
 
 
@@ -126,11 +250,27 @@ function CodeIcon() {
 
 
 
+
+
+
+
   );
 
 
 
+
+
+
+
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -142,7 +282,15 @@ function BoltIcon() {
 
 
 
+
+
+
+
   return (
+
+
+
+
 
 
 
@@ -150,7 +298,15 @@ function BoltIcon() {
 
 
 
+
+
+
+
       <path d="M13 2 5 13h6l-1 9 9-13h-6l0-7Z" />
+
+
+
+
 
 
 
@@ -158,11 +314,27 @@ function BoltIcon() {
 
 
 
+
+
+
+
   );
 
 
 
+
+
+
+
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -174,7 +346,15 @@ function ChartIcon() {
 
 
 
+
+
+
+
   return (
+
+
+
+
 
 
 
@@ -182,7 +362,15 @@ function ChartIcon() {
 
 
 
+
+
+
+
       <path d="M4 19V5M4 19h17" />
+
+
+
+
 
 
 
@@ -190,7 +378,15 @@ function ChartIcon() {
 
 
 
+
+
+
+
     </svg>
+
+
+
+
 
 
 
@@ -198,7 +394,19 @@ function ChartIcon() {
 
 
 
+
+
+
+
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -210,7 +418,15 @@ function LayersIcon() {
 
 
 
+
+
+
+
   return (
+
+
+
+
 
 
 
@@ -218,7 +434,15 @@ function LayersIcon() {
 
 
 
+
+
+
+
       <path d="m12 3 9 5-9 5-9-5 9-5Z" />
+
+
+
+
 
 
 
@@ -226,7 +450,15 @@ function LayersIcon() {
 
 
 
+
+
+
+
       <path d="m3 16 9 5 9-5" />
+
+
+
+
 
 
 
@@ -234,7 +466,15 @@ function LayersIcon() {
 
 
 
+
+
+
+
   );
+
+
+
+
 
 
 
@@ -246,7 +486,19 @@ function LayersIcon() {
 
 
 
+
+
+
+
+
+
+
+
 /* =========================================================
+
+
+
+
 
 
 
@@ -254,7 +506,19 @@ function LayersIcon() {
 
 
 
+
+
+
+
 \\========================================================= */
+
+
+
+
+
+
+
+
 
 
 
@@ -266,7 +530,15 @@ function ArrowIcon() {
 
 
 
+
+
+
+
   return (
+
+
+
+
 
 
 
@@ -274,7 +546,15 @@ function ArrowIcon() {
 
 
 
+
+
+
+
       className="arrow-svg"
+
+
+
+
 
 
 
@@ -282,7 +562,15 @@ function ArrowIcon() {
 
 
 
+
+
+
+
       aria-hidden="true"
+
+
+
+
 
 
 
@@ -290,7 +578,15 @@ function ArrowIcon() {
 
 
 
+
+
+
+
     >
+
+
+
+
 
 
 
@@ -298,7 +594,15 @@ function ArrowIcon() {
 
 
 
+
+
+
+
       <path d="m13 6 6 6-6 6" />
+
+
+
+
 
 
 
@@ -306,7 +610,15 @@ function ArrowIcon() {
 
 
 
+
+
+
+
   );
+
+
+
+
 
 
 
@@ -318,7 +630,19 @@ function ArrowIcon() {
 
 
 
+
+
+
+
+
+
+
+
 /* =========================================================
+
+
+
+
 
 
 
@@ -326,7 +650,19 @@ function ArrowIcon() {
 
 
 
+
+
+
+
 \\========================================================= */
+
+
+
+
+
+
+
+
 
 
 
@@ -338,7 +674,15 @@ function ExternalArrowIcon() {
 
 
 
+
+
+
+
   return (
+
+
+
+
 
 
 
@@ -346,7 +690,15 @@ function ExternalArrowIcon() {
 
 
 
+
+
+
+
       className="external-arrow-svg"
+
+
+
+
 
 
 
@@ -354,7 +706,15 @@ function ExternalArrowIcon() {
 
 
 
+
+
+
+
       aria-hidden="true"
+
+
+
+
 
 
 
@@ -362,26 +722,53 @@ function ExternalArrowIcon() {
 
 
 
+
+
+
+
     >
 
 
 
+
+
+
+
       <path
+
         d="M7 17 17 7"
+
         fill="none"
+
         stroke="currentColor"
+
         strokeWidth="1.8"
+
         strokeLinecap="round"
+
         strokeLinejoin="round"
+
       />
+
       <path
+
         d="M9 7h8v8"
+
         fill="none"
+
         stroke="currentColor"
+
         strokeWidth="1.8"
+
         strokeLinecap="round"
+
         strokeLinejoin="round"
+
       />
+
+
+
+
 
 
 
@@ -389,7 +776,15 @@ function ExternalArrowIcon() {
 
 
 
+
+
+
+
   );
+
+
+
+
 
 
 
@@ -401,7 +796,19 @@ function ExternalArrowIcon() {
 
 
 
+
+
+
+
+
+
+
+
 /* =========================================================
+
+
+
+
 
 
 
@@ -409,7 +816,19 @@ function ExternalArrowIcon() {
 
 
 
+
+
+
+
 \\========================================================= */
+
+
+
+
+
+
+
+
 
 
 
@@ -421,7 +840,15 @@ function ArrowLink({
 
 
 
+
+
+
+
   href,
+
+
+
+
 
 
 
@@ -429,7 +856,15 @@ function ArrowLink({
 
 
 
+
+
+
+
   variant = "primary",
+
+
+
+
 
 
 
@@ -437,7 +872,15 @@ function ArrowLink({
 
 
 
+
+
+
+
   href: string;
+
+
+
+
 
 
 
@@ -445,7 +888,15 @@ function ArrowLink({
 
 
 
+
+
+
+
   variant?: "primary" | "secondary";
+
+
+
+
 
 
 
@@ -453,11 +904,23 @@ function ArrowLink({
 
 
 
+
+
+
+
   return (
 
 
 
+
+
+
+
     <Link href={href} className={`arrow-button ${variant}`}>
+
+
+
+
 
 
 
@@ -469,7 +932,19 @@ function ArrowLink({
 
 
 
+
+
+
+
+
+
+
+
       <span className="arrow-button-icon" aria-hidden="true">
+
+
+
+
 
 
 
@@ -477,7 +952,15 @@ function ArrowLink({
 
 
 
+
+
+
+
       </span>
+
+
+
+
 
 
 
@@ -485,7 +968,15 @@ function ArrowLink({
 
 
 
+
+
+
+
   );
+
+
+
+
 
 
 
@@ -497,11 +988,27 @@ function ArrowLink({
 
 
 
+
+
+
+
+
+
+
+
 /* =========================================================
 
 
 
+
+
+
+
    HOME
+
+
+
+
 
 
 
@@ -513,7 +1020,19 @@ function ArrowLink({
 
 
 
+
+
+
+
+
+
+
+
 export default function Home() {
+
+
+
+
 
 
 
@@ -521,7 +1040,15 @@ export default function Home() {
 
 
 
+
+
+
+
     <main className="home">
+
+
+
+
 
 
 
@@ -529,11 +1056,27 @@ export default function Home() {
 
 
 
+
+
+
+
           HERO
 
 
 
+
+
+
+
       ====================================================== */}
+
+
+
+
+
+
+
+
 
 
 
@@ -545,7 +1088,15 @@ export default function Home() {
 
 
 
+
+
+
+
         <div className="hero-grid container">
+
+
+
+
 
 
 
@@ -553,7 +1104,15 @@ export default function Home() {
 
 
 
+
+
+
+
             <div className="eyebrow">
+
+
+
+
 
 
 
@@ -561,11 +1120,27 @@ export default function Home() {
 
 
 
+
+
+
+
               Agence digitale indépendante
 
 
 
+
+
+
+
             </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -577,7 +1152,15 @@ export default function Home() {
 
 
 
+
+
+
+
               Votre image.
+
+
+
+
 
 
 
@@ -585,7 +1168,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <span>Notre terrain.</span>
+
+
+
+
 
 
 
@@ -597,7 +1188,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <p className="hero-description">
+
+
+
+
 
 
 
@@ -605,11 +1208,23 @@ export default function Home() {
 
 
 
+
+
+
+
               pensées pour donner à votre entreprise une vraie présence en
 
 
 
+
+
+
+
               ligne.
+
+
+
+
 
 
 
@@ -621,7 +1236,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <div className="hero-actions">
+
+
+
+
 
 
 
@@ -633,7 +1260,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <Link href="/domaines" className="domain-hero-button">
+
+
+
+
 
 
 
@@ -645,7 +1284,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
                 <span className="domain-hero-arrow" aria-hidden="true">
+
+
+
+
 
 
 
@@ -653,7 +1304,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
+
+
+
+
 
 
 
@@ -665,7 +1324,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <ArrowLink href="/realisations" variant="secondary">
+
+
+
+
 
 
 
@@ -673,11 +1344,27 @@ export default function Home() {
 
 
 
+
+
+
+
               </ArrowLink>
 
 
 
+
+
+
+
             </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -689,11 +1376,23 @@ export default function Home() {
 
 
 
+
+
+
+
               <div>
 
 
 
+
+
+
+
                 <span className="icon-blue">
+
+
+
+
 
 
 
@@ -701,7 +1400,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
+
+
+
+
 
 
 
@@ -709,7 +1416,19 @@ export default function Home() {
 
 
 
+
+
+
+
               </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -721,7 +1440,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <span className="icon-blue">
+
+
+
+
 
 
 
@@ -729,7 +1456,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
+
+
+
+
 
 
 
@@ -737,7 +1472,19 @@ export default function Home() {
 
 
 
+
+
+
+
               </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -749,7 +1496,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <span className="icon-blue">
+
+
+
+
 
 
 
@@ -757,7 +1512,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
+
+
+
+
 
 
 
@@ -765,7 +1528,15 @@ export default function Home() {
 
 
 
+
+
+
+
               </div>
+
+
+
+
 
 
 
@@ -773,7 +1544,19 @@ export default function Home() {
 
 
 
+
+
+
+
           </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -785,7 +1568,19 @@ export default function Home() {
 
 
 
+
+
+
+
             <div className="visual-grid" />
+
+
+
+
+
+
+
+
 
 
 
@@ -797,7 +1592,15 @@ export default function Home() {
 
 
 
+
+
+
+
             <div className="orbit orbit-two" />
+
+
+
+
 
 
 
@@ -809,7 +1612,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <div className="visual-core">
+
+
+
+
 
 
 
@@ -817,11 +1632,27 @@ export default function Home() {
 
 
 
+
+
+
+
               <div className="core-ring" />
 
 
 
+
+
+
+
             </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -833,7 +1664,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <span className="floating-icon">
+
+
+
+
 
 
 
@@ -841,7 +1680,19 @@ export default function Home() {
 
 
 
+
+
+
+
               </span>
+
+
+
+
+
+
+
+
 
 
 
@@ -853,7 +1704,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <small>01</small>
+
+
+
+
 
 
 
@@ -861,11 +1720,27 @@ export default function Home() {
 
 
 
+
+
+
+
               </span>
 
 
 
+
+
+
+
             </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -877,7 +1752,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <span className="floating-icon">
+
+
+
+
 
 
 
@@ -885,7 +1768,19 @@ export default function Home() {
 
 
 
+
+
+
+
               </span>
+
+
+
+
+
+
+
+
 
 
 
@@ -897,7 +1792,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <small>02</small>
+
+
+
+
 
 
 
@@ -905,11 +1808,27 @@ export default function Home() {
 
 
 
+
+
+
+
               </span>
 
 
 
+
+
+
+
             </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -921,7 +1840,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <span className="floating-icon">
+
+
+
+
 
 
 
@@ -929,7 +1856,19 @@ export default function Home() {
 
 
 
+
+
+
+
               </span>
+
+
+
+
+
+
+
+
 
 
 
@@ -941,7 +1880,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <small>03</small>
+
+
+
+
 
 
 
@@ -949,11 +1896,27 @@ export default function Home() {
 
 
 
+
+
+
+
               </span>
 
 
 
+
+
+
+
             </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -965,7 +1928,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <span>CRAFTED FOR DIGITAL</span>
+
+
+
+
 
 
 
@@ -973,7 +1944,15 @@ export default function Home() {
 
 
 
+
+
+
+
             </div>
+
+
+
+
 
 
 
@@ -981,7 +1960,19 @@ export default function Home() {
 
 
 
+
+
+
+
         </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -993,7 +1984,15 @@ export default function Home() {
 
 
 
+
+
+
+
           <span className="scroll-line" />
+
+
+
+
 
 
 
@@ -1001,11 +2000,27 @@ export default function Home() {
 
 
 
+
+
+
+
         </div>
 
 
 
+
+
+
+
       </section>
+
+
+
+
+
+
+
+
 
 
 
@@ -1017,7 +2032,15 @@ export default function Home() {
 
 
 
+
+
+
+
           INTRO
+
+
+
+
 
 
 
@@ -1029,53 +2052,111 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <section className="nova-why page-section">
+
+
 
         <div className="container nova-why-container">
 
+
+
           <div className="nova-why-heading">
+
+
 
             <div className="section-index nova-why-index"><span>01</span><span className="blue-line" /><span>POURQUOI NOVA</span></div>
 
+
+
             <div>
+
+
 
               <p className="micro-label">Notre différence, concrètement</p>
 
+
+
               <h2 className="section-title">Un accompagnement<br /><span>qui va plus loin.</span></h2>
+
+
 
               <div className="nova-why-intro">
 
+
+
                 <p>NOVA peut vous accompagner de A à Z : de votre identité visuelle à votre présence en ligne, jusqu&apos;aux supports qui font vivre votre image au quotidien.</p>
+
+
 
                 <p>Logo, site web, domaine, flyers, supports imprimés, autocollants et visuels pour véhicule : l&apos;objectif est de construire un ensemble cohérent autour de votre activité.</p>
 
+
+
               </div>
+
+
 
             </div>
 
+
+
           </div>
+
+
 
           <div className="nova-why-grid">
 
+
+
             <article className="nova-why-card nova-why-card-featured"><div className="nova-why-card-top"><span>01</span><span className="nova-why-card-arrow" aria-hidden="true"><ExternalArrowIcon /></span></div><div className="nova-why-card-content"><h3>Une maquette pour vous projeter.</h3><p>Avant de commencer, vous pouvez visualiser la direction donnée à votre projet.</p></div></article>
+
+
 
             <article className="nova-why-card"><div className="nova-why-card-top"><span>02</span><span className="nova-why-card-arrow" aria-hidden="true"><ExternalArrowIcon /></span></div><div className="nova-why-card-content"><h3>On part du besoin, pas d&apos;une formule.</h3><p>Chaque projet commence par votre activité, vos objectifs et vos besoins.</p></div></article>
 
+
+
             <article className="nova-why-card"><div className="nova-why-card-top"><span>03</span><span className="nova-why-card-arrow" aria-hidden="true"><ExternalArrowIcon /></span></div><div className="nova-why-card-content"><h3>Votre image ne s&apos;arrête pas au site.</h3><p>Logo, supports imprimés, véhicule, réseaux et présence en ligne peuvent fonctionner ensemble.</p></div></article>
+
+
 
             <article className="nova-why-card"><div className="nova-why-card-top"><span>04</span><span className="nova-why-card-arrow" aria-hidden="true"><ExternalArrowIcon /></span></div><div className="nova-why-card-content"><h3>Un seul fil conducteur pour votre projet.</h3><p>Une identité cohérente sur tous vos supports.</p></div></article>
 
+
+
             <article className="nova-why-card"><div className="nova-why-card-top"><span>05</span><span className="nova-why-card-arrow" aria-hidden="true"><ExternalArrowIcon /></span></div><div className="nova-why-card-content"><h3>L&apos;IA comme accélérateur, pas comme identité.</h3><p>Elle peut nous aider à explorer et produire plus vite, mais votre image reste pensée pour votre activité.</p></div></article>
+
+
 
             <article className="nova-why-card"><div className="nova-why-card-top"><span>06</span><span className="nova-why-card-arrow" aria-hidden="true"><ExternalArrowIcon /></span></div><div className="nova-why-card-content"><h3>Une présence qui peut continuer d&apos;évoluer.</h3><p>Votre site et votre univers peuvent évoluer avec votre entreprise.</p></div></article>
 
+
+
           </div>
+
+
 
           <div className="nova-why-bottom"><div><p>UN ACCOMPAGNEMENT QUI DÉPASSE LE WEB</p><h3>Du logo au site, jusqu&apos;aux supports de votre activité.</h3></div><ArrowLink href="/devis">Parler de votre projet</ArrowLink></div>
 
+
+
         </div>
 
+
+
       </section>
+
+
+
+
 
 
 
@@ -1083,7 +2164,15 @@ export default function Home() {
 
 
 
+
+
+
+
         <div className="container">
+
+
+
+
 
 
 
@@ -1091,7 +2180,15 @@ export default function Home() {
 
 
 
+
+
+
+
             <div>
+
+
+
+
 
 
 
@@ -1103,7 +2200,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <h2 className="section-title">
+
+
+
+
 
 
 
@@ -1111,7 +2220,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <br />
+
+
+
+
 
 
 
@@ -1119,7 +2236,15 @@ export default function Home() {
 
 
 
+
+
+
+
               </h2>
+
+
+
+
 
 
 
@@ -1131,7 +2256,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <ArrowLink href="/realisations" variant="secondary">
+
+
+
+
 
 
 
@@ -1139,7 +2276,15 @@ export default function Home() {
 
 
 
+
+
+
+
             </ArrowLink>
+
+
+
+
 
 
 
@@ -1151,7 +2296,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
           <div className="portfolio-grid">
+
+
+
+
 
 
 
@@ -1163,7 +2320,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <Link
+
+
+
+
 
 
 
@@ -1171,7 +2340,15 @@ export default function Home() {
 
 
 
+
+
+
+
               className="portfolio-card portfolio-card-large"
+
+
+
+
 
 
 
@@ -1179,7 +2356,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <div className="portfolio-image">
+
+
+
+
 
 
 
@@ -1187,7 +2372,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   src="/projets/barber-home.png"
+
+
+
+
 
 
 
@@ -1195,11 +2388,23 @@ export default function Home() {
 
 
 
+
+
+
+
                   fill
 
 
 
+
+
+
+
                   sizes="(max-width: 700px) 100vw, 66vw"
+
+
+
+
 
 
 
@@ -1211,7 +2416,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
                 <div className="portfolio-overlay">
+
+
+
+
 
 
 
@@ -1223,7 +2440,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
                   <strong>
+
+
+
+
 
 
 
@@ -1231,7 +2460,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   </strong>
+
+
+
+
 
 
 
@@ -1239,7 +2476,19 @@ export default function Home() {
 
 
 
+
+
+
+
               </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -1251,7 +2500,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <div>
+
+
+
+
 
 
 
@@ -1259,7 +2516,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   <h3>Noir Barber</h3>
+
+
+
+
 
 
 
@@ -1271,7 +2536,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
                 <span className="portfolio-arrow">
+
+
+
+
 
 
 
@@ -1279,7 +2556,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
+
+
+
+
 
 
 
@@ -1287,7 +2572,19 @@ export default function Home() {
 
 
 
+
+
+
+
             </Link>
+
+
+
+
+
+
+
+
 
 
 
@@ -1303,7 +2600,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <Link
+
+
+
+
 
 
 
@@ -1311,7 +2620,15 @@ export default function Home() {
 
 
 
+
+
+
+
               className="portfolio-card"
+
+
+
+
 
 
 
@@ -1319,7 +2636,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <div className="portfolio-image">
+
+
+
+
 
 
 
@@ -1327,7 +2652,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   src="/projets/Boulangerie-1.png"
+
+
+
+
 
 
 
@@ -1335,11 +2668,23 @@ export default function Home() {
 
 
 
+
+
+
+
                   fill
 
 
 
+
+
+
+
                   sizes="(max-width: 700px) 100vw, 33vw"
+
+
+
+
 
 
 
@@ -1351,7 +2696,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
                 <div className="portfolio-overlay">
+
+
+
+
 
 
 
@@ -1363,7 +2720,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
                   <strong>
+
+
+
+
 
 
 
@@ -1371,7 +2740,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   </strong>
+
+
+
+
 
 
 
@@ -1379,7 +2756,19 @@ export default function Home() {
 
 
 
+
+
+
+
               </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -1391,7 +2780,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <div>
+
+
+
+
 
 
 
@@ -1399,7 +2796,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   <h3>Boulangerie</h3>
+
+
+
+
 
 
 
@@ -1411,7 +2816,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
                 <span className="portfolio-arrow">
+
+
+
+
 
 
 
@@ -1419,7 +2836,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
+
+
+
+
 
 
 
@@ -1427,7 +2852,19 @@ export default function Home() {
 
 
 
+
+
+
+
             </Link>
+
+
+
+
+
+
+
+
 
 
 
@@ -1443,7 +2880,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <Link
+
+
+
+
 
 
 
@@ -1451,7 +2900,15 @@ export default function Home() {
 
 
 
+
+
+
+
               className="portfolio-card"
+
+
+
+
 
 
 
@@ -1459,7 +2916,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <div className="portfolio-image">
+
+
+
+
 
 
 
@@ -1467,7 +2932,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   src="/projets/site-ia.png"
+
+
+
+
 
 
 
@@ -1475,11 +2948,23 @@ export default function Home() {
 
 
 
+
+
+
+
                   fill
 
 
 
+
+
+
+
                   sizes="(max-width: 700px) 100vw, 33vw"
+
+
+
+
 
 
 
@@ -1491,7 +2976,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
                 <div className="portfolio-overlay">
+
+
+
+
 
 
 
@@ -1503,7 +3000,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
                   <strong>
+
+
+
+
 
 
 
@@ -1511,7 +3020,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   </strong>
+
+
+
+
 
 
 
@@ -1519,7 +3036,19 @@ export default function Home() {
 
 
 
+
+
+
+
               </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -1531,7 +3060,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <div>
+
+
+
+
 
 
 
@@ -1539,11 +3076,27 @@ export default function Home() {
 
 
 
+
+
+
+
                   <h3>IA Future</h3>
 
 
 
+
+
+
+
                 </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -1555,7 +3108,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   <ExternalArrowIcon />
+
+
+
+
 
 
 
@@ -1563,7 +3124,15 @@ export default function Home() {
 
 
 
+
+
+
+
               </div>
+
+
+
+
 
 
 
@@ -1571,11 +3140,23 @@ export default function Home() {
 
 
 
+
+
+
+
           </div>
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -1587,7 +3168,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
       {/* =====================================================
+
+
+
+
 
 
 
@@ -1595,49 +3188,99 @@ export default function Home() {
 
 
 
+
+
+
+
       ====================================================== */}
+
+
+
+
 
 
 
       <section className="results page-section">
 
+
+
         <div className="container results-container">
+
+
+
+
 
 
 
           <div className="results-heading">
 
+
+
             <div>
+
+
 
               <p className="micro-label">Des résultats mesurables</p>
 
 
 
+
+
+
+
               <h2 className="section-title">
+
+
 
                 Des données,
 
+
+
                 <br />
+
+
 
                 <span>pas des promesses.</span>
 
+
+
               </h2>
+
+
 
             </div>
 
 
 
+
+
+
+
             <p className="section-description">
+
+
 
               Lorsque les données sont disponibles, nous préférons vous montrer
 
+
+
               des résultats réellement mesurés plutôt que d&apos;avancer des chiffres
+
+
 
               sans preuve.
 
+
+
             </p>
 
+
+
           </div>
+
+
+
+
 
 
 
@@ -1645,203 +3288,407 @@ export default function Home() {
 
 
 
+
+
+
+
             <article className="result-card result-card-white">
+
+
 
               <div className="result-card-media" aria-hidden="true"><Image src="/documents-devis.png" alt="" width={360} height={265} /></div>
 
+
+
               <div className="result-card-glow" aria-hidden="true" />
+
+
 
               <div className="result-card-shine" aria-hidden="true" />
 
 
 
+
+
+
+
               <div className="result-card-top">
+
+
 
                 <span className="result-number">01</span>
 
+
+
                 <span className="result-status">MESURE</span>
 
+
+
               </div>
+
+
+
+
 
 
 
               <div className="result-card-main">
 
+
+
                 <div className="result-value">—</div>
+
+
+
+
 
 
 
                 <div>
 
+
+
                   <h3>Demandes</h3>
+
+
 
                   <p>Évolution des demandes générées par le site.</p>
 
+
+
                 </div>
+
+
 
               </div>
 
 
 
+
+
+
+
               <div className="result-card-corner" aria-hidden="true" />
 
+
+
             </article>
+
+
+
+
 
 
 
             <article className="result-card result-card-violet">
 
+
+
               <div className="result-card-media" aria-hidden="true"><Image src="/developpement-code.png" alt="" width={360} height={265} /></div>
 
+
+
               <div className="result-card-glow" aria-hidden="true" />
+
+
 
               <div className="result-card-shine" aria-hidden="true" />
 
 
 
+
+
+
+
               <div className="result-card-top">
+
+
 
                 <span className="result-number">02</span>
 
+
+
                 <span className="result-status">MESURE</span>
 
+
+
               </div>
+
+
+
+
 
 
 
               <div className="result-card-main">
 
+
+
                 <div className="result-value">—</div>
+
+
+
+
 
 
 
                 <div>
 
+
+
                   <h3>Performance</h3>
+
+
 
                   <p>Score mesuré sur les outils de performance.</p>
 
+
+
                 </div>
+
+
 
               </div>
 
 
 
+
+
+
+
               <div className="result-card-corner" aria-hidden="true" />
 
+
+
             </article>
+
+
+
+
 
 
 
             <article className="result-card result-card-blue">
 
+
+
               <div className="result-card-media" aria-hidden="true"><Image src="/ordinateur-portable-transparent.png" alt="" width={380} height={285} /></div>
 
+
+
               <div className="result-card-glow" aria-hidden="true" />
+
+
 
               <div className="result-card-shine" aria-hidden="true" />
 
 
 
+
+
+
+
               <div className="result-card-top">
+
+
 
                 <span className="result-number">03</span>
 
+
+
                 <span className="result-status">MESURE</span>
 
+
+
               </div>
+
+
+
+
 
 
 
               <div className="result-card-main">
 
+
+
                 <div className="result-value">—</div>
+
+
+
+
 
 
 
                 <div>
 
+
+
                   <h3>Chargement</h3>
+
+
 
                   <p>Temps de chargement réellement constaté.</p>
 
+
+
                 </div>
+
+
 
               </div>
 
 
 
+
+
+
+
               <div className="result-card-corner" aria-hidden="true" />
 
+
+
             </article>
+
+
+
+
 
 
 
             <article className="result-card result-card-white">
 
+
+
               <div className="result-card-media" aria-hidden="true"><Image src="/interface-utilisateurs.png" alt="" width={360} height={270} /></div>
 
+
+
               <div className="result-card-glow" aria-hidden="true" />
+
+
 
               <div className="result-card-shine" aria-hidden="true" />
 
 
 
+
+
+
+
               <div className="result-card-top">
+
+
 
                 <span className="result-number">04</span>
 
+
+
                 <span className="result-status">MESURE</span>
 
+
+
               </div>
+
+
+
+
 
 
 
               <div className="result-card-main">
 
+
+
                 <div className="result-value">—</div>
+
+
+
+
 
 
 
                 <div>
 
+
+
                   <h3>Formulaires</h3>
+
+
 
                   <p>Évolution des prises de contact mesurées.</p>
 
+
+
                 </div>
+
+
 
               </div>
 
 
 
+
+
+
+
               <div className="result-card-corner" aria-hidden="true" />
+
+
 
             </article>
 
 
 
+
+
+
+
           </div>
+
+
+
+
 
 
 
           <div className="results-note">
 
+
+
             <span className="results-note-dot" aria-hidden="true" />
+
+
 
             <span>
 
+
+
               Les chiffres affichés ici sont ajoutés uniquement lorsqu&apos;ils sont vérifiables.
 
+
+
             </span>
+
+
 
           </div>
 
 
 
+
+
+
+
         </div>
 
+
+
       </section>
+
+
+
+
 
 
 
@@ -1849,11 +3696,27 @@ export default function Home() {
 
 
 
+
+
+
+
           FORMULES
 
 
 
+
+
+
+
       ====================================================== */}
+
+
+
+
+
+
+
+
 
 
 
@@ -1865,7 +3728,15 @@ export default function Home() {
 
 
 
+
+
+
+
         <div className="container">
+
+
+
+
 
 
 
@@ -1873,7 +3744,15 @@ export default function Home() {
 
 
 
+
+
+
+
             <div>
+
+
+
+
 
 
 
@@ -1881,7 +3760,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <h2 className="section-title">
+
+
+
+
 
 
 
@@ -1889,7 +3776,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <br />
+
+
+
+
 
 
 
@@ -1897,7 +3792,15 @@ export default function Home() {
 
 
 
+
+
+
+
               </h2>
+
+
+
+
 
 
 
@@ -1905,7 +3808,15 @@ export default function Home() {
 
 
 
+
+
+
+
             <p className="section-description">
+
+
+
+
 
 
 
@@ -1913,7 +3824,15 @@ export default function Home() {
 
 
 
+
+
+
+
               adaptée à votre activité, à vos besoins et à votre image.
+
+
+
+
 
 
 
@@ -1921,7 +3840,19 @@ export default function Home() {
 
 
 
+
+
+
+
           </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -1933,11 +3864,23 @@ export default function Home() {
 
 
 
-            <article className="offer-card offer-card-light">
+
+
+
+
+            <Link href="/tarifs#essentiel" className="offer-card offer-card-light">
+
+
+
+
 
 
 
               <div className="offer-card-top">
+
+
+
+
 
 
 
@@ -1945,7 +3888,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <span className="offer-label">PRÉSENCE</span>
+
+
+
+
 
 
 
@@ -1953,7 +3904,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <div className="offer-card-content">
+
+
+
+
 
 
 
@@ -1961,7 +3920,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <p className="offer-description">
+
+
+
+
 
 
 
@@ -1969,11 +3936,23 @@ export default function Home() {
 
 
 
+
+
+
+
                 </p>
 
 
 
+
+
+
+
                 <ul>
+
+
+
+
 
 
 
@@ -1981,7 +3960,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   <li>Design professionnel</li>
+
+
+
+
 
 
 
@@ -1989,7 +3976,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   <li>Formulaire de contact</li>
+
+
+
+
 
 
 
@@ -1997,7 +3992,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 </ul>
+
+
+
+
 
 
 
@@ -2005,7 +4008,15 @@ export default function Home() {
 
 
 
-              <Link href="/devis" className="offer-link">
+
+
+
+
+              <span className="offer-link">
+
+
+
+
 
 
 
@@ -2013,7 +4024,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <span className="offer-link-arrow" aria-hidden="true">
+
+
+
+
 
 
 
@@ -2021,27 +4040,55 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
 
 
 
-              </Link>
-
-
-
-            </article>
 
 
 
 
+              </span>
 
 
 
-            <article className="offer-card offer-card-violet">
+
+
+
+
+            </Link>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <Link href="/tarifs#premium" className="offer-card offer-card-violet">
+
+
+
+
 
 
 
               <div className="offer-card-top">
+
+
+
+
 
 
 
@@ -2049,7 +4096,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <span className="offer-label">SIGNATURE</span>
+
+
+
+
 
 
 
@@ -2057,7 +4112,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <div className="offer-card-content">
+
+
+
+
 
 
 
@@ -2065,7 +4128,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <p className="offer-description">
+
+
+
+
 
 
 
@@ -2073,11 +4144,23 @@ export default function Home() {
 
 
 
+
+
+
+
                 </p>
 
 
 
+
+
+
+
                 <ul>
+
+
+
+
 
 
 
@@ -2085,7 +4168,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   <li>Identité visuelle travaillée</li>
+
+
+
+
 
 
 
@@ -2093,7 +4184,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   <li>Animations et effets</li>
+
+
+
+
 
 
 
@@ -2101,7 +4200,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   <li>Accompagnement personnalisé</li>
+
+
+
+
 
 
 
@@ -2109,11 +4216,23 @@ export default function Home() {
 
 
 
+
+
+
+
               </div>
 
 
 
-              <Link href="/devis" className="offer-link">
+
+
+
+
+              <span className="offer-link">
+
+
+
+
 
 
 
@@ -2121,7 +4240,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <span className="offer-link-arrow" aria-hidden="true">
+
+
+
+
 
 
 
@@ -2129,23 +4256,47 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
 
 
 
-              </Link>
-
-
-
-            </article>
 
 
 
 
+              </span>
 
 
 
-            <article className="offer-card offer-card-blue">
+
+
+
+
+            </Link>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <Link href="/tarifs#sur-mesure" className="offer-card offer-card-blue">
+
+
+
+
 
 
 
@@ -2153,7 +4304,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <span className="offer-number">03</span>
+
+
+
+
 
 
 
@@ -2161,7 +4320,15 @@ export default function Home() {
 
 
 
+
+
+
+
               </div>
+
+
+
+
 
 
 
@@ -2169,7 +4336,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <h3>Sur mesure</h3>
+
+
+
+
 
 
 
@@ -2177,7 +4352,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   Un projet entièrement pensé autour de vos besoins et de vos objectifs.
+
+
+
+
 
 
 
@@ -2185,7 +4368,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <ul>
+
+
+
+
 
 
 
@@ -2193,7 +4384,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   <li>Espace client ou administrateur</li>
+
+
+
+
 
 
 
@@ -2201,7 +4400,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   <li>Connexions avec vos outils</li>
+
+
+
+
 
 
 
@@ -2209,7 +4416,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   <li>Accompagnement de A à Z</li>
+
+
+
+
 
 
 
@@ -2217,11 +4432,23 @@ export default function Home() {
 
 
 
+
+
+
+
               </div>
 
 
 
-              <Link href="/devis" className="offer-link">
+
+
+
+
+              <span className="offer-link">
+
+
+
+
 
 
 
@@ -2229,7 +4456,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <span className="offer-link-arrow" aria-hidden="true">
+
+
+
+
 
 
 
@@ -2237,19 +4472,43 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
 
 
 
-              </Link>
 
 
 
-            </article>
+
+              </span>
+
+
+
+
+
+
+
+            </Link>
+
+
+
+
 
 
 
           </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -2261,7 +4520,15 @@ export default function Home() {
 
 
 
+
+
+
+
             <article className="offer-extra-card">
+
+
+
+
 
 
 
@@ -2269,7 +4536,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <svg viewBox="0 0 24 24">
+
+
+
+
 
 
 
@@ -2277,7 +4552,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   <path d="M5.5 9.5V21h13V9.5M9 21v-6h6v6" />
+
+
+
+
 
 
 
@@ -2285,7 +4568,15 @@ export default function Home() {
 
 
 
+
+
+
+
               </div>
+
+
+
+
 
 
 
@@ -2293,7 +4584,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <p className="offer-extra-label">DOMAINE &amp; E-MAILS</p>
+
+
+
+
 
 
 
@@ -2301,7 +4600,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <p>
+
+
+
+
 
 
 
@@ -2309,7 +4616,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 </p>
+
+
+
+
 
 
 
@@ -2317,7 +4632,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <Link href="/domaines" className="offer-extra-arrow" aria-label="Découvrir les domaines">
+
+
+
+
 
 
 
@@ -2325,7 +4648,15 @@ export default function Home() {
 
 
 
+
+
+
+
               </Link>
+
+
+
+
 
 
 
@@ -2333,7 +4664,15 @@ export default function Home() {
 
 
 
+
+
+
+
             <p className="offer-extra-note">
+
+
+
+
 
 
 
@@ -2341,11 +4680,27 @@ export default function Home() {
 
 
 
+
+
+
+
             </p>
 
 
 
+
+
+
+
           </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -2357,7 +4712,15 @@ export default function Home() {
 
 
 
+
+
+
+
             <div>
+
+
+
+
 
 
 
@@ -2365,7 +4728,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <h3>Votre site continue d&apos;évoluer après sa mise en ligne.</h3>
+
+
+
+
 
 
 
@@ -2373,7 +4744,15 @@ export default function Home() {
 
 
 
+
+
+
+
             <p>
+
+
+
+
 
 
 
@@ -2381,7 +4760,15 @@ export default function Home() {
 
 
 
+
+
+
+
             </p>
+
+
+
+
 
 
 
@@ -2389,7 +4776,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <span>En savoir plus</span>
+
+
+
+
 
 
 
@@ -2397,7 +4792,15 @@ export default function Home() {
 
 
 
+
+
+
+
             </Link>
+
+
+
+
 
 
 
@@ -2405,7 +4808,15 @@ export default function Home() {
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -2417,11 +4828,27 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
       {/* =====================================================
 
 
 
+
+
+
+
           METHODE
+
+
+
+
 
 
 
@@ -2433,7 +4860,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
       <section className="method page-section">
+
+
+
+
 
 
 
@@ -2441,7 +4880,15 @@ export default function Home() {
 
 
 
+
+
+
+
           <div className="method-intro">
+
+
+
+
 
 
 
@@ -2453,7 +4900,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <h2 className="section-title">
+
+
+
+
 
 
 
@@ -2461,11 +4920,23 @@ export default function Home() {
 
 
 
+
+
+
+
               <br />
 
 
 
+
+
+
+
               <span>l&apos;approche.</span>
+
+
+
+
 
 
 
@@ -2477,7 +4948,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <p>
+
+
+
+
 
 
 
@@ -2485,7 +4968,15 @@ export default function Home() {
 
 
 
+
+
+
+
               étape par étape avec une vision claire du résultat.
+
+
+
+
 
 
 
@@ -2497,7 +4988,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <ArrowLink href="/methode" variant="secondary">
+
+
+
+
 
 
 
@@ -2505,7 +5008,15 @@ export default function Home() {
 
 
 
+
+
+
+
             </ArrowLink>
+
+
+
+
 
 
 
@@ -2517,7 +5028,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
           <div className="method-list">
+
+
+
+
 
 
 
@@ -2529,7 +5052,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <div className="method-step">
+
+
+
+
 
 
 
@@ -2541,11 +5076,27 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <div className="method-step-icon">
 
 
 
+
+
+
+
                 <PhoneIcon />
+
+
+
+
 
 
 
@@ -2557,11 +5108,31 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <div>
 
 
 
+
+
+
+
                 <p>ON ÉCHANGE</p>
+
+
+
+
+
+
+
+
 
 
 
@@ -2577,7 +5148,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
                 <span>
+
+
+
+
 
 
 
@@ -2585,7 +5168,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
+
+
+
+
 
 
 
@@ -2597,7 +5188,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <span className="method-arrow" aria-hidden="true">
+
+
+
+
 
 
 
@@ -2605,11 +5208,27 @@ export default function Home() {
 
 
 
+
+
+
+
               </span>
 
 
 
+
+
+
+
             </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -2625,7 +5244,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <div className="method-step">
+
+
+
+
 
 
 
@@ -2637,11 +5268,27 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <div className="method-step-icon">
 
 
 
+
+
+
+
                 <LayersIcon />
+
+
+
+
 
 
 
@@ -2653,11 +5300,31 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <div>
 
 
 
+
+
+
+
                 <p>ON IMAGINE</p>
+
+
+
+
+
+
+
+
 
 
 
@@ -2673,7 +5340,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
                 <span>
+
+
+
+
 
 
 
@@ -2681,7 +5360,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
+
+
+
+
 
 
 
@@ -2693,7 +5380,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <span className="method-arrow" aria-hidden="true">
+
+
+
+
 
 
 
@@ -2701,11 +5400,27 @@ export default function Home() {
 
 
 
+
+
+
+
               </span>
 
 
 
+
+
+
+
             </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -2721,7 +5436,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <div className="method-step">
+
+
+
+
 
 
 
@@ -2733,11 +5460,27 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <div className="method-step-icon">
 
 
 
+
+
+
+
                 <CodeIcon />
+
+
+
+
 
 
 
@@ -2749,11 +5492,31 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <div>
 
 
 
+
+
+
+
                 <p>ON DÉVELOPPE</p>
+
+
+
+
+
+
+
+
 
 
 
@@ -2769,7 +5532,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
                 <span>
+
+
+
+
 
 
 
@@ -2777,7 +5552,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
+
+
+
+
 
 
 
@@ -2789,7 +5572,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <span className="method-arrow" aria-hidden="true">
+
+
+
+
 
 
 
@@ -2797,11 +5592,27 @@ export default function Home() {
 
 
 
+
+
+
+
               </span>
 
 
 
+
+
+
+
             </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -2817,7 +5628,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <div className="method-step">
+
+
+
+
 
 
 
@@ -2829,11 +5652,27 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <div className="method-step-icon">
 
 
 
+
+
+
+
                 <ChartIcon />
+
+
+
+
 
 
 
@@ -2845,11 +5684,31 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <div>
 
 
 
+
+
+
+
                 <p>ON OPTIMISE</p>
+
+
+
+
+
+
+
+
 
 
 
@@ -2865,7 +5724,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
                 <span>
+
+
+
+
 
 
 
@@ -2873,7 +5744,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   mise en ligne.
+
+
+
+
 
 
 
@@ -2881,7 +5760,19 @@ export default function Home() {
 
 
 
+
+
+
+
               </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -2893,7 +5784,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <ArrowIcon />
+
+
+
+
 
 
 
@@ -2901,7 +5800,15 @@ export default function Home() {
 
 
 
+
+
+
+
             </div>
+
+
+
+
 
 
 
@@ -2909,7 +5816,15 @@ export default function Home() {
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -2921,7 +5836,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
       {/* =====================================================
+
+
+
+
 
 
 
@@ -2929,7 +5856,19 @@ export default function Home() {
 
 
 
+
+
+
+
       ====================================================== */}
+
+
+
+
+
+
+
+
 
 
 
@@ -2941,7 +5880,15 @@ export default function Home() {
 
 
 
+
+
+
+
         <div className="container about-grid">
+
+
+
+
 
 
 
@@ -2949,7 +5896,15 @@ export default function Home() {
 
 
 
+
+
+
+
             <div className="about-circle">
+
+
+
+
 
 
 
@@ -2957,7 +5912,19 @@ export default function Home() {
 
 
 
+
+
+
+
             </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -2969,7 +5936,19 @@ export default function Home() {
 
 
 
+
+
+
+
             <div className="about-orbit about-orbit-two" />
+
+
+
+
+
+
+
+
 
 
 
@@ -2981,7 +5960,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <span>&lt;NOVA</span>
+
+
+
+
 
 
 
@@ -2989,7 +5976,19 @@ export default function Home() {
 
 
 
+
+
+
+
             </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -3001,7 +6000,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <span />
+
+
+
+
 
 
 
@@ -3009,11 +6016,27 @@ export default function Home() {
 
 
 
+
+
+
+
             </div>
 
 
 
+
+
+
+
           </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -3025,7 +6048,19 @@ export default function Home() {
 
 
 
+
+
+
+
             <p className="micro-label">À propos de NOVA</p>
+
+
+
+
+
+
+
+
 
 
 
@@ -3037,7 +6072,15 @@ export default function Home() {
 
 
 
+
+
+
+
               Petit studio.
+
+
+
+
 
 
 
@@ -3045,7 +6088,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <span>Grande ambition.</span>
+
+
+
+
 
 
 
@@ -3057,7 +6108,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <p>
+
+
+
+
 
 
 
@@ -3065,11 +6128,27 @@ export default function Home() {
 
 
 
+
+
+
+
               approche simple : créer moins de bruit et plus d&apos;impact.
 
 
 
+
+
+
+
             </p>
+
+
+
+
+
+
+
+
 
 
 
@@ -3081,7 +6160,15 @@ export default function Home() {
 
 
 
+
+
+
+
               Chaque projet est pensé avec une attention particulière portée
+
+
+
+
 
 
 
@@ -3089,7 +6176,19 @@ export default function Home() {
 
 
 
+
+
+
+
             </p>
+
+
+
+
+
+
+
+
 
 
 
@@ -3101,7 +6200,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <div>
+
+
+
+
 
 
 
@@ -3109,7 +6216,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <span>SUR MESURE</span>
+
+
+
+
 
 
 
@@ -3121,7 +6236,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <div>
+
+
+
+
 
 
 
@@ -3129,11 +6256,27 @@ export default function Home() {
 
 
 
+
+
+
+
                 <span>INTERLOCUTEUR</span>
 
 
 
+
+
+
+
               </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -3145,7 +6288,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <strong>24/7</strong>
+
+
+
+
 
 
 
@@ -3153,7 +6304,15 @@ export default function Home() {
 
 
 
+
+
+
+
               </div>
+
+
+
+
 
 
 
@@ -3165,7 +6324,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <ArrowLink href="/a-propos" variant="secondary">
+
+
+
+
 
 
 
@@ -3173,7 +6344,15 @@ export default function Home() {
 
 
 
+
+
+
+
             </ArrowLink>
+
+
+
+
 
 
 
@@ -3181,7 +6360,15 @@ export default function Home() {
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -3193,7 +6380,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
       {/* =====================================================
+
+
+
+
 
 
 
@@ -3201,7 +6400,19 @@ export default function Home() {
 
 
 
+
+
+
+
       ====================================================== */}
+
+
+
+
+
+
+
+
 
 
 
@@ -3213,11 +6424,23 @@ export default function Home() {
 
 
 
+
+
+
+
         <div className="container faq-grid">
 
 
 
+
+
+
+
           <div>
+
+
+
+
 
 
 
@@ -3229,7 +6452,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <h2 className="section-title">
+
+
+
+
 
 
 
@@ -3237,11 +6472,23 @@ export default function Home() {
 
 
 
+
+
+
+
               <br />
 
 
 
+
+
+
+
               <span>question ?</span>
+
+
+
+
 
 
 
@@ -3253,11 +6500,27 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <p className="section-description">
 
 
 
+
+
+
+
               Voici quelques réponses aux questions que nous recevons le plus.
+
+
+
+
 
 
 
@@ -3269,7 +6532,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <ArrowLink href="/faq" variant="secondary">
+
+
+
+
 
 
 
@@ -3277,11 +6552,27 @@ export default function Home() {
 
 
 
+
+
+
+
             </ArrowLink>
 
 
 
+
+
+
+
           </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -3293,11 +6584,23 @@ export default function Home() {
 
 
 
+
+
+
+
             <details>
 
 
 
+
+
+
+
               <summary>
+
+
+
+
 
 
 
@@ -3305,7 +6608,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <b>+</b>
+
+
+
+
 
 
 
@@ -3317,7 +6628,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <p>
+
+
+
+
 
 
 
@@ -3325,7 +6648,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 de personnalisation et des fonctionnalités souhaitées. Le plus
+
+
+
+
 
 
 
@@ -3333,11 +6664,23 @@ export default function Home() {
 
 
 
+
+
+
+
                 une estimation adaptée.
 
 
 
+
+
+
+
               </p>
+
+
+
+
 
 
 
@@ -3349,7 +6692,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <details>
+
+
+
+
 
 
 
@@ -3357,7 +6712,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <span>
+
+
+
+
 
 
 
@@ -3365,11 +6728,23 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
 
 
 
+
+
+
+
                 <b>+</b>
+
+
+
+
 
 
 
@@ -3381,7 +6756,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <p>
+
+
+
+
 
 
 
@@ -3389,7 +6776,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 réalisé rapidement, tandis qu&apos;un projet plus complexe
+
+
+
+
 
 
 
@@ -3397,7 +6792,15 @@ export default function Home() {
 
 
 
+
+
+
+
               </p>
+
+
+
+
 
 
 
@@ -3409,7 +6812,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <details>
+
+
+
+
 
 
 
@@ -3417,7 +6832,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <span>
+
+
+
+
 
 
 
@@ -3425,11 +6848,23 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
 
 
 
+
+
+
+
                 <b>+</b>
+
+
+
+
 
 
 
@@ -3441,7 +6876,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <p>
+
+
+
+
 
 
 
@@ -3449,7 +6896,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 testés pour offrir une expérience confortable sur ordinateur,
+
+
+
+
 
 
 
@@ -3457,7 +6912,15 @@ export default function Home() {
 
 
 
+
+
+
+
               </p>
+
+
+
+
 
 
 
@@ -3469,7 +6932,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <details>
+
+
+
+
 
 
 
@@ -3477,7 +6952,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <span>
+
+
+
+
 
 
 
@@ -3485,11 +6968,23 @@ export default function Home() {
 
 
 
+
+
+
+
                 </span>
 
 
 
+
+
+
+
                 <b>+</b>
+
+
+
+
 
 
 
@@ -3501,7 +6996,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <p>
+
+
+
+
 
 
 
@@ -3509,7 +7016,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 l&apos;expérience utilisateur et les performances d&apos;un
+
+
+
+
 
 
 
@@ -3517,11 +7032,27 @@ export default function Home() {
 
 
 
+
+
+
+
               </p>
 
 
 
+
+
+
+
             </details>
+
+
+
+
+
+
+
+
 
 
 
@@ -3533,7 +7064,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <summary>
+
+
+
+
 
 
 
@@ -3541,7 +7080,15 @@ export default function Home() {
 
 
 
+
+
+
+
                   Comment démarrer un projet ?
+
+
+
+
 
 
 
@@ -3549,7 +7096,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 <b>+</b>
+
+
+
+
 
 
 
@@ -3561,7 +7116,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <p>
+
+
+
+
 
 
 
@@ -3569,7 +7136,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 ensuite sur vos objectifs et vous orientons vers la solution
+
+
+
+
 
 
 
@@ -3577,7 +7152,15 @@ export default function Home() {
 
 
 
+
+
+
+
               </p>
+
+
+
+
 
 
 
@@ -3585,11 +7168,23 @@ export default function Home() {
 
 
 
+
+
+
+
           </div>
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -3601,11 +7196,27 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
       {/* =====================================================
 
 
 
+
+
+
+
           FINAL CTA
+
+
+
+
 
 
 
@@ -3617,7 +7228,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
       <section className="final-cta page-section">
+
+
+
+
 
 
 
@@ -3625,7 +7248,15 @@ export default function Home() {
 
 
 
+
+
+
+
           <div className="final-cta-inner">
+
+
+
+
 
 
 
@@ -3633,7 +7264,19 @@ export default function Home() {
 
 
 
+
+
+
+
             <div className="cta-decoration cta-decoration-two" />
+
+
+
+
+
+
+
+
 
 
 
@@ -3649,7 +7292,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <h2>
+
+
+
+
 
 
 
@@ -3657,11 +7312,23 @@ export default function Home() {
 
 
 
+
+
+
+
               <br />
 
 
 
+
+
+
+
               de <span>remarquable.</span>
+
+
+
+
 
 
 
@@ -3673,7 +7340,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <p>
+
+
+
+
 
 
 
@@ -3681,11 +7360,27 @@ export default function Home() {
 
 
 
+
+
+
+
               évoluer votre présence en ligne ?
 
 
 
+
+
+
+
             </p>
+
+
+
+
+
+
+
+
 
 
 
@@ -3697,11 +7392,23 @@ export default function Home() {
 
 
 
+
+
+
+
           </div>
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -3713,11 +7420,27 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
       {/* =====================================================
 
 
 
+
+
+
+
           FOOTER
+
+
+
+
 
 
 
@@ -3729,7 +7452,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
       <footer className="home-footer">
+
+
+
+
 
 
 
@@ -3737,7 +7472,15 @@ export default function Home() {
 
 
 
+
+
+
+
           <div>
+
+
+
+
 
 
 
@@ -3745,7 +7488,15 @@ export default function Home() {
 
 
 
+
+
+
+
               href="/"
+
+
+
+
 
 
 
@@ -3753,7 +7504,15 @@ export default function Home() {
 
 
 
+
+
+
+
               aria-label="NOVA - Accueil"
+
+
+
+
 
 
 
@@ -3761,7 +7520,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <Image
+
+
+
+
 
 
 
@@ -3769,7 +7536,15 @@ export default function Home() {
 
 
 
+
+
+
+
                 alt="NOVA"
+
+
+
+
 
 
 
@@ -3777,11 +7552,23 @@ export default function Home() {
 
 
 
+
+
+
+
                 height={52}
 
 
 
+
+
+
+
               />
+
+
+
+
 
 
 
@@ -3793,7 +7580,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <p>
+
+
+
+
 
 
 
@@ -3801,7 +7600,15 @@ export default function Home() {
 
 
 
+
+
+
+
               <br />
+
+
+
+
 
 
 
@@ -3809,7 +7616,15 @@ export default function Home() {
 
 
 
+
+
+
+
             </p>
+
+
+
+
 
 
 
@@ -3821,7 +7636,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
           <div className="footer-links">
+
+
+
+
 
 
 
@@ -3829,7 +7656,19 @@ export default function Home() {
 
 
 
+
+
+
+
               <span>EXPLORER</span>
+
+
+
+
+
+
+
+
 
 
 
@@ -3845,7 +7684,23 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <Link href="/realisations">Réalisations</Link>
+
+
+
+
+
+
+
+
 
 
 
@@ -3857,7 +7712,19 @@ export default function Home() {
 
 
 
+
+
+
+
             </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -3869,7 +7736,19 @@ export default function Home() {
 
 
 
+
+
+
+
               <span>CONTACT</span>
+
+
+
+
+
+
+
+
 
 
 
@@ -3885,7 +7764,23 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
               <Link href="/devis">Demander un devis</Link>
+
+
+
+
+
+
+
+
 
 
 
@@ -3897,7 +7792,15 @@ export default function Home() {
 
 
 
+
+
+
+
             </div>
+
+
+
+
 
 
 
@@ -3905,7 +7808,19 @@ export default function Home() {
 
 
 
+
+
+
+
         </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -3917,11 +7832,23 @@ export default function Home() {
 
 
 
+
+
+
+
           <span>
 
 
 
+
+
+
+
             © {new Date().getFullYear()} NOVA. Tous droits réservés.
+
+
+
+
 
 
 
@@ -3933,7 +7860,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
           <div>
+
+
+
+
 
 
 
@@ -3945,7 +7884,19 @@ export default function Home() {
 
 
 
+
+
+
+
+
+
+
+
             <Link href="/contact">Contact</Link>
+
+
+
+
 
 
 
@@ -3953,7 +7904,15 @@ export default function Home() {
 
 
 
+
+
+
+
         </div>
+
+
+
+
 
 
 
@@ -3961,11 +7920,23 @@ export default function Home() {
 
 
 
+
+
+
+
     </main>
 
 
 
+
+
+
+
   );
+
+
+
+
 
 
 

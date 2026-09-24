@@ -5,7 +5,12 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/admin/", "/dashboard/", "/private/"],
+      disallow: [
+        "/api/",
+        "/admin/",
+        "/dashboard/",
+        "/private/",
+      ],
     },
     sitemap: "https://www.agency-nova.fr/sitemap.xml",
   };
